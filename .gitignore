@@ -1,12 +1,10 @@
 .DS_Store
-node_modules
+/node_modules
 /dist
+/public/content
 
 /tests/e2e/reports/
 selenium-debug.log
-chromedriver.log
-geckodriver.log
-
 
 # local env files
 .env.local
@@ -16,7 +14,6 @@ geckodriver.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 
 # Editor directories and files
 .idea
