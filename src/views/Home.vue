@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto h-full bg-gray-900">
-    <div>logo</div>
+    <div><img class="w-full" src="/img/logo.png" alt="logo" /></div>
   </div>
 </template>
 
