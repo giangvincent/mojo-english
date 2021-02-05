@@ -1,6 +1,8 @@
 <template>
   <div class="mx-auto pb-32 relative">
-    <div><img class="w-2/3 mx-auto" src="/img/logo.png" alt="logo" /></div>
+    <div>
+      <img class="w-2/3 mx-auto" src="@/assets/images/logo.png" alt="logo" />
+    </div>
     <section class="w-full flex">
       <div class="w-1/3 mb-10 flex flex-col">
         <button>Market</button>
@@ -18,6 +20,6 @@
 <script>
 export default {
   name: "Home",
-  components: {}
+  components: {},
 };
 </script>
