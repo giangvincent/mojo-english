@@ -13,6 +13,16 @@ const routes = [
     path: "/play",
     name: "play",
     component: () => import("../views/PlayGround.vue")
+  },
+  {
+    path: "/market",
+    name: "market",
+    component: () => import("../views/Market.vue")
+  },
+  {
+    path: "/tutorial",
+    name: "tutorial",
+    component: () => import("../views/Tutorial.vue")
   }
 ];
 
