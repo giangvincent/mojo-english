@@ -43,37 +43,37 @@
         <div>Cards</div>
       </div>
       <div
-        class="w-1/7 h-24 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
+        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
       >
         card
       </div>
       <div
-        class="w-1/7 h-24 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
+        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
       >
         card
       </div>
       <div
-        class="w-1/7 h-24 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
+        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
       >
         card
       </div>
       <div
-        class="w-1/7 h-24 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
+        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
       >
         card
       </div>
       <div
-        class="w-1/7 h-24 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
+        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
       >
         card
       </div>
       <div
-        class="w-1/7 h-24 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
+        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
       >
         card
       </div>
       <div
-        class="w-1/7 h-24 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
+        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
       >
         card
       </div>

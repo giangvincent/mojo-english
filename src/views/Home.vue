@@ -53,7 +53,12 @@
         >
       </div>
       <div class="w-1/3 -mt-10">
-        <button>
+        <button
+          @click="
+            TOGGLE_MODAL();
+            modalComponent = 'Setting';
+          "
+        >
           <svg
             class="h-20 xs:h-24 sm:h-32 md:h-40"
             xmlns="http://www.w3.org/2000/svg"
@@ -70,12 +75,29 @@
       </div>
     </section>
     <!-- Action buttons -->
+    <component v-if="popupModal" v-bind:is="modalComponent"></component>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "Home",
-  components: {},
+  components: {
+    Setting: () => import("@/components/Setting.vue"),
+  },
+  data() {
+    return {
+      modalComponent: "Setting",
+    };
+  },
+  computed: {
+    ...mapState({
+      popupModal: (state) => state.popupModal,
+    }),
+  },
+  methods: {
+    ...mapMutations(["TOGGLE_MODAL"]),
+  },
 };
 </script>
