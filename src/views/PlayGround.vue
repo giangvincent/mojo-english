@@ -38,44 +38,56 @@
     <!-- Other players -->
 
     <!-- Table -->
-    <div class="flex absolute bottom-0 w-full p-2 bg-gray-700">
-      <div class="absolute top-0 -mt-10 left-0 right-0">
-        <div>Cards</div>
-      </div>
-      <div
-        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
-      >
-        card
-      </div>
-      <div
-        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
-      >
-        card
-      </div>
-      <div
-        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
-      >
-        card
-      </div>
-      <div
-        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
-      >
-        card
-      </div>
-      <div
-        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
-      >
-        card
-      </div>
-      <div
-        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
-      >
-        card
-      </div>
-      <div
-        class="w-1/7 h-28 xs:h-32 md:h-48 m-1 bg-gray-300 rounded-md border-2 border-white"
-      >
-        card
+    <div class="absolute top-0 -mt-10 left-0 right-0">
+      <div>Cards</div>
+    </div>
+    <div
+      class="flex absolute bottom-0 w-full p-2 bg-gray-700 overflow-x-auto"
+      :style="{ height: playingHeight }"
+    >
+      <div class="flex flex-row flex-no-wrap">
+        <div
+          class="m-1 bg-gray-300 rounded-md border-2 border-white"
+          style="width: 116px"
+        >
+          <card-container card="Noun"></card-container>
+        </div>
+        <div
+          class="m-1 bg-gray-300 rounded-md border-2 border-white"
+          style="width: 116px"
+        >
+          <card-container card="Noun"></card-container>
+        </div>
+        <div
+          class="m-1 bg-gray-300 rounded-md border-2 border-white"
+          style="width: 116px"
+        >
+          <card-container card="Noun"></card-container>
+        </div>
+        <div
+          class="m-1 bg-gray-300 rounded-md border-2 border-white"
+          style="width: 116px"
+        >
+          <card-container card="Noun"></card-container>
+        </div>
+        <div
+          class="m-1 bg-gray-300 rounded-md border-2 border-white"
+          style="width: 116px"
+        >
+          <card-container card="Noun"></card-container>
+        </div>
+        <div
+          class="m-1 bg-gray-300 rounded-md border-2 border-white"
+          style="width: 116px"
+        >
+          <card-container card="Noun"></card-container>
+        </div>
+        <div
+          class="m-1 bg-gray-300 rounded-md border-2 border-white"
+          style="width: 116px"
+        >
+          <card-container card="Noun"></card-container>
+        </div>
       </div>
     </div>
     <!-- Player table -->
@@ -83,8 +95,27 @@
 </template>
 
 <script>
+import CardContainer from "@/components/cards/CardContainer";
+import { mapState } from "vuex";
+
 export default {
   name: "playing-ground",
+  components: {
+    CardContainer,
+  },
+  data() {
+    return {
+      playingHeight: 0,
+    };
+  },
+  computed: {
+    ...mapState({
+      scr_height: (state) => state.scr_height,
+    }),
+  },
+  created() {
+    this.playingHeight = (this.scr_height * 3) / 5;
+  },
 };
 </script>
 

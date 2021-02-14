@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 p-4 overflow-auto"
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-transparent p-4 overflow-auto"
   >
-    <div class="bg-white rounded-lg w-full">
+    <div class="bg-white rounded-lg w-full shadow">
       <div class="flex flex-col items-start p-4">
         <div class="flex items-center w-full">
           <div class="text-gray-900 font-medium text-lg">

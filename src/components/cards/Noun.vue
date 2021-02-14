@@ -1,5 +1,11 @@
 <template>
-  <div></div>
+  <div>
+    <img
+      class="w-auto h-full mx-auto"
+      src="@/assets/test-images/troll.png"
+      alt=""
+    />
+  </div>
 </template>
 
 <script>
