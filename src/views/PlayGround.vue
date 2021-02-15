@@ -46,48 +46,34 @@
       :style="{ height: playingHeight }"
     >
       <div class="flex flex-row flex-no-wrap">
-        <div
-          class="m-1 bg-gray-300 rounded-md border-2 border-white"
-          style="width: 116px"
-        >
-          <card-container card="Noun"></card-container>
-        </div>
-        <div
-          class="m-1 bg-gray-300 rounded-md border-2 border-white"
-          style="width: 116px"
-        >
-          <card-container card="Noun"></card-container>
-        </div>
-        <div
-          class="m-1 bg-gray-300 rounded-md border-2 border-white"
-          style="width: 116px"
-        >
-          <card-container card="Noun"></card-container>
-        </div>
-        <div
-          class="m-1 bg-gray-300 rounded-md border-2 border-white"
-          style="width: 116px"
-        >
-          <card-container card="Noun"></card-container>
-        </div>
-        <div
-          class="m-1 bg-gray-300 rounded-md border-2 border-white"
-          style="width: 116px"
-        >
-          <card-container card="Noun"></card-container>
-        </div>
-        <div
-          class="m-1 bg-gray-300 rounded-md border-2 border-white"
-          style="width: 116px"
-        >
-          <card-container card="Noun"></card-container>
-        </div>
-        <div
-          class="m-1 bg-gray-300 rounded-md border-2 border-white"
-          style="width: 116px"
-        >
-          <card-container card="Noun"></card-container>
-        </div>
+        <card-container
+          card="Noun"
+          :cardHeight="playingHeight"
+        ></card-container>
+        <card-container
+          card="Noun"
+          :cardHeight="playingHeight"
+        ></card-container>
+        <card-container
+          card="Noun"
+          :cardHeight="playingHeight"
+        ></card-container>
+        <card-container
+          card="Noun"
+          :cardHeight="playingHeight"
+        ></card-container>
+        <card-container
+          card="Noun"
+          :cardHeight="playingHeight"
+        ></card-container>
+        <card-container
+          card="Noun"
+          :cardHeight="playingHeight"
+        ></card-container>
+        <card-container
+          card="Noun"
+          :cardHeight="playingHeight"
+        ></card-container>
       </div>
     </div>
     <!-- Player table -->

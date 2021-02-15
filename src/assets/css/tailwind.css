@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.border-1 {
+  border-width: 1px;
+}
+
 .bg-filter-8 {
     filter: blur(8px);
   -webkit-filter: blur(8px);
