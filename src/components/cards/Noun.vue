@@ -3,12 +3,12 @@
     <div
       class="w-full m-1 p-1 bg-white rounded-lg border-1 border-gray-700 relative text-xs xs:text-sm sm:text-md"
     >
-      the zombie
+      {{ singular.text[Math.floor(Math.random() * singular.text.length)] }}
     </div>
     <div
       class="w-full m-1 p-1 bg-white rounded-lg border-1 border-gray-700 relative text-xs xs:text-sm sm:text-md"
     >
-      (the) zombies
+      {{ plural.text[Math.floor(Math.random() * plural.text.length)] }}
     </div>
   </div>
 </template>
@@ -21,11 +21,11 @@ export default {
       id: "",
       image: "",
       singular: {
-        text: "",
+        text: ["the zombie", "the king", "the knight"],
         point: 0,
       },
       plural: {
-        text: "",
+        text: ["(the) zombies", "(the) kings", "(the) knights"],
         point: 0,
       },
       finalPoint: 0,

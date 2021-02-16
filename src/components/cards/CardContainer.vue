@@ -1,6 +1,6 @@
 <template>
   <div class="m-1 bg-gray-300 rounded-md border-2 border-white overflow-hidden">
-    <div :style="{ width: cardWidth, height: cardHeight - 27 }">
+    <div :style="{ width: cardWidth }">
       <component v-bind:is="card"></component>
     </div>
   </div>

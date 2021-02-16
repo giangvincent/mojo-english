@@ -38,40 +38,19 @@
     <!-- Other players -->
 
     <!-- Table -->
-    <div class="absolute top-0 -mt-10 left-0 right-0">
-      <div>Cards</div>
-    </div>
+
     <div
       class="flex absolute bottom-0 w-full p-2 bg-gray-700 overflow-x-auto"
       :style="{ height: playingHeight }"
     >
       <div class="flex flex-row flex-no-wrap">
+        <div class="absolute top-0 -mt-10 left-0 right-0">
+          <div>Cards</div>
+        </div>
         <card-container
-          card="Noun"
-          :cardHeight="playingHeight"
-        ></card-container>
-        <card-container
-          card="Noun"
-          :cardHeight="playingHeight"
-        ></card-container>
-        <card-container
-          card="Noun"
-          :cardHeight="playingHeight"
-        ></card-container>
-        <card-container
-          card="Noun"
-          :cardHeight="playingHeight"
-        ></card-container>
-        <card-container
-          card="Noun"
-          :cardHeight="playingHeight"
-        ></card-container>
-        <card-container
-          card="Noun"
-          :cardHeight="playingHeight"
-        ></card-container>
-        <card-container
-          card="Noun"
+          v-for="(card, index) in cardsOrder"
+          :key="'card-' + index"
+          :card="card.type"
           :cardHeight="playingHeight"
         ></card-container>
       </div>
@@ -91,6 +70,30 @@ export default {
   },
   data() {
     return {
+      drag: false,
+      cardsOrder: [
+        {
+          type: "Noun",
+        },
+        {
+          type: "Noun",
+        },
+        {
+          type: "Noun",
+        },
+        {
+          type: "Noun",
+        },
+        {
+          type: "Noun",
+        },
+        {
+          type: "Noun",
+        },
+        {
+          type: "Noun",
+        },
+      ],
       playingHeight: 0,
     };
   },
