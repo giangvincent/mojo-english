@@ -76,10 +76,10 @@ export default {
           type: "Noun",
         },
         {
-          type: "Noun",
+          type: "Location",
         },
         {
-          type: "Noun",
+          type: "TimeCard",
         },
         {
           type: "Noun",

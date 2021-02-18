@@ -203,6 +203,7 @@ module.exports = {
     borderWidth: {
       default: "1px",
       "0": "0",
+      "1": "1px",
       "2": "2px",
       "4": "4px",
       "8": "8px"
@@ -306,7 +307,9 @@ module.exports = {
       auto: "auto",
       ...theme("spacing"),
       full: "100%",
-      screen: "100vh"
+      screen: "100vh",
+      "1/3": "33%",
+      "1/2": "50%"
     }),
     inset: {
       "0": "0",

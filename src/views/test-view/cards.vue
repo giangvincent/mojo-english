@@ -1,7 +1,7 @@
 <template>
   <div>
     <back-btn></back-btn>
-    <card-container card="Noun"></card-container>
+    <card-container card="Location"></card-container>
   </div>
 </template>
 

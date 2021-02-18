@@ -15,6 +15,16 @@ export default {
   },
   components: {
     Noun: () => import("@/components/cards/Noun.vue"),
+    Location: () => import("@/components/cards/Location.vue"),
+    TimeCard: () => import("@/components/cards/TimeCard.vue"),
+
+    Verb: () => import("@/components/cards/Verb.vue"),
+    HelpingVerb: () => import("@/components/cards/HelpingVerb.vue"),
+
+    Conj: () => import("@/components/cards/Conj.vue"),
+    Prep: () => import("@/components/cards/Prep.vue"),
+    Adj: () => import("@/components/cards/Adj.vue"),
+    Adverb: () => import("@/components/cards/Adverb.vue"),
   },
   data() {
     return {
