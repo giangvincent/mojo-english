@@ -6,14 +6,14 @@
       {{ singular.text[Math.floor(Math.random() * singular.text.length)] }}
     </div>
     <div class="flex w-full my-3">
-      <div class="w-3 h-full">
+      <div class="w-4 h-full">
         <div class="bg-green-500 h-1/3"></div>
         <div class="bg-red-500 h-1/3"></div>
         <div class="bg-pink-500 h-1/3"></div>
       </div>
       <!-- previous card colors -->
       <div
-        class="w-full -m-1 p-1 bg-white rounded-lg border-1 border-gray-700 relative"
+        class="w-full -mx-1 p-1 bg-white rounded-lg border-1 border-gray-700 relative"
       >
         <div class="text-xs xs:text-sm sm:text-md">
           {{ plural.text[Math.floor(Math.random() * plural.text.length)] }}
@@ -26,7 +26,7 @@
         <!-- bonus point -->
       </div>
 
-      <div class="w-3 h-full">
+      <div class="w-4 h-full">
         <div class="bg-blue-500 h-1/3"></div>
         <div class="bg-purple-500 h-1/3"></div>
         <div class="bg-yellow-500 h-1/3"></div>
@@ -45,18 +45,18 @@ export default {
       image: "",
       singular: {
         text: ["the zombie", "the king", "the knight"],
-        point: 0,
+        point: 0
       },
       plural: {
         text: ["(the) zombies", "(the) kings", "(the) knights"],
-        point: 0,
+        point: 0
       },
       finalPoint: 0,
       type: "",
       previousCards: [],
       nextCards: [],
-      bonusPoint: [],
+      bonusPoint: []
     };
-  },
+  }
 };
 </script>

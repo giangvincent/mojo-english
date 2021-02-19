@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full bg-gray-900 flex flex-wrap items-center content-center"
+    class="w-full h-full bg-orange-700 flex flex-wrap items-center justify-center"
   >
     <div class="px-2 py-4 flex flex-col text-white h-full">
       <span class="h-1/3 flex items-center justify-center">tomorrow</span>
@@ -20,8 +20,8 @@ export default {
       text: "",
       point: 0,
       previousCards: [],
-      bonusPoints: [],
+      bonusPoints: []
     };
-  },
+  }
 };
 </script>

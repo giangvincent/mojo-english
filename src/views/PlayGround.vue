@@ -86,45 +86,45 @@ import { mapState } from "vuex";
 export default {
   name: "playing-ground",
   components: {
-    CardContainer,
+    CardContainer
   },
   data() {
     return {
       drag: false,
       cardsOrder: [
         {
-          type: "Noun",
+          type: "Adj"
         },
         {
-          type: "Location",
+          type: "Location"
         },
         {
-          type: "TimeCard",
+          type: "TimeCard"
         },
         {
-          type: "Noun",
+          type: "Prep"
         },
         {
-          type: "Noun",
+          type: "Adverb"
         },
         {
-          type: "Noun",
+          type: "HelpingVerb"
         },
         {
-          type: "Noun",
-        },
+          type: "Noun"
+        }
       ],
-      playingHeight: 0,
+      playingHeight: 0
     };
   },
   computed: {
     ...mapState({
-      scr_height: (state) => state.scr_height,
-    }),
+      scr_height: state => state.scr_height
+    })
   },
   created() {
     this.playingHeight = (this.scr_height * 3) / 5;
-  },
+  }
 };
 </script>
 
