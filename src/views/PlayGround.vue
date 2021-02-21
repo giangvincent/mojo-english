@@ -41,7 +41,7 @@
 
     <div
       class="flex absolute bottom-0 w-full px-2 py-4 bg-gray-700 overflow-x-auto"
-      :style="{ height: playingHeight }"
+      :style="{ height: playingHeight + 'px' }"
     >
       <div class="flex flex-row flex-no-wrap">
         <div class="absolute top-0 -mt-10 left-0 right-0">
@@ -86,45 +86,45 @@ import { mapState } from "vuex";
 export default {
   name: "playing-ground",
   components: {
-    CardContainer
+    CardContainer,
   },
   data() {
     return {
       drag: false,
       cardsOrder: [
         {
-          type: "Adj"
+          type: "Adj",
         },
         {
-          type: "Location"
+          type: "Location",
         },
         {
-          type: "TimeCard"
+          type: "TimeCard",
         },
         {
-          type: "Prep"
+          type: "Prep",
         },
         {
-          type: "Adverb"
+          type: "Adverb",
         },
         {
-          type: "HelpingVerb"
+          type: "HelpingVerb",
         },
         {
-          type: "Noun"
-        }
+          type: "Noun",
+        },
       ],
-      playingHeight: 0
+      playingHeight: 0,
     };
   },
   computed: {
     ...mapState({
-      scr_height: state => state.scr_height
-    })
+      scr_height: (state) => state.scr_height,
+    }),
   },
   created() {
     this.playingHeight = (this.scr_height * 3) / 5;
-  }
+  },
 };
 </script>
 

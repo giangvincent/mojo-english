@@ -1,6 +1,9 @@
 <template>
   <div id="app" class="w-full h-full main-bg flex content-center items-center">
-    <div class="game_screen" :style="{ width: scr_width, height: scr_height }">
+    <div
+      class="game_screen"
+      v-bind:style="{ width: scr_width + 'px', height: scr_height + 'px' }"
+    >
       <router-view />
     </div>
   </div>

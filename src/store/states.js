@@ -1,5 +1,5 @@
 export default {
-    scr_width: window.innerWidth,
-    scr_height: window.innerWidth * 9 / 16,
+    scr_width: 667,
+    scr_height: 667 * 9 / 16,
     popupModal: false
 }

@@ -33,6 +33,7 @@ function startGame() {
     playerData.photo.crossOrigin = "anonymous";
     playerData.photo.src = FBInstant.player.getPhoto();
     store.commit("setPlayerData", playerData);
+    store.commit("SET_SCREEN")
     // console.log(playerData)
 
     // Fetch Player's Friends
@@ -45,7 +46,7 @@ function startGame() {
       console.log("getPlayersAsync", players);
     });
 
-    FBInstant.getLeaderboardAsync("colorbut_lb." + FBInstant.context.getID())
+    /* FBInstant.getLeaderboardAsync("colorbut_lb." + FBInstant.context.getID())
       .then(function (leaderboard) {
         return leaderboard.getEntriesAsync(10, 0);
       })
@@ -67,7 +68,7 @@ function startGame() {
           'Leaderboard "colorbut_lb" not found in app configuration',
           error
         );
-      });
+      }); */
 
     new Vue({
       i18n,

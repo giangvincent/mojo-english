@@ -2,7 +2,7 @@
   <div
     class="my-1 mx-2 bg-gray-300 rounded-md border-1 border-white overflow-hidden"
   >
-    <div :style="{ width: cardWidth }">
+    <div class="h-full" :style="{ width: cardWidth + 'px' }">
       <component v-bind:is="card"></component>
     </div>
   </div>
@@ -13,7 +13,7 @@ export default {
   name: "card-container",
   props: {
     card: String,
-    cardHeight: Number
+    cardHeight: Number,
   },
   components: {
     Noun: () => import("@/components/cards/Noun.vue"),
@@ -26,17 +26,17 @@ export default {
     Conj: () => import("@/components/cards/Conj.vue"),
     Prep: () => import("@/components/cards/Prep.vue"),
     Adj: () => import("@/components/cards/Adj.vue"),
-    Adverb: () => import("@/components/cards/Adverb.vue")
+    Adverb: () => import("@/components/cards/Adverb.vue"),
   },
   data() {
     return {
-      cardWidth: 0
+      cardWidth: 0,
     };
   },
   created() {
     this.cardWidth = (this.cardHeight - 32) / 1.612;
   },
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
