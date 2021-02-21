@@ -58,13 +58,9 @@
             :class="{ '-translate-y-2': indexChange == index }"
             v-bind:style="{
               transform:
-                translateX > 0 && index == desIndex && indexChange >= desIndex
-                  ? 'translateX(-' + translateX + 'px)'
-                  : '',
+                translateX > 0 && index == desIndex ? desTranslate : '',
               transform:
-                translateX > 0 && index == indexChange && indexChange < desIndex
-                  ? 'translateX(' + translateX + 'px)'
-                  : '',
+                translateX > 0 && index == indexChange ? sourceTranslate : '',
             }"
           >
             <span
@@ -190,6 +186,8 @@ export default {
       cardWidth: 0,
       cardHeight: 0,
       translateX: 0,
+      sourceTranslate: "",
+      desTranslate: "",
     };
   },
   computed: {
@@ -223,16 +221,20 @@ export default {
 
       if (this.indexChange > index) {
         this.translateX = this.cardWidth * (this.indexChange - (index + 1));
+        this.sourceTranslate = "translateX(-" + this.translateX + "px)";
+        this.desTranslate = "translateX(" + this.translateX + "px)";
         this.desIndex = index + 1;
       } else {
         this.translateX = this.cardWidth * (index - this.indexChange);
+        this.sourceTranslate = "translateX(" + this.translateX + "px)";
+        this.desTranslate = "translateX(-" + this.translateX + "px)";
         this.desIndex = index;
       }
 
       let self = this;
       setTimeout(function () {
         self.swapCard(self.indexChange, self.desIndex);
-      }, 2000);
+      }, 350);
     },
     swapCard(source, des) {
       let temp = {};
