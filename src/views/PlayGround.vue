@@ -38,44 +38,107 @@
     <!-- Other players -->
 
     <!-- Table -->
-
     <div
-      class="flex absolute bottom-0 w-full px-2 py-4 bg-gray-700 overflow-x-auto"
-      :style="{ height: playingHeight + 'px' }"
+      class="w-full absolute bottom-0 bg-gray-700"
+      :style="{ height: cardHeight + 'px' }"
     >
-      <div class="flex flex-row flex-no-wrap">
-        <div class="absolute top-0 -mt-10 left-0 right-0">
-          <div>Cards</div>
-        </div>
+      <div class="absolute top-0 right-0 h-8 flex -mt-8 mr-2 items-center">
         <div
-          class="flex flex-row flex-no-wrap relative"
-          v-for="(card, index) in cardsOrder"
-          :key="'card-' + index"
+          class="bg-green-500 border-t-1 border-green-100 rounded-t-lg px-2 py-1"
         >
-          <card-container
-            :card="card.type"
-            :cardHeight="playingHeight"
-          ></card-container>
-          <span class="absolute top-0 -mt-2 mx-auto w-full">
-            <svg
-              class="w-6 h-6 bg-white rounded-full p-1 shadow mx-auto"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-              />
-            </svg>
-          </span>
+          Cards
         </div>
       </div>
+      <div class="flex w-full h-full px-2 py-4 overflow-x-auto">
+        <div class="flex flex-row flex-no-wrap pl-2 pr-4">
+          <div
+            class="flex flex-row flex-no-wrap relative duration-300 transform"
+            v-for="(card, index) in cardsOrder"
+            :key="'card-' + index"
+            :class="{ '-translate-y-2': indexChange == index }"
+            v-bind:style="{
+              transform:
+                translateX > 0 && index == desIndex && indexChange >= desIndex
+                  ? 'translateX(-' + translateX + 'px)'
+                  : '',
+              transform:
+                translateX > 0 && index == indexChange && indexChange < desIndex
+                  ? 'translateX(' + translateX + 'px)'
+                  : '',
+            }"
+          >
+            <span
+              v-if="stateForMoving && index === 0 && indexChange !== 0"
+              class="absolute left-0 h-full flex items-center -ml-2"
+              @click="movingCard(-1)"
+            >
+              <svg
+                class="w-8 h-8 bg-white rounded-full shadow mx-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </span>
+            <card-container
+              :card="card.type"
+              :cardHeight="cardHeight"
+            ></card-container>
+            <span
+              v-if="
+                stateForMoving &&
+                indexChange !== index &&
+                indexChange - 1 !== index
+              "
+              class="absolute right-0 h-full flex items-center -mr-2"
+              @click="movingCard(index)"
+            >
+              <svg
+                class="w-8 h-8 bg-white rounded-full shadow mx-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </span>
+            <span
+              class="absolute top-0 -mt-2 mx-auto w-full"
+              @click="readyToChange(index)"
+            >
+              <svg
+                class="w-6 h-6 bg-white rounded-full p-1 shadow mx-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Player table -->
     </div>
-    <!-- Player table -->
   </div>
 </template>
 
@@ -91,30 +154,42 @@ export default {
   data() {
     return {
       drag: false,
+      indexChange: -1,
+      stateForMoving: false,
+      desIndex: -1,
       cardsOrder: [
         {
+          id: "card-0",
           type: "Adj",
         },
         {
+          id: "card-1",
           type: "Location",
         },
         {
+          id: "card-2",
           type: "TimeCard",
         },
         {
+          id: "card-3",
           type: "Prep",
         },
         {
+          id: "card-4",
           type: "Adverb",
         },
         {
+          id: "card-5",
           type: "HelpingVerb",
         },
         {
+          id: "card-6",
           type: "Noun",
         },
       ],
-      playingHeight: 0,
+      cardWidth: 0,
+      cardHeight: 0,
+      translateX: 0,
     };
   },
   computed: {
@@ -122,8 +197,53 @@ export default {
       scr_height: (state) => state.scr_height,
     }),
   },
+  watch: {
+    indexChange: function (newVal, oldVal) {
+      if (newVal >= 0) {
+        this.stateForMoving = true;
+      } else {
+        this.stateForMoving = false;
+      }
+    },
+  },
   created() {
-    this.playingHeight = (this.scr_height * 3) / 5;
+    this.cardHeight = (this.scr_height * 3) / 5;
+    this.cardWidth = (this.cardHeight - 32) / 1.612;
+  },
+  methods: {
+    readyToChange(index) {
+      if (index == this.indexChange) {
+        this.indexChange = -1;
+        return;
+      }
+      this.indexChange = index;
+    },
+    movingCard(index) {
+      this.stateForMoving = false;
+
+      if (this.indexChange > index) {
+        this.translateX = this.cardWidth * (this.indexChange - (index + 1));
+        this.desIndex = index + 1;
+      } else {
+        this.translateX = this.cardWidth * (index - this.indexChange);
+        this.desIndex = index;
+      }
+
+      let self = this;
+      setTimeout(function () {
+        self.swapCard(self.indexChange, self.desIndex);
+      }, 2000);
+    },
+    swapCard(source, des) {
+      let temp = {};
+      temp = this.cardsOrder[source];
+      this.cardsOrder[source] = this.cardsOrder[des];
+      this.cardsOrder[des] = temp;
+
+      this.translateX = 0;
+      this.indexChange = -1;
+      this.desIndex = -1;
+    },
   },
 };
 </script>
