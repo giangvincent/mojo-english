@@ -11,9 +11,16 @@ export default {
 
         }
     },
-    ja: {
-        message: {
-            hello: 'こんにちは、世界'
+    en: {
+        language: "English",
+        title: {
+            setting: 'Settings'
+        },
+        setting: {
+            music: "Music",
+            sound: "Sound",
+            language: "Language",
+
         }
-    }
+    },
 }

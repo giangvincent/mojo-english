@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve --mode development",
     "serve-https": "vue-cli-service serve --https --mode development",
     "build": "vue-cli-service build",
+    "push": "npm run build && gulp push",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -40,9 +41,13 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-zip": "^5.0.2",
     "node-sass": "^4.12.0",
+    "open": "^7.4.2",
     "sass-loader": "^8.0.0",
     "tailwindcss": "^1.7.6",
+    "uuid": "^8.3.2",
     "vue-masonry-css": "^1.0.3",
     "vue-template-compiler": "^2.6.10"
   }

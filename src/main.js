@@ -9,20 +9,128 @@ import VueI18n from 'vue-i18n'
 import lang from './lang.js'
 
 Vue.use(VueI18n)
-const i18n = new VueI18n({
-  locale: 'vi',
-  messages: lang,
-})
+// const i18n = new VueI18n({
+//   locale: 'vi',
+//   messages: lang,
+// })
 
 Vue.config.productionTip = false;
 
-/* console.log(window.innerWidth)
-store.commit("SET_SCREEN_WIDTH", window.innerWidth)
-store.commit("SET_SCREEN_HEIGHT", window.innerHeight * 9 / 16) */
+function startGame() {
+  FBInstant.startGameAsync().then(() => {
+    const i18n = new VueI18n({
+      locale:
+        FBInstant.getLocale() != "undefined" && FBInstant.getLocale() != null
+          ? FBInstant.getLocale().split("_")[0]
+          : "en",
+      fallbackLocale: "en",
+      messages: lang,
+    });
+    let playerData = {};
+    playerData.id = FBInstant.player.getID();
+    playerData.name = FBInstant.player.getName();
+    playerData.photo = new Image();
+    playerData.photo.crossOrigin = "anonymous";
+    playerData.photo.src = FBInstant.player.getPhoto();
+    store.commit("setPlayerData", playerData);
+    // console.log(playerData)
 
-new Vue({
+    // Fetch Player's Friends
+    FBInstant.player.getConnectedPlayersAsync().then(function (players) {
+      console.log("getConnectedPlayersAsync ", players);
+    });
+
+    // Fetch Context Players
+    FBInstant.context.getPlayersAsync().then(function (players) {
+      console.log("getPlayersAsync", players);
+    });
+
+    FBInstant.getLeaderboardAsync("colorbut_lb." + FBInstant.context.getID())
+      .then(function (leaderboard) {
+        return leaderboard.getEntriesAsync(10, 0);
+      })
+      .then(function (entries) {
+        var ldb = [];
+        for (var i = 0; i < entries.length; i++) {
+          ldb.push({
+            rank: entries[i].getRank(),
+            name: entries[i].getPlayer().getName(),
+            photo: entries[i].getPlayer().getPhoto(),
+            score: entries[i].getScore(),
+          });
+        }
+        // console.log(ldb);
+        store.commit("setLeaderBoard", ldb);
+      })
+      .catch(function (error) {
+        console.log(
+          'Leaderboard "colorbut_lb" not found in app configuration',
+          error
+        );
+      });
+
+    new Vue({
+      i18n,
+      router,
+      store,
+      render: (h) => h(App),
+    }).$mount("#app");
+    let utm_source = router.currentRoute.query.ref || "direct";
+    let url = router.currentRoute.path + "?utm_source=" + utm_source;
+    // ga('set', 'page', url)
+    // ga('send', 'pageview')
+
+    router.afterEach((to, from) => {
+      // console.log(from)
+      let url = `${to.path}?utm_source=${to.query.ref || "direct"}`;
+      // console.log(url)
+      // ga('set', 'page', url)
+      // ga('send', 'pageview')
+    });
+  });
+
+  FBInstant.onPause(function () {
+    console.log("Pause event was triggered!");
+  });
+}
+
+const assets = ["@/assets/images/logo.png"];
+
+window.onload = function () {
+  FBInstant.initializeAsync().then(() => {
+    /* for (let i in assets) {
+      // When preloading assets, make sure to report the progress
+      FBInstant.setLoadingProgress((i / assets.length) * 100);
+    } */
+    FBInstant.setLoadingProgress(30 + Math.random() * 50);
+    return startGame();
+  });
+  /* (function(i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
+    (i[r] =
+      i[r] ||
+      function() {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date());
+    (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m);
+  })(
+    window,
+    document,
+    "script",
+    "https://www.google-analytics.com/analytics.js",
+    "ga"
+  ); */
+  /* eslint-disable */
+
+  // ga('create', 'UA-127992318-1', 'auto')
+};
+/* new Vue({
   i18n,
   router,
   store,
   render: (h) => h(App),
-}).$mount("#app");
+}).$mount("#app"); */
