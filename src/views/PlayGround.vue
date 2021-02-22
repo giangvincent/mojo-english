@@ -49,7 +49,11 @@
           Cards
         </div>
       </div>
-      <div class="flex w-full h-full px-2 py-4 overflow-x-auto">
+      <div
+        ref="tablePlay"
+        id="tablePlay"
+        class="flex w-full h-full px-2 py-4 overflow-x-auto"
+      >
         <div class="flex flex-row flex-no-wrap pl-2 pr-4">
           <div
             class="flex flex-row flex-no-wrap relative duration-300 transform"
@@ -57,10 +61,7 @@
             :key="'card-' + index"
             :class="{ '-translate-y-2': indexChange == index }"
             v-bind:style="{
-              transform:
-                translateX > 0 && index == desIndex ? desTranslate : '',
-              transform:
-                translateX > 0 && index == indexChange ? sourceTranslate : '',
+              transform: translateX > 0 && index == desIndex ? desTranslate : ''
             }"
           >
             <span
@@ -90,8 +91,8 @@
             <span
               v-if="
                 stateForMoving &&
-                indexChange !== index &&
-                indexChange - 1 !== index
+                  indexChange !== index &&
+                  indexChange - 1 !== index
               "
               class="absolute right-0 h-full flex items-center -mr-2"
               @click="movingCard(index)"
@@ -142,10 +143,18 @@
 import CardContainer from "@/components/cards/CardContainer";
 import { mapState } from "vuex";
 
+function transformScroll(event) {
+  if (!event.deltaY) {
+    return;
+  }
+  event.currentTarget.scrollLeft -= event.deltaY * 10;
+  event.preventDefault();
+}
+
 export default {
   name: "playing-ground",
   components: {
-    CardContainer,
+    CardContainer
   },
   data() {
     return {
@@ -156,57 +165,61 @@ export default {
       cardsOrder: [
         {
           id: "card-0",
-          type: "Adj",
+          type: "Adj"
         },
         {
           id: "card-1",
-          type: "Location",
+          type: "Location"
         },
         {
           id: "card-2",
-          type: "TimeCard",
+          type: "TimeCard"
         },
         {
           id: "card-3",
-          type: "Prep",
+          type: "Prep"
         },
         {
           id: "card-4",
-          type: "Adverb",
+          type: "Adverb"
         },
         {
           id: "card-5",
-          type: "HelpingVerb",
+          type: "HelpingVerb"
         },
         {
           id: "card-6",
-          type: "Noun",
-        },
+          type: "Noun"
+        }
       ],
       cardWidth: 0,
       cardHeight: 0,
       translateX: 0,
       sourceTranslate: "",
-      desTranslate: "",
+      desTranslate: ""
     };
   },
   computed: {
     ...mapState({
-      scr_height: (state) => state.scr_height,
-    }),
+      scr_height: state => state.scr_height
+    })
   },
   watch: {
-    indexChange: function (newVal, oldVal) {
+    indexChange: function(newVal, oldVal) {
       if (newVal >= 0) {
         this.stateForMoving = true;
       } else {
         this.stateForMoving = false;
       }
-    },
+    }
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
     this.cardWidth = (this.cardHeight - 32) / 1.612;
+  },
+  mounted() {
+    var element = this.$refs.tablePlay;
+    element.addEventListener("wheel", transformScroll);
   },
   methods: {
     readyToChange(index) {
@@ -232,21 +245,28 @@ export default {
       }
 
       let self = this;
-      setTimeout(function () {
+      setTimeout(function() {
         self.swapCard(self.indexChange, self.desIndex);
       }, 350);
     },
     swapCard(source, des) {
       let temp = {};
       temp = this.cardsOrder[source];
-      this.cardsOrder[source] = this.cardsOrder[des];
+      let runLength = Math.abs(source - des);
+      for (let i = 0; i < runLength; i++) {
+        if (source < des) {
+          this.cardsOrder[source + i] = this.cardsOrder[source + i + 1];
+        } else {
+          this.cardsOrder[source - i] = this.cardsOrder[source - i - 1];
+        }
+      }
       this.cardsOrder[des] = temp;
 
       this.translateX = 0;
       this.indexChange = -1;
       this.desIndex = -1;
-    },
-  },
+    }
+  }
 };
 </script>
 
