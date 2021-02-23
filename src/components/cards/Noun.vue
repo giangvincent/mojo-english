@@ -3,7 +3,7 @@
     <div
       class="w-full m-2 p-1 bg-white rounded-lg border-1 border-gray-700 relative text-xs xs:text-sm sm:text-md"
     >
-      {{ singular.text[Math.floor(Math.random() * singular.text.length)] }}
+      {{ card.singular.text }}
     </div>
     <div class="flex w-full my-3">
       <div class="w-4 h-full">
@@ -16,12 +16,13 @@
         class="w-full -mx-1 p-1 bg-white rounded-lg border-1 border-gray-700 relative"
       >
         <div class="text-xs xs:text-sm sm:text-md">
-          {{ plural.text[Math.floor(Math.random() * plural.text.length)] }}
+          {{ card.plural.text }}
         </div>
         <!-- plural -->
 
         <div class="border-t-1 border-gray-700 text-xs xs:text-sm">
-          run/jump <span>+5</span>
+          {{ card.bonusPoint.word.join("/") }}
+          <span>+{{ card.bonusPoint.point }}</span>
         </div>
         <!-- bonus point -->
       </div>
@@ -39,24 +40,27 @@
 <script>
 export default {
   name: "noun",
+  props: {
+    card: Object,
+  },
   data() {
     return {
       id: "",
       image: "",
       singular: {
         text: ["the zombie", "the king", "the knight"],
-        point: 0
+        point: 0,
       },
       plural: {
         text: ["(the) zombies", "(the) kings", "(the) knights"],
-        point: 0
+        point: 0,
       },
       finalPoint: 0,
       type: "",
       previousCards: [],
       nextCards: [],
-      bonusPoint: []
+      bonusPoint: [],
     };
-  }
+  },
 };
 </script>

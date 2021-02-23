@@ -38,13 +38,9 @@
     <!-- Other players -->
     <div class="flex">
       <div
-        class="w-16 h-24 border-2 border-dashed border-orange-700 m-2 relative rounded-lg"
-      ></div>
-      <div
-        class="w-16 h-24 flex flex-wrap content-center justify-center items-center rounded-lg bg-orange-700 m-2 relative"
+        class="w-16 h-24 border-2 border-dashed border-orange-800 m-2 relative rounded-lg flex items-center justify-center"
       >
-        <span class="text-white font-bold p-2">Cards</span>
-        <span class="text-white font-bold"
+        <span class="text-white font-bold text-orange-800"
           ><svg
             class="w-8 h-8"
             xmlns="http://www.w3.org/2000/svg"
@@ -59,13 +55,21 @@
               d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
             /></svg
         ></span>
+      </div>
+      <div class="w-16 h-24 m-2 relative">
         <div
-          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-700 w-full"
-          style="margin: -2px 0 0 -2px;"
+          class="text-white font-bold absolute z-10 flex flex-wrap justify-center items-center rounded-lg bg-orange-800 w-full h-full"
+        >
+          Cards
+        </div>
+
+        <div
+          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-600 w-full z-0"
+          style="margin: -2px 0 0 -2px"
         ></div>
         <div
-          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-700 w-full"
-          style="margin: -4px 0 0 -4px;"
+          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-500 w-full z-0"
+          style="margin: -4px 0 0 -4px"
         ></div>
       </div>
     </div>
@@ -87,14 +91,18 @@
         id="tablePlay"
         class="flex w-full h-full px-2 py-4 overflow-x-auto"
       >
-        <div class="flex flex-row flex-no-wrap pl-2 pr-4">
+        <div
+          class="flex flex-row flex-no-wrap pl-2 pr-4"
+          v-if="cards.length > 0"
+        >
           <div
             class="flex flex-row flex-no-wrap relative duration-300 transform"
-            v-for="(card, index) in cardsOrder"
-            :key="'card-' + index"
+            v-for="(card, index) in cards"
+            :key="'card-' + card.id"
             :class="{ '-translate-y-2': indexChange == index }"
             v-bind:style="{
-              transform: translateX > 0 && index == desIndex ? desTranslate : ''
+              transform:
+                translateX > 0 && index == desIndex ? desTranslate : '',
             }"
           >
             <span
@@ -118,14 +126,14 @@
               </svg>
             </span>
             <card-container
-              :card="card.type"
+              :card="card"
               :cardHeight="cardHeight"
             ></card-container>
             <span
               v-if="
                 stateForMoving &&
-                  indexChange !== index &&
-                  indexChange - 1 !== index
+                indexChange !== index &&
+                indexChange - 1 !== index
               "
               class="absolute right-0 h-full flex items-center -mr-2"
               @click="movingCard(index)"
@@ -187,7 +195,7 @@ function transformScroll(event) {
 export default {
   name: "playing-ground",
   components: {
-    CardContainer
+    CardContainer,
   },
   data() {
     return {
@@ -195,61 +203,42 @@ export default {
       indexChange: -1,
       stateForMoving: false,
       desIndex: -1,
+      allCards: [],
       cardDiscarded: [],
-      cardsOrder: [
-        {
-          id: "card-0",
-          type: "Adj"
-        },
-        {
-          id: "card-1",
-          type: "Location"
-        },
-        {
-          id: "card-2",
-          type: "TimeCard"
-        },
-        {
-          id: "card-3",
-          type: "Prep"
-        },
-        {
-          id: "card-4",
-          type: "Adverb"
-        },
-        {
-          id: "card-5",
-          type: "HelpingVerb"
-        },
-        {
-          id: "card-6",
-          type: "Noun"
-        }
-      ],
+      cards: [],
       cardWidth: 0,
       cardHeight: 0,
       translateX: 0,
       sourceTranslate: "",
-      desTranslate: ""
+      desTranslate: "",
     };
   },
   computed: {
     ...mapState({
-      scr_height: state => state.scr_height
-    })
+      scr_height: (state) => state.scr_height,
+    }),
   },
   watch: {
-    indexChange: function(newVal, oldVal) {
+    indexChange: function (newVal, oldVal) {
       if (newVal >= 0) {
         this.stateForMoving = true;
       } else {
         this.stateForMoving = false;
       }
-    }
+    },
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
     this.cardWidth = (this.cardHeight - 32) / 1.612;
+    let self = this;
+    fetch("/contents/cardSet1.json")
+      .then((res) => res.json())
+      .then((cards) => {
+        let randomCards = cards.sort(() => Math.random() - 0.5);
+        self.cards = randomCards.slice(0, 7);
+        self.allCards = randomCards.slice(8, randomCards.length - 1);
+        console.log(self.cards, self.allCards);
+      });
   },
   mounted() {
     var element = this.$refs.tablePlay;
@@ -279,7 +268,7 @@ export default {
       }
 
       let self = this;
-      setTimeout(function() {
+      setTimeout(function () {
         self.swapCard(self.indexChange, self.desIndex);
       }, 350);
     },
@@ -299,8 +288,8 @@ export default {
       this.translateX = 0;
       this.indexChange = -1;
       this.desIndex = -1;
-    }
-  }
+    },
+  },
 };
 </script>
 

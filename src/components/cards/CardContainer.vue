@@ -3,7 +3,7 @@
     class="my-1 mx-2 bg-gray-300 rounded-md border-1 border-white overflow-hidden"
   >
     <div class="h-full" :style="{ width: cardWidth + 'px' }">
-      <component v-bind:is="card"></component>
+      <component :card="card" v-bind:is="card.type"></component>
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 export default {
   name: "card-container",
   props: {
-    card: String,
+    card: Object,
     cardHeight: Number,
   },
   components: {

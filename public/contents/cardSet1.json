@@ -1,0 +1,495 @@
+[
+    {
+        "id": "N1a",
+        "type": "Noun",
+        "image": "giant1.jpg",
+        "singular": {
+            "text": "the giant",
+            "point": 6
+        },
+        "plural": {
+            "text": "(the) giants",
+            "point": 4
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "excercise",
+                "fist bump"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1b",
+        "type": "Noun",
+        "image": "hero1.jpg",
+        "singular": {
+            "text": "the hero",
+            "point": 6
+        },
+        "plural": {
+            "text": "(the) heroes",
+            "point": 3
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "play",
+                "help"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1c",
+        "type": "Noun",
+        "image": "magician1.jpg",
+        "singular": {
+            "text": "the magician",
+            "point": 6
+        },
+        "plural": {
+            "text": "(the) magicians",
+            "point": 3
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "walk",
+                "tickle"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1d",
+        "type": "Noun",
+        "image": "monster1.jpg",
+        "singular": {
+            "text": "the monter",
+            "point": 3
+        },
+        "plural": {
+            "text": "(the) monters",
+            "point": 6
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "skip",
+                "tease"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1e",
+        "type": "Noun",
+        "image": "unicorn1.jpg",
+        "singular": {
+            "text": "the unicorn",
+            "point": 6
+        },
+        "plural": {
+            "text": "(the) unicorns",
+            "point": 3
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "jog",
+                "hold hands"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1f",
+        "type": "Noun",
+        "image": "troll1.jpg",
+        "singular": {
+            "text": "the troll",
+            "point": 5
+        },
+        "plural": {
+            "text": "(the) trolls",
+            "point": 4
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "run",
+                "high five"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1g",
+        "type": "Noun",
+        "image": "vampire1.jpg",
+        "singular": {
+            "text": "the vampire",
+            "point": 4
+        },
+        "plural": {
+            "text": "(the) vampires",
+            "point": 5
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "sing",
+                "call"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1h",
+        "type": "Noun",
+        "image": "mummy1.jpg",
+        "singular": {
+            "text": "the mummy",
+            "point": 5
+        },
+        "plural": {
+            "text": "(the) mummies",
+            "point": 3
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "crawl",
+                "hug"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1i",
+        "type": "Noun",
+        "image": "zombie1.jpg",
+        "singular": {
+            "text": "the zombie",
+            "point": 3
+        },
+        "plural": {
+            "text": "(the) zombies",
+            "point": 6
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "dance",
+                "kiss"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "N1j",
+        "type": "Noun",
+        "image": "werewolf1.jpg",
+        "singular": {
+            "text": "the werewolf",
+            "point": 3
+        },
+        "plural": {
+            "text": "(the) werewolves",
+            "point": 5
+        },
+        "condition": [
+            {
+                "type": "Adj",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb",
+            "Prep"
+        ],
+        "nextCards": [
+            "ExtraInformation",
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": {
+            "type": "Verb",
+            "word": [
+                "jump",
+                "shake hands"
+            ],
+            "point": 5
+        }
+    },
+    {
+        "id": "L1a",
+        "type": "Location",
+        "point": 5,
+        "image": "cave1.jpg",
+        "content": [
+            "in a cave"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "mummy",
+                    "unicorn"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "excercise",
+                    "sing"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1e",
+        "type": "Location",
+        "point": 5,
+        "image": "forest1.jpg",
+        "content": [
+            "in a forest",
+            "in the woods"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "werewolf",
+                    "monster"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "run",
+                    "walk"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "card-0",
+        "type": "Adj"
+    },
+    {
+        "id": "card-2",
+        "type": "TimeCard"
+    },
+    {
+        "id": "card-3",
+        "type": "Prep"
+    },
+    {
+        "id": "card-4",
+        "type": "Adverb"
+    },
+    {
+        "id": "card-5",
+        "type": "HelpingVerb"
+    }
+]
