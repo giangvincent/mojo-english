@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col relative h-full">
-    <div class="flex flex-wrap content-center items-center">
+  <div class="flex justify-between relative h-full">
+    <div class="flex flex-wrap">
       <div class="m-2">
         <figure>
           <img
@@ -36,6 +36,39 @@
       </div>
     </div>
     <!-- Other players -->
+    <div class="flex">
+      <div
+        class="w-16 h-24 border-2 border-dashed border-orange-700 m-2 relative rounded-lg"
+      ></div>
+      <div
+        class="w-16 h-24 flex flex-wrap content-center justify-center items-center rounded-lg bg-orange-700 m-2 relative"
+      >
+        <span class="text-white font-bold p-2">Cards</span>
+        <span class="text-white font-bold"
+          ><svg
+            class="w-8 h-8"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            /></svg
+        ></span>
+        <div
+          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-700 w-full"
+          style="margin: -2px 0 0 -2px;"
+        ></div>
+        <div
+          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-700 w-full"
+          style="margin: -4px 0 0 -4px;"
+        ></div>
+      </div>
+    </div>
 
     <!-- Table -->
     <div
@@ -46,7 +79,7 @@
         <div
           class="bg-green-500 border-t-1 border-green-100 rounded-t-lg px-2 py-1"
         >
-          Cards
+          Playing table
         </div>
       </div>
       <div
@@ -162,6 +195,7 @@ export default {
       indexChange: -1,
       stateForMoving: false,
       desIndex: -1,
+      cardDiscarded: [],
       cardsOrder: [
         {
           id: "card-0",
