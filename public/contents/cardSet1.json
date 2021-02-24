@@ -433,6 +433,124 @@
         ]
     },
     {
+        "id": "L1b",
+        "type": "Location",
+        "point": 5,
+        "image": "mountain1.jpg",
+        "content": [
+            "on top of a mountain",
+            "in the mountains"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "hero",
+                    "giant"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "crawl",
+                    "skip"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1c",
+        "type": "Location",
+        "point": 5,
+        "image": "island1.jpg",
+        "content": [
+            "on an island"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "vampire",
+                    "magician"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "dance",
+                    "play"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1d",
+        "type": "Location",
+        "point": 5,
+        "image": "jungle1.jpg",
+        "content": [
+            "in a jungle"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "zombie",
+                    "troll"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "jump",
+                    "jog"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
         "id": "L1e",
         "type": "Location",
         "point": 5,
@@ -473,23 +591,952 @@
         ]
     },
     {
-        "id": "card-0",
-        "type": "Adj"
+        "id": "L1f",
+        "type": "Location",
+        "point": 6,
+        "image": [
+            "snow1.jpg",
+            "rain1.jpg"
+        ],
+        "content": [
+            "in the deep, fluffy snow",
+            "in the heavy rain"
+        ],
+        "condition": [],
+        "previousCards": [
+            "Verb"
+        ],
+        "bonusPoint": []
     },
     {
-        "id": "card-2",
-        "type": "TimeCard"
+        "id": "H1a",
+        "type": "HelpingVerb",
+        "typeWord": "present simple",
+        "content": [
+            {
+                "type": "singular",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "doesn't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "does"
+                    }
+                ],
+                "point": 4
+            },
+            {
+                "type": "plural",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "don't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "do"
+                    }
+                ],
+                "point": 6
+            }
+        ],
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
     },
     {
-        "id": "card-3",
-        "type": "Prep"
+        "id": "H1b",
+        "type": "HelpingVerb",
+        "typeWord": "past simple",
+        "content": [
+            {
+                "type": "common",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "didn't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "did"
+                    }
+                ],
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
     },
     {
-        "id": "card-4",
-        "type": "Adverb"
+        "id": "H1c",
+        "type": "HelpingVerb",
+        "typeWord": "future simple",
+        "content": [
+            {
+                "type": "common",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "won't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "will"
+                    }
+                ],
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
     },
     {
-        "id": "card-5",
-        "type": "HelpingVerb"
+        "id": "H1d",
+        "type": "HelpingVerb",
+        "typeWord": "future simple",
+        "content": [
+            {
+                "type": "singular",
+                "texts": [
+                    {
+                        "type": "positive",
+                        "text": "is going to"
+                    }
+                ],
+                "point": 5
+            },
+            {
+                "type": "plural",
+                "texts": [
+                    {
+                        "type": "positive",
+                        "text": "are going to"
+                    }
+                ],
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "H1e",
+        "type": "HelpingVerb",
+        "typeWord": "future simple",
+        "content": [
+            {
+                "type": "singular",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "isn't going to"
+                    }
+                ],
+                "point": 4
+            },
+            {
+                "type": "plural",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "aren't going to"
+                    }
+                ],
+                "point": 6
+            }
+        ],
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "C1a",
+        "type": "Conj",
+        "content": [
+            {
+                "text": "and",
+                "point": 6
+            },
+            {
+                "text": "or",
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInfomation",
+            "Verb"
+        ],
+        "nextCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInfomation",
+            "Verb"
+        ]
+    },
+    {
+        "id": "C1b",
+        "type": "Conj",
+        "content": [
+            {
+                "text": "and",
+                "point": 5
+            },
+            {
+                "text": "or",
+                "point": 4
+            }
+        ],
+        "previousCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInfomation",
+            "Verb"
+        ],
+        "nextCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInfomation",
+            "Verb"
+        ]
+    },
+    {
+        "id": "C1a",
+        "type": "Conj",
+        "content": [
+            {
+                "text": "and",
+                "point": 4
+            },
+            {
+                "text": "or",
+                "point": 6
+            }
+        ],
+        "previousCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInfomation",
+            "Verb"
+        ],
+        "nextCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInfomation",
+            "Verb"
+        ]
+    },
+    {
+        "id": "T1a",
+        "type": "TimeCard",
+        "content": [
+            {
+                "type": "past simple",
+                "text": "yesterday",
+                "point": 7
+            },
+            {
+                "type": "present simple",
+                "text": "during the day",
+                "point": 4
+            },
+            {
+                "type": "present simple",
+                "text": "every day",
+                "point": 5
+            },
+            {
+                "type": "future simple",
+                "text": "tomorrow",
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "T1b",
+        "type": "TimeCard",
+        "content": [
+            {
+                "type": "past simple",
+                "text": "last night",
+                "point": 5
+            },
+            {
+                "type": "present simple",
+                "text": "at night",
+                "point": 4
+            },
+            {
+                "type": "present simple",
+                "text": "every night",
+                "point": 3
+            },
+            {
+                "type": "future simple",
+                "text": "tomorrow night",
+                "point": 7
+            }
+        ],
+        "previousCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "T1c",
+        "type": "TimeCard",
+        "content": [
+            {
+                "type": "past simple",
+                "text": "yesterday morning",
+                "point": 3
+            },
+            {
+                "type": "present simple",
+                "text": "in the afternoon",
+                "point": 4
+            },
+            {
+                "type": "present simple",
+                "text": "every afternoon/ in the afternoons",
+                "point": 7
+            },
+            {
+                "type": "future simple",
+                "text": "tomorrow evening",
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "AV1a",
+        "type": "Adverb",
+        "content": [
+            "always",
+            "usually",
+            "often"
+        ],
+        "point": 9,
+        "previousCards": [
+            "Noun",
+            "HelpingVerb"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "AV1b",
+        "type": "Adverb",
+        "content": [
+            {
+                "type": [
+                    "positive",
+                    "question"
+                ],
+                "text": "sometimes"
+            },
+            {
+                "type": "positive",
+                "text": "hardly ever"
+            },
+            {
+                "type": "positive",
+                "text": "seldom"
+            },
+            {
+                "type": "positive",
+                "text": "rarely"
+            }
+        ],
+        "point": 6,
+        "previousCards": [
+            "Noun",
+            "HelpingVerb"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "AV1c",
+        "type": "Adverb",
+        "content": [
+            {
+                "type": "positive",
+                "text": "never"
+            },
+            {
+                "type": [
+                    "question",
+                    "negative"
+                ],
+                "text": "ever"
+            }
+        ],
+        "point": 6,
+        "previousCards": [
+            "Noun",
+            "HelpingVerb"
+        ],
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "AV1d",
+        "type": "Adverb",
+        "content": [
+            "very",
+            "really"
+        ],
+        "point": 9,
+        "previousCards": [],
+        "nextCards": [
+            "Adj"
+        ]
+    },
+    {
+        "id": "V1a",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "crawl",
+                "point": 4
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "crawls",
+                "point": 6
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "crawled",
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "over",
+                    "to",
+                    "away from"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1b",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "dance",
+                "point": 5
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "dances",
+                "point": 3
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "danced",
+                "point": 4
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "for",
+                    "over",
+                    "to",
+                    "away from"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1c",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "exercise",
+                "point": 4
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "exercises",
+                "point": 6
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "exercised",
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1d",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "jump",
+                "point": 4
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "jumps",
+                "point": 5
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "jumped",
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "over",
+                    "to",
+                    "into",
+                    "away from"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1e",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "play",
+                "point": 3
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "plays",
+                "point": 4
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "played",
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1f",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "run",
+                "point": 3
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "runs",
+                "point": 5
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "ran",
+                "point": 4
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "(away) from",
+                    "into",
+                    "to",
+                    "over to"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1g",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "jog",
+                "point": 3
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "jogs",
+                "point": 5
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "jogged",
+                "point": 4
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "(away) from",
+                    "into",
+                    "to",
+                    "over to"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1h",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "sing",
+                "point": 6
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "sings",
+                "point": 4
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "jogged",
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "to",
+                    "for",
+                    "about",
+                    "of"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1i",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "skip/ skip rope",
+                "point": 5
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "skips",
+                "point": 4
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "skipped",
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "to",
+                    "for",
+                    "away from",
+                    "over to"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1f",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "present simple",
+                    "plural",
+                    "repeat"
+                ],
+                "text": "walk",
+                "point": 3
+            },
+            {
+                "condition": [
+                    "present simple",
+                    "singular"
+                ],
+                "text": "walks",
+                "point": 5
+            },
+            {
+                "condition": [
+                    "past simple"
+                ],
+                "text": "walked",
+                "point": 4
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "into",
+                    "away from",
+                    "to",
+                    "over to"
+                ]
+            }
+        ]
     }
 ]

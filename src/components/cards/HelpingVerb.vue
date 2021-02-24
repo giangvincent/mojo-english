@@ -4,23 +4,25 @@
   >
     <div class="my-4 mx-5 absolute right-0 top-0">4</div>
     <div class="my-1 flex flex-col">
-      <div class="my-1">
-        <span>will</span>
-      </div>
-
-      <div class="my-1">
-        <span>won't</span>
+      <div
+        class="my-1 flex flex-col"
+        v-for="(cardContent, index) in card.content"
+        :key="'content-' + index"
+      >
+        <div v-for="(text, index) in cardContent.texts" :key="'text-' + index">
+          {{ text.text }}
+        </div>
       </div>
     </div>
-    <div class="my-1 flex absolute bottom-0">
-      <div>B</div>
-      <div>queen/princess</div>
-    </div>
+    <div class="my-1 flex absolute bottom-0"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "helping-verb"
+  name: "helping-verb",
+  props: {
+    card: Object
+  }
 };
 </script>

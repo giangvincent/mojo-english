@@ -15,7 +15,7 @@ const i18n = new VueI18n({
 });
 
 Vue.config.productionTip = false;
-/* 
+
 function startGame() {
   FBInstant.startGameAsync().then(() => {
     const i18n = new VueI18n({
@@ -24,7 +24,7 @@ function startGame() {
           ? FBInstant.getLocale().split("_")[0]
           : "en",
       fallbackLocale: "en",
-      messages: lang,
+      messages: lang
     });
     let playerData = {};
     playerData.id = FBInstant.player.getID();
@@ -33,16 +33,16 @@ function startGame() {
     playerData.photo.crossOrigin = "anonymous";
     playerData.photo.src = FBInstant.player.getPhoto();
     store.commit("setPlayerData", playerData);
-    store.commit("SET_SCREEN")
+    store.commit("SET_SCREEN");
     // console.log(playerData)
 
     // Fetch Player's Friends
-    FBInstant.player.getConnectedPlayersAsync().then(function (players) {
+    FBInstant.player.getConnectedPlayersAsync().then(function(players) {
       console.log("getConnectedPlayersAsync ", players);
     });
 
     // Fetch Context Players
-    FBInstant.context.getPlayersAsync().then(function (players) {
+    FBInstant.context.getPlayersAsync().then(function(players) {
       console.log("getPlayersAsync", players);
     });
 
@@ -50,28 +50,21 @@ function startGame() {
       i18n,
       router,
       store,
-      render: (h) => h(App),
+      render: h => h(App)
     }).$mount("#app");
-    let utm_source = router.currentRoute.query.ref || "direct";
-    let url = router.currentRoute.path + "?utm_source=" + utm_source;
-    // ga('set', 'page', url)
-    // ga('send', 'pageview')
 
     router.afterEach((to, from) => {
-      // console.log(from)
-      let url = `${to.path}?utm_source=${to.query.ref || "direct"}`;
-      // console.log(url)
       // ga('set', 'page', url)
       // ga('send', 'pageview')
     });
   });
 
-  FBInstant.onPause(function () {
+  FBInstant.onPause(function() {
     console.log("Pause event was triggered!");
   });
 }
 const assets = ["@/assets/images/logo.png"];
-window.onload = function () {
+window.onload = function() {
   FBInstant.initializeAsync().then(() => {
     // for (let i in assets) {
     //   // When preloading assets, make sure to report the progress
@@ -80,32 +73,33 @@ window.onload = function () {
     FBInstant.setLoadingProgress(30 + Math.random() * 50);
     return startGame();
   });
-  (function(i, s, o, g, r, a, m) {
-    i["GoogleAnalyticsObject"] = r;
-    (i[r] =
-      i[r] ||
-      function() {
-        (i[r].q = i[r].q || []).push(arguments);
-      }),
-      (i[r].l = 1 * new Date());
-    (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m);
-  })(
-    window,
-    document,
-    "script",
-    "https://www.google-analytics.com/analytics.js",
-    "ga"
-  );
+  // (function(i, s, o, g, r, a, m) {
+  //   i["GoogleAnalyticsObject"] = r;
+  //   (i[r] =
+  //     i[r] ||
+  //     function() {
+  //       (i[r].q = i[r].q || []).push(arguments);
+  //     }),
+  //     (i[r].l = 1 * new Date());
+  //   (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  //   a.async = 1;
+  //   a.src = g;
+  //   m.parentNode.insertBefore(a, m);
+  // })(
+  //   window,
+  //   document,
+  //   "script",
+  //   "https://www.google-analytics.com/analytics.js",
+  //   "ga"
+  // );
 
-  ga('create', 'UA-127992318-1', 'auto')
-};*/
-store.commit("SET_SCREEN");
+  // ga('create', 'UA-127992318-1', 'auto')
+};
+/* store.commit("SET_SCREEN");
 new Vue({
   i18n,
   router,
   store,
   render: h => h(App)
 }).$mount("#app");
+ */
