@@ -4,14 +4,14 @@
   >
     <div class="my-4 mx-5 absolute right-0 top-0">4</div>
     <div class="my-1 flex flex-col">
-      <div class="my-1">
-        <span>always</span>
-      </div>
-      <div class="my-1">
-        <span>usually</span>
-      </div>
-      <div class="my-1">
-        <span>often</span>
+      <div
+        class="my-1 flex flex-col"
+        v-for="(cardContent, index) in card.content"
+        :key="'content-' + index"
+      >
+        <div>
+          {{ cardContent.text }}
+        </div>
       </div>
     </div>
     <div class="my-1 flex absolute bottom-0">
@@ -23,6 +23,9 @@
 
 <script>
 export default {
-  name: "verb-card"
+  name: "verb-card",
+  props: {
+    card: Object,
+  },
 };
 </script>
