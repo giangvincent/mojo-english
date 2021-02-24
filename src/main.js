@@ -5,17 +5,17 @@ import router from "./router";
 import store from "./store";
 import "@/assets/css/tailwind.css";
 import "@/assets/css/animate.css";
-import VueI18n from 'vue-i18n'
-import lang from './lang.js'
+import VueI18n from "vue-i18n";
+import lang from "./lang.js";
 
-Vue.use(VueI18n)
-// const i18n = new VueI18n({
-//   locale: 'vi',
-//   messages: lang,
-// })
+Vue.use(VueI18n);
+const i18n = new VueI18n({
+  locale: "vi",
+  messages: lang
+});
 
 Vue.config.productionTip = false;
-
+/* 
 function startGame() {
   FBInstant.startGameAsync().then(() => {
     const i18n = new VueI18n({
@@ -46,30 +46,6 @@ function startGame() {
       console.log("getPlayersAsync", players);
     });
 
-    /* FBInstant.getLeaderboardAsync("colorbut_lb." + FBInstant.context.getID())
-      .then(function (leaderboard) {
-        return leaderboard.getEntriesAsync(10, 0);
-      })
-      .then(function (entries) {
-        var ldb = [];
-        for (var i = 0; i < entries.length; i++) {
-          ldb.push({
-            rank: entries[i].getRank(),
-            name: entries[i].getPlayer().getName(),
-            photo: entries[i].getPlayer().getPhoto(),
-            score: entries[i].getScore(),
-          });
-        }
-        // console.log(ldb);
-        store.commit("setLeaderBoard", ldb);
-      })
-      .catch(function (error) {
-        console.log(
-          'Leaderboard "colorbut_lb" not found in app configuration',
-          error
-        );
-      }); */
-
     new Vue({
       i18n,
       router,
@@ -94,19 +70,17 @@ function startGame() {
     console.log("Pause event was triggered!");
   });
 }
-
 const assets = ["@/assets/images/logo.png"];
-
 window.onload = function () {
   FBInstant.initializeAsync().then(() => {
-    /* for (let i in assets) {
-      // When preloading assets, make sure to report the progress
-      FBInstant.setLoadingProgress((i / assets.length) * 100);
-    } */
+    // for (let i in assets) {
+    //   // When preloading assets, make sure to report the progress
+    //   FBInstant.setLoadingProgress((i / assets.length) * 100);
+    // }
     FBInstant.setLoadingProgress(30 + Math.random() * 50);
     return startGame();
   });
-  /* (function(i, s, o, g, r, a, m) {
+  (function(i, s, o, g, r, a, m) {
     i["GoogleAnalyticsObject"] = r;
     (i[r] =
       i[r] ||
@@ -124,14 +98,14 @@ window.onload = function () {
     "script",
     "https://www.google-analytics.com/analytics.js",
     "ga"
-  ); */
-  /* eslint-disable */
+  );
 
-  // ga('create', 'UA-127992318-1', 'auto')
-};
-/* new Vue({
+  ga('create', 'UA-127992318-1', 'auto')
+};*/
+store.commit("SET_SCREEN");
+new Vue({
   i18n,
   router,
   store,
-  render: (h) => h(App),
-}).$mount("#app"); */
+  render: h => h(App)
+}).$mount("#app");

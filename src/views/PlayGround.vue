@@ -39,22 +39,33 @@
     <div class="flex">
       <div
         class="w-16 h-24 border-2 border-dashed border-orange-800 m-2 relative rounded-lg flex items-center justify-center"
+        @click="discardCard()"
       >
-        <span class="text-white font-bold text-orange-800"
+        <span
+          class="text-orange-800 absolute w-full h-full z-10 flex items-center justify-center"
           ><svg
             class="w-8 h-8"
+            :class="{ 'text-white': cardDiscarded.length > 0 }"
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+            viewBox="0 0 20 20"
+            fill="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            /></svg
-        ></span>
+              fill-rule="evenodd"
+              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <div
+          class="w-full h-full z-0 bg-orange-400 absolute border-2 rounded-lg"
+          v-if="cardDiscarded.length > 0"
+        ></div>
+        <span
+          v-if="cardDiscarded.length > 0"
+          class="rounded-full bg-purple-900 text-white font-bold absolute bottom-0 left-0 w-6 h-6 -m-2"
+          >{{ cardDiscarded.length }}</span
+        >
       </div>
       <div class="w-16 h-24 m-2 relative">
         <div
@@ -101,8 +112,7 @@
             :key="'card-' + card.id"
             :class="{ '-translate-y-2': indexChange == index }"
             v-bind:style="{
-              transform:
-                translateX > 0 && index == desIndex ? desTranslate : '',
+              transform: translateX > 0 && index == desIndex ? desTranslate : ''
             }"
           >
             <span
@@ -132,8 +142,8 @@
             <span
               v-if="
                 stateForMoving &&
-                indexChange !== index &&
-                indexChange - 1 !== index
+                  indexChange !== index &&
+                  indexChange - 1 !== index
               "
               class="absolute right-0 h-full flex items-center -mr-2"
               @click="movingCard(index)"
@@ -195,7 +205,7 @@ function transformScroll(event) {
 export default {
   name: "playing-ground",
   components: {
-    CardContainer,
+    CardContainer
   },
   data() {
     return {
@@ -210,31 +220,31 @@ export default {
       cardHeight: 0,
       translateX: 0,
       sourceTranslate: "",
-      desTranslate: "",
+      desTranslate: ""
     };
   },
   computed: {
     ...mapState({
-      scr_height: (state) => state.scr_height,
-    }),
+      scr_height: state => state.scr_height
+    })
   },
   watch: {
-    indexChange: function (newVal, oldVal) {
+    indexChange: function(newVal, oldVal) {
       if (newVal >= 0) {
         this.stateForMoving = true;
       } else {
         this.stateForMoving = false;
       }
-    },
+    }
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
     this.cardWidth = (this.cardHeight - 32) / 1.612;
     let self = this;
     fetch("/contents/cardSet1.json")
-      .then((res) => res.json())
-      .then((cards) => {
-        let randomCards = cards.sort(() => Math.random() - 0.5);
+      .then(res => res.json())
+      .then(cards => {
+        let randomCards = shuffleArray(cards);
         self.cards = randomCards.slice(0, 7);
         self.allCards = randomCards.slice(8, randomCards.length - 1);
         console.log(self.cards, self.allCards);
@@ -268,29 +278,41 @@ export default {
       }
 
       let self = this;
-      setTimeout(function () {
+      setTimeout(function() {
         self.swapCard(self.indexChange, self.desIndex);
       }, 350);
     },
     swapCard(source, des) {
       let temp = {};
-      temp = this.cardsOrder[source];
+      temp = this.cards[source];
       let runLength = Math.abs(source - des);
       for (let i = 0; i < runLength; i++) {
         if (source < des) {
-          this.cardsOrder[source + i] = this.cardsOrder[source + i + 1];
+          this.cards[source + i] = this.cards[source + i + 1];
         } else {
-          this.cardsOrder[source - i] = this.cardsOrder[source - i - 1];
+          this.cards[source - i] = this.cards[source - i - 1];
         }
       }
-      this.cardsOrder[des] = temp;
+      this.cards[des] = temp;
 
       this.translateX = 0;
       this.indexChange = -1;
       this.desIndex = -1;
     },
-  },
+    discardCard() {
+      if (this.cardDiscarded.length < 3) {
+        this.cardDiscarded.push(this.cards[this.indexChange]);
+        this.cards[this.indexChange] = this.allCards[0];
+        this.allCards.splice(0, 1);
+        this.indexChange = -1;
+      }
+    }
+  }
 };
+
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 </script>
 
 <style>
