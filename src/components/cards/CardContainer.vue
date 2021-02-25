@@ -13,7 +13,7 @@ export default {
   name: "card-container",
   props: {
     card: Object,
-    cardHeight: Number,
+    cardHeight: Number
   },
   components: {
     Noun: () => import("@/components/cards/Noun.vue"),
@@ -27,16 +27,18 @@ export default {
     Prep: () => import("@/components/cards/Prep.vue"),
     Adj: () => import("@/components/cards/Adj.vue"),
     Adverb: () => import("@/components/cards/Adverb.vue"),
+
+    ExtraInformation: () => import("@/components/cards/ExtraInformation.vue")
   },
   data() {
     return {
-      cardWidth: 0,
+      cardWidth: 0
     };
   },
   created() {
     this.cardWidth = (this.cardHeight - 32) / 1.612;
   },
   mounted() {},
-  methods: {},
+  methods: {}
 };
 </script>

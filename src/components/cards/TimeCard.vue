@@ -3,16 +3,22 @@
     class="w-full h-full bg-orange-700 flex flex-wrap items-center justify-center"
   >
     <div class="px-2 py-4 flex flex-col text-white h-full">
-      <span class="h-1/3 flex items-center justify-center">tomorrow</span>
-      <span class="h-1/3 flex items-center justify-center">yesterday</span>
-      <span class="h-1/3 flex items-center justify-center">in the morning</span>
+      <span
+        class="flex items-center justify-center"
+        v-for="(cardContent, index) in card.content"
+        :key="'content-' + index"
+        >{{ cardContent.text || cardContent }}</span
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "location-card",
+  name: "time-card",
+  props: {
+    card: Object
+  },
   data() {
     return {
       id: "",
