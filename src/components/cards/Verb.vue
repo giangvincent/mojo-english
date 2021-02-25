@@ -2,7 +2,6 @@
   <div
     class="w-full h-full py-2 bg-green-700 flex flex-col content-between items-center justify-center text-white"
   >
-    <div class="my-4 mx-5 absolute right-0 top-0">4</div>
     <div class="my-1 flex flex-col">
       <div
         class="my-1 flex flex-col"
@@ -25,7 +24,7 @@
 export default {
   name: "verb-card",
   props: {
-    card: Object,
-  },
+    card: Object
+  }
 };
 </script>

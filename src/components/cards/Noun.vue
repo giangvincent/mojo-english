@@ -1,36 +1,57 @@
 <template>
-  <div class="w-full h-full bg-gray-900 flex flex-wrap content-between">
+  <div
+    class="w-full h-full bg-gray-900 flex flex-wrap content-between relative"
+  >
     <div
-      class="w-full m-2 p-1 bg-white rounded-lg border-1 border-gray-700 relative text-xs xs:text-sm sm:text-md"
+      class="w-full m-2 p-1 bg-white rounded-lg border-1 border-gray-700 relative text-sxs md:text-sm"
     >
       {{ card.singular.text }}
+      <span class="absolute right-0 mr-1">{{ card.singular.point }}</span>
     </div>
     <div class="flex w-full my-3">
       <div class="w-4 h-full">
-        <div class="bg-green-500 h-1/3"></div>
-        <div class="bg-red-500 h-1/3"></div>
-        <div class="bg-pink-500 h-1/3"></div>
+        <div
+          class="h-1/3"
+          :class="cardColors[card]"
+          v-for="(card, index) in card.previousCards"
+          :key="'previousCards-' + index"
+        ></div>
       </div>
       <!-- previous card colors -->
       <div
-        class="w-full -mx-1 p-1 bg-white rounded-lg border-1 border-gray-700 relative"
+        class="w-full -mx-1 bg-white rounded-lg border-1 border-gray-700 relative"
       >
-        <div class="text-xs xs:text-sm sm:text-md">
+        <div class="relative text-sxs md:text-sm">
           {{ card.plural.text }}
+          <span class="absolute right-0 mr-1">{{ card.plural.point }}</span>
         </div>
         <!-- plural -->
 
-        <div class="border-t-1 border-gray-700 text-xs xs:text-sm">
-          {{ card.bonusPoint.word.join("/") }}
-          <span>+{{ card.bonusPoint.point }}</span>
+        <div class="border-t-1 border-gray-700 text-sxs md:text-sm flex">
+          <div
+            class="w-1/4 border-r-1 border-gray-800 flex items-center justify-center"
+          >
+            {{ card.id }}
+          </div>
+          <div
+            class="w-3/4 flex flex-col items-center justify-center relative py-1"
+          >
+            {{ card.bonusPoint.word.join("/") }}
+            <span class="absolute right-0 mr-1"
+              >+{{ card.bonusPoint.point }}</span
+            >
+          </div>
         </div>
         <!-- bonus point -->
       </div>
 
       <div class="w-4 h-full">
-        <div class="bg-blue-500 h-1/3"></div>
-        <div class="bg-purple-500 h-1/3"></div>
-        <div class="bg-yellow-500 h-1/3"></div>
+        <div
+          class="h-1/3"
+          :class="cardColors[card]"
+          v-for="(card, index) in card.nextCards"
+          :key="'nextCards-' + index"
+        ></div>
       </div>
       <!-- next card colors -->
     </div>
@@ -38,29 +59,19 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "noun",
   props: {
-    card: Object,
+    card: Object
   },
   data() {
-    return {
-      id: "",
-      image: "",
-      singular: {
-        text: ["the zombie", "the king", "the knight"],
-        point: 0,
-      },
-      plural: {
-        text: ["(the) zombies", "(the) kings", "(the) knights"],
-        point: 0,
-      },
-      finalPoint: 0,
-      type: "",
-      previousCards: [],
-      nextCards: [],
-      bonusPoint: [],
-    };
+    return {};
   },
+  computed: {
+    ...mapState({
+      cardColors: state => state.playing.cardColors
+    })
+  }
 };
 </script>
