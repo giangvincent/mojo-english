@@ -5,7 +5,7 @@
       v-if="typeof card.image === 'string'"
     >
       <div
-        class="absolute top-0 right-0 m-1 p-2 bg-white border-1 border-gray-800 w-6 h-6 rounded-md flex items-center justify-center "
+        class="absolute top-0 right-0 m-1 p-2 bg-white border-1 border-gray-800 w-6 h-6 rounded-md flex items-center justify-center"
       >
         {{ card.point }}
       </div>
@@ -21,7 +21,7 @@
         </div>
         <!-- previous card colors -->
         <div
-          class="w-full -mx-1 bg-white rounded-lg border-1 border-gray-700 relative"
+          class="w-full -ml-1 bg-white rounded-lg border-1 border-gray-700 relative"
         >
           <div class="p-1 text-sxs md:text-xs flex flex-col">
             <span
@@ -34,27 +34,24 @@
 
           <div class="flex border-t-1 border-gray-800 text-sxs ms:text-xs">
             <div
-              class="w-1/5 h-6 border-r-1 border-gray-800 flex items-center justify-center"
+              class="w-1/5 border-r-1 border-gray-800 flex items-center justify-center"
             >
               {{ card.id }}
             </div>
-            <div class="w-4/5 h-6 flex items-center relative pl-1 pr-2 py-1">
-              <span
+            <div class="w-4/5 flex flex-col relative pr-2 py-1">
+              <div
                 v-for="(bonusContent, index) in card.bonusPoint"
                 :key="'bonusPoint-' + index"
               >
                 {{ bonusContent.word.join("/") }}
-              </span>
-              <span class="absolute right-0 mr-1"
+              </div>
+              <span class="absolute right-0 mr-0.5 h-full flex items-center"
                 >+{{ card.bonusPoint[0].point }}</span
               >
             </div>
           </div>
           <!-- bonus point -->
         </div>
-
-        <div class="w-3 h-full"></div>
-        <!-- next card colors -->
       </div>
     </div>
     <div
@@ -62,7 +59,7 @@
       v-if="typeof card.image === 'object'"
     >
       <div
-        class="absolute top-0 right-0 m-1 p-2 bg-white border-1 border-gray-800 w-6 h-6 rounded-md flex flex-col items-center justify-center "
+        class="absolute top-0 right-0 m-1 p-2 bg-white border-1 border-gray-800 w-6 h-6 rounded-md flex flex-col items-center justify-center"
       >
         {{ card.point }}
       </div>
@@ -88,7 +85,7 @@
               ></div>
             </div>
             <div
-              class="w-full bg-white rounded-lg border-1 border-gray-700 relative -ml-1 text-sxs md:text-xs flex "
+              class="w-full bg-white rounded-lg border-1 border-gray-700 relative -ml-1 text-sxs md:text-xs flex"
             >
               <div
                 class="w-1/5 h-6 border-r-1 border-gray-800 flex items-center justify-center"
@@ -111,7 +108,7 @@ import { mapState } from "vuex";
 export default {
   name: "location-card",
   props: {
-    card: Object
+    card: Object,
   },
   data() {
     return {
@@ -120,13 +117,13 @@ export default {
       text: "",
       point: 0,
       previousCards: [],
-      bonusPoints: []
+      bonusPoints: [],
     };
   },
   computed: {
     ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
-  }
+      cardColors: (state) => state.playing.cardColors,
+    }),
+  },
 };
 </script>

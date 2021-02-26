@@ -26,8 +26,7 @@
       <!-- <div>B</div> -->
     </div>
     <div
-      class="flex absolute bottom-0 w-full md:m-2 border-1 border-gray-800 rounded-lg  text-center text-black bg-white
-      "
+      class="flex absolute bottom-0 w-full md:m-2 border-1 border-gray-800 rounded-lg text-center text-black bg-white"
     >
       <div
         class="w-1/5 text-sxs border-r-1 border-gray-800 flex items-center justify-center"
@@ -37,8 +36,8 @@
       <div
         class="relative w-3/5 pl-1 pr-2 py-0.5 text-sxs border-r-1 border-gray-800 flex items-center"
       >
-        {{ card.bonusPoint[0].content.join(" / ") }}
-        <span class="absolute right-0 mr-1"
+        {{ card.bonusPoint[0].content.join(" /") }}
+        <span class="absolute right-0 mr-0.5"
           >+{{ card.bonusPoint[0].point }}</span
         >
       </div>
@@ -66,7 +65,7 @@
 export default {
   name: "adjective-card",
   props: {
-    card: Object
+    card: Object,
   },
   data() {
     return {
@@ -74,8 +73,8 @@ export default {
       texts: [],
       point: 0,
       useFor: [],
-      extraPoint: []
+      extraPoint: [],
     };
-  }
+  },
 };
 </script>
