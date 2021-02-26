@@ -33,10 +33,8 @@
           >
             {{ card.id }}
           </div>
-          <div
-            class="w-3/4 flex flex-col items-center justify-center relative py-1"
-          >
-            {{ card.bonusPoint.word.join("/") }}
+          <div class="relative w-3/4 flex items-center pl-1 pr-2 py-1">
+            {{ card.bonusPoint.word.join(" / ") }}
             <span class="absolute right-0 mr-1"
               >+{{ card.bonusPoint.point }}</span
             >

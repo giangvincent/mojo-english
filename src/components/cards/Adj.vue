@@ -30,17 +30,19 @@
       "
     >
       <div
-        class="w-1/5 h-6 text-sxs border-r-1 border-gray-800 flex items-center justify-center"
+        class="w-1/5 text-sxs border-r-1 border-gray-800 flex items-center justify-center"
       >
         {{ card.id }}
       </div>
       <div
-        class="w-3/5 h-6 text-sxs border-r-1 border-gray-800 flex items-center justify-center"
+        class="relative w-3/5 pl-1 pr-2 py-0.5 text-sxs border-r-1 border-gray-800 flex items-center"
       >
-        {{ card.bonusPoint[0].content.join("/") }}
-        +{{ card.bonusPoint[0].point }}
+        {{ card.bonusPoint[0].content.join(" / ") }}
+        <span class="absolute right-0 mr-1"
+          >+{{ card.bonusPoint[0].point }}</span
+        >
       </div>
-      <div class="w-1/5 h-6 flex justify-center">
+      <div class="w-1/5 flex justify-center">
         <svg
           class="w-5"
           xmlns="http://www.w3.org/2000/svg"

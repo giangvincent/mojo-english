@@ -38,9 +38,7 @@
             >
               {{ card.id }}
             </div>
-            <div
-              class="w-4/5 h-6 flex flex-col items-center justify-center relative py-1"
-            >
+            <div class="w-4/5 h-6 flex items-center relative pl-1 pr-2 py-1">
               <span
                 v-for="(bonusContent, index) in card.bonusPoint"
                 :key="'bonusPoint-' + index"

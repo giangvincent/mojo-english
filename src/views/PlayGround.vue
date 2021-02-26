@@ -92,6 +92,12 @@
     >
       <div class="absolute top-0 right-0 h-8 flex -mt-8 mr-2 items-center">
         <div
+          class="bg-red-900 border-t-1 rounded-t-lg px-2 py-1 text-white"
+          @click="resetGame()"
+        >
+          Finish
+        </div>
+        <div
           class="bg-green-500 border-t-1 border-green-100 rounded-t-lg px-2 py-1"
         >
           Playing table
@@ -209,6 +215,7 @@ export default {
   },
   data() {
     return {
+      originalCards: [],
       drag: false,
       indexChange: -1,
       stateForMoving: false,
@@ -245,11 +252,8 @@ export default {
     fetch("contents/cardSet1.json")
       .then(res => res.json())
       .then(cards => {
-        shuffleArray(cards);
-        self.cards = cards.slice(0, 7);
-
-        self.allCards = cards.slice(29, cards.length - 1);
-        console.log(self.cards, self.allCards);
+        self.originalCards = cards;
+        self.distributeCards(cards);
       });
   },
   mounted() {
@@ -257,6 +261,17 @@ export default {
     element.addEventListener("wheel", transformScroll);
   },
   methods: {
+    resetGame() {
+      this.translateX = 0;
+      this.indexChange = -1;
+      this.desIndex = -1;
+      this.distributeCards(this.originalCards);
+    },
+    distributeCards(cards) {
+      shuffleArray(cards);
+      this.cards = cards.slice(0, 7);
+      this.allCards = cards.slice(29, cards.length - 1);
+    },
     readyToChange(index) {
       if (index == this.indexChange) {
         this.indexChange = -1;

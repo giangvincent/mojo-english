@@ -966,19 +966,19 @@
                     "positive",
                     "question"
                 ],
-                "text": "sometimes"
+                "text": [
+                    "sometimes"
+                ]
             },
             {
-                "type": "positive",
-                "text": "hardly ever"
-            },
-            {
-                "type": "positive",
-                "text": "seldom"
-            },
-            {
-                "type": "positive",
-                "text": "rarely"
+                "type": [
+                    "positive"
+                ],
+                "text": [
+                    "hardly ever",
+                    "seldom",
+                    "rarely"
+                ]
             }
         ],
         "point": 6,
@@ -995,15 +995,21 @@
         "type": "Adverb",
         "content": [
             {
-                "type": "positive",
-                "text": "never"
+                "type": [
+                    "positive"
+                ],
+                "text": [
+                    "never"
+                ]
             },
             {
                 "type": [
                     "question",
                     "negative"
                 ],
-                "text": "ever"
+                "text": [
+                    "ever"
+                ]
             }
         ],
         "point": 6,
