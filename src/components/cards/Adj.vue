@@ -14,7 +14,7 @@
           >{{ synonym }}</span
         >
       </div>
-      <div class="text-xs flex flex-col border-1 border-white rounded-md">
+      <div class="text-xs flex flex-col border-1 border-white rounded-md p-0.5">
         <span
           v-for="(antonym, index) in card.content.additional.antonym"
           :key="'antonym-' + index"

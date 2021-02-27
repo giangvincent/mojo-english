@@ -953,6 +953,7 @@
             "Noun",
             "HelpingVerb"
         ],
+        "tense": "simple",
         "nextCards": [
             "Verb"
         ]
@@ -986,6 +987,7 @@
             "Noun",
             "HelpingVerb"
         ],
+        "tense": "simple",
         "nextCards": [
             "Verb"
         ]
@@ -1017,6 +1019,7 @@
             "Noun",
             "HelpingVerb"
         ],
+        "tense": "simple",
         "nextCards": [
             "Verb"
         ]
@@ -1030,6 +1033,7 @@
         ],
         "point": 9,
         "previousCards": [],
+        "tense": "",
         "nextCards": [
             "Adj"
         ]
@@ -1040,27 +1044,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "crawl",
-                "point": 4
+                "point": 4,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "crawls",
-                "point": 6
+                "point": 6,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "crawled",
-                "point": 3
+                "point": 3,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1091,27 +1097,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "dance",
-                "point": 5
+                "point": 5,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "dances",
-                "point": 3
+                "point": 3,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "danced",
-                "point": 4
+                "point": 4,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1143,27 +1151,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "exercise",
-                "point": 4
+                "point": 4,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "exercises",
-                "point": 6
+                "point": 6,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "exercised",
-                "point": 5
+                "point": 5,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1191,27 +1201,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "jump",
-                "point": 4
+                "point": 4,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "jumps",
-                "point": 5
+                "point": 5,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "jumped",
-                "point": 3
+                "point": 3,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1243,27 +1255,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "play",
-                "point": 3
+                "point": 3,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "plays",
-                "point": 4
+                "point": 4,
+                "tense": "past simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "played",
-                "point": 5
+                "point": 5,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1291,27 +1305,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "run",
-                "point": 3
+                "point": 3,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "runs",
-                "point": 5
+                "point": 5,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "ran",
-                "point": 4
+                "point": 4,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1343,27 +1359,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "jog",
-                "point": 3
+                "point": 3,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "jogs",
-                "point": 5
+                "point": 5,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "jogged",
-                "point": 4
+                "point": 4,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1395,27 +1413,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "sing",
-                "point": 6
+                "point": 6,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "sings",
-                "point": 4
+                "point": 4,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "jogged",
-                "point": 3
+                "point": 3,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1447,27 +1467,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "skip/ skip rope",
-                "point": 5
+                "point": 5,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "skips",
-                "point": 4
+                "point": 4,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "skipped",
-                "point": 3
+                "point": 3,
+                "tense": "past simple"
             }
         ],
         "previousCards": [
@@ -1499,27 +1521,29 @@
         "content": [
             {
                 "condition": [
-                    "present simple",
                     "plural",
                     "repeat"
                 ],
                 "text": "walk",
-                "point": 3
+                "point": 3,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "present simple",
                     "singular"
                 ],
                 "text": "walks",
-                "point": 5
+                "point": 5,
+                "tense": "present simple"
             },
             {
                 "condition": [
-                    "past simple"
+                    "singular",
+                    "plural"
                 ],
                 "text": "walked",
-                "point": 4
+                "point": 4,
+                "tense": "past simple"
             }
         ],
         "previousCards": [

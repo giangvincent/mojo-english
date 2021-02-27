@@ -1,5 +1,5 @@
 <template>
-  <div class="mr-1">
+  <div class="mr-1 border-1 border-black">
     <svg
       v-if="type == 'positive'"
       :class="classStack"
@@ -46,12 +46,12 @@
 export default {
   name: "Mean-of-the-sentence",
   props: {
-    type: String
+    type: String,
   },
   data() {
     return {
-      classStack: "w-5 h-5 p-0.5 bg-blue-700 text-white"
+      classStack: "w-5 h-5 p-0.5 bg-blue-700 text-white",
     };
-  }
+  },
 };
 </script>

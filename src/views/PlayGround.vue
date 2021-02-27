@@ -124,7 +124,7 @@
           >
             <span
               v-if="stateForMoving && index === 0 && indexChange !== 0"
-              class="absolute left-0 h-full flex items-center -ml-2"
+              class="absolute left-0 h-full flex items-center -ml-2 z-10"
               @click="movingCard(-1)"
             >
               <svg
