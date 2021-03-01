@@ -76,7 +76,7 @@
     <div
       class="my-0.5 w-full flex justify-between items-center absolute bottom-0 left-0 z-10"
     >
-      <div class="flex relative">
+      <div class="flex relative z-10">
         <span
           class="w-5 h-4 -mt-4 absolute bg-white text-black flex items-center justify-center border-t-1 border-r-1 border-black rounded-tr-md"
           v-if="card.previousCards[0]"
@@ -94,25 +94,58 @@
               d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             /></svg
         ></span>
-        <span
-          class="w-3"
-          v-if="card.previousCards[1]"
-          :class="cardColors[card.previousCards[1]]"
-        ></span>
+        <div class="w-3 flex flex-col">
+          <span
+            class="w-full h-1/2"
+            :class="cardColors[card.previousCards[1]]"
+          ></span>
+          <span
+            style="font-size: xx-small"
+            class="w-full h-1/2"
+            :class="cardColors[card.previousCards[2]]"
+            >F</span
+          >
+        </div>
         <span
           class="-ml-1 p-0.5 bg-gray-200 rounded-md border-1 border-black text-black text-sxs md:text-xs"
           >{{ card.id }}</span
         >
       </div>
+
       <div
-        class="h-3 w-3 border-1 border-black"
-        v-if="card.tense == 'simple'"
-      ></div>
-      <div
-        class="w-5 h-5 -mr-0.5 border-1 border-black"
-        v-if="card.nextCards[0]"
-        :class="cardColors[card.nextCards[0]]"
-      ></div>
+        class="w-full h-4 -mx-2 border-1 border-black text-sxs px-2 relative"
+        :class="cardColors['Prep']"
+      >
+        <span class="w-full overflow-hidden">{{
+          card.condition[0].content.join("/")
+        }}</span>
+        <div class="absolute flex right-0 top-0 h-3 -mt-4 text-black mr-2">
+          <span
+            class="h-full px-1"
+            :class="cardColors['Adverb']"
+            v-if="card.nextCards[0] === 'Prep'"
+            >away</span
+          >{{ card.nextCards[0] === "Prep" ? " /" : "" }}
+          <span
+            ><svg
+              class="h-3 w-3"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+              /></svg
+          ></span>
+          /
+          <span
+            class="h-3 w-3 border-1 border-black text-sxs"
+            :class="cardColors['TimeCard']"
+            >T</span
+          >
+          /
+        </div>
+      </div>
     </div>
   </div>
 </template>

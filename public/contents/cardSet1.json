@@ -1444,7 +1444,6 @@
             "Adverb"
         ],
         "nextCards": [
-            "Prep",
             "Location",
             "TimeCard"
         ],
@@ -1554,7 +1553,8 @@
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Animal"
         ],
         "condition": [
             {
