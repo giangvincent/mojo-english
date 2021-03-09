@@ -1,10 +1,11 @@
 <template>
   <div
-    class="w-full h-full py-2 bg-red-700 flex flex-wrap content-between items-center justify-center text-white"
+    class="w-full h-full py-2 bg-red-700 flex flex-wrap content-between items-center justify-center text-white relative"
   >
+    <div class="absolute right-0 top-0 m-1">{{ card.point }}</div>
     <div class="w-full flex flex-col justify-center h-1/2">
-      <div class="text-md">with</div>
-      <div class="flex text-xs">
+      <div class="text-xs">with</div>
+      <div class="flex text-sxs">
         <div class="w-1/2 flex flex-col">
           <span>to</span>
           <span>from</span>
@@ -20,7 +21,7 @@
       </div>
     </div>
     <span class="my-1 border-t-1 border-white w-1/2"></span>
-    <div class="flex flex-col justify-center h-1/2 w-full text-sm">
+    <div class="flex flex-col justify-center h-1/2 w-full text-xs">
       <div class="h-1/4">away from</div>
       <div class="h-1/4">over to</div>
       <div class="h-1/4 flex">
@@ -81,12 +82,12 @@ import { mapState } from "vuex";
 export default {
   name: "prep-card",
   props: {
-    card: Object,
+    card: Object
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
-  },
+      cardColors: state => state.playing.cardColors
+    })
+  }
 };
 </script>

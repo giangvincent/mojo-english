@@ -118,8 +118,7 @@
             :key="'card-' + card.id"
             :class="{ '-translate-y-2': indexChange == index }"
             v-bind:style="{
-              transform:
-                translateX > 0 && index == desIndex ? desTranslate : '',
+              transform: translateX > 0 && index == desIndex ? desTranslate : ''
             }"
           >
             <span
@@ -149,8 +148,8 @@
             <span
               v-if="
                 stateForMoving &&
-                indexChange !== index &&
-                indexChange - 1 !== index
+                  indexChange !== index &&
+                  indexChange - 1 !== index
               "
               class="absolute right-0 h-full flex items-center -mr-2"
               @click="movingCard(index)"
@@ -212,13 +211,13 @@ function transformScroll(event) {
 export default {
   name: "playing-ground",
   components: {
-    CardContainer,
+    CardContainer
   },
   data() {
     return {
+      indexChange: -1,
       originalCards: [],
       drag: false,
-      indexChange: -1,
       stateForMoving: false,
       desIndex: -1,
       allCards: [],
@@ -229,30 +228,30 @@ export default {
       cardHeight: 0,
       translateX: 0,
       sourceTranslate: "",
-      desTranslate: "",
+      desTranslate: ""
     };
   },
   computed: {
     ...mapState({
-      scr_height: (state) => state.scr_height,
-    }),
+      scr_height: state => state.scr_height
+    })
   },
   watch: {
-    indexChange: function (newVal, oldVal) {
+    indexChange: function(newVal, oldVal) {
       if (newVal >= 0) {
         this.stateForMoving = true;
       } else {
         this.stateForMoving = false;
       }
-    },
+    }
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
     this.cardWidth = (this.cardHeight - 32) / 1.612;
     let self = this;
     fetch("contents/cardSet1.json")
-      .then((res) => res.json())
-      .then((cards) => {
+      .then(res => res.json())
+      .then(cards => {
         self.originalCards = cards;
         self.distributeCards(cards);
       });
@@ -297,7 +296,7 @@ export default {
       }
 
       let self = this;
-      setTimeout(function () {
+      setTimeout(function() {
         self.swapCard(self.indexChange, self.desIndex);
       }, 350);
     },
@@ -319,7 +318,7 @@ export default {
       this.desIndex = -1;
     },
     discardCard() {
-      if (this.cardDiscarded.length < 3) {
+      if (this.cardDiscarded.length < 3 && this.indexChange >= 0) {
         this.cardDiscarded.push(this.cards[this.indexChange]);
         shuffleArray(this.allCards);
         // this.allCards = shuffleArray(this.allCards);
@@ -327,8 +326,8 @@ export default {
         this.allCards.splice(0, 1);
         this.indexChange = -1;
       }
-    },
-  },
+    }
+  }
 };
 // Fisher–Yates Shuffle Faster version
 function shuffleArray(a, b, c, d) {

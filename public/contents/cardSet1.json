@@ -713,7 +713,7 @@
                 "texts": [
                     {
                         "type": "positive",
-                        "text": "is going to"
+                        "text": "is (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
                     }
                 ],
                 "point": 5
@@ -723,7 +723,7 @@
                 "texts": [
                     {
                         "type": "positive",
-                        "text": "are going to"
+                        "text": "are (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
                     }
                 ],
                 "point": 3
@@ -733,6 +733,7 @@
             "Noun"
         ],
         "nextCards": [
+            "Adverb",
             "Verb"
         ]
     },
@@ -746,7 +747,7 @@
                 "texts": [
                     {
                         "type": "negative",
-                        "text": "isn't going to"
+                        "text": "isn't (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
                     }
                 ],
                 "point": 4
@@ -756,7 +757,7 @@
                 "texts": [
                     {
                         "type": "negative",
-                        "text": "aren't going to"
+                        "text": "aren't (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span> going to</span>"
                     }
                 ],
                 "point": 6
@@ -766,6 +767,7 @@
             "Noun"
         ],
         "nextCards": [
+            "Adverb",
             "Verb"
         ]
     },
