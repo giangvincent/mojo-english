@@ -2,6 +2,7 @@
   <div
     class="relative w-full h-full py-2 bg-pink-700 flex flex-col content-between items-center justify-center text-white"
   >
+    <div class="m-2 absolute left-0 top-0">{{ card.symbol }}</div>
     <div class="m-2 absolute right-0 top-0">{{ card.point }}</div>
     <div class="my-1 flex flex-col" v-if="card.content[0].text">
       <div
@@ -99,16 +100,16 @@ import { mapState } from "vuex";
 export default {
   name: "adverb",
   props: {
-    card: Object,
+    card: Object
   },
   components: {
-    MeaningType,
+    MeaningType
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
-  },
+      cardColors: state => state.playing.cardColors
+    })
+  }
 };
 
 Meaning;

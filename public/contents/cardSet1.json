@@ -881,6 +881,7 @@
             }
         ],
         "previousCards": [
+            "Adverb",
             "Verb"
         ]
     },
@@ -910,6 +911,7 @@
             }
         ],
         "previousCards": [
+            "Adverb",
             "Verb"
         ]
     },
@@ -939,12 +941,14 @@
             }
         ],
         "previousCards": [
+            "Adverb",
             "Verb"
         ]
     },
     {
         "id": "AV1a",
         "type": "Adverb",
+        "symbol": "F",
         "content": [
             "always",
             "usually",
@@ -963,6 +967,7 @@
     {
         "id": "AV1b",
         "type": "Adverb",
+        "symbol": "F",
         "content": [
             {
                 "type": [
@@ -997,6 +1002,7 @@
     {
         "id": "AV1c",
         "type": "Adverb",
+        "symbol": "F",
         "content": [
             {
                 "type": [
@@ -1029,6 +1035,7 @@
     {
         "id": "AV1d",
         "type": "Adverb",
+        "symbol": "D",
         "content": [
             "very",
             "really"

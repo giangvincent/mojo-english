@@ -14,7 +14,9 @@ export default {
       Prep: " bg-red-700",
       TimeCard: "bg-orange-700",
       Verb: "bg-green-700"
-    }
+    },
+    tense: ["present", "past", "future"],
+    typeSentence: ["positive", "negative", "question"]
   },
   mutations: mutations,
   actions: actions
