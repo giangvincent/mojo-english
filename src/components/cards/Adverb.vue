@@ -6,7 +6,7 @@
     <div class="m-2 absolute right-0 top-0">{{ card.point }}</div>
     <div class="my-1 flex flex-col" v-if="card.content[0].text">
       <div
-        class="my-1 pb-1 border-b-2 border-black flex flex-col justify-center"
+        class="my-1 pb-1 border-b-1 border-black flex flex-col justify-center"
       >
         <span
           v-for="(content, index) in card.content[0].text"

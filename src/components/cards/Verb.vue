@@ -75,8 +75,8 @@
         <div class="px-1">{{ cardContent.point }}</div>
       </div>
 
-      <hr v-if="index == 0" class="w-3/5 border-1 border-black" />
-      <hr v-if="index == 1" class="w-2/3 border-1 border-black" />
+      <hr v-if="index == 0" class="w-3/5 border-black" />
+      <hr v-if="index == 1" class="w-2/3 border-black" />
     </div>
 
     <div

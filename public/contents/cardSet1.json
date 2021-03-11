@@ -858,26 +858,32 @@
     {
         "id": "T1a",
         "type": "TimeCard",
+        "symbol": "T",
         "content": [
             {
-                "type": "past simple",
                 "text": "yesterday",
-                "point": 7
+                "point": {
+                    "past simple tense": 7
+                }
             },
             {
-                "type": "present simple",
                 "text": "during the day",
-                "point": 4
+                "point": {
+                    "simple tense": 4
+                }
             },
             {
-                "type": "present simple",
                 "text": "every day",
-                "point": 5
+                "point": {
+                    "present simple tense": 5,
+                    "simple tense": 2
+                }
             },
             {
-                "type": "future simple",
                 "text": "tomorrow",
-                "point": 3
+                "point": {
+                    "future simple tense": 3
+                }
             }
         ],
         "previousCards": [
@@ -888,26 +894,32 @@
     {
         "id": "T1b",
         "type": "TimeCard",
+        "symbol": "T",
         "content": [
             {
-                "type": "past simple",
                 "text": "last night",
-                "point": 5
+                "point": {
+                    "past simple tense": 5
+                }
             },
             {
-                "type": "present simple",
                 "text": "at night",
-                "point": 4
+                "point": {
+                    "simple tense": 4
+                }
             },
             {
-                "type": "present simple",
                 "text": "every night",
-                "point": 3
+                "point": {
+                    "present simple tense": 3,
+                    "simple tense": 2
+                }
             },
             {
-                "type": "future simple",
                 "text": "tomorrow night",
-                "point": 7
+                "point": {
+                    "future simple tense": 7
+                }
             }
         ],
         "previousCards": [
@@ -918,26 +930,34 @@
     {
         "id": "T1c",
         "type": "TimeCard",
+        "symbol": "T",
         "content": [
             {
-                "type": "past simple",
                 "text": "yesterday morning",
-                "point": 3
+                "point": {
+                    "past simple tense": 3
+                }
             },
             {
-                "type": "present simple",
+                "type": "simple tense",
                 "text": "in the afternoon",
-                "point": 4
+                "point": {
+                    "simple tense": 4
+                }
             },
             {
-                "type": "present simple",
+                "type": "simple tense",
                 "text": "every afternoon/ in the afternoons",
-                "point": 7
+                "point": {
+                    "present simple tense": 7,
+                    "simple tense": 2
+                }
             },
             {
-                "type": "future simple",
                 "text": "tomorrow evening",
-                "point": 5
+                "point": {
+                    "future simple tense": 5
+                }
             }
         ],
         "previousCards": [

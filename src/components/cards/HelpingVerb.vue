@@ -56,7 +56,7 @@
 
           <hr
             v-if="textIndex == 0 && card.content.length === 1"
-            class="w-2/3 border-1 border-black"
+            class="w-2/3 border-t-1 border-black"
           />
         </div>
         <div
@@ -97,7 +97,7 @@
         ></div>
         <div
           v-if="card.typeWord.indexOf('future') >= 0"
-          class="bg-gray-500 flex items-center justify-center w-3 h-3 border-1 border-black mx-auto"
+          class="bg-gray-500 flex items-center justify-center w-3 h-3 border-1 border-black mx-auto pb-2"
         >
           .
         </div>
