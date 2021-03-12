@@ -71,8 +71,8 @@
       </div>
     </div>
     <div class="my-1 flex absolute bottom-0 w-full text-black">
-      <div class="w-4 bg-white -mt-0.5">
-        <div class="h-full p-0.5">
+      <div class="w-4 bg-white -mt-0.5 rounded-tr-sm">
+        <div class="h-full p-0.5 ">
           <svg
             class="w-3 h-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +121,7 @@
         <!-- bonus point -->
       </div>
 
-      <div class="w-4 bg-green-800 -mt-0.5">
+      <div class="w-4 bg-green-800 -mt-0.5 rounded-tl-sm">
         <div class="h-full text-sxs">A</div>
       </div>
       <!-- next card colors -->
