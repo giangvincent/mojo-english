@@ -1544,7 +1544,7 @@
         ]
     },
     {
-        "id": "V1f",
+        "id": "V1j",
         "type": "Verb",
         "content": [
             {
@@ -1649,7 +1649,6 @@
         ],
         "content": [
             {
-                "type": "common",
                 "text": "with short, curly hair"
             },
             {
@@ -1689,7 +1688,6 @@
                 "text": "wearing a silk dress"
             },
             {
-                "type": "common",
                 "text": "wearing faded jeans"
             }
         ],
@@ -1727,7 +1725,6 @@
                 "text": "with a big belly"
             },
             {
-                "type": "common",
                 "text": "with large ears"
             }
         ],
@@ -1764,7 +1761,6 @@
                 "text": "with only one tooth"
             },
             {
-                "type": "common",
                 "text": "with no teeth"
             }
         ],
@@ -1796,8 +1792,12 @@
             }
         ],
         "content": [
-            "where it snows a lot",
-            "where it is very windy"
+            {
+                "text": "where it snows a lot"
+            },
+            {
+                "text": "where it is very windy"
+            }
         ],
         "point": 5,
         "previousCards": [
@@ -1806,6 +1806,9 @@
         "bonusPoint": [
             {
                 "type": "Location",
+                "content": [
+                    "<svg class='w-3 h-3' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z'/></svg> (C)"
+                ],
                 "categories": [
                     "C"
                 ],
