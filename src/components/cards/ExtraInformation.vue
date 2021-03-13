@@ -6,7 +6,7 @@
     <div
       class="px-1 pt-2 pb-6 flex flex-col w-full h-full text-xs items-center"
     >
-      <div class="w-full h-1/2 flex flex-col items-center justify-center">
+      <div class="w-full h-1/2 flex flex-col items-center justify-end pb-1">
         <span>{{ card.content[0].text }}</span>
         <span v-if="card.content[0].type && card.content[0].type == 'singular'">
           <svg
@@ -26,7 +26,7 @@
         </span>
       </div>
       <hr class="w-2/3 border-b-1 border-black" />
-      <div class="w-full h-1/2 flex flex-col items-center justify-center">
+      <div class="w-full h-1/2 flex flex-col items-center pt-1">
         <span v-if="card.content[1].type && card.content[1].type == 'singular'">
           <svg
             class="w-3 h-3 text-black"
@@ -64,10 +64,10 @@
     </div>
 
     <div class="my-1 flex absolute bottom-0 w-full text-black">
-      <div class="w-5 -mt-0.5 ">
+      <div class="w-5 -mt-0.5">
         <div
           v-if="card.previousCards[0] == 'Noun'"
-          class="h-1/2 p-0.5 bg-white rounded-tr-md border-t-1 border-r-1 border-black "
+          class="h-1/2 p-0.5 bg-white rounded-tr-md border-t-1 border-r-1 border-black"
         >
           <svg
             class="w-3 h-3"
@@ -119,12 +119,12 @@
           <div
             v-if="
               card.condition[0].type == 'Noun' &&
-                card.condition[0].categories[1] == 'animal'
+              card.condition[0].categories[1] == 'animal'
             "
             class="bg-black w-4 h-4 rounded-sm p-0.5 mr-0.5"
           >
             <svg
-              class=" text-white"
+              class="text-white"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -139,12 +139,12 @@
           <div
             v-if="
               card.condition[0].type == 'Noun' &&
-                card.condition[0].categories[0] == 'person'
+              card.condition[0].categories[0] == 'person'
             "
             class="bg-black w-4 h-4 rounded-sm p-0.5"
           >
             <svg
-              class=" text-white"
+              class="text-white"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -163,11 +163,11 @@
           class="text-sxs md:text-sm flex bg-white rounded-md border-1 border-gray-700"
         >
           <div
-            class="w-1/4 border-r-1 border-gray-800 flex items-center justify-center"
+            class="p-0.5 border-r-1 border-gray-800 flex items-center justify-center"
           >
             {{ card.id }}
           </div>
-          <div class="w-3/4 flex items-center justify-between p-0.5">
+          <div class="flex items-center justify-between p-0.5">
             <span
               class="flex"
               v-html="card.bonusPoint[0].content.join('/')"
@@ -185,10 +185,10 @@
 export default {
   name: "Extra-Information-card",
   props: {
-    card: Object
+    card: Object,
   },
   data() {
     return {};
-  }
+  },
 };
 </script>

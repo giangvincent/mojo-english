@@ -396,6 +396,7 @@
     {
         "id": "L1a",
         "type": "Location",
+        "symbol": "B",
         "point": 5,
         "image": "cave1.jpg",
         "content": [
@@ -435,6 +436,7 @@
     {
         "id": "L1b",
         "type": "Location",
+        "symbol": "C",
         "point": 5,
         "image": "mountain1.jpg",
         "content": [
@@ -475,6 +477,7 @@
     {
         "id": "L1c",
         "type": "Location",
+        "symbol": "D",
         "point": 5,
         "image": "island1.jpg",
         "content": [
@@ -514,6 +517,7 @@
     {
         "id": "L1d",
         "type": "Location",
+        "symbol": "C",
         "point": 5,
         "image": "jungle1.jpg",
         "content": [
@@ -553,6 +557,7 @@
     {
         "id": "L1e",
         "type": "Location",
+        "symbol": "C",
         "point": 5,
         "image": "forest1.jpg",
         "content": [
@@ -593,6 +598,7 @@
     {
         "id": "L1f",
         "type": "Location",
+        "symbol": "A/E",
         "point": 6,
         "image": [
             "snow1.jpg",
@@ -2000,7 +2006,11 @@
                 ]
             },
             {
-                "type": "Location"
+                "type": "Location",
+                "symbols": [
+                    "B",
+                    "C"
+                ]
             }
         ],
         "nextCards": [
@@ -2084,7 +2094,10 @@
         "point": 5,
         "condition": [
             {
-                "type": "Location"
+                "type": "Location",
+                "symbols": [
+                    "B"
+                ]
             }
         ],
         "nextCards": [

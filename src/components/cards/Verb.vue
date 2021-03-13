@@ -72,7 +72,17 @@
         <div class="px-1">
           {{ cardContent.text }}
         </div>
-        <div class="px-1">{{ cardContent.point }}</div>
+        <div class="px-1 flex flex-col items-center text-xs">
+          <span>{{ cardContent.point }}</span>
+          <span
+            v-if="index < 2"
+            class="w-3 h-3 border-1 border-black bg-white"
+          ></span>
+          <span
+            v-if="index == 2"
+            class="w-3 h-3 border-1 border-black bg-black"
+          ></span>
+        </div>
       </div>
 
       <hr v-if="index == 0" class="w-3/5 border-black" />
@@ -161,12 +171,12 @@ import { mapState } from "vuex";
 export default {
   name: "verb-card",
   props: {
-    card: Object
+    card: Object,
   },
   computed: {
     ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
-  }
+      cardColors: (state) => state.playing.cardColors,
+    }),
+  },
 };
 </script>
