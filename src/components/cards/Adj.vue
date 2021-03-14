@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full bg-purple-700 flex flex-col items-center justify-center text-white relative"
+    class="w-full h-full bg-purple-700 flex justify-center text-white relative"
   >
     <div class="absolute top-0 right-0 m-2">{{ card.point }}</div>
     <div class="pt-3 h-full flex flex-col">
