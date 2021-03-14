@@ -1,6 +1,7 @@
 <template>
   <div
-    class="w-full h-full bg-gray-900 flex flex-wrap content-between relative"
+    class="w-full h-full bg-gray-900 flex flex-wrap content-between relative bg-cover bg-no-repeat"
+    :style="{ 'background-image': 'url(/assets/images/' + card.image + ')' }"
   >
     <div
       class="w-full m-2 p-1 bg-white rounded-lg border-1 border-gray-700 relative text-sxs md:text-sm"

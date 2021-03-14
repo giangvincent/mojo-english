@@ -71,7 +71,7 @@
         <div
           class="text-white font-bold absolute z-10 flex flex-wrap justify-center items-center rounded-lg bg-orange-800 w-full h-full"
         >
-          Cards
+          Cards ({{ allCards.length }})
         </div>
 
         <div
@@ -92,15 +92,10 @@
     >
       <div class="absolute top-0 right-0 h-8 flex -mt-8 mr-2 items-center">
         <div
-          class="bg-red-900 border-t-1 rounded-t-lg px-2 py-1 text-white"
-          @click="resetGame()"
+          class="bg-red-800 hover:bg-black rounded-t-lg px-2 py-1 font-bold text-white cursor-pointer"
+          @click="finishSentence()"
         >
-          Finish
-        </div>
-        <div
-          class="bg-green-500 border-t-1 border-green-100 rounded-t-lg px-2 py-1"
-        >
-          Playing table
+          Kết thúc
         </div>
       </div>
       <div
@@ -270,7 +265,7 @@ export default {
     element.addEventListener("wheel", transformScroll);
   },
   methods: {
-    resetGame() {
+    finishSentence() {
       this.translateX = 0;
       this.indexChange = -1;
       this.desIndex = -1;

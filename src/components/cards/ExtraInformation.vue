@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="my-1 flex absolute bottom-0 w-full text-black">
+    <div class="my-0.5 flex absolute bottom-0 w-full text-black">
       <div class="w-5 -mt-0.5">
         <div
           v-if="card.previousCards[0] == 'Noun'"

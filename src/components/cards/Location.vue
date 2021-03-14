@@ -1,8 +1,9 @@
 <template>
   <div class="w-full h-full">
     <div
-      class="w-full h-full bg-gray-900 flex flex-wrap content-between relative"
+      class="w-full h-full bg-gray-900 flex flex-wrap content-between relative bg-cover bg-no-repeat"
       v-if="typeof card.image === 'string'"
+      :style="{ 'background-image': 'url(/assets/images/' + card.image + ')' }"
     >
       <div
         class="absolute top-0 right-0 m-1 p-2 bg-white border-1 border-gray-800 w-6 h-6 rounded-md flex items-center justify-center"
