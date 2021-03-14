@@ -4,7 +4,7 @@
   >
     <div class="mb-5 flex flex-col h-full w-full">
       <div
-        class="my-1 h-full  flex flex-col justify-center items-center relative"
+        class="my-1 h-full flex flex-col justify-center items-center relative"
         :class="card.content.length > 1 ? 'h-1/2' : ''"
         v-for="(cardContent, index) in card.content"
         :key="'content-' + index"
@@ -72,7 +72,7 @@
     </div>
     <div class="my-1 flex absolute bottom-0 w-full text-black">
       <div class="w-4 bg-white -mt-0.5 rounded-tr-sm">
-        <div class="h-full p-0.5 ">
+        <div class="h-full p-0.5">
           <svg
             class="w-3 h-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +107,7 @@
         ></div>
         <!-- plural -->
         <div
-          class="text-sxs md:text-sm flex bg-white rounded-lg border-1 border-gray-700"
+          class="text-sxs md:text-sm flex bg-white rounded-md border-1 border-gray-700"
         >
           <div
             class="w-1/4 border-r-1 border-gray-800 flex items-center justify-center"
@@ -134,17 +134,17 @@ import { mapState } from "vuex";
 export default {
   name: "helping-verb",
   props: {
-    card: Object
+    card: Object,
   },
   data() {
     return {};
   },
   computed: {
     ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
+      cardColors: (state) => state.playing.cardColors,
+    }),
   },
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>

@@ -23,7 +23,7 @@
         <div
           class="w-full -ml-1 bg-white rounded-lg border-1 border-gray-700 relative"
         >
-          <div class="p-1 text-sxs md:text-xs flex flex-col">
+          <div class="p-1 text-sxs md:text-xs flex flex-col leading-3">
             <span
               v-for="(cardContent, index) in card.content"
               :key="'content-' + index"
@@ -38,7 +38,7 @@
             >
               {{ card.id }}
             </div>
-            <div class="w-4/5 flex flex-col relative pr-2 py-1">
+            <div class="w-4/5 flex flex-col relative pr-2 py-1 leading-3">
               <div
                 v-for="(bonusContent, index) in card.bonusPoint"
                 :key="'bonusPoint-' + index"

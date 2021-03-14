@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="h-1/4">
-        <div class="my-0.5 w-full flex justify-between items-center">
+        <div class="w-full flex justify-between items-center">
           <div class="flex z-10">
             <div class="w-3 flex flex-col" :class="cardColors['Verb']"></div>
             <span
@@ -82,12 +82,12 @@ import { mapState } from "vuex";
 export default {
   name: "prep-card",
   props: {
-    card: Object
+    card: Object,
   },
   computed: {
     ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
-  }
+      cardColors: (state) => state.playing.cardColors,
+    }),
+  },
 };
 </script>

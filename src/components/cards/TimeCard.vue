@@ -5,14 +5,14 @@
     <div class="mt-0.5 ml-1 absolute left-0 top-0 text-white">
       {{ card.symbol }}
     </div>
-    <div class="py-2 flex flex-col text-white text-xs w-full h-full ">
+    <div class="py-3 flex flex-col text-white text-sxs w-full h-full">
       <div
         class="flex flex-col items-center justify-center h-1/4 relative"
         v-for="(cardContent, index) in card.content"
         :key="'content-' + index"
         :class="{
           'border-b-1 border-black': index == 0 || index == 2,
-          'border-1 border-black mx-1 pl-2': index == 1
+          'border-1 border-black mx-1 pl-2': index == 1,
         }"
       >
         <div
@@ -36,7 +36,7 @@
                 'bg-black': pindex === 'past simple tense',
                 'bg-white': pindex === 'present simple tense',
                 'bg-gray-500 flex items-center justify-center text-black pb-2':
-                  pindex === 'future simple tense'
+                  pindex === 'future simple tense',
               }"
               >{{ pindex === "future simple tense" ? "." : "" }}</span
             >
@@ -69,7 +69,7 @@
 export default {
   name: "time-card",
   props: {
-    card: Object
+    card: Object,
   },
   data() {
     return {
@@ -78,8 +78,8 @@ export default {
       text: "",
       point: 0,
       previousCards: [],
-      bonusPoints: []
+      bonusPoints: [],
     };
-  }
+  },
 };
 </script>

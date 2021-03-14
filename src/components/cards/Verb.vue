@@ -7,7 +7,7 @@
       v-for="(cardContent, index) in card.content"
       :key="'content-' + index"
     >
-      <div class="w-full h-full flex justify-between items-center">
+      <div class="w-full h-full flex justify-between items-center text-xs">
         <div class="flex flex-col text-sxs px-1">
           <span v-if="index == 0"
             ><svg
@@ -69,10 +69,8 @@
               /></svg
           ></span>
         </div>
-        <div class="px-1">
-          {{ cardContent.text }}
-        </div>
-        <div class="px-1 flex flex-col items-center text-xs">
+        <div class="px-1 leading-3" v-html="cardContent.text"></div>
+        <div class="px-1 flex flex-col items-center">
           <span>{{ cardContent.point }}</span>
           <span
             v-if="index < 2"
