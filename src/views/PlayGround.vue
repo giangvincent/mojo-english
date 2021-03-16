@@ -113,8 +113,7 @@
             :key="'card-' + card.id"
             :class="{ '-translate-y-2': indexChange == index }"
             v-bind:style="{
-              transform:
-                translateX > 0 && index == desIndex ? desTranslate : '',
+              transform: translateX > 0 && index == desIndex ? desTranslate : ''
             }"
           >
             <span
@@ -140,12 +139,15 @@
             <card-container
               :card="card"
               :cardHeight="cardHeight"
+              :class="{
+                'opacity-25': markedCards.includes(card.id)
+              }"
             ></card-container>
             <span
               v-if="
                 stateForMoving &&
-                indexChange !== index &&
-                indexChange - 1 !== index
+                  indexChange !== index &&
+                  indexChange - 1 !== index
               "
               class="absolute right-0 h-full flex items-center -mr-2"
               @click="movingCard(index)"
@@ -207,7 +209,7 @@ function transformScroll(event) {
 export default {
   name: "playing-ground",
   components: {
-    CardContainer,
+    CardContainer
   },
   data() {
     return {
@@ -220,42 +222,40 @@ export default {
       cardDiscarded: [],
       cards: [],
       playersCard: [],
+      markedCards: [],
       cardWidth: 0,
       cardHeight: 0,
       translateX: 0,
       sourceTranslate: "",
-      desTranslate: "",
+      desTranslate: ""
     };
   },
   computed: {
     ...mapState({
-      scr_height: (state) => state.scr_height,
-    }),
+      scr_height: state => state.scr_height
+    })
   },
   watch: {
-    indexChange: function (newVal, oldVal) {
+    indexChange: function(newVal, oldVal) {
       if (newVal >= 0) {
         this.stateForMoving = true;
-        console.log(this.indexChange);
-        console.log(this.cards[this.indexChange]);
       } else {
         this.stateForMoving = false;
       }
     },
-    stateForMoving: function (newVal, oldVal) {
+    stateForMoving: function(newVal, oldVal) {
       if (newVal !== oldVal || newVal) {
-        console.log(this.indexChange);
-        console.log(this.cards[this.indexChange]);
+        this.checkPositionOfCards();
       }
-    },
+    }
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
     this.cardWidth = (this.cardHeight - 32) / 1.612;
     let self = this;
     fetch("contents/cardSet1.json")
-      .then((res) => res.json())
-      .then((cards) => {
+      .then(res => res.json())
+      .then(cards => {
         self.originalCards = cards;
         self.distributeCards(cards);
       });
@@ -272,10 +272,39 @@ export default {
       this.cardDiscarded = [];
       this.distributeCards(this.originalCards);
     },
+    checkPositionOfCards() {
+      let previousCards = [];
+      this.markedCards = [];
+      this.cards.forEach((card, index) => {
+        if (index > 0) {
+          // check previous card legal or not
+          if (
+            card.previousCards &&
+            !card.previousCards.includes(previousCards[index - 1].type)
+          ) {
+            this.markedCards.push(card.id);
+          }
+        }
+        if (index < 6) {
+          if (
+            card.nextCards &&
+            !card.nextCards.includes(this.cards[index + 1].type)
+          ) {
+            this.markedCards.push(card.id);
+          }
+        }
+        previousCards.push(card);
+      });
+      this.markedCards = this.markedCards.filter(onlyUnique);
+    },
+    /**
+     * chia bài
+     */
     distributeCards(cards) {
       shuffleArray(cards);
       this.cards = cards.slice(0, 7);
       this.allCards = cards.slice(29, cards.length - 1);
+      this.checkPositionOfCards();
     },
     readyToChange(index) {
       if (index == this.indexChange) {
@@ -300,7 +329,7 @@ export default {
       }
 
       let self = this;
-      setTimeout(function () {
+      setTimeout(function() {
         self.swapCard(self.indexChange, self.desIndex);
       }, 350);
     },
@@ -320,6 +349,7 @@ export default {
       this.translateX = 0;
       this.indexChange = -1;
       this.desIndex = -1;
+      this.checkPositionOfCards();
     },
     discardCard() {
       if (this.cardDiscarded.length < 3 && this.indexChange >= 0) {
@@ -329,10 +359,14 @@ export default {
         this.cards[this.indexChange] = this.allCards[0];
         this.allCards.splice(0, 1);
         this.indexChange = -1;
+        this.checkPositionOfCards();
       }
-    },
-  },
+    }
+  }
 };
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 // Fisher–Yates Shuffle Faster version
 function shuffleArray(a, b, c, d) {
   //array,placeholder,placeholder,placeholder

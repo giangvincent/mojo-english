@@ -649,10 +649,12 @@
             }
         ],
         "previousCards": [
+            "ExtraInfomation",
             "Noun"
         ],
         "nextCards": [
-            "Verb"
+            "Verb",
+            "Adverb"
         ]
     },
     {
@@ -676,10 +678,12 @@
             }
         ],
         "previousCards": [
+            "ExtraInfomation",
             "Noun"
         ],
         "nextCards": [
-            "Verb"
+            "Verb",
+            "Adverb"
         ]
     },
     {
@@ -703,10 +707,12 @@
             }
         ],
         "previousCards": [
+            "ExtraInfomation",
             "Noun"
         ],
         "nextCards": [
-            "Verb"
+            "Verb",
+            "Adverb"
         ]
     },
     {
@@ -736,6 +742,7 @@
             }
         ],
         "previousCards": [
+            "ExtraInfomation",
             "Noun"
         ],
         "nextCards": [
@@ -770,6 +777,7 @@
             }
         ],
         "previousCards": [
+            "ExtraInfomation",
             "Noun"
         ],
         "nextCards": [
@@ -1630,6 +1638,10 @@
             "Noun",
             "Verb"
         ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
         "bonusPoint": [
             {
                 "type": "Noun",
@@ -1666,6 +1678,10 @@
         "previousCards": [
             "Noun"
         ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
         "bonusPoint": [
             {
                 "type": "Noun",
@@ -1700,6 +1716,10 @@
         "point": 5,
         "previousCards": [
             "Noun",
+            "Verb"
+        ],
+        "nextCards": [
+            "HelpingVerb",
             "Verb"
         ],
         "bonusPoint": [
@@ -1738,6 +1758,10 @@
         "previousCards": [
             "Noun"
         ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
         "bonusPoint": [
             {
                 "type": "Noun",
@@ -1773,6 +1797,10 @@
         "point": 5,
         "previousCards": [
             "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
         ],
         "bonusPoint": [
             {
@@ -1847,6 +1875,7 @@
                 ]
             }
         ],
+        "previousCards": [],
         "nextCards": [
             "Noun"
         ],
@@ -2117,21 +2146,57 @@
     {
         "id": "P1a",
         "type": "Prep",
-        "point": 7
+        "point": 7,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
     },
     {
         "id": "P1b",
         "type": "Prep",
-        "point": 8
+        "point": 8,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
     },
     {
         "id": "P1c",
         "type": "Prep",
-        "point": 9
+        "point": 9,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
     },
     {
         "id": "P1d",
         "type": "Prep",
-        "point": 10
+        "point": 10,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
     }
 ]
