@@ -272,6 +272,8 @@ export default {
       this.cardDiscarded = [];
       this.distributeCards(this.originalCards);
     },
+    detectNounPhrase() {},
+    detectObjectPhrase() {},
     checkPositionOfCards() {
       let previousCards = [];
       this.markedCards = [];
