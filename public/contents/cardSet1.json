@@ -33,7 +33,7 @@
         "bonusPoint": {
             "type": "Verb",
             "word": [
-                "excercise",
+                "exercise",
                 "fist bump"
             ],
             "point": 5
@@ -122,11 +122,11 @@
         "type": "Noun",
         "image": "monster1.jpg",
         "singular": {
-            "text": "the monter",
+            "text": "the monster",
             "point": 3
         },
         "plural": {
-            "text": "(the) monters",
+            "text": "(the) monsters",
             "point": 6
         },
         "condition": [
@@ -426,7 +426,7 @@
             {
                 "type": "Verb",
                 "word": [
-                    "excercise",
+                    "exercise",
                     "sing"
                 ],
                 "point": 3
@@ -649,7 +649,7 @@
             }
         ],
         "previousCards": [
-            "ExtraInfomation",
+            "ExtraInformation",
             "Noun"
         ],
         "nextCards": [
@@ -678,7 +678,7 @@
             }
         ],
         "previousCards": [
-            "ExtraInfomation",
+            "ExtraInformation",
             "Noun"
         ],
         "nextCards": [
@@ -707,7 +707,7 @@
             }
         ],
         "previousCards": [
-            "ExtraInfomation",
+            "ExtraInformation",
             "Noun"
         ],
         "nextCards": [
@@ -742,7 +742,7 @@
             }
         ],
         "previousCards": [
-            "ExtraInfomation",
+            "ExtraInformation",
             "Noun"
         ],
         "nextCards": [
@@ -777,7 +777,7 @@
             }
         ],
         "previousCards": [
-            "ExtraInfomation",
+            "ExtraInformation",
             "Noun"
         ],
         "nextCards": [
@@ -802,14 +802,14 @@
             "Location",
             "Noun",
             "Adj",
-            "ExtraInfomation",
+            "ExtraInformation",
             "Verb"
         ],
         "nextCards": [
             "Location",
             "Noun",
             "Adj",
-            "ExtraInfomation",
+            "ExtraInformation",
             "Verb"
         ]
     },
@@ -830,14 +830,14 @@
             "Location",
             "Noun",
             "Adj",
-            "ExtraInfomation",
+            "ExtraInformation",
             "Verb"
         ],
         "nextCards": [
             "Location",
             "Noun",
             "Adj",
-            "ExtraInfomation",
+            "ExtraInformation",
             "Verb"
         ]
     },
@@ -858,14 +858,14 @@
             "Location",
             "Noun",
             "Adj",
-            "ExtraInfomation",
+            "ExtraInformation",
             "Verb"
         ],
         "nextCards": [
             "Location",
             "Noun",
             "Adj",
-            "ExtraInfomation",
+            "ExtraInformation",
             "Verb"
         ]
     },
