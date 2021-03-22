@@ -121,26 +121,13 @@
               class="absolute left-0 h-full flex items-center -ml-2 z-10"
               @click="movingCard(-1)"
             >
-              <svg
-                class="w-8 h-8 bg-white rounded-full shadow mx-auto"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <fill-card-in-btn></fill-card-in-btn>
             </span>
             <card-container
               :card="card"
               :cardHeight="cardHeight"
               :class="{
-                'opacity-25': markedCards.includes(card.id)
+                'opacity-25': zeroPointCards.includes(card.id)
               }"
             ></card-container>
             <span
@@ -152,40 +139,12 @@
               class="absolute right-0 h-full flex items-center -mr-2"
               @click="movingCard(index)"
             >
-              <svg
-                class="w-8 h-8 bg-white rounded-full shadow mx-auto"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <fill-card-in-btn></fill-card-in-btn>
             </span>
-            <span
-              class="absolute top-0 -mt-2 mx-auto w-full"
+
+            <position-state-btn
               @click="readyToChange(index)"
-            >
-              <svg
-                class="w-6 h-6 bg-white rounded-full p-1 shadow mx-auto"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                />
-              </svg>
-            </span>
+            ></position-state-btn>
           </div>
         </div>
       </div>
@@ -196,6 +155,8 @@
 
 <script>
 import CardContainer from "@/components/cards/CardContainer";
+import PositionStateBtn from "@/components/cards/Buttons/PositionStateBtn";
+import FillCardInBtn from "@/components/cards/Buttons/FillCardInBtn";
 import { mapState } from "vuex";
 
 function transformScroll(event) {
@@ -209,20 +170,27 @@ function transformScroll(event) {
 export default {
   name: "playing-ground",
   components: {
-    CardContainer
+    CardContainer,
+    PositionStateBtn,
+    FillCardInBtn
   },
   data() {
     return {
       indexChange: -1,
       originalCards: [],
-      drag: false,
       stateForMoving: false,
       desIndex: -1,
+
       allCards: [],
       cardDiscarded: [],
       cards: [],
-      playersCard: [],
-      markedCards: [],
+
+      zeroPointCards: [],
+      nounPharse: [],
+      objectPhrase: [],
+      verbPhrase: [],
+      isQuestion: false,
+
       cardWidth: 0,
       cardHeight: 0,
       translateX: 0,
@@ -258,6 +226,7 @@ export default {
       .then(cards => {
         self.originalCards = cards;
         self.distributeCards(cards);
+        self.autoArrangeOnce();
       });
   },
   mounted() {
@@ -272,11 +241,50 @@ export default {
       this.cardDiscarded = [];
       this.distributeCards(this.originalCards);
     },
-    detectNounPhrase() {},
-    detectObjectPhrase() {},
+    detectNounPhrase() {
+      this.nounPharse = [];
+      this.cards.forEach((card, index) => {});
+    },
+    detectObjectPhrase() {
+      this.objectPhrase = [];
+      this.cards.forEach((card, index) => {});
+    },
+    autoArrangeOnce() {
+      let temp = null;
+      this.cards.forEach((card, index) => {
+        if (
+          card.type == "Noun" &&
+          index !== 0 &&
+          this.cards[0].type != "Noun"
+        ) {
+          temp = this.cards[0];
+          this.cards[0] = card;
+          this.cards[index] = temp;
+        }
+        if (
+          card.type == "Verb" &&
+          index !== 1 &&
+          this.cards[1].type != "Verb"
+        ) {
+          temp = this.cards[1];
+          this.cards[1] = card;
+          this.cards[index] = temp;
+        }
+
+        if (
+          (card.type == "TimeCard" || card.type == "Location") &&
+          index !== 2 &&
+          (this.cards[2].type != "TimeCard" || this.cards[2].type != "Location")
+        ) {
+          temp = this.cards[2];
+          this.cards[2] = card;
+          this.cards[index] = temp;
+        }
+      });
+    },
     checkPositionOfCards() {
       let previousCards = [];
-      this.markedCards = [];
+      this.zeroPointCards = [];
       this.cards.forEach((card, index) => {
         if (index > 0) {
           // check previous card legal or not
@@ -284,7 +292,7 @@ export default {
             card.previousCards &&
             !card.previousCards.includes(previousCards[index - 1].type)
           ) {
-            this.markedCards.push(card.id);
+            this.zeroPointCards.push(card.id);
           }
         }
         if (index < 6) {
@@ -292,12 +300,12 @@ export default {
             card.nextCards &&
             !card.nextCards.includes(this.cards[index + 1].type)
           ) {
-            this.markedCards.push(card.id);
+            this.zeroPointCards.push(card.id);
           }
         }
         previousCards.push(card);
       });
-      this.markedCards = this.markedCards.filter(onlyUnique);
+      this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
     /**
      * chia bài
