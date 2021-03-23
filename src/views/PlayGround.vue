@@ -226,7 +226,6 @@ export default {
       .then(cards => {
         self.originalCards = cards;
         self.distributeCards(cards);
-        self.autoArrangeOnce();
       });
   },
   mounted() {
@@ -243,7 +242,18 @@ export default {
     },
     detectNounPhrase() {
       this.nounPharse = [];
-      this.cards.forEach((card, index) => {});
+      let isNounPhrase = false;
+      this.cards.forEach((card, index) => {
+        if ((card.type == "Adj" || card.type == "Noun") && !isNounPhrase) {
+          isNounPhrase = true;
+        }
+        if (
+          (card.type == "ExtraInformation" || card.type == "Noun") &&
+          isNounPhrase
+        ) {
+          isNounPhrase = true;
+        }
+      });
     },
     detectObjectPhrase() {
       this.objectPhrase = [];
@@ -286,23 +296,51 @@ export default {
       let previousCards = [];
       this.zeroPointCards = [];
       this.cards.forEach((card, index) => {
-        if (index > 0) {
+        if (index > 0 && index < 6) {
           // check previous card legal or not
           if (
             card.previousCards &&
-            !card.previousCards.includes(previousCards[index - 1].type)
+            !card.previousCards.includes(this.cards[index - 1].type) &&
+            card.allowCards &&
+            !card.allowCards.includes(this.cards[index - 1].type)
           ) {
             this.zeroPointCards.push(card.id);
           }
-        }
-        if (index < 6) {
           if (
             card.nextCards &&
-            !card.nextCards.includes(this.cards[index + 1].type)
+            !card.nextCards.includes(this.cards[index + 1].type) &&
+            card.allowCards &&
+            !card.allowCards.includes(this.cards[index + 1].type)
           ) {
             this.zeroPointCards.push(card.id);
           }
+        } else {
+          if (index == 0) {
+            if (
+              card.nextCards &&
+              !card.nextCards.includes(this.cards[index + 1].type) &&
+              card.allowCards &&
+              !card.allowCards.includes(this.cards[index + 1].type)
+            ) {
+              this.zeroPointCards.push(card.id);
+            }
+          }
+          if (index == 6) {
+            const foundPreviousCard = previousCards.some(
+              ({ type }) =>
+                card.previousCards && card.previousCards.includes(type)
+            );
+            console.log("foundPreviousCard", foundPreviousCard);
+            if (
+              card.previousCards &&
+              !card.previousCards.includes(previousCards[index - 1].type) &&
+              foundPreviousCard
+            ) {
+              this.zeroPointCards.push(card.id);
+            }
+          }
         }
+
         previousCards.push(card);
       });
       this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
@@ -314,6 +352,7 @@ export default {
       shuffleArray(cards);
       this.cards = cards.slice(0, 7);
       this.allCards = cards.slice(29, cards.length - 1);
+      this.autoArrangeOnce();
       this.checkPositionOfCards();
     },
     readyToChange(index) {

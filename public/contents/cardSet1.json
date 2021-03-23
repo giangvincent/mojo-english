@@ -30,6 +30,10 @@
             "HelpingVerb",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
+        ],
         "bonusPoint": {
             "type": "Verb",
             "word": [
@@ -69,6 +73,10 @@
             "HelpingVerb",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
+        ],
         "bonusPoint": {
             "type": "Verb",
             "word": [
@@ -107,6 +115,10 @@
             "ExtraInformation",
             "HelpingVerb",
             "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
         ],
         "bonusPoint": {
             "type": "Verb",
@@ -148,6 +160,10 @@
             "HelpingVerb",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
+        ],
         "bonusPoint": {
             "type": "Verb",
             "word": [
@@ -186,6 +202,10 @@
             "ExtraInformation",
             "HelpingVerb",
             "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
         ],
         "bonusPoint": {
             "type": "Verb",
@@ -227,6 +247,10 @@
             "HelpingVerb",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
+        ],
         "bonusPoint": {
             "type": "Verb",
             "word": [
@@ -265,6 +289,10 @@
             "ExtraInformation",
             "HelpingVerb",
             "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
         ],
         "bonusPoint": {
             "type": "Verb",
@@ -305,6 +333,10 @@
             "HelpingVerb",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
+        ],
         "bonusPoint": {
             "type": "Verb",
             "word": [
@@ -343,6 +375,10 @@
             "ExtraInformation",
             "HelpingVerb",
             "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
         ],
         "bonusPoint": {
             "type": "Verb",
@@ -384,6 +420,10 @@
             "HelpingVerb",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "Adverb"
+        ],
         "bonusPoint": {
             "type": "Verb",
             "word": [
@@ -409,6 +449,12 @@
                     "location"
                 ]
             }
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
         ],
         "previousCards": [
             "Adj",
@@ -455,6 +501,12 @@
             "Adj",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
         "bonusPoint": [
             {
                 "type": "Noun",
@@ -495,6 +547,12 @@
             "Adj",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
         "bonusPoint": [
             {
                 "type": "Noun",
@@ -534,6 +592,12 @@
         "previousCards": [
             "Adj",
             "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
         ],
         "bonusPoint": [
             {
@@ -576,6 +640,12 @@
             "Adj",
             "Verb"
         ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
         "bonusPoint": [
             {
                 "type": "Noun",
@@ -611,6 +681,12 @@
         "condition": [],
         "previousCards": [
             "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
         ],
         "bonusPoint": []
     },
@@ -1115,12 +1191,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1168,12 +1247,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1222,12 +1304,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1272,12 +1357,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1326,12 +1414,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1376,12 +1467,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1430,12 +1524,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1484,11 +1581,14 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1537,12 +1637,15 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
-            "TimeCard"
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1591,13 +1694,16 @@
         "previousCards": [
             "Noun",
             "HelpingVerb",
-            "Adverb"
+            "Adverb",
+            "ExtraInformation"
         ],
         "nextCards": [
             "Prep",
             "Location",
             "TimeCard",
-            "Animal"
+            "Animal",
+            "Conj",
+            "ExtraInformation"
         ],
         "condition": [
             {
@@ -1636,11 +1742,16 @@
         "point": 5,
         "previousCards": [
             "Noun",
-            "Verb"
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
         ],
         "nextCards": [
             "HelpingVerb",
-            "Verb"
+            "Verb",
+            "ExtraInformation"
         ],
         "bonusPoint": [
             {
@@ -1676,11 +1787,18 @@
         ],
         "point": 5,
         "previousCards": [
-            "Noun"
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
         ],
         "nextCards": [
             "HelpingVerb",
-            "Verb"
+            "Verb",
+            "ExtraInformation",
+            "Location"
         ],
         "bonusPoint": [
             {
@@ -1716,11 +1834,16 @@
         "point": 5,
         "previousCards": [
             "Noun",
-            "Verb"
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Conj"
         ],
         "nextCards": [
             "HelpingVerb",
-            "Verb"
+            "Verb",
+            "ExtraInformation",
+            "Location"
         ],
         "bonusPoint": [
             {
@@ -1756,11 +1879,18 @@
         ],
         "point": 5,
         "previousCards": [
-            "Noun"
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
         ],
         "nextCards": [
             "HelpingVerb",
-            "Verb"
+            "Verb",
+            "ExtraInformation",
+            "Location"
         ],
         "bonusPoint": [
             {
@@ -1796,11 +1926,18 @@
         ],
         "point": 5,
         "previousCards": [
-            "Noun"
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
         ],
         "nextCards": [
             "HelpingVerb",
-            "Verb"
+            "Verb",
+            "ExtraInformation",
+            "Location"
         ],
         "bonusPoint": [
             {
@@ -1875,7 +2012,11 @@
                 ]
             }
         ],
-        "previousCards": [],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
         "nextCards": [
             "Noun"
         ],
@@ -1915,6 +2056,11 @@
                     "animal"
                 ]
             }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
         ],
         "nextCards": [
             "Noun"
@@ -1956,6 +2102,11 @@
                 ]
             }
         ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
         "nextCards": [
             "Noun"
         ],
@@ -1995,6 +2146,11 @@
                     "animal"
                 ]
             }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
         ],
         "nextCards": [
             "Noun"
@@ -2042,9 +2198,15 @@
                 ]
             }
         ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
         "nextCards": [
             "Location",
-            "Noun"
+            "Noun",
+            "Adj"
         ],
         "bonusPoint": [
             {
@@ -2090,8 +2252,14 @@
                 ]
             }
         ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
         "nextCards": [
-            "Noun"
+            "Noun",
+            "Adj"
         ],
         "bonusPoint": [
             {
@@ -2128,6 +2296,11 @@
                     "B"
                 ]
             }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
         ],
         "nextCards": [
             "Location"
