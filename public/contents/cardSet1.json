@@ -683,7 +683,7 @@
             "Verb"
         ],
         "allowCards": [
-            "Conj",
+            "Location",
             "ExtraInformation",
             "TimeCard",
             "Adverb"
@@ -918,7 +918,7 @@
         ]
     },
     {
-        "id": "C1a",
+        "id": "C1c",
         "type": "Conj",
         "content": [
             {
@@ -1210,6 +1210,11 @@
                     "to",
                     "away from"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1267,6 +1272,11 @@
                     "to",
                     "away from"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1320,6 +1330,11 @@
                 "content": [
                     "with"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1377,6 +1392,11 @@
                     "into",
                     "away from"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1487,6 +1507,11 @@
                     "to",
                     "over to"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1544,6 +1569,11 @@
                     "to",
                     "over to"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1600,6 +1630,11 @@
                     "about",
                     "of"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1657,6 +1692,11 @@
                     "away from",
                     "over to"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },
@@ -1715,6 +1755,11 @@
                     "to",
                     "over to"
                 ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
             }
         ]
     },

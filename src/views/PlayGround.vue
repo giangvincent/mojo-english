@@ -4,7 +4,7 @@
       <div class="m-2">
         <figure>
           <img
-            class="w-20 rounded-md border-2 border-gray-500"
+            class="w-16 rounded-md border-2 border-gray-500"
             src="@/assets/images/default-avatar.jpg"
             alt=""
             srcset=""
@@ -15,7 +15,7 @@
       <div class="m-2">
         <figure>
           <img
-            class="w-20 rounded-md border-2 border-gray-500"
+            class="w-16 rounded-md border-2 border-gray-500"
             src="@/assets/images/default-avatar.jpg"
             alt=""
             srcset=""
@@ -26,7 +26,7 @@
       <div class="m-2">
         <figure>
           <img
-            class="w-20 rounded-md border-2 border-gray-500"
+            class="w-16 rounded-md border-2 border-gray-500"
             src="@/assets/images/default-avatar.jpg"
             alt=""
             srcset=""
@@ -296,54 +296,74 @@ export default {
       let previousCards = [];
       this.zeroPointCards = [];
       this.cards.forEach((card, index) => {
-        if (index > 0 && index < 6) {
-          // check previous card legal or not
-          if (
-            card.previousCards &&
-            !card.previousCards.includes(this.cards[index - 1].type) &&
-            card.allowCards &&
-            !card.allowCards.includes(this.cards[index - 1].type)
-          ) {
-            this.zeroPointCards.push(card.id);
-          }
-          if (
-            card.nextCards &&
-            !card.nextCards.includes(this.cards[index + 1].type) &&
-            card.allowCards &&
-            !card.allowCards.includes(this.cards[index + 1].type)
-          ) {
-            this.zeroPointCards.push(card.id);
-          }
-        } else {
-          if (index == 0) {
-            if (
-              card.nextCards &&
-              !card.nextCards.includes(this.cards[index + 1].type) &&
-              card.allowCards &&
-              !card.allowCards.includes(this.cards[index + 1].type)
-            ) {
-              this.zeroPointCards.push(card.id);
-            }
-          }
-          if (index == 6) {
-            const foundPreviousCard = previousCards.some(
-              ({ type }) =>
-                card.previousCards && card.previousCards.includes(type)
-            );
-            console.log("foundPreviousCard", foundPreviousCard);
-            if (
-              card.previousCards &&
-              !card.previousCards.includes(previousCards[index - 1].type) &&
-              foundPreviousCard
-            ) {
-              this.zeroPointCards.push(card.id);
-            }
-          }
+        if (this.isIllegalCard(card, index, previousCards)) {
+          this.zeroPointCards.push(card.id);
         }
 
         previousCards.push(card);
       });
       this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
+    },
+    isIllegalCard(card, index, previousCards) {
+      if (index > 0 && index < 6) {
+        console.log(
+          index,
+          this.isPreviousCardsIllegal(card, index) &&
+            this.isNextCardsIllegal(card, index)
+        );
+        return (
+          this.isPreviousCardsIllegal(card, index) &&
+          this.isNextCardsIllegal(card, index)
+        );
+      } else {
+        if (index == 0) {
+          console.log(index, this.isNextCardsIllegal(card, index));
+          return this.isNextCardsIllegal(card, index);
+        }
+        if (index == 6) {
+          /**
+           * check the last card
+           * if all the previous cards is allowed and the last card must be Location, Time or Extra Information
+           * else check last card like a normal card
+           */
+          console.log(
+            index,
+            card.type,
+            this.isPreviousCardsIllegal(card, index)
+          );
+          if (
+            ["Location", "TimeCard", "ExtraInformation"].includes(card.type)
+          ) {
+            const foundPreviousCard = previousCards.some(
+              ({ type }) =>
+                card.previousCards && card.previousCards.includes(type)
+            );
+            console.log(foundPreviousCard);
+            return !foundPreviousCard;
+          } else return this.isPreviousCardsIllegal(card, index);
+        }
+      }
+    },
+    // check previous card legal or not
+    isPreviousCardsIllegal(card, index) {
+      if (
+        card.previousCards &&
+        !card.previousCards.includes(this.cards[index - 1].type) &&
+        card.allowCards &&
+        !card.allowCards.includes(this.cards[index - 1].type)
+      )
+        return true;
+      return false;
+    },
+    isNextCardsIllegal(card, index) {
+      if (
+        card.nextCards &&
+        !card.nextCards.includes(this.cards[index + 1].type) &&
+        card.allowCards &&
+        !card.allowCards.includes(this.cards[index + 1].type)
+      )
+        return true;
+      return false;
     },
     /**
      * chia bài
