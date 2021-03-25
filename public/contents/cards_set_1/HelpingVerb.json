@@ -1,0 +1,173 @@
+[
+    {
+        "id": "H1a",
+        "type": "HelpingVerb",
+        "typeWord": "present simple",
+        "content": [
+            {
+                "type": "singular",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "doesn't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "does"
+                    }
+                ],
+                "point": 4
+            },
+            {
+                "type": "plural",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "don't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "do"
+                    }
+                ],
+                "point": 6
+            }
+        ],
+        "previousCards": [
+            "ExtraInformation",
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb",
+            "Adverb"
+        ]
+    },
+    {
+        "id": "H1b",
+        "type": "HelpingVerb",
+        "typeWord": "past simple",
+        "content": [
+            {
+                "type": "common",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "didn't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "did"
+                    }
+                ],
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "ExtraInformation",
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb",
+            "Adverb"
+        ]
+    },
+    {
+        "id": "H1c",
+        "type": "HelpingVerb",
+        "typeWord": "future simple",
+        "content": [
+            {
+                "type": "common",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "won't"
+                    },
+                    {
+                        "type": "positive",
+                        "text": "will"
+                    }
+                ],
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "ExtraInformation",
+            "Noun"
+        ],
+        "nextCards": [
+            "Verb",
+            "Adverb"
+        ]
+    },
+    {
+        "id": "H1d",
+        "type": "HelpingVerb",
+        "typeWord": "future simple",
+        "content": [
+            {
+                "type": "singular",
+                "texts": [
+                    {
+                        "type": "positive",
+                        "text": "is (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
+                    }
+                ],
+                "point": 5
+            },
+            {
+                "type": "plural",
+                "texts": [
+                    {
+                        "type": "positive",
+                        "text": "are (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
+                    }
+                ],
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "ExtraInformation",
+            "Noun"
+        ],
+        "nextCards": [
+            "Adverb",
+            "Verb"
+        ]
+    },
+    {
+        "id": "H1e",
+        "type": "HelpingVerb",
+        "typeWord": "future simple",
+        "content": [
+            {
+                "type": "singular",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "isn't (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
+                    }
+                ],
+                "point": 4
+            },
+            {
+                "type": "plural",
+                "texts": [
+                    {
+                        "type": "negative",
+                        "text": "aren't (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span> going to</span>"
+                    }
+                ],
+                "point": 6
+            }
+        ],
+        "previousCards": [
+            "ExtraInformation",
+            "Noun"
+        ],
+        "nextCards": [
+            "Adverb",
+            "Verb"
+        ]
+    }
+]

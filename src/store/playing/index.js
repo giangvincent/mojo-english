@@ -16,7 +16,8 @@ export default {
       Verb: "bg-green-700"
     },
     tense: ["present simple tense", "past simple tense", "future simple tense"],
-    typeSentence: ["positive", "negative", "question"]
+    typeSentence: ["positive", "negative", "question"],
+    cards: []
   },
   mutations: mutations,
   actions: actions

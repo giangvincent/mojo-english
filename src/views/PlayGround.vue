@@ -1,154 +1,68 @@
 <template>
-  <div class="flex justify-between relative h-full">
-    <div class="flex flex-wrap">
-      <div class="m-2">
-        <figure>
-          <img
-            class="w-16 rounded-md border-2 border-gray-500"
-            src="@/assets/images/default-avatar.jpg"
-            alt=""
-            srcset=""
-          />
-        </figure>
-        player 1
-      </div>
-      <div class="m-2">
-        <figure>
-          <img
-            class="w-16 rounded-md border-2 border-gray-500"
-            src="@/assets/images/default-avatar.jpg"
-            alt=""
-            srcset=""
-          />
-        </figure>
-        player 2
-      </div>
-      <div class="m-2">
-        <figure>
-          <img
-            class="w-16 rounded-md border-2 border-gray-500"
-            src="@/assets/images/default-avatar.jpg"
-            alt=""
-            srcset=""
-          />
-        </figure>
-        player 3
+  <div class="flex flex-col justify-center items-center h-full w-full">
+    <div class="w-full px-4 mb-5 text-left">
+      <div class="p-2 border-2 border-gray-800 rounded-lg w-full">
+        Sentence:
       </div>
     </div>
-    <!-- Other players -->
-    <div class="flex">
-      <div
-        class="w-16 h-24 border-2 border-dashed border-orange-800 m-2 relative rounded-lg flex items-center justify-center"
-        @click="discardCard()"
-      >
-        <span
-          class="text-orange-800 absolute w-full h-full z-10 flex items-center justify-center"
-          ><svg
-            class="w-8 h-8"
-            :class="{ 'text-white': cardDiscarded.length > 0 }"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </span>
-        <div
-          class="w-full h-full z-0 bg-orange-400 absolute border-2 rounded-lg"
-          v-if="cardDiscarded.length > 0"
-        ></div>
-        <span
-          v-if="cardDiscarded.length > 0"
-          class="rounded-full bg-purple-900 text-white font-bold absolute bottom-0 left-0 w-6 h-6 -m-2"
-          >{{ cardDiscarded.length }}</span
-        >
-      </div>
-      <div class="w-16 h-24 m-2 relative">
-        <div
-          class="text-white font-bold absolute z-10 flex flex-wrap justify-center items-center rounded-lg bg-orange-800 w-full h-full"
-        >
-          Cards ({{ allCards.length }})
-        </div>
-
-        <div
-          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-600 w-full z-0"
-          style="margin: -2px 0 0 -2px"
-        ></div>
-        <div
-          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-500 w-full z-0"
-          style="margin: -4px 0 0 -4px"
-        ></div>
-      </div>
-    </div>
-
     <!-- Table -->
     <div
-      class="w-full absolute bottom-0 bg-gray-700"
-      :style="{ height: cardHeight + 'px' }"
+      ref="tablePlay"
+      id="tablePlay"
+      class="flex w-full h-1/2 relative items-center justify-center relative"
     >
-      <div class="absolute top-0 right-0 h-8 flex -mt-8 mr-2 items-center">
-        <div
-          class="bg-red-800 hover:bg-black rounded-t-lg px-2 py-1 font-bold text-white cursor-pointer"
-          @click="finishSentence()"
-        >
-          Kết thúc
-        </div>
-      </div>
       <div
-        ref="tablePlay"
-        id="tablePlay"
-        class="flex w-full h-full px-2 py-4 overflow-x-auto"
+        class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
+        v-if="cards.length > 0"
       >
         <div
-          class="flex flex-row flex-no-wrap pl-2 pr-4"
-          v-if="cards.length > 0"
+          class="flex flex-row flex-no-wrap  relative duration-300 transform h-full"
+          v-for="(card, index) in cards"
+          :key="'card-' + card.id"
+          :class="{ '-translate-y-2': indexChange == index }"
+          v-bind:style="{
+            transform: translateX > 0 && index == desIndex ? desTranslate : ''
+          }"
         >
-          <div
-            class="flex flex-row flex-no-wrap relative duration-300 transform"
-            v-for="(card, index) in cards"
-            :key="'card-' + card.id"
-            :class="{ '-translate-y-2': indexChange == index }"
-            v-bind:style="{
-              transform: translateX > 0 && index == desIndex ? desTranslate : ''
-            }"
+          <span
+            v-if="stateForMoving && index === 0 && indexChange !== 0"
+            class="absolute left-0 h-full flex items-center -ml-2 z-10"
+            @click="movingCard(-1)"
           >
-            <span
-              v-if="stateForMoving && index === 0 && indexChange !== 0"
-              class="absolute left-0 h-full flex items-center -ml-2 z-10"
-              @click="movingCard(-1)"
-            >
-              <fill-card-in-btn></fill-card-in-btn>
-            </span>
-            <card-container
-              :card="card"
-              :cardHeight="cardHeight"
-              :class="{
-                'opacity-25': zeroPointCards.includes(card.id)
-              }"
-            ></card-container>
-            <span
-              v-if="
-                stateForMoving &&
-                  indexChange !== index &&
-                  indexChange - 1 !== index
-              "
-              class="absolute right-0 h-full flex items-center -mr-2"
-              @click="movingCard(index)"
-            >
-              <fill-card-in-btn></fill-card-in-btn>
-            </span>
+            <fill-card-in-btn></fill-card-in-btn>
+          </span>
+          <card-container
+            :card="card"
+            :cardHeight="cardHeight"
+            :class="{
+              'opacity-25': zeroPointCards.includes(card.id)
+            }"
+          ></card-container>
+          <span
+            v-if="
+              stateForMoving &&
+                indexChange !== index &&
+                indexChange - 1 !== index
+            "
+            class="absolute right-0 h-full flex items-center -mr-2"
+            @click="movingCard(index)"
+          >
+            <fill-card-in-btn></fill-card-in-btn>
+          </span>
 
-            <position-state-btn
-              @click="readyToChange(index)"
-            ></position-state-btn>
-          </div>
+          <position-state-btn
+            @click="readyToChange(index)"
+          ></position-state-btn>
         </div>
       </div>
-      <!-- Player table -->
+    </div>
+    <!-- Player table -->
+    <div class="mt-5 flex">
+      <button
+        class="rounded px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-orange-700 border-orange-900 text-white"
+      >
+        Confirm card position
+      </button>
     </div>
   </div>
 </template>
@@ -176,8 +90,9 @@ export default {
   },
   data() {
     return {
+      numCardAllow: 3,
+
       indexChange: -1,
-      originalCards: [],
       stateForMoving: false,
       desIndex: -1,
 
@@ -200,6 +115,7 @@ export default {
   },
   computed: {
     ...mapState({
+      originalCards: state => state.playing.cards,
       scr_height: state => state.scr_height
     })
   },
@@ -220,13 +136,8 @@ export default {
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
     this.cardWidth = (this.cardHeight - 32) / 1.612;
-    let self = this;
-    fetch("contents/cardSet1.json")
-      .then(res => res.json())
-      .then(cards => {
-        self.originalCards = cards;
-        self.distributeCards(cards);
-      });
+    console.log(this.originalCards);
+    this.distributeCards(this.originalCards);
   },
   mounted() {
     var element = this.$refs.tablePlay;
@@ -261,6 +172,7 @@ export default {
     },
     autoArrangeOnce() {
       let temp = null;
+      console.log(this.cards);
       this.cards.forEach((card, index) => {
         if (
           card.type == "Noun" &&
@@ -305,7 +217,7 @@ export default {
       this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
     isIllegalCard(card, index, previousCards) {
-      if (index > 0 && index < 6) {
+      if (index > 0 && index < this.numCardAllow) {
         console.log(
           index,
           this.isPreviousCardsIllegal(card, index) &&
@@ -370,8 +282,11 @@ export default {
      */
     distributeCards(cards) {
       shuffleArray(cards);
-      this.cards = cards.slice(0, 7);
-      this.allCards = cards.slice(29, cards.length - 1);
+      this.cards = cards.slice(0, this.numCardAllow);
+      this.allCards = cards.slice(
+        this.originalCards.length - 1,
+        cards.length - 1
+      );
       this.autoArrangeOnce();
       this.checkPositionOfCards();
     },

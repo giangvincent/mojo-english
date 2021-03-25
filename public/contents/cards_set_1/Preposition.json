@@ -1,0 +1,58 @@
+[
+    {
+        "id": "P1a",
+        "type": "Prep",
+        "point": 7,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
+    },
+    {
+        "id": "P1b",
+        "type": "Prep",
+        "point": 8,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
+    },
+    {
+        "id": "P1c",
+        "type": "Prep",
+        "point": 9,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
+    },
+    {
+        "id": "P1d",
+        "type": "Prep",
+        "point": 10,
+        "previousCards": [
+            "Verb",
+            "TimeCard"
+        ],
+        "nextCards": [
+            "Adj",
+            "Noun",
+            "Location"
+        ]
+    }
+]

@@ -1,0 +1,608 @@
+[
+    {
+        "id": "V1a",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "crawl",
+                "point": 4,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "crawls",
+                "point": 6,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "crawled",
+                "point": 3,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "over",
+                    "to",
+                    "away from"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1b",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "dance",
+                "point": 5,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "dances",
+                "point": 3,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "danced",
+                "point": 4,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "for",
+                    "over",
+                    "to",
+                    "away from"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1c",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "exercise",
+                "point": 4,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "exercises",
+                "point": 6,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "exercised",
+                "point": 5,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1d",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "jump",
+                "point": 4,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "jumps",
+                "point": 5,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "jumped",
+                "point": 3,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "over",
+                    "to",
+                    "into",
+                    "away from"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1e",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "play",
+                "point": 3,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "plays",
+                "point": 4,
+                "tense": "past simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "played",
+                "point": 5,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "V1f",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "run",
+                "point": 3,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "runs",
+                "point": 5,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "ran",
+                "point": 4,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "(away) from",
+                    "into",
+                    "to",
+                    "over to"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1g",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "jog",
+                "point": 3,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "jogs",
+                "point": 5,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "jogged",
+                "point": 4,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "(away) from",
+                    "into",
+                    "to",
+                    "over to"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1h",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "sing",
+                "point": 6,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "sings",
+                "point": 4,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "jogged",
+                "point": 3,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "to",
+                    "for",
+                    "about",
+                    "of"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1i",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "skip<br>/skip rope",
+                "point": 5,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "skips",
+                "point": 4,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "skipped",
+                "point": 3,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "to",
+                    "for",
+                    "away from",
+                    "over to"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    },
+    {
+        "id": "V1j",
+        "type": "Verb",
+        "content": [
+            {
+                "condition": [
+                    "plural",
+                    "repeat"
+                ],
+                "text": "walk",
+                "point": 3,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular"
+                ],
+                "text": "walks",
+                "point": 5,
+                "tense": "present simple"
+            },
+            {
+                "condition": [
+                    "singular",
+                    "plural"
+                ],
+                "text": "walked",
+                "point": 4,
+                "tense": "past simple"
+            }
+        ],
+        "previousCards": [
+            "Noun",
+            "HelpingVerb",
+            "Adverb",
+            "ExtraInformation"
+        ],
+        "nextCards": [
+            "Prep",
+            "Location",
+            "TimeCard",
+            "Animal",
+            "Conj",
+            "ExtraInformation"
+        ],
+        "condition": [
+            {
+                "type": "preposition",
+                "content": [
+                    "with",
+                    "into",
+                    "away from",
+                    "to",
+                    "over to"
+                ]
+            },
+            {
+                "type": "Adverb",
+                "symbol": "F",
+                "desc": "Allow only Frequency Adverb"
+            }
+        ]
+    }
+]

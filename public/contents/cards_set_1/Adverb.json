@@ -1,0 +1,104 @@
+[
+    {
+        "id": "AV1a",
+        "type": "Adverb",
+        "symbol": "F",
+        "content": [
+            "always",
+            "usually",
+            "often"
+        ],
+        "point": 9,
+        "previousCards": [
+            "Noun",
+            "HelpingVerb"
+        ],
+        "tense": "simple",
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "AV1b",
+        "type": "Adverb",
+        "symbol": "F",
+        "content": [
+            {
+                "type": [
+                    "positive",
+                    "question"
+                ],
+                "text": [
+                    "sometimes"
+                ]
+            },
+            {
+                "type": [
+                    "positive"
+                ],
+                "text": [
+                    "hardly ever",
+                    "seldom",
+                    "rarely"
+                ]
+            }
+        ],
+        "point": 6,
+        "previousCards": [
+            "Noun",
+            "HelpingVerb"
+        ],
+        "tense": "simple",
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "AV1c",
+        "type": "Adverb",
+        "symbol": "F",
+        "content": [
+            {
+                "type": [
+                    "positive"
+                ],
+                "text": [
+                    "never"
+                ]
+            },
+            {
+                "type": [
+                    "question",
+                    "negative"
+                ],
+                "text": [
+                    "ever"
+                ]
+            }
+        ],
+        "point": 6,
+        "previousCards": [
+            "Noun",
+            "HelpingVerb"
+        ],
+        "tense": "simple",
+        "nextCards": [
+            "Verb"
+        ]
+    },
+    {
+        "id": "AV1d",
+        "type": "Adverb",
+        "symbol": "D",
+        "content": [
+            "very",
+            "really"
+        ],
+        "point": 9,
+        "previousCards": [],
+        "tense": "",
+        "nextCards": [
+            "Adj"
+        ]
+    }
+]

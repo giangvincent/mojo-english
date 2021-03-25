@@ -1,0 +1,331 @@
+[
+    {
+        "id": "A1a",
+        "type": "Adj",
+        "content": {
+            "main": "hairy",
+            "additional": {
+                "synonym": [
+                    "shaggy"
+                ],
+                "antonym": [
+                    "hairless",
+                    "bald"
+                ]
+            }
+        },
+        "point": 5,
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Noun"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "werewolf",
+                    "giant"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "A1b",
+        "type": "Adj",
+        "content": {
+            "main": "funny",
+            "additional": {
+                "synonym": [
+                    "amusing",
+                    "hilarious"
+                ],
+                "antonym": [
+                    "serious",
+                    "solemn"
+                ]
+            }
+        },
+        "point": 5,
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Noun"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "mummy",
+                    "magician"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "A1c",
+        "type": "Adj",
+        "content": {
+            "main": "silly",
+            "additional": {
+                "synonym": [
+                    "idiotic",
+                    "foolish"
+                ],
+                "antonym": [
+                    "sensible",
+                    "practical"
+                ]
+            }
+        },
+        "point": 5,
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Noun"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "vampire",
+                    "monster"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "A1d",
+        "type": "Adj",
+        "content": {
+            "main": "brave",
+            "additional": {
+                "synonym": [
+                    "courageous",
+                    "fearless"
+                ],
+                "antonym": [
+                    "cowardly",
+                    "fearful"
+                ]
+            }
+        },
+        "point": 5,
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Noun"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "hero",
+                    "troll"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "A1e",
+        "type": "Adj",
+        "content": {
+            "main": "big",
+            "additional": {
+                "synonym": [
+                    "large",
+                    "enormous"
+                ],
+                "antonym": [
+                    "small",
+                    "tiny"
+                ]
+            }
+        },
+        "point": 5,
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "animal"
+                ]
+            },
+            {
+                "type": "Location",
+                "symbols": [
+                    "B",
+                    "C"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Location",
+            "Noun",
+            "Adj"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "monster"
+                ],
+                "point": 5
+            },
+            {
+                "type": "Location",
+                "content": [
+                    "B"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "A1f",
+        "type": "Adj",
+        "content": {
+            "main": "strong",
+            "additional": {
+                "synonym": [
+                    "powerful",
+                    "athletic"
+                ],
+                "antonym": [
+                    "weak",
+                    "puny",
+                    "frail"
+                ]
+            }
+        },
+        "point": 5,
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Noun",
+            "Adj"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "zombie",
+                    "unicorn"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "A1g",
+        "type": "Adj",
+        "content": {
+            "main": "dark",
+            "additional": {
+                "synonym": [
+                    "gloomy",
+                    "shadowy"
+                ],
+                "antonym": [
+                    "bright",
+                    "well-lit"
+                ]
+            }
+        },
+        "point": 5,
+        "condition": [
+            {
+                "type": "Location",
+                "symbols": [
+                    "B"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Conj",
+            "Verb",
+            "Adverb"
+        ],
+        "nextCards": [
+            "Location"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Location",
+                "content": [
+                    "cave",
+                    "forest"
+                ],
+                "point": 5
+            }
+        ]
+    }
+]

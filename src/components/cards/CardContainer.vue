@@ -1,10 +1,9 @@
 <template>
   <div
-    class="my-1 mx-2 bg-gray-300 rounded-md border-1 border-white overflow-hidden"
+    class="my-1 mx-2 bg-gray-300 rounded-md border-1 border-white overflow-hidden h-full"
+    :style="{ width: cardWidth + 'px' }"
   >
-    <div class="h-full" :style="{ width: cardWidth + 'px' }">
-      <component :card="card" v-bind:is="card.type"></component>
-    </div>
+    <component :card="card" v-bind:is="card.type"></component>
   </div>
 </template>
 

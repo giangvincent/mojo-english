@@ -1,0 +1,86 @@
+[
+    {
+        "id": "C1a",
+        "type": "Conj",
+        "content": [
+            {
+                "text": "and",
+                "point": 6
+            },
+            {
+                "text": "or",
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInformation",
+            "Verb"
+        ],
+        "nextCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInformation",
+            "Verb"
+        ]
+    },
+    {
+        "id": "C1b",
+        "type": "Conj",
+        "content": [
+            {
+                "text": "and",
+                "point": 5
+            },
+            {
+                "text": "or",
+                "point": 4
+            }
+        ],
+        "previousCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInformation",
+            "Verb"
+        ],
+        "nextCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInformation",
+            "Verb"
+        ]
+    },
+    {
+        "id": "C1c",
+        "type": "Conj",
+        "content": [
+            {
+                "text": "and",
+                "point": 4
+            },
+            {
+                "text": "or",
+                "point": 6
+            }
+        ],
+        "previousCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInformation",
+            "Verb"
+        ],
+        "nextCards": [
+            "Location",
+            "Noun",
+            "Adj",
+            "ExtraInformation",
+            "Verb"
+        ]
+    }
+]

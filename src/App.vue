@@ -1,8 +1,8 @@
 <template>
-  <div id="app" class="w-full h-full main-bg flex content-center items-center">
+  <div id="app" class="w-screen h-screen main-bg  overflow-y-auto">
     <div
-      class="game_screen"
-      v-bind:style="{ width: scr_width + 'px', height: scr_height + 'px' }"
+      class="game_screen w-full flex content-center items-center"
+      v-bind:style="{ height: scr_height + 'px' }"
     >
       <router-view />
     </div>
@@ -17,18 +17,15 @@ export default {
   created() {},
   computed: {
     ...mapState({
-      scr_width: (state) => state.scr_width,
-      scr_height: (state) => state.scr_height,
-    }),
-  },
+      scr_width: state => state.scr_width,
+      scr_height: state => state.scr_height
+    })
+  }
 };
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }

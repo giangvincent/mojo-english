@@ -1,26 +1,12 @@
 export default {
-    vi: {
-        language: "Tiếng việt",
-        title: {
-            setting: 'Cài đặt'
-        },
-        setting: {
-            music: "Âm nhạc",
-            sound: "Âm thanh",
-            language: "Ngôn ngữ",
-
-        }
-    },
-    en: {
-        language: "English",
-        title: {
-            setting: 'Settings'
-        },
-        setting: {
-            music: "Music",
-            sound: "Sound",
-            language: "Language",
-
-        }
-    },
-}
+  vi: {
+    home: ["Chơi ngay", "Cài đặt", "Cửa hàng", "Hướng dẫn", "Cấp"],
+    language: "Tiếng việt",
+    setting: ["Cài đặt", "Âm nhạc", "Âm thanh", "Ngôn ngữ"]
+  },
+  en: {
+    home: ["Play Now", "Settings", "Shop", "Guides", "Level"],
+    language: "English",
+    setting: ["Settings", "Music", "Sound", "Language"]
+  }
+};
