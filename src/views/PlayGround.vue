@@ -20,6 +20,7 @@
         :move="checkPositionOfCards"
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
         v-if="cards.length > 0"
+        :disabled="!isDragging"
       >
         <div
           class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
@@ -33,12 +34,16 @@
           <card-container
             :card="card"
             :cardHeight="cardHeight"
+            :canChooseWord="!zeroPointCards.includes(card.id)"
             :class="{
               'opacity-25': zeroPointCards.includes(card.id),
             }"
           ></card-container>
 
-          <discard-btn @click="discardCard(index)"></discard-btn>
+          <discard-btn
+            v-if="isDragging"
+            @click="discardCard(index)"
+          ></discard-btn>
         </div>
       </draggable>
     </div>
@@ -46,7 +51,7 @@
     <div class="mt-5 flex">
       <button
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
-        @click="finishSentence"
+        @click="isDragging = false"
       >
         Confirm card position
       </button>
@@ -88,6 +93,7 @@ export default {
       allCards: [],
       cardDiscarded: [],
       cards: [],
+      cardsWord: [],
 
       zeroPointCards: [],
       nounPharse: [],
@@ -102,7 +108,7 @@ export default {
       desTranslate: "",
 
       editable: true,
-      isDragging: false,
+      isDragging: true,
       delayedDragging: false,
     };
   },
