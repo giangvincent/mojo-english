@@ -73,7 +73,7 @@
         <span
           class="w-3"
           v-if="card.previousCards[1]"
-          :class="cardColors[card.previousCards[1]]"
+          :class="'bg-' + cardColors[card.previousCards[1]]"
         ></span>
         <span
           class="-ml-1 p-0.5 bg-gray-200 rounded-md border-1 border-black text-black text-sxs md:text-xs"
@@ -87,7 +87,7 @@
       <div
         class="w-5 h-5 -mr-0.5 border-1 border-black"
         v-if="card.nextCards[0]"
-        :class="cardColors[card.nextCards[0]]"
+        :class="'bg-' + cardColors[card.nextCards[0]]"
       ></div>
     </div>
   </div>
@@ -100,16 +100,16 @@ import { mapState } from "vuex";
 export default {
   name: "adverb",
   props: {
-    card: Object
+    card: Object,
   },
   components: {
-    MeaningType
+    MeaningType,
   },
   computed: {
     ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
-  }
+      cardColors: (state) => state.playing.cardColors,
+    }),
+  },
 };
 
 Meaning;

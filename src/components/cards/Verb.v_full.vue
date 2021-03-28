@@ -111,12 +111,12 @@
         <div class="w-3 flex flex-col">
           <span
             class="w-full h-1/2"
-            :class="cardColors[card.previousCards[1]]"
+            :class="'bg-' + cardColors[card.previousCards[1]]"
           ></span>
           <span
             style="font-size: xx-small"
             class="w-full h-1/2"
-            :class="cardColors[card.previousCards[2]]"
+            :class="'bg-' + cardColors[card.previousCards[2]]"
             >F</span
           >
         </div>
@@ -128,7 +128,7 @@
 
       <div
         class="w-full h-4 -mx-2 border-1 border-black text-sxs px-2 relative"
-        :class="cardColors['Prep']"
+        :class="'bg-' + cardColors['Prep']"
       >
         <span class="w-full overflow-hidden">{{
           card.condition[0].content.join("/")
@@ -136,7 +136,7 @@
         <div class="absolute flex right-0 top-0 h-3 -mt-4 text-black mr-2">
           <span
             class="h-full px-1"
-            :class="cardColors['Adverb']"
+            :class="'bg-' + cardColors['Adverb']"
             v-if="card.nextCards[0] === 'Prep'"
             >away</span
           >{{ card.nextCards[0] === "Prep" ? " /" : "" }}
@@ -154,7 +154,7 @@
           /
           <span
             class="h-3 w-3 border-1 border-black text-sxs"
-            :class="cardColors['TimeCard']"
+            :class="'bg-' + cardColors['TimeCard']"
             >T</span
           >
           /

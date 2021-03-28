@@ -15,7 +15,7 @@
         <div class="w-4 h-full">
           <div
             class="h-1/2"
-            :class="cardColors[card]"
+            :class="'bg-' + cardColors[card]"
             v-for="(card, index) in card.previousCards"
             :key="'previousCards-' + index"
           ></div>
@@ -82,7 +82,7 @@
             <div class="w-4">
               <div
                 class="h-full"
-                :class="cardColors[card.previousCards[0]]"
+                :class="'bg-' + cardColors[card.previousCards[0]]"
               ></div>
             </div>
             <div

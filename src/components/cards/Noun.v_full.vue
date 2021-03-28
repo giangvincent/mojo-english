@@ -13,7 +13,7 @@
       <div class="w-4 h-full">
         <div
           class="h-1/3"
-          :class="cardColors[card]"
+          :class="'bg-' + cardColors[card]"
           v-for="(card, index) in card.previousCards"
           :key="'previousCards-' + index"
         ></div>
@@ -49,7 +49,7 @@
       <div class="w-4 h-full">
         <div
           class="h-1/3"
-          :class="cardColors[card]"
+          :class="'bg-' + cardColors[card]"
           v-for="(card, index) in card.nextCards"
           :key="'nextCards-' + index"
         ></div>

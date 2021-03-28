@@ -23,7 +23,10 @@
         </div>
         <!-- plural -->
 
-        <div class="border-t-1 border-gray-700 flex">
+        <div
+          class="border-t-1 border-gray-700 flex items-center justify-center rounded-b-md"
+          :class="'bg-' + cardColors[card.bonusPoint.type]"
+        >
           {{ card.bonusPoint.word.join("/ ") }}
           <span
             class="absolute right-0 bottom-0 bg-white w-5 h-5 border-1 border-black rounded-full flex items-center justify-center -m-2 text-sm"

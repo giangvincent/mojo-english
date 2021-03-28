@@ -3,7 +3,10 @@
     class="flex flex-col justify-center items-center h-full w-full bg-gray-800"
   >
     <div class="w-full px-4 mb-5 text-left">
-      <div class="p-2 border-2 border-white text-white rounded-lg w-full">
+      <div
+        class="p-2 border-2 border-white text-white rounded-lg w-full"
+        v-if="!isDragging"
+      >
         Sentence:
       </div>
     </div>
@@ -41,7 +44,7 @@
           ></card-container>
 
           <discard-btn
-            v-if="isDragging"
+            v-if="isDragging && cardDiscarded.length < 3"
             @click="discardCard(index)"
           ></discard-btn>
         </div>
@@ -50,10 +53,20 @@
     <!-- Player table -->
     <div class="mt-5 flex">
       <button
+        v-if="isDragging == true"
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
-        @click="isDragging = false"
+        @click="lockCardPosition()"
       >
         Confirm card position
+      </button>
+      <button
+        v-if="isDragging == false"
+        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
+        :disabled="isSentenceNotReady"
+        :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
+        @click="submitSentence()"
+      >
+        Submit sentence
       </button>
     </div>
   </div>
@@ -89,6 +102,7 @@ export default {
       indexChange: -1,
       stateForMoving: false,
       desIndex: -1,
+      isSentenceNotReady: true,
 
       allCards: [],
       cardDiscarded: [],
@@ -159,6 +173,9 @@ export default {
     element.addEventListener("wheel", transformScroll);
   },
   methods: {
+    lockCardPosition() {
+      this.isDragging = false;
+    },
     finishSentence() {
       this.translateX = 0;
       this.indexChange = -1;

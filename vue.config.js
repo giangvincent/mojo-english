@@ -1,13 +1,13 @@
 // var webpack = require('webpack');
 module.exports = {
-  presets: [
+  /* presets: [
     [
       "@vue/app",
       {
         polyfills: ["es.promise"]
       }
     ]
-  ],
+  ], */
   // chainWebpack: config => {
   // remove the prefetch plugin
   // config.plugins.delete('html')

@@ -11,7 +11,7 @@
         {{ card.point }}
       </div>
       <div class="w-full"></div>
-      <div class="flex w-full my-3">
+      <div class="flex w-full">
         <div
           class="w-full bg-white rounded-lg border-1 border-gray-700 relative"
         >
@@ -28,10 +28,12 @@
             <div
               v-for="(bonusContent, index) in card.bonusPoint"
               :key="'bonusPoint-' + index"
+              :class="{ 'text-green-700': bonusContent.type == 'Verb' }"
             >
               {{ bonusContent.word.join("/") }}
             </div>
-            <span class="absolute right-0 mr-0.5 h-full flex items-center"
+            <span
+              class="absolute right-0 bottom-0 bg-white w-5 h-5 border-1 border-black rounded-full flex items-center justify-center -m-0.5 text-sm"
               >+{{ card.bonusPoint[0].point }}</span
             >
           </div>
