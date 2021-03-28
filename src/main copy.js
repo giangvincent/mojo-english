@@ -9,10 +9,10 @@ import VueI18n from "vue-i18n";
 import lang from "./lang.js";
 
 Vue.use(VueI18n);
-const i18n = new VueI18n({
+/* const i18n = new VueI18n({
   locale: "vi",
   messages: lang
-});
+}); */
 
 Vue.config.productionTip = false;
 
@@ -26,23 +26,26 @@ function startGame() {
       fallbackLocale: "en",
       messages: lang
     });
+    let self = this;
     let playerData = {};
     playerData.id = FBInstant.player.getID();
     playerData.name = FBInstant.player.getName();
     playerData.photo = new Image();
     playerData.photo.crossOrigin = "anonymous";
     playerData.photo.src = FBInstant.player.getPhoto();
+
     store.commit("setPlayerData", playerData);
     store.commit("SET_SCREEN");
+
     // console.log(playerData)
 
     // Fetch Player's Friends
-    FBInstant.player.getConnectedPlayersAsync().then(function(players) {
+    FBInstant.player.getConnectedPlayersAsync().then(function (players) {
       console.log("getConnectedPlayersAsync ", players);
     });
 
     // Fetch Context Players
-    FBInstant.context.getPlayersAsync().then(function(players) {
+    FBInstant.context.getPlayersAsync().then(function (players) {
       console.log("getPlayersAsync", players);
     });
 
@@ -59,12 +62,12 @@ function startGame() {
     });
   });
 
-  FBInstant.onPause(function() {
+  FBInstant.onPause(function () {
     console.log("Pause event was triggered!");
   });
 }
 const assets = ["@/assets/images/logo.png"];
-window.onload = function() {
+window.onload = function () {
   FBInstant.initializeAsync().then(() => {
     // for (let i in assets) {
     //   // When preloading assets, make sure to report the progress
@@ -95,11 +98,10 @@ window.onload = function() {
 
   // ga('create', 'UA-127992318-1', 'auto')
 };
-/* store.commit("SET_SCREEN");
-new Vue({
+// store.commit("SET_SCREEN");
+/* new Vue({
   i18n,
   router,
   store,
   render: h => h(App)
-}).$mount("#app");
- */
+}).$mount("#app"); */

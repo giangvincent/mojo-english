@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-col justify-center items-center h-full w-full">
+  <div
+    class="flex flex-col justify-center items-center h-full w-full bg-gray-800"
+  >
     <div class="w-full px-4 mb-5 text-left">
-      <div class="p-2 border-2 border-gray-800 rounded-lg w-full">
+      <div class="p-2 border-2 border-white text-white rounded-lg w-full">
         Sentence:
       </div>
     </div>
@@ -11,55 +13,40 @@
       id="tablePlay"
       class="flex w-full h-1/2 relative items-center justify-center relative"
     >
-      <div
+      <draggable
+        element="div"
+        v-model="cards"
+        v-bind="dragOptions"
+        :move="checkPositionOfCards"
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
         v-if="cards.length > 0"
       >
         <div
-          class="flex flex-row flex-no-wrap  relative duration-300 transform h-full"
+          class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
           v-for="(card, index) in cards"
           :key="'card-' + card.id"
           :class="{ '-translate-y-2': indexChange == index }"
           v-bind:style="{
-            transform: translateX > 0 && index == desIndex ? desTranslate : ''
+            transform: translateX > 0 && index == desIndex ? desTranslate : '',
           }"
         >
-          <span
-            v-if="stateForMoving && index === 0 && indexChange !== 0"
-            class="absolute left-0 h-full flex items-center -ml-2 z-10"
-            @click="movingCard(-1)"
-          >
-            <fill-card-in-btn></fill-card-in-btn>
-          </span>
           <card-container
             :card="card"
             :cardHeight="cardHeight"
             :class="{
-              'opacity-25': zeroPointCards.includes(card.id)
+              'opacity-25': zeroPointCards.includes(card.id),
             }"
           ></card-container>
-          <span
-            v-if="
-              stateForMoving &&
-                indexChange !== index &&
-                indexChange - 1 !== index
-            "
-            class="absolute right-0 h-full flex items-center -mr-2"
-            @click="movingCard(index)"
-          >
-            <fill-card-in-btn></fill-card-in-btn>
-          </span>
 
-          <position-state-btn
-            @click="readyToChange(index)"
-          ></position-state-btn>
+          <discard-btn @click="discardCard(index)"></discard-btn>
         </div>
-      </div>
+      </draggable>
     </div>
     <!-- Player table -->
     <div class="mt-5 flex">
       <button
-        class="rounded px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-orange-700 border-orange-900 text-white"
+        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
+        @click="finishSentence"
       >
         Confirm card position
       </button>
@@ -68,8 +55,9 @@
 </template>
 
 <script>
+import draggable from "vuedraggable";
 import CardContainer from "@/components/cards/CardContainer";
-import PositionStateBtn from "@/components/cards/Buttons/PositionStateBtn";
+import DiscardBtn from "@/components/cards/Buttons/DiscardBtn";
 import FillCardInBtn from "@/components/cards/Buttons/FillCardInBtn";
 import { mapState } from "vuex";
 
@@ -85,8 +73,9 @@ export default {
   name: "playing-ground",
   components: {
     CardContainer,
-    PositionStateBtn,
-    FillCardInBtn
+    DiscardBtn,
+    FillCardInBtn,
+    draggable,
   },
   data() {
     return {
@@ -110,33 +99,53 @@ export default {
       cardHeight: 0,
       translateX: 0,
       sourceTranslate: "",
-      desTranslate: ""
+      desTranslate: "",
+
+      editable: true,
+      isDragging: false,
+      delayedDragging: false,
     };
   },
   computed: {
     ...mapState({
-      originalCards: state => state.playing.cards,
-      scr_height: state => state.scr_height
-    })
+      originalCards: (state) => state.playing.cards,
+      scr_height: (state) => state.scr_height,
+    }),
+    dragOptions() {
+      return {
+        animation: 1,
+        group: "description",
+        disabled: !this.editable,
+        ghostClass: "ghost",
+      };
+    },
   },
   watch: {
-    indexChange: function(newVal, oldVal) {
+    isDragging(newValue) {
+      if (newValue) {
+        this.delayedDragging = true;
+        return;
+      }
+      this.$nextTick(() => {
+        this.delayedDragging = false;
+      });
+    },
+    indexChange: function (newVal, oldVal) {
       if (newVal >= 0) {
         this.stateForMoving = true;
       } else {
         this.stateForMoving = false;
       }
     },
-    stateForMoving: function(newVal, oldVal) {
+    stateForMoving: function (newVal, oldVal) {
       if (newVal !== oldVal || newVal) {
         this.checkPositionOfCards();
       }
-    }
+    },
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
     this.cardWidth = (this.cardHeight - 32) / 1.612;
-    console.log(this.originalCards);
     this.distributeCards(this.originalCards);
   },
   mounted() {
@@ -172,7 +181,6 @@ export default {
     },
     autoArrangeOnce() {
       let temp = null;
-      console.log(this.cards);
       this.cards.forEach((card, index) => {
         if (
           card.type == "Noun" &&
@@ -217,32 +225,22 @@ export default {
       this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
     isIllegalCard(card, index, previousCards) {
-      if (index > 0 && index < this.numCardAllow) {
-        console.log(
-          index,
-          this.isPreviousCardsIllegal(card, index) &&
-            this.isNextCardsIllegal(card, index)
-        );
+      if (index > 0 && index < this.numCardAllow - 1) {
         return (
           this.isPreviousCardsIllegal(card, index) &&
           this.isNextCardsIllegal(card, index)
         );
       } else {
         if (index == 0) {
-          console.log(index, this.isNextCardsIllegal(card, index));
+          console.log("check card 0:", card.nextCards);
           return this.isNextCardsIllegal(card, index);
         }
-        if (index == 6) {
+        if (index == this.numCardAllow - 1) {
           /**
            * check the last card
            * if all the previous cards is allowed and the last card must be Location, Time or Extra Information
            * else check last card like a normal card
            */
-          console.log(
-            index,
-            card.type,
-            this.isPreviousCardsIllegal(card, index)
-          );
           if (
             ["Location", "TimeCard", "ExtraInformation"].includes(card.type)
           ) {
@@ -250,7 +248,6 @@ export default {
               ({ type }) =>
                 card.previousCards && card.previousCards.includes(type)
             );
-            console.log(foundPreviousCard);
             return !foundPreviousCard;
           } else return this.isPreviousCardsIllegal(card, index);
         }
@@ -260,22 +257,26 @@ export default {
     isPreviousCardsIllegal(card, index) {
       if (
         card.previousCards &&
-        !card.previousCards.includes(this.cards[index - 1].type) &&
-        card.allowCards &&
-        !card.allowCards.includes(this.cards[index - 1].type)
+        card.previousCards.includes(this.cards[index - 1].type)
       )
-        return true;
-      return false;
+        return false;
+      if (
+        card.allowCards &&
+        card.allowCards.includes(this.cards[index - 1].type)
+      )
+        return false;
+      return true;
     },
     isNextCardsIllegal(card, index) {
+      if (card.nextCards && card.nextCards.includes(this.cards[index + 1].type))
+        return false;
       if (
-        card.nextCards &&
-        !card.nextCards.includes(this.cards[index + 1].type) &&
         card.allowCards &&
-        !card.allowCards.includes(this.cards[index + 1].type)
+        card.allowCards.includes(this.cards[index + 1].type)
       )
-        return true;
-      return false;
+        return false;
+
+      return true;
     },
     /**
      * chia bài
@@ -284,8 +285,8 @@ export default {
       shuffleArray(cards);
       this.cards = cards.slice(0, this.numCardAllow);
       this.allCards = cards.slice(
-        this.originalCards.length - 1,
-        cards.length - 1
+        this.cards.length,
+        this.originalCards.length - 1
       );
       this.autoArrangeOnce();
       this.checkPositionOfCards();
@@ -313,7 +314,7 @@ export default {
       }
 
       let self = this;
-      setTimeout(function() {
+      setTimeout(function () {
         self.swapCard(self.indexChange, self.desIndex);
       }, 350);
     },
@@ -335,18 +336,18 @@ export default {
       this.desIndex = -1;
       this.checkPositionOfCards();
     },
-    discardCard() {
-      if (this.cardDiscarded.length < 3 && this.indexChange >= 0) {
-        this.cardDiscarded.push(this.cards[this.indexChange]);
-        shuffleArray(this.allCards);
+    discardCard(index) {
+      console.log("discardCard", index);
+      if (this.cardDiscarded.length < 3) {
+        this.cardDiscarded.push(this.cards[index]);
+        // shuffleArray(this.allCards);
         // this.allCards = shuffleArray(this.allCards);
-        this.cards[this.indexChange] = this.allCards[0];
+        this.cards[index] = this.allCards[0];
         this.allCards.splice(0, 1);
-        this.indexChange = -1;
         this.checkPositionOfCards();
       }
-    }
-  }
+    },
+  },
 };
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
