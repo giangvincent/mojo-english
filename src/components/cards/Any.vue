@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div
+    class="relative w-full h-full py-2 flex flex-col content-between items-center justify-center"
+  ></div>
 </template>
 
 <script>

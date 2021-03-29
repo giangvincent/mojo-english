@@ -30,6 +30,9 @@
           class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
           v-for="(card, index) in cards"
           :key="'card-' + card.id"
+          :class="{
+            '-translate-y-3': zeroPointCards.includes(card.id) && !isDragging,
+          }"
         >
           <card-container
             :card="card"
@@ -44,6 +47,11 @@
             v-if="isDragging && cardDiscarded.length < 3"
             @click="discardCard(index)"
           ></discard-btn>
+          <replace-btn
+            v-if="zeroPointCards.includes(card.id) && cardDiscarded.length >= 3"
+            @changeCard="changeCard"
+            :cardIndex="index"
+          ></replace-btn>
         </div>
       </draggable>
     </div>
@@ -73,6 +81,7 @@
 import draggable from "vuedraggable";
 import CardContainer from "@/components/cards/CardContainer";
 import DiscardBtn from "@/components/cards/Buttons/DiscardBtn";
+import ReplaceBtn from "@/components/cards/Buttons/ReplaceBtn";
 import FillCardInBtn from "@/components/cards/Buttons/FillCardInBtn";
 import { mapState } from "vuex";
 
@@ -89,6 +98,7 @@ export default {
   components: {
     CardContainer,
     DiscardBtn,
+    ReplaceBtn,
     FillCardInBtn,
     draggable,
   },
@@ -128,6 +138,7 @@ export default {
     },
   },
   watch: {
+    
     isDragging(newValue) {
       if (newValue) {
         this.delayedDragging = true;
@@ -149,6 +160,9 @@ export default {
     element.addEventListener("wheel", transformScroll);
   },
   methods: {
+    changeCard(value) {
+      console.log(value);
+    },
     onSortCards() {
       this.checkPositionOfCards();
     },
@@ -255,8 +269,20 @@ export default {
 
       return true;
     },
+
+    discardCard(index) {
+      if (this.cardDiscarded.length < 3) {
+        this.cardDiscarded.push(this.cards[index]);
+        // shuffleArray(this.allCards);
+        // this.allCards = shuffleArray(this.allCards);
+        this.cards[index] = this.allCards[0];
+        this.allCards.splice(0, 1);
+        this.checkPositionOfCards();
+      }
+    },
     /**
-     * chia bài
+     * distribute Cards
+     * get random cards into playtable
      */
     distributeCards(cards) {
       shuffleArray(cards);
@@ -267,16 +293,6 @@ export default {
       );
       this.autoArrangeOnce();
       this.checkPositionOfCards();
-    },
-    discardCard(index) {
-      if (this.cardDiscarded.length < 3) {
-        this.cardDiscarded.push(this.cards[index]);
-        // shuffleArray(this.allCards);
-        // this.allCards = shuffleArray(this.allCards);
-        this.cards[index] = this.allCards[0];
-        this.allCards.splice(0, 1);
-        this.checkPositionOfCards();
-      }
     },
   },
 };
