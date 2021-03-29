@@ -20,7 +20,8 @@
         element="div"
         v-model="cards"
         v-bind="dragOptions"
-        :move="checkPositionOfCards"
+        ghost-class="ghost"
+        @change="onSortCards"
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
         v-if="cards.length > 0"
         :disabled="!isDragging"
@@ -29,10 +30,6 @@
           class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
           v-for="(card, index) in cards"
           :key="'card-' + card.id"
-          :class="{ '-translate-y-2': indexChange == index }"
-          v-bind:style="{
-            transform: translateX > 0 && index == desIndex ? desTranslate : '',
-          }"
         >
           <card-container
             :card="card"
@@ -98,28 +95,18 @@ export default {
   data() {
     return {
       numCardAllow: 3,
-
-      indexChange: -1,
-      stateForMoving: false,
-      desIndex: -1,
       isSentenceNotReady: true,
 
       allCards: [],
-      cardDiscarded: [],
       cards: [],
-      cardsWord: [],
-
       zeroPointCards: [],
-      nounPharse: [],
-      objectPhrase: [],
-      verbPhrase: [],
-      isQuestion: false,
+      illegalCardPosition: [],
+      cardDiscarded: [],
+
+      cardsWord: [],
 
       cardWidth: 0,
       cardHeight: 0,
-      translateX: 0,
-      sourceTranslate: "",
-      desTranslate: "",
 
       editable: true,
       isDragging: true,
@@ -144,23 +131,12 @@ export default {
     isDragging(newValue) {
       if (newValue) {
         this.delayedDragging = true;
+        this.checkPositionOfCards();
         return;
       }
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    },
-    indexChange: function (newVal, oldVal) {
-      if (newVal >= 0) {
-        this.stateForMoving = true;
-      } else {
-        this.stateForMoving = false;
-      }
-    },
-    stateForMoving: function (newVal, oldVal) {
-      if (newVal !== oldVal || newVal) {
-        this.checkPositionOfCards();
-      }
     },
   },
   created() {
@@ -173,34 +149,11 @@ export default {
     element.addEventListener("wheel", transformScroll);
   },
   methods: {
+    onSortCards() {
+      this.checkPositionOfCards();
+    },
     lockCardPosition() {
       this.isDragging = false;
-    },
-    finishSentence() {
-      this.translateX = 0;
-      this.indexChange = -1;
-      this.desIndex = -1;
-      this.cardDiscarded = [];
-      this.distributeCards(this.originalCards);
-    },
-    detectNounPhrase() {
-      this.nounPharse = [];
-      let isNounPhrase = false;
-      this.cards.forEach((card, index) => {
-        if ((card.type == "Adj" || card.type == "Noun") && !isNounPhrase) {
-          isNounPhrase = true;
-        }
-        if (
-          (card.type == "ExtraInformation" || card.type == "Noun") &&
-          isNounPhrase
-        ) {
-          isNounPhrase = true;
-        }
-      });
-    },
-    detectObjectPhrase() {
-      this.objectPhrase = [];
-      this.cards.forEach((card, index) => {});
     },
     autoArrangeOnce() {
       let temp = null;
@@ -236,16 +189,18 @@ export default {
       });
     },
     checkPositionOfCards() {
+      // console.log("call check position of cards", this.cards);
       let previousCards = [];
       this.zeroPointCards = [];
       this.cards.forEach((card, index) => {
         if (this.isIllegalCard(card, index, previousCards)) {
           this.zeroPointCards.push(card.id);
+          this.illegalCardPosition.push(index);
         }
 
         previousCards.push(card);
       });
-      this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
+      // this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
     isIllegalCard(card, index, previousCards) {
       if (index > 0 && index < this.numCardAllow - 1) {
@@ -255,7 +210,6 @@ export default {
         );
       } else {
         if (index == 0) {
-          console.log("check card 0:", card.nextCards);
           return this.isNextCardsIllegal(card, index);
         }
         if (index == this.numCardAllow - 1) {
@@ -314,53 +268,7 @@ export default {
       this.autoArrangeOnce();
       this.checkPositionOfCards();
     },
-    readyToChange(index) {
-      if (index == this.indexChange) {
-        this.indexChange = -1;
-        return;
-      }
-      this.indexChange = index;
-    },
-    movingCard(index) {
-      this.stateForMoving = false;
-
-      if (this.indexChange > index) {
-        this.translateX = this.cardWidth * (this.indexChange - (index + 1));
-        this.sourceTranslate = "translateX(-" + this.translateX + "px)";
-        this.desTranslate = "translateX(" + this.translateX + "px)";
-        this.desIndex = index + 1;
-      } else {
-        this.translateX = this.cardWidth * (index - this.indexChange);
-        this.sourceTranslate = "translateX(" + this.translateX + "px)";
-        this.desTranslate = "translateX(-" + this.translateX + "px)";
-        this.desIndex = index;
-      }
-
-      let self = this;
-      setTimeout(function () {
-        self.swapCard(self.indexChange, self.desIndex);
-      }, 350);
-    },
-    swapCard(source, des) {
-      let temp = {};
-      temp = this.cards[source];
-      let runLength = Math.abs(source - des);
-      for (let i = 0; i < runLength; i++) {
-        if (source < des) {
-          this.cards[source + i] = this.cards[source + i + 1];
-        } else {
-          this.cards[source - i] = this.cards[source - i - 1];
-        }
-      }
-      this.cards[des] = temp;
-
-      this.translateX = 0;
-      this.indexChange = -1;
-      this.desIndex = -1;
-      this.checkPositionOfCards();
-    },
     discardCard(index) {
-      console.log("discardCard", index);
       if (this.cardDiscarded.length < 3) {
         this.cardDiscarded.push(this.cards[index]);
         // shuffleArray(this.allCards);
