@@ -12,7 +12,7 @@
         :key="'content-' + index"
         :class="{
           'border-b-1 border-black': index == 0 || index == 2,
-          'border-1 border-black mx-1 pl-2': index == 1,
+          'border-1 border-black mx-1 pl-2': index == 1
         }"
       >
         <!-- <div
@@ -29,19 +29,19 @@
             :key="pindex"
             :class="{ 'pl-2 text-black': index === 2 }"
           >
-            {{ index === 2 && pindex === "simple tense" ? "( " : "" }}
+            {{ index === 2 && pindex === "simple" ? "( " : "" }}
             <span
               class="w-3 h-3 border-1 border-black mr-1"
               :class="{
-                'bg-black': pindex === 'past simple tense',
-                'bg-white': pindex === 'present simple tense',
+                'bg-black': pindex === 'past simple',
+                'bg-white': pindex === 'present simple',
                 'bg-gray-500 flex items-center justify-center text-black pb-2':
-                  pindex === 'future simple tense',
+                  pindex === 'future simple'
               }"
-              >{{ pindex === "future simple tense" ? "." : "" }}</span
+              >{{ pindex === "future simple" ? "." : "" }}</span
             >
             <span>{{ point }}</span>
-            {{ index === 2 && pindex === "simple tense" ? " )" : "" }}
+            {{ index === 2 && pindex === "simple" ? " )" : "" }}
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@
 export default {
   name: "time-card",
   props: {
-    card: Object,
+    card: Object
   },
   data() {
     return {
@@ -76,8 +76,8 @@ export default {
       text: "",
       point: 0,
       previousCards: [],
-      bonusPoints: [],
+      bonusPoints: []
     };
-  },
+  }
 };
 </script>

@@ -5,6 +5,7 @@
   >
     <div
       class="w-full m-2 p-1 bg-white rounded-lg border-1 border-gray-700 relative"
+      @click="chooseNoun('singular')"
     >
       {{ card.singular.text }}
       <span
@@ -14,7 +15,7 @@
     </div>
     <div class="flex w-full m-2">
       <div class="w-full bg-white rounded-lg border-1 border-gray-700 relative">
-        <div class="relative m-1">
+        <div class="relative m-1" @click="chooseNoun('plural')">
           {{ card.plural.text }}
           <span
             class="absolute right-0 top-0 bg-white w-5 h-5 border-1 border-black rounded-full flex items-center justify-center -m-2 text-sm"
@@ -44,15 +45,18 @@ import { mapState } from "vuex";
 export default {
   name: "noun",
   props: {
-    card: Object,
+    card: Object
   },
   data() {
     return {};
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
+      cardColors: state => state.playing.cardColors
+    })
   },
+  methods: {
+    chooseNoun(type) {}
+  }
 };
 </script>

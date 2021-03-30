@@ -15,9 +15,14 @@ export default {
       TimeCard: "orange-700",
       Verb: "green-700"
     },
-    tense: ["present simple tense", "past simple tense", "future simple tense"],
+    tense: ["present simple", "past simple", "future simple"],
     typeSentence: ["positive", "negative", "question"],
-    cards: []
+    cards: [],
+    nounType: null,
+    nounPhrase: [],
+    verbPhrase: [],
+    objectPhrase: [],
+    choseWords: []
   },
   mutations: mutations,
   actions: actions

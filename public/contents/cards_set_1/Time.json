@@ -7,25 +7,25 @@
             {
                 "text": "yesterday",
                 "point": {
-                    "past simple tense": 7
+                    "past simple": 7
                 }
             },
             {
                 "text": "during the day",
                 "point": {
-                    "simple tense": 4
+                    "simple": 4
                 }
             },
             {
                 "text": "every day",
                 "point": {
-                    "present simple tense": 5
+                    "present simple": 5
                 }
             },
             {
                 "text": "tomorrow",
                 "point": {
-                    "future simple tense": 3
+                    "future simple": 3
                 }
             }
         ],
@@ -42,25 +42,25 @@
             {
                 "text": "last night",
                 "point": {
-                    "past simple tense": 5
+                    "past simple": 5
                 }
             },
             {
                 "text": "at night",
                 "point": {
-                    "simple tense": 4
+                    "simple": 4
                 }
             },
             {
                 "text": "every night",
                 "point": {
-                    "present simple tense": 3
+                    "present simple": 3
                 }
             },
             {
                 "text": "tomorrow night",
                 "point": {
-                    "future simple tense": 7
+                    "future simple": 7
                 }
             }
         ],
@@ -77,27 +77,27 @@
             {
                 "text": "yesterday morning",
                 "point": {
-                    "past simple tense": 3
+                    "past simple": 3
                 }
             },
             {
-                "type": "simple tense",
+                "type": "simple",
                 "text": "in the afternoon",
                 "point": {
-                    "simple tense": 4
+                    "simple": 4
                 }
             },
             {
-                "type": "simple tense",
+                "type": "simple",
                 "text": "every afternoon/ in the afternoons",
                 "point": {
-                    "present simple tense": 7
+                    "present simple": 7
                 }
             },
             {
                 "text": "tomorrow evening",
                 "point": {
-                    "future simple tense": 5
+                    "future simple": 5
                 }
             }
         ],

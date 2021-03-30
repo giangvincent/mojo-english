@@ -5,7 +5,7 @@
   >
     <div
       v-if="!canChooseWord"
-      class="absolute top-0 left-0 bottom-0 right-0 z-50"
+      class="absolute w-full h-full top-0 left-0 bottom-0 right-0 z-50"
     ></div>
     <component :card="card" v-bind:is="card.type"></component>
   </div>
@@ -17,7 +17,7 @@ export default {
   props: {
     canChooseWord: Boolean,
     card: Object,
-    cardHeight: Number,
+    cardHeight: Number
   },
   components: {
     Any: () => import("@/components/cards/Any.vue"),
@@ -33,17 +33,17 @@ export default {
     Adj: () => import("@/components/cards/Adj.vue"),
     Adverb: () => import("@/components/cards/Adverb.vue"),
 
-    ExtraInformation: () => import("@/components/cards/ExtraInformation.vue"),
+    ExtraInformation: () => import("@/components/cards/ExtraInformation.vue")
   },
   data() {
     return {
-      cardWidth: 0,
+      cardWidth: 0
     };
   },
   created() {
     this.cardWidth = (this.cardHeight - 32) / 1.612;
   },
   mounted() {},
-  methods: {},
+  methods: {}
 };
 </script>

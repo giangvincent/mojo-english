@@ -31,7 +31,7 @@
           v-for="(card, index) in cards"
           :key="'card-' + card.id"
           :class="{
-            '-translate-y-3': zeroPointCards.includes(card.id) && !isDragging,
+            '-translate-y-3': zeroPointCards.includes(card.id) && !isDragging
           }"
         >
           <card-container
@@ -39,8 +39,9 @@
             :cardHeight="cardHeight"
             :canChooseWord="!zeroPointCards.includes(card.id)"
             :class="{
-              'opacity-25': zeroPointCards.includes(card.id),
+              'opacity-25': zeroPointCards.includes(card.id)
             }"
+            @choosedWord="choosedWord"
           ></card-container>
 
           <discard-btn
@@ -100,7 +101,7 @@ export default {
     DiscardBtn,
     ReplaceBtn,
     FillCardInBtn,
-    draggable,
+    draggable
   },
   data() {
     return {
@@ -120,25 +121,24 @@ export default {
 
       editable: true,
       isDragging: true,
-      delayedDragging: false,
+      delayedDragging: false
     };
   },
   computed: {
     ...mapState({
-      originalCards: (state) => state.playing.cards,
-      scr_height: (state) => state.scr_height,
+      originalCards: state => state.playing.cards,
+      scr_height: state => state.scr_height
     }),
     dragOptions() {
       return {
         animation: 1,
         group: "description",
         disabled: !this.editable,
-        ghostClass: "ghost",
+        ghostClass: "ghost"
       };
-    },
+    }
   },
   watch: {
-    
     isDragging(newValue) {
       if (newValue) {
         this.delayedDragging = true;
@@ -148,7 +148,7 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    },
+    }
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
@@ -160,6 +160,9 @@ export default {
     element.addEventListener("wheel", transformScroll);
   },
   methods: {
+    choosedWord(value) {
+      console.log("choosedWord", value);
+    },
     changeCard(value) {
       console.log(value);
     },
@@ -293,8 +296,8 @@ export default {
       );
       this.autoArrangeOnce();
       this.checkPositionOfCards();
-    },
-  },
+    }
+  }
 };
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
