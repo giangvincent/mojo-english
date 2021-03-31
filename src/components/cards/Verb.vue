@@ -4,7 +4,7 @@
       class="h-1/3 flex flex-col items-center"
       v-for="(cardContent, index) in card.content"
       :key="'content-' + index"
-      @click="chooseVerb(cardContent.tense)"
+      @click="chooseVerb(index)"
     >
       <div class="w-full h-full flex justify-between items-center">
         <div class="px-1 w-full" v-html="cardContent.text"></div>
@@ -28,16 +28,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "verb-card",
   props: {
-    card: Object
+    card: Object,
   },
   computed: {
     ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
-  }
+      cardColors: (state) => state.playing.cardColors,
+    }),
+  },
+  methods: {
+    ...mapMutations(["setVerbPhrase"]),
+    chooseVerb(index) {
+      console.log(this.card.content[index]);
+      this.setVerbPhrase(this.card.content[index]);
+    },
+  },
 };
 </script>

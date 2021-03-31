@@ -41,22 +41,27 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "noun",
   props: {
-    card: Object
+    card: Object,
   },
   data() {
     return {};
   },
   computed: {
     ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
+      cardColors: (state) => state.playing.cardColors,
+    }),
   },
   methods: {
-    chooseNoun(type) {}
-  }
+    ...mapMutations(["setNounPhrase", "setNounType"]),
+    chooseNoun(type) {
+      console.log(this.card[type]);
+      this.setNounType(type);
+      this.setNounPhrase(this.card[type]);
+    },
+  },
 };
 </script>
