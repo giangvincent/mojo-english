@@ -7,12 +7,14 @@
     </div>
     <div class="pt-3 flex flex-col text-white w-full h-full">
       <div
-        class="flex flex-col items-center justify-center h-1/4 relative"
+        class="flex flex-col items-center justify-center relative"
         v-for="(cardContent, index) in card.content"
         :key="'content-' + index"
         :class="{
+          'h-1/3': card.content.length == 3,
+          'h-1/4': card.content.length == 4,
           'border-b-1 border-black': index == 0 || index == 2,
-          'border-1 border-black mx-1 pl-2': index == 1
+          'border-1 border-black mx-1 pl-2': index == 1,
         }"
       >
         <!-- <div
@@ -36,7 +38,7 @@
                 'bg-black': pindex === 'past simple',
                 'bg-white': pindex === 'present simple',
                 'bg-gray-500 flex items-center justify-center text-black pb-2':
-                  pindex === 'future simple'
+                  pindex === 'future simple',
               }"
               >{{ pindex === "future simple" ? "." : "" }}</span
             >
@@ -64,10 +66,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "time-card",
   props: {
-    card: Object
+    card: Object,
   },
   data() {
     return {
@@ -76,8 +79,23 @@ export default {
       text: "",
       point: 0,
       previousCards: [],
-      bonusPoints: []
+      bonusPoints: [],
     };
-  }
+  },
+  computed: {
+    ...mapState({
+      objectPhrase: (state) => state.playing.objectPhrase,
+      playingStep: (state) => state.playing.playingStep,
+      curTense: (state) => state.playing.curTense,
+    }),
+  },
+  methods: {
+    chooseTime(index) {
+      console.log(this.card.content[index]);
+      if (this.playingStep == "choose-word") {
+        this.setTense(this.card.content[index]);
+      }
+    },
+  },
 };
 </script>

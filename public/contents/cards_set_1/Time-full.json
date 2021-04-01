@@ -21,6 +21,12 @@
                 "point": {
                     "present simple": 5
                 }
+            },
+            {
+                "text": "tomorrow",
+                "point": {
+                    "future simple": 3
+                }
             }
         ],
         "previousCards": [
@@ -49,6 +55,12 @@
                 "text": "every night",
                 "point": {
                     "present simple": 3
+                }
+            },
+            {
+                "text": "tomorrow night",
+                "point": {
+                    "future simple": 7
                 }
             }
         ],
@@ -80,6 +92,12 @@
                 "text": "every afternoon/ in the afternoons",
                 "point": {
                     "present simple": 7
+                }
+            },
+            {
+                "text": "tomorrow evening",
+                "point": {
+                    "future simple": 5
                 }
             }
         ],

@@ -53,14 +53,19 @@ export default {
   computed: {
     ...mapState({
       cardColors: (state) => state.playing.cardColors,
+      nounPhrase: (state) => state.playing.nounPhrase,
+      nounType: (state) => state.playing.nounType,
+      playingStep: (state) => state.playing.playingStep,
     }),
   },
   methods: {
     ...mapMutations(["setNounPhrase", "setNounType"]),
     chooseNoun(type) {
       console.log(this.card[type]);
-      this.setNounType(type);
-      this.setNounPhrase(this.card[type]);
+      if (this.playingStep === "choose-word") {
+        this.setNounType(type);
+        this.setNounPhrase(this.card[type]);
+      }
     },
   },
 };

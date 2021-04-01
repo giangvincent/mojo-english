@@ -37,13 +37,19 @@ export default {
   computed: {
     ...mapState({
       cardColors: (state) => state.playing.cardColors,
+      verbPhrase: (state) => state.playing.verbPhrase,
+      nounType: (state) => state.playing.nounType,
+      curTense: (state) => state.playing.curTense,
+      playingStep: (state) => state.playing.playingStep,
     }),
   },
   methods: {
     ...mapMutations(["setVerbPhrase"]),
     chooseVerb(index) {
       console.log(this.card.content[index]);
-      this.setVerbPhrase(this.card.content[index]);
+      if (this.playingStep == "choose-word") {
+        this.setVerbPhrase(this.card.content[index]);
+      }
     },
   },
 };

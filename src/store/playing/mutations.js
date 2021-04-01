@@ -2,6 +2,12 @@ export default {
   setCards: function (state, payload) {
     state.cards = payload;
   },
+  setPlayingStep: function (state, payload) {
+    state.playingStep = payload
+  },
+  setTense: function (state, payload) {
+    state.curTense = payload
+  },
   setNounType: function (state, payload) {
     state.nounType = payload
   },

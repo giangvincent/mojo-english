@@ -92,6 +92,7 @@ export default {
   computed: {
     ...mapState({
       cardColors: (state) => state.playing.cardColors,
+      objectPhrase: (state) => state.playing.objectPhrase,
     }),
   },
 };
