@@ -4,7 +4,8 @@
     :style="{ 'background-image': 'url(assets/images/' + card.image + ')' }"
   >
     <div
-      class="w-full m-2 p-1 bg-white rounded-lg border-1 border-gray-700 relative"
+      class="w-full m-2 p-1 rounded-lg border-1 border-gray-700 relative"
+      :class="{'bg-white': nounType == null || nounType === 'plural', 'bg-gray-500': nounType && nounType === 'singular'}"
       @click="chooseNoun('singular')"
     >
       {{ card.singular.text }}
@@ -15,7 +16,7 @@
     </div>
     <div class="flex w-full m-2">
       <div class="w-full bg-white rounded-lg border-1 border-gray-700 relative">
-        <div class="relative m-1" @click="chooseNoun('plural')">
+        <div class="relative p-1 rounded-t-md" :class="{'bg-gray-500': nounType && nounType === 'plural'}" @click="chooseNoun('plural')">
           {{ card.plural.text }}
           <span
             class="absolute right-0 top-0 bg-white w-5 h-5 border-1 border-black rounded-full flex items-center justify-center -m-2 text-sm"
@@ -61,7 +62,7 @@ export default {
   methods: {
     ...mapMutations(["setNounPhrase", "setNounType"]),
     chooseNoun(type) {
-      console.log(this.card[type]);
+      // console.log(this.card[type]);
       if (this.playingStep === "choose-word") {
         this.setNounType(type);
         this.setNounPhrase(this.card[type]);

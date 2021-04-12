@@ -6,21 +6,18 @@
         "content": [
             {
                 "text": "yesterday",
-                "point": {
-                    "past simple": 7
-                }
+                "tense": "past simple",
+                "point": 7
             },
             {
                 "text": "during the day",
-                "point": {
-                    "simple": 4
-                }
+                "tense": "simple",
+                "point": 4
             },
             {
                 "text": "every day",
-                "point": {
-                    "present simple": 5
-                }
+                "tense": "present simple",
+                "point": 5
             }
         ],
         "previousCards": [
@@ -35,21 +32,18 @@
         "content": [
             {
                 "text": "last night",
-                "point": {
-                    "past simple": 5
-                }
+                "tense": "past simple",
+                "point": 5
             },
             {
                 "text": "at night",
-                "point": {
-                    "simple": 4
-                }
+                "tense": "simple",
+                "point": 4
             },
             {
                 "text": "every night",
-                "point": {
-                    "present simple": 3
-                }
+                "tense": "present simple",
+                "point": 3
             }
         ],
         "previousCards": [
@@ -64,23 +58,18 @@
         "content": [
             {
                 "text": "yesterday morning",
-                "point": {
-                    "past simple": 3
-                }
+                "tense": "past simple",
+                "point": 3
             },
             {
-                "type": "simple",
+                "tense": "simple",
                 "text": "in the afternoon",
-                "point": {
-                    "simple": 4
-                }
+                "point": 4
             },
             {
-                "type": "simple",
+                "tense": "simple",
                 "text": "every afternoon/ in the afternoons",
-                "point": {
-                    "present simple": 7
-                }
+                "point": 7
             }
         ],
         "previousCards": [

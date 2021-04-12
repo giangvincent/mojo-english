@@ -8,6 +8,12 @@
         v-if="!isDragging"
       >
         Sentence:
+        <div class="ml-2 inline">
+          <span class="ml-1" v-for="(content, index) in choseWords" :key="'choseWord-' + index">
+          {{ content.text }}
+        </span>
+        </div>
+
       </div>
     </div>
     <!-- Table -->
@@ -127,6 +133,7 @@ export default {
     ...mapState({
       originalCards: (state) => state.playing.cards,
       scr_height: (state) => state.scr_height,
+      choseWords: (state) => state.playing.choseWords
     }),
     dragOptions() {
       return {
@@ -148,6 +155,13 @@ export default {
         this.delayedDragging = false;
       });
     },
+    choseWords: {
+      handler: function(val) {
+        console.log(val)
+        this.cardsWord = val
+      },
+      deep: true
+    }
   },
   created() {
     this.cardHeight = (this.scr_height * 3) / 5;
@@ -159,7 +173,7 @@ export default {
     element.addEventListener("wheel", transformScroll);
   },
   methods: {
-    ...mapMutations(["playingStep"]),
+    ...mapMutations(["playingStep", "setPlayingStep"]),
     changeCard(value) {
       console.log(value);
     },
@@ -168,6 +182,7 @@ export default {
     },
     lockCardPosition() {
       this.isDragging = false;
+      this.setPlayingStep("choose-word")
     },
     autoArrangeOnce() {
       let temp = null;

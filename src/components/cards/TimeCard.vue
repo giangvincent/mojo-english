@@ -15,6 +15,7 @@
           'h-1/4': card.content.length == 4,
           'border-b-1 border-black': index == 0 || index == 2,
           'border-1 border-black mx-1 pl-2': index == 1,
+          'bg-black bg-opacity-50': curTense && curTense.indexOf(cardContent.tense)
         }"
       >
         <!-- <div
@@ -27,23 +28,20 @@
         <div class="flex">
           <div
             class="flex items-center"
-            v-for="(point, pindex) in cardContent.point"
-            :key="pindex"
-            :class="{ 'pl-2 text-black': index === 2 }"
           >
-            {{ index === 2 && pindex === "simple" ? "( " : "" }}
+
             <span
               class="w-3 h-3 border-1 border-black mr-1"
               :class="{
-                'bg-black': pindex === 'past simple',
-                'bg-white': pindex === 'present simple',
+                'bg-black': cardContent.tense === 'past simple',
+                'bg-white': cardContent.tense === 'present simple',
                 'bg-gray-500 flex items-center justify-center text-black pb-2':
-                  pindex === 'future simple',
+                  cardContent.tense === 'future simple',
               }"
-              >{{ pindex === "future simple" ? "." : "" }}</span
+              >{{ cardContent.tense === "future simple" ? "." : "" }}</span
             >
-            <span>{{ point }}</span>
-            {{ index === 2 && pindex === "simple" ? " )" : "" }}
+            <span>{{ cardContent.point }}</span>
+
           </div>
         </div>
       </div>
