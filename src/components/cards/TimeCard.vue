@@ -17,6 +17,7 @@
           'border-1 border-black mx-1 pl-2': index == 1,
           'bg-black bg-opacity-50': curTense && curTense.indexOf(cardContent.tense)
         }"
+        @click="chooseTime(index)"
       >
         <!-- <div
           v-if="index === 1"
@@ -64,7 +65,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "time-card",
   props: {
@@ -88,6 +89,7 @@ export default {
     }),
   },
   methods: {
+    ...mapMutations(['setTense', 'setObjectPhrase']),
     chooseTime(index) {
       console.log(this.card.content[index]);
       if (this.playingStep == "choose-word") {

@@ -15,13 +15,8 @@
         <div
           class="w-full bg-white rounded-lg border-1 border-gray-700 relative"
         >
-          <div class="p-1 flex flex-col leading-5">
-            <span
-              v-for="(cardContent, index) in card.content"
-              :key="'content-' + index"
-            >
-              {{ cardContent }}
-            </span>
+          <div class="p-1 flex flex-col leading-5" >
+            {{ card.content[contentIndex] }}
           </div>
 
           <div class="flex flex-col border-t-1 border-gray-800 relative">
@@ -54,6 +49,7 @@
         <div class="absolute bottom-0 w-full">
           <div
             class="w-full -mx-1 bg-white rounded-lg border-1 border-gray-700 relative"
+            @click="chooseLocation(card.content[0])"
           >
             <div class="p-1 flex flex-col">
               {{ card.content[0] }}
@@ -64,6 +60,7 @@
       <div class="flex w-full h-1/2 relative">
         <div
           class="absolute bottom-0 w-full bg-white rounded-lg border-1 border-gray-700 px-0.5"
+          @click="chooseLocation(card.content[1])"
         >
           {{ card.content[1] }}
         </div>
@@ -73,7 +70,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "location-card",
   props: {
@@ -81,19 +78,42 @@ export default {
   },
   data() {
     return {
-      id: "",
-      image: "",
-      text: "",
-      point: 0,
-      previousCards: [],
-      bonusPoints: [],
+      contentIndex: 0
     };
   },
   computed: {
     ...mapState({
       cardColors: (state) => state.playing.cardColors,
       objectPhrase: (state) => state.playing.objectPhrase,
+      playingStep: (state) => state.playing.playingStep
     }),
   },
+  watch: {
+    playingStep: function(val, oldVal) {
+      if (val == "choose-word" && typeof this.card.image === 'string') {
+        let contentOb = {
+          text: this.card.content[this.contentIndex],
+          point: this.card.point,
+          bonus: this.card.bonusPoint
+        }
+        this.setObjectPhrase(contentOb)
+      }
+    }
+  },
+  mounted() {
+    if (this.card.content.length > 1) {
+      this.contentIndex = Math.floor(Math.random() * this.card.content.length)
+    }
+  },
+  methods: {
+    ...mapMutations(['setObjectPhrase']),
+    chooseLocation(content) {
+      let contentOb = {
+          text: content,
+          point: this.card.point
+        }
+        this.setObjectPhrase(contentOb)
+    }
+  }
 };
 </script>

@@ -65,6 +65,8 @@ export default {
       // console.log(this.card[type]);
       if (this.playingStep === "choose-word") {
         this.setNounType(type);
+        let nounPhrase = this.card[type];
+        nounPhrase.bonus = this.card.bonusPoint
         this.setNounPhrase(this.card[type]);
       }
     },

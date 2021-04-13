@@ -25,7 +25,7 @@ export default {
     console.log(state.choseWords)
   },
   setObjectPhrase: function (state, payload) {
-    state.objectPhrase = []
+    state.objectPhrase = payload
     // state.objectPhrase.push(payload);
     state.choseWords[2] = state.objectPhrase;
   }

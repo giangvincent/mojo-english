@@ -9,9 +9,9 @@
       >
         Sentence:
         <div class="ml-2 inline">
-          <span class="ml-1" v-for="(content, index) in choseWords" :key="'choseWord-' + index">
-          {{ content.text }}
-        </span>
+          {{ typeof nounPhrase.text !== 'undefinded' ? nounPhrase.text : '' }}
+          {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
+          {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text : '' }}
         </div>
 
       </div>
@@ -133,7 +133,13 @@ export default {
     ...mapState({
       originalCards: (state) => state.playing.cards,
       scr_height: (state) => state.scr_height,
-      choseWords: (state) => state.playing.choseWords
+      choseWords: (state) => {
+        console.log(state.playing.choseWords)
+        return state.playing.choseWords
+      },
+      nounPhrase: (state) => state.playing.nounPhrase,
+      verbPhrase: state => state.playing.verbPhrase,
+      objectPhrase: state => state.playing.objectPhrase
     }),
     dragOptions() {
       return {
