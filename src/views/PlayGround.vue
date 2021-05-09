@@ -185,6 +185,7 @@ export default {
     ...mapMutations(["playingStep", "setPlayingStep"]),
     changeCard(value) {
       console.log(value);
+
     },
     onSortCards() {
       this.checkPositionOfCards();

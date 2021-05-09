@@ -20,7 +20,6 @@ export default {
     cardHeight: Number
   },
   components: {
-    Any: () => import("@/components/cards/Any.vue"),
     Noun: () => import("@/components/cards/Noun.vue"),
     Location: () => import("@/components/cards/Location.vue"),
     TimeCard: () => import("@/components/cards/TimeCard.vue"),
