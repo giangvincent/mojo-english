@@ -7,7 +7,7 @@
         class="p-2 border-2 border-white text-white rounded-lg w-full"
         v-if="!isDragging"
       >
-        Sentence:
+        {{ $t('playing')['final_sentence'] }}:
         <div class="ml-2 inline">
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhrase.text : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
@@ -54,9 +54,10 @@
             @click="discardCard(index)"
           ></discard-btn>
           <replace-btn
-            v-if="zeroPointCards.includes(card.id) && cardDiscarded.length >= 3"
+            v-if="zeroPointCards.includes(card.id) && (cardDiscarded.length >= 3 || playingStep == 'choose-word')"
             @changeCard="changeCard"
             :cardIndex="index"
+            :cardOb="card"
           ></replace-btn>
         </div>
       </draggable>
@@ -68,7 +69,7 @@
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
         @click="lockCardPosition()"
       >
-        Confirm card position
+        {{ $t('playing')['confirm_position'] }}
       </button>
       <button
         v-if="isDragging == false"
@@ -77,7 +78,7 @@
         :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
         @click="submitSentence()"
       >
-        Submit sentence
+        {{ $t('playing')['submit_sentence'] }}
       </button>
     </div>
   </div>
@@ -131,6 +132,7 @@ export default {
   },
   computed: {
     ...mapState({
+      player: state => state.player.playerData,
       originalCards: (state) => state.playing.cards,
       scr_height: (state) => state.scr_height,
       choseWords: (state) => {
@@ -139,7 +141,8 @@ export default {
       },
       nounPhrase: (state) => state.playing.nounPhrase,
       verbPhrase: state => state.playing.verbPhrase,
-      objectPhrase: state => state.playing.objectPhrase
+      objectPhrase: state => state.playing.objectPhrase,
+      playingStep: state => state.playing.playingStep
     }),
     dragOptions() {
       return {
@@ -254,7 +257,8 @@ export default {
            * else check last card like a normal card
            */
           if (
-            ["Location", "TimeCard", "ExtraInformation"].includes(card.type)
+            ["Location", "TimeCard", "ExtraInformation"].includes(card.type) &&
+            this.player['level'] > 1
           ) {
             const foundPreviousCard = previousCards.some(
               ({ type }) =>

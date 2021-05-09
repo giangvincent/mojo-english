@@ -15,8 +15,7 @@
           'h-1/4': card.content.length == 4,
           'border-b-1 border-black': index == 0 || index == 2,
           'border-1 border-black mx-1 pl-2': index == 1,
-          'bg-black bg-opacity-50':
-            curTense && curTense.indexOf(cardContent.tense),
+          'bg-black bg-opacity-50': curTense && !(cardContent.tense.indexOf(curTense) > -1)
         }"
         @click="chooseTime(index)"
       >
@@ -28,7 +27,10 @@
         </div> -->
         <span class="leading-3">{{ cardContent.text }}</span>
         <div class="flex">
-          <div class="flex items-center">
+          <div
+            class="flex items-center"
+          >
+
             <span
               class="w-3 h-3 border-1 border-black mr-1"
               :class="{
@@ -40,6 +42,7 @@
               >{{ cardContent.tense === "future simple" ? "." : "" }}</span
             >
             <span>{{ cardContent.point }}</span>
+
           </div>
         </div>
       </div>
@@ -85,13 +88,18 @@ export default {
       curTense: (state) => state.playing.curTense,
     }),
   },
+  watch: {
+    curTense: function () {
+      console.log("present simple / future simple / past simple".indexOf(this.curTense))
+    }
+  },
   methods: {
-    ...mapMutations(["setTense", "setObjectPhrase"]),
+    ...mapMutations(['setTense', 'setObjectPhrase']),
     chooseTime(index) {
-      console.log(this.card.content[index]);
+
       if (this.playingStep == "choose-word") {
-        this.setTense(this.card.content[index].tense);
-        this.setObjectPhrase(this.card.content[index]);
+        // this.setTense(this.card.content[index].tense);
+        this.setObjectPhrase(this.card.content[index])
       }
     },
   },

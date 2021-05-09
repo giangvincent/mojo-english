@@ -11,7 +11,7 @@
             },
             {
                 "text": "during the day",
-                "tense": "simple",
+                "tense": "present simple / future simple / past simple",
                 "point": 4
             },
             {
@@ -37,7 +37,7 @@
             },
             {
                 "text": "at night",
-                "tense": "simple",
+                "tense": "present simple / future simple / past simple",
                 "point": 4
             },
             {
@@ -62,13 +62,13 @@
                 "point": 3
             },
             {
-                "tense": "simple",
+                "tense": "present simple / future simple / past simple",
                 "text": "in the afternoon",
                 "point": 4
             },
             {
-                "tense": "simple",
-                "text": "every afternoon/ in the afternoons",
+                "tense": "present simple",
+                "text": "every afternoon",
                 "point": 7
             }
         ],

@@ -6,27 +6,31 @@ export default {
     state.playingStep = payload
   },
   setTense: function (state, payload) {
-    state.curTense = payload
+    if (payload !== state.curTense) {
+      state.curTense = payload;
+      state.verbPhrase = [];
+      state.objectPhrase = [];
+    }
   },
   setNounType: function (state, payload) {
+    if (payload !== state.nounType) {
+      state.nounType = payload;
+      state.verbPhrase = [];
+      state.objectPhrase = [];
+    }
 
-    state.nounType = payload
   },
   setNounPhrase: function (state, payload) {
     state.nounPhrase = payload
-    // state.nounPhrase.push(payload);
-    state.choseWords[0] = state.nounPhrase;
-    console.log(state.choseWords)
   },
   setVerbPhrase: function (state, payload) {
-    state.verbPhrase = payload
-    // state.verbPhrase.push(payload);
-    state.choseWords[1] = state.verbPhrase;
-    console.log(state.choseWords)
+    state.verbPhrase = payload;
+
   },
   setObjectPhrase: function (state, payload) {
     state.objectPhrase = payload
-    // state.objectPhrase.push(payload);
-    state.choseWords[2] = state.objectPhrase;
+  },
+  resetSentence: function (state, payload) {
+
   }
 };

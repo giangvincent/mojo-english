@@ -15,7 +15,7 @@
         <div
           class="w-full bg-white rounded-lg border-1 border-gray-700 relative"
         >
-          <div class="p-1 flex flex-col leading-5" >
+          <div class="p-1 flex flex-col leading-5" @click="chooseLocation(card.content[contentIndex])">
             {{ card.content[contentIndex] }}
           </div>
 

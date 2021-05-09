@@ -5,7 +5,7 @@
     <span
       @click="changeCard('Noun')"
       class="bg-white p-1 flex rounded-md"
-      v-if="cardIndex == 0"
+      v-if="cardIndex == 0 && cardOb.type !== 'Noun'"
       ><svg
         class="w-6 h-6"
         xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
     <span
       @click="changeCard('Verb')"
       class="bg-green-700 p-1 flex rounded-md"
-      v-if="cardIndex == 1"
+      v-if="cardIndex == 1 && cardOb.type !== 'Verb'"
       ><svg
         class="w-6 h-6"
         xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,7 @@
     <span
       @click="changeCard('TimeCard')"
       class="bg-orange-700 p-1 flex rounded-l-md"
-      v-if="cardIndex == 2"
+      v-if="cardIndex == 2 && cardOb.type !== 'TimeCard' && cardOb.type !== 'Location'"
       ><svg
         class="w-6 h-6"
         xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@
     <span
       @click="changeCard('Location')"
       class="bg-white p-1 flex rounded-r-md"
-      v-if="cardIndex == 2"
+      v-if="cardIndex == 2 && cardOb.type !== 'TimeCard' && cardOb.type !== 'Location'"
       ><svg
         class="w-6 h-6"
         xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +85,8 @@
 export default {
   name: "replace-btn",
   props: {
-    cardIndex: Number
+    cardIndex: Number,
+    cardOb: Object
   },
   methods: {
     changeCard(card) {

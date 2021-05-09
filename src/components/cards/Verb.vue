@@ -52,10 +52,10 @@ export default {
   methods: {
     ...mapMutations(["setVerbPhrase", "setTense"]),
     chooseVerb(index) {
-      // console.log(this.card.content[index]);
       if (this.playingStep == "choose-word") {
-        this.setVerbPhrase(this.card.content[index]);
+
         this.setTense(this.card.content[index].tense);
+        this.setVerbPhrase(this.card.content[index]);
       }
     },
   },

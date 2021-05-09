@@ -11,7 +11,7 @@ export default {
     let filesCard = listCard.map(
       card => "contents/cards_set_1/" + card + ".json"
     );
-    console.log(filesCard);
+    // console.log(filesCard);
     var results = [];
     var list = [];
 
