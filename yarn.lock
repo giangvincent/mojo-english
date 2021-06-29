@@ -12326,6 +12326,11 @@
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.12.tgz"
   "version" "2.6.12"
 
+"vue2-touch-events@^3.2.2":
+  "integrity" "sha512-rGV8jxgOQEJYkJCp7uOBe3hjvmG1arThrq1wGtJHwJTgi65+P2a+0l4CYcQO/U1ZFqTq2/TT2+oTE6H7Y+6Eog=="
+  "resolved" "https://registry.npmjs.org/vue2-touch-events/-/vue2-touch-events-3.2.2.tgz"
+  "version" "3.2.2"
+
 "vuedraggable@^2.24.3":
   "integrity" "sha512-6/HDXi92GzB+Hcs9fC6PAAozK1RLt1ewPTLjK0anTYguXLAeySDmcnqE8IC0xa7shvSzRjQXq3/+dsZ7ETGF3g=="
   "resolved" "https://registry.npmjs.org/vuedraggable/-/vuedraggable-2.24.3.tgz"

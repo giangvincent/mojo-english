@@ -7,7 +7,9 @@ import "@/assets/css/tailwind.css";
 import "@/assets/css/animate.css";
 import VueI18n from "vue-i18n";
 import lang from "./lang.js";
+import Vue2TouchEvents from 'vue2-touch-events'
 
+Vue.use(Vue2TouchEvents)
 Vue.use(VueI18n);
 /* const i18n = new VueI18n({
   locale: "vi",

@@ -12,6 +12,7 @@
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhrase.text : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text : '' }}
+          <div>{{  }}</div>
         </div>
 
       </div>
@@ -31,6 +32,7 @@
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
         v-if="cards.length > 0"
         :disabled="!isDragging"
+
       >
         <div
           class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
@@ -39,6 +41,7 @@
           :class="{
             '-translate-y-3': zeroPointCards.includes(card.id) && !isDragging,
           }"
+          v-touch:swipe="swipeCard(index)"
         >
           <card-container
             :card="card"
@@ -47,6 +50,7 @@
             :class="{
               'opacity-25': zeroPointCards.includes(card.id),
             }"
+
           ></card-container>
 
           <discard-btn
@@ -183,9 +187,18 @@ export default {
   },
   methods: {
     ...mapMutations(["playingStep", "setPlayingStep"]),
+    swipeCard(param) {
+      let self = this
+      return function(direction, event) {
+        console.log(direction, param);
+        if(direction === 'top') {
+          self.discardCard(param)
+        }
+      }
+    },
     changeCard(value) {
       console.log(value);
-
+      // @TODO replace current card to new one followed by value
     },
     onSortCards() {
       this.checkPositionOfCards();
