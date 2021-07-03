@@ -89,31 +89,32 @@
 </template>
 
 <script>
-import draggable from "vuedraggable";
-import CardContainer from "@/components/cards/CardContainer";
-import DiscardBtn from "@/components/cards/Buttons/DiscardBtn";
-import ReplaceBtn from "@/components/cards/Buttons/ReplaceBtn";
-import FillCardInBtn from "@/components/cards/Buttons/FillCardInBtn";
-import { mapMutations, mapState } from "vuex";
+import draggable from 'vuedraggable'
+import CardContainer from '@/components/cards/CardContainer'
+import DiscardBtn from '@/components/cards/Buttons/DiscardBtn'
+import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn'
+// import FillCardInBtn from '@/components/cards/Buttons/FillCardInBtn'
+import { mapMutations, mapState } from 'vuex'
+import { shuffleArray } from '@/helper'
 
-function transformScroll(event) {
+function transformScroll (event) {
   if (!event.deltaY) {
-    return;
+    return
   }
-  event.currentTarget.scrollLeft -= event.deltaY * 10;
-  event.preventDefault();
+  event.currentTarget.scrollLeft -= event.deltaY * 10
+  event.preventDefault()
 }
 
 export default {
-  name: "playing-ground",
+  name: 'playing-ground',
   components: {
     CardContainer,
     DiscardBtn,
     ReplaceBtn,
-    FillCardInBtn,
-    draggable,
+    // FillCardInBtn,
+    draggable
   },
-  data() {
+  data () {
     return {
       numCardAllow: 3,
       isSentenceNotReady: true,
@@ -131,8 +132,8 @@ export default {
 
       editable: true,
       isDragging: true,
-      delayedDragging: false,
-    };
+      delayedDragging: false
+    }
   },
   computed: {
     ...mapState({
@@ -148,216 +149,190 @@ export default {
       objectPhrase: state => state.playing.objectPhrase,
       playingStep: state => state.playing.playingStep
     }),
-    dragOptions() {
+    dragOptions () {
       return {
         animation: 1,
-        group: "description",
+        group: 'description',
         disabled: !this.editable,
-        ghostClass: "ghost",
-      };
-    },
+        ghostClass: 'ghost'
+      }
+    }
   },
   watch: {
-    isDragging(newValue) {
+    isDragging (newValue) {
       if (newValue) {
-        this.delayedDragging = true;
-        this.checkPositionOfCards();
-        return;
+        this.delayedDragging = true
+        this.checkPositionOfCards()
+        return
       }
       this.$nextTick(() => {
-        this.delayedDragging = false;
-      });
+        this.delayedDragging = false
+      })
     },
     choseWords: {
-      handler: function(val) {
+      handler: function (val) {
         console.log(val)
         this.cardsWord = val
       },
       deep: true
     }
   },
-  created() {
-    this.cardHeight = (this.scr_height * 3) / 5;
-    this.cardWidth = (this.cardHeight - 32) / 1.612;
-    this.distributeCards(this.originalCards);
+  created () {
+    this.cardHeight = (this.scr_height * 3) / 5
+    this.cardWidth = (this.cardHeight - 32) / 1.612
+    this.distributeCards(this.originalCards)
   },
-  mounted() {
-    var element = this.$refs.tablePlay;
-    element.addEventListener("wheel", transformScroll);
+  mounted () {
+    var element = this.$refs.tablePlay
+    element.addEventListener('wheel', transformScroll)
   },
   methods: {
-    ...mapMutations(["playingStep", "setPlayingStep"]),
-    swipeCard(param) {
+    ...mapMutations(['playingStep', 'setPlayingStep']),
+    swipeCard (param) {
       let self = this
-      return function(direction, event) {
-        console.log(direction, param);
-        if(direction === 'top') {
+      return function (direction, event) {
+        console.log(direction, param)
+        if (direction === 'top') {
           self.discardCard(param)
         }
       }
     },
-    changeCard(value) {
-      console.log(value);
+    changeCard (value) {
+      console.log(value)
       // @TODO replace current card to new one followed by value
     },
-    onSortCards() {
-      this.checkPositionOfCards();
+    onSortCards () {
+      this.checkPositionOfCards()
     },
-    lockCardPosition() {
-      this.isDragging = false;
-      this.setPlayingStep("choose-word")
+    lockCardPosition () {
+      this.isDragging = false
+      this.setPlayingStep('choose-word')
     },
-    autoArrangeOnce() {
-      let temp = null;
+    autoArrangeOnce () {
+      let temp = null
       this.cards.forEach((card, index) => {
         if (
-          card.type == "Noun" &&
+          card.type === 'Noun' &&
           index !== 0 &&
-          this.cards[0].type != "Noun"
+          this.cards[0].type !== 'Noun'
         ) {
-          temp = this.cards[0];
-          this.cards[0] = card;
-          this.cards[index] = temp;
+          temp = this.cards[0]
+          this.cards[0] = card
+          this.cards[index] = temp
         }
         if (
-          card.type == "Verb" &&
+          card.type === 'Verb' &&
           index !== 1 &&
-          this.cards[1].type != "Verb"
+          this.cards[1].type !== 'Verb'
         ) {
-          temp = this.cards[1];
-          this.cards[1] = card;
-          this.cards[index] = temp;
+          temp = this.cards[1]
+          this.cards[1] = card
+          this.cards[index] = temp
         }
 
         if (
-          (card.type == "TimeCard" || card.type == "Location") &&
+          (card.type === 'TimeCard' || card.type === 'Location') &&
           index !== 2 &&
-          (this.cards[2].type != "TimeCard" || this.cards[2].type != "Location")
+          (this.cards[2].type !== 'TimeCard' || this.cards[2].type !== 'Location')
         ) {
-          temp = this.cards[2];
-          this.cards[2] = card;
-          this.cards[index] = temp;
+          temp = this.cards[2]
+          this.cards[2] = card
+          this.cards[index] = temp
         }
-      });
+      })
     },
-    checkPositionOfCards() {
+    checkPositionOfCards () {
       // console.log("call check position of cards", this.cards);
-      let previousCards = [];
-      this.zeroPointCards = [];
+      let previousCards = []
+      this.zeroPointCards = []
       this.cards.forEach((card, index) => {
         if (this.isIllegalCard(card, index, previousCards)) {
-          this.zeroPointCards.push(card.id);
-          this.illegalCardPosition.push(index);
+          this.zeroPointCards.push(card.id)
+          this.illegalCardPosition.push(index)
         }
 
-        previousCards.push(card);
-      });
+        previousCards.push(card)
+      })
       // this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
-    isIllegalCard(card, index, previousCards) {
+    isIllegalCard (card, index, previousCards) {
       if (index > 0 && index < this.numCardAllow - 1) {
         return (
           this.isPreviousCardsIllegal(card, index) &&
           this.isNextCardsIllegal(card, index)
-        );
+        )
       } else {
-        if (index == 0) {
-          return this.isNextCardsIllegal(card, index);
+        if (index === 0) {
+          return this.isNextCardsIllegal(card, index)
         }
-        if (index == this.numCardAllow - 1) {
+        if (index === this.numCardAllow - 1) {
           /**
            * check the last card
            * if all the previous cards is allowed and the last card must be Location, Time or Extra Information
            * else check last card like a normal card
            */
           if (
-            ["Location", "TimeCard", "ExtraInformation"].includes(card.type) &&
+            ['Location', 'TimeCard', 'ExtraInformation'].includes(card.type) &&
             this.player['level'] > 1
           ) {
             const foundPreviousCard = previousCards.some(
               ({ type }) =>
                 card.previousCards && card.previousCards.includes(type)
-            );
-            return !foundPreviousCard;
-          } else return this.isPreviousCardsIllegal(card, index);
+            )
+            return !foundPreviousCard
+          } else return this.isPreviousCardsIllegal(card, index)
         }
       }
     },
     // check previous card legal or not
-    isPreviousCardsIllegal(card, index) {
+    isPreviousCardsIllegal (card, index) {
       if (
         card.previousCards &&
         card.previousCards.includes(this.cards[index - 1].type)
-      )
-        return false;
+      ) { return false }
       if (
         card.allowCards &&
         card.allowCards.includes(this.cards[index - 1].type)
-      )
-        return false;
-      return true;
+      ) { return false }
+      return true
     },
-    isNextCardsIllegal(card, index) {
-      if (card.nextCards && card.nextCards.includes(this.cards[index + 1].type))
-        return false;
+    isNextCardsIllegal (card, index) {
+      if (card.nextCards && card.nextCards.includes(this.cards[index + 1].type)) { return false }
       if (
         card.allowCards &&
         card.allowCards.includes(this.cards[index + 1].type)
-      )
-        return false;
+      ) { return false }
 
-      return true;
+      return true
     },
 
-    discardCard(index) {
+    discardCard (index) {
       if (this.cardDiscarded.length < 3) {
-        this.cardDiscarded.push(this.cards[index]);
+        this.cardDiscarded.push(this.cards[index])
         // shuffleArray(this.allCards);
         // this.allCards = shuffleArray(this.allCards);
-        this.cards[index] = this.allCards[0];
-        this.allCards.splice(0, 1);
-        this.checkPositionOfCards();
+        this.cards[index] = this.allCards[0]
+        this.allCards.splice(0, 1)
+        this.checkPositionOfCards()
       }
     },
     /**
      * distribute Cards
      * get random cards into playtable
      */
-    distributeCards(cards) {
-      shuffleArray(cards);
-      this.cards = cards.slice(0, this.numCardAllow);
+    distributeCards (cards) {
+      shuffleArray(cards)
+      this.cards = cards.slice(0, this.numCardAllow)
       this.allCards = cards.slice(
         this.cards.length,
         this.originalCards.length - 1
-      );
-      this.autoArrangeOnce();
-      this.checkPositionOfCards();
-    },
-  },
-};
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
-}
-// Fisher–Yates Shuffle Faster version
-function shuffleArray(a, b, c, d) {
-  //array,placeholder,placeholder,placeholder
-  c = a.length;
-  while (c)
-    (b = (Math.random() * c--) | 0), (d = a[c]), (a[c] = a[b]), (a[b] = d);
-}
-// Fisher–Yates Shuffle
-function shuffleArray1(array) {
-  var m = array.length,
-    t,
-    i;
-  while (m) {
-    i = Math.floor(Math.random() * m--);
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
+      )
+      this.autoArrangeOnce()
+      this.checkPositionOfCards()
+    }
   }
-  return array;
 }
+
 </script>
 
 <style>
