@@ -1,34 +1,32 @@
-import { all } from "core-js/fn/promise";
-import "whatwg-fetch";
+import 'whatwg-fetch'
 
 export default {
-  LoadCards: function(store, level) {
+  LoadCards: function (store, level) {
     if (!level) {
-      store.dispatch("SetPlayerDataAsync", { level: 0 });
+      store.dispatch('SetPlayerDataAsync', { level: 0 })
     }
-    let self = this;
-    let listCard = ["Noun", "Verb", "Location", "Time"];
+    let listCard = ['Noun', 'Verb', 'Location', 'Time']
     let filesCard = listCard.map(
-      card => "contents/cards_set_1/" + card + ".json"
-    );
+      card => 'contents/cards_set_1/' + card + '.json'
+    )
     // console.log(filesCard);
-    var results = [];
-    var list = [];
+    var results = []
+    var list = []
 
-    filesCard.forEach(function(url, i) {
+    filesCard.forEach(function (url) {
       list.push(
         fetch(url)
-          .then(function(res) {
-            return res.json();
+          .then(function (res) {
+            return res.json()
           })
           .then(res => {
-            results.push(...res);
+            results.push(...res)
           })
-      );
-    });
+      )
+    })
 
-    Promise.all(list).then(function() {
-      store.commit("setCards", results);
-    });
+    Promise.all(list).then(function () {
+      store.commit('setCards', results)
+    })
   }
-};
+}

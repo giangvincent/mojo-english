@@ -1,13 +1,13 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import mutations from "./mutations.js"
-import actions from "./actions.js"
-import states from "./states.js"
+import Vue from 'vue'
+import Vuex from 'vuex'
+import mutations from './mutations.js'
+import actions from './actions.js'
+import states from './states.js'
 
-import playing from "./playing"
-import player from "./player"
+import playing from './playing'
+import player from './player'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: states,
@@ -17,4 +17,4 @@ export default new Vuex.Store({
     playing,
     player
   }
-});
+})

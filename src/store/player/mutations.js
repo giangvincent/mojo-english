@@ -1,5 +1,5 @@
 export default {
-    setPlayerData: function (state, payload) {
-        state.playerData = payload
-    }
+  setPlayerData: function (state, payload) {
+    state.playerData = payload
+  }
 }

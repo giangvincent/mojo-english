@@ -105,16 +105,17 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+/* eslint-disable no-undef */
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
-    Setting: () => import("@/components/Setting.vue")
+    Setting: () => import('@/components/Setting.vue')
   },
-  data() {
+  data () {
     return {
-      modalComponent: "Setting"
-    };
+      modalComponent: 'Setting'
+    }
   },
   computed: {
     ...mapState({
@@ -122,20 +123,20 @@ export default {
       popupModal: state => state.popupModal
     })
   },
-  created() {
-    let self = this;
-    FBInstant.player.getDataAsync(["locale", "level"]).then(function(data) {
-      self.$i18n.locale = data["locale"];
-      let playerData = self.playerData;
-      playerData.level = data["level"];
-      console.log(playerData);
-      self.setPlayerData(playerData);
-      self.LoadCards(data["level"]);
-    });
+  created () {
+    let self = this
+    FBInstant.player.getDataAsync(['locale', 'level']).then(function (data) {
+      self.$i18n.locale = data['locale']
+      let playerData = self.playerData
+      playerData.level = data['level']
+      console.log(playerData)
+      self.setPlayerData(playerData)
+      self.LoadCards(data['level'])
+    })
   },
   methods: {
-    ...mapActions(["LoadCards"]),
-    ...mapMutations(["TOGGLE_MODAL", "setPlayerData"])
+    ...mapActions(['LoadCards']),
+    ...mapMutations(['TOGGLE_MODAL', 'setPlayerData'])
   }
-};
+}
 </script>
