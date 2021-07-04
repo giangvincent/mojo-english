@@ -158,6 +158,12 @@ export default {
     }
   },
   watch: {
+    cards: {
+      handler: function () {
+        this.checkPositionOfCards()
+      },
+      deep: true
+    },
     isDragging (newValue) {
       if (newValue) {
         this.delayedDragging = true
@@ -204,6 +210,28 @@ export default {
     changeCard (value) {
       console.log(value)
       // @TODO replace current card to new one followed by value
+      let replaceListCards = []
+      let self = this
+      this.allCards.forEach(card => {
+        if (card.type === value.card) {
+          card = self.setPointToZero(card)
+          replaceListCards.push(card)
+        }
+      })
+      shuffleArray(replaceListCards)
+      this.$set(this.cards, value.index, replaceListCards[0])
+    },
+    setPointToZero (card) {
+      let cardTypeHaveContent = ['Noun', 'TimeCard', 'Verb']
+      if (cardTypeHaveContent.includes(card.type)) {
+        card.content.forEach((content, index) => {
+          card.content[index].point = 0
+        })
+      } else {
+        card.point = 0
+      }
+      delete card.bonusPoint
+      return card
     },
     onSortCards () {
       this.checkPositionOfCards()
@@ -313,11 +341,8 @@ export default {
     discardCard (index) {
       if (this.cardDiscarded.length < 3) {
         this.cardDiscarded.push(this.cards[index])
-        // shuffleArray(this.allCards);
-        // this.allCards = shuffleArray(this.allCards);
         this.cards[index] = this.allCards[0]
         this.allCards.splice(0, 1)
-        this.checkPositionOfCards()
       }
     },
     /**
@@ -332,7 +357,6 @@ export default {
         this.originalCards.length - 1
       )
       this.autoArrangeOnce()
-      this.checkPositionOfCards()
     }
   }
 }
