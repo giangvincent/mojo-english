@@ -41,7 +41,7 @@
           :class="{
             '-translate-y-3': zeroPointCards.includes(card.id) && !isDragging,
           }"
-          v-touch:swipe="swipeCard(index)"
+          v-touch:swipe="swipeCard(card.id)"
         >
           <card-container
             :card="card"
@@ -50,7 +50,6 @@
             :class="{
               'opacity-25': zeroPointCards.includes(card.id),
             }"
-
           ></card-container>
 
           <discard-btn
@@ -191,9 +190,14 @@ export default {
     swipeCard (param) {
       let self = this
       return function (direction, event) {
-        console.log(direction, param)
         if (direction === 'top') {
-          self.discardCard(param)
+          let cardIndex = 0
+          self.cards.forEach((card, index) => {
+            if (card.id === param) {
+              cardIndex = index
+            }
+          })
+          self.discardCard(cardIndex)
         }
       }
     },
