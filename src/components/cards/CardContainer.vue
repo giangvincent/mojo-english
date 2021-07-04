@@ -13,36 +13,36 @@
 
 <script>
 export default {
-  name: "card-container",
+  name: 'card-container',
   props: {
     canChooseWord: Boolean,
     card: Object,
     cardHeight: Number
   },
   components: {
-    Noun: () => import("@/components/cards/Noun.vue"),
-    Location: () => import("@/components/cards/Location.vue"),
-    TimeCard: () => import("@/components/cards/TimeCard.vue"),
+    Noun: () => import('@/components/cards/Noun.vue'),
+    Location: () => import('@/components/cards/Location.vue'),
+    TimeCard: () => import('@/components/cards/TimeCard.vue'),
 
-    Verb: () => import("@/components/cards/Verb.vue"),
-    HelpingVerb: () => import("@/components/cards/HelpingVerb.vue"),
+    Verb: () => import('@/components/cards/Verb.vue'),
+    HelpingVerb: () => import('@/components/cards/HelpingVerb.vue'),
 
-    Conj: () => import("@/components/cards/Conj.vue"),
-    Prep: () => import("@/components/cards/Prep.vue"),
-    Adj: () => import("@/components/cards/Adj.vue"),
-    Adverb: () => import("@/components/cards/Adverb.vue"),
+    Conj: () => import('@/components/cards/Conj.vue'),
+    Prep: () => import('@/components/cards/Prep.vue'),
+    Adj: () => import('@/components/cards/Adj.vue'),
+    Adverb: () => import('@/components/cards/Adverb.vue'),
 
-    ExtraInformation: () => import("@/components/cards/ExtraInformation.vue")
+    ExtraInformation: () => import('@/components/cards/ExtraInformation.vue')
   },
-  data() {
+  data () {
     return {
       cardWidth: 0
-    };
+    }
   },
-  created() {
-    this.cardWidth = (this.cardHeight - 32) / 1.612;
+  created () {
+    this.cardWidth = (this.cardHeight - 32) / 1.612
   },
-  mounted() {},
+  mounted () {},
   methods: {}
-};
+}
 </script>

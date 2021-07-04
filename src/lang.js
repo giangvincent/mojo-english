@@ -8,6 +8,7 @@ export default {
     },
     playing: {
       final_sentence: 'Câu được chọn',
+      total_point: 'Tổng điểm',
       confirm_position: 'Xác nhận vị trí',
       submit_sentence: 'Tạo câu'
     }
@@ -21,6 +22,7 @@ export default {
     },
     playing: {
       final_sentence: 'Sentence is made',
+      total_point: 'Total point',
       confirm_position: 'Confirm card position',
       submit_sentence: 'Submit sentence'
     }

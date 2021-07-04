@@ -70,27 +70,27 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from 'vuex'
 export default {
-  name: "location-card",
+  name: 'location-card',
   props: {
-    card: Object,
+    card: Object
   },
-  data() {
+  data () {
     return {
       contentIndex: 0
-    };
+    }
   },
   computed: {
     ...mapState({
       cardColors: (state) => state.playing.cardColors,
       objectPhrase: (state) => state.playing.objectPhrase,
       playingStep: (state) => state.playing.playingStep
-    }),
+    })
   },
   watch: {
-    playingStep: function(val, oldVal) {
-      if (val == "choose-word" && typeof this.card.image === 'string') {
+    playingStep: function (val, oldVal) {
+      if (val === 'choose-word' && typeof this.card.image === 'string') {
         let contentOb = {
           text: this.card.content[this.contentIndex],
           point: this.card.point,
@@ -100,20 +100,20 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     if (this.card.content.length > 1) {
       this.contentIndex = Math.floor(Math.random() * this.card.content.length)
     }
   },
   methods: {
     ...mapMutations(['setObjectPhrase']),
-    chooseLocation(content) {
+    chooseLocation (content) {
       let contentOb = {
-          text: content,
-          point: this.card.point
-        }
-        this.setObjectPhrase(contentOb)
+        text: content,
+        point: this.card.point
+      }
+      this.setObjectPhrase(contentOb)
     }
   }
-};
+}
 </script>

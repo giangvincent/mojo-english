@@ -4,7 +4,7 @@
   >
     <div class="w-full px-4 mb-5 text-left">
       <div
-        class="p-2 border-2 border-white text-white rounded-lg w-full"
+        class="p-2 border-2 border-white text-white rounded-lg w-full relative"
         v-if="!isDragging"
       >
         {{ $t('playing')['final_sentence'] }}:
@@ -12,7 +12,7 @@
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhrase.text : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text : '' }}
-          <div>{{  }}</div>
+          <div class="-mt-6 absolute bg-white pl-1 pr-1 rounded text-black top-0">{{ $t('playing')['total_point']  }}: {{ totalPoint }}</div>
         </div>
 
       </div>
@@ -124,7 +124,7 @@ export default {
       illegalCardPosition: [],
       cardDiscarded: [],
 
-      cardsWord: [],
+      totalPoint: 0,
 
       cardWidth: 0,
       cardHeight: 0,
@@ -139,10 +139,6 @@ export default {
       player: state => state.player.playerData,
       originalCards: (state) => state.playing.cards,
       scr_height: (state) => state.scr_height,
-      choseWords: (state) => {
-        console.log(state.playing.choseWords)
-        return state.playing.choseWords
-      },
       nounPhrase: (state) => state.playing.nounPhrase,
       verbPhrase: state => state.playing.verbPhrase,
       objectPhrase: state => state.playing.objectPhrase,
@@ -164,6 +160,18 @@ export default {
       },
       deep: true
     },
+    nounPhrase (newVal, oldVal) {
+      this.totalPoint -= oldVal.point ? oldVal.point : 0
+      this.totalPoint += newVal.point ? newVal.point : 0
+    },
+    verbPhrase (newVal, oldVal) {
+      this.totalPoint -= oldVal.point ? oldVal.point : 0
+      this.totalPoint += newVal.point ? newVal.point : 0
+    },
+    objectPhrase (newVal, oldVal) {
+      this.totalPoint -= oldVal.point ? oldVal.point : 0
+      this.totalPoint += newVal.point ? newVal.point : 0
+    },
     isDragging (newValue) {
       if (newValue) {
         this.delayedDragging = true
@@ -173,13 +181,6 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false
       })
-    },
-    choseWords: {
-      handler: function (val) {
-        console.log(val)
-        this.cardsWord = val
-      },
-      deep: true
     }
   },
   created () {
@@ -222,13 +223,18 @@ export default {
       this.$set(this.cards, value.index, replaceListCards[0])
     },
     setPointToZero (card) {
-      let cardTypeHaveContent = ['Noun', 'TimeCard', 'Verb']
+      let cardTypeHaveContent = ['TimeCard', 'Verb']
       if (cardTypeHaveContent.includes(card.type)) {
         card.content.forEach((content, index) => {
           card.content[index].point = 0
         })
-      } else {
+      }
+      if (card.type === 'Location') {
         card.point = 0
+      }
+      if (card.type === 'Noun') {
+        card.singular.point = 0
+        card.plural.point = 0
       }
       delete card.bonusPoint
       return card

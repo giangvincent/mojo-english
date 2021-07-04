@@ -23,8 +23,7 @@ export default {
     curTense: null,
     nounPhrase: [],
     verbPhrase: [],
-    objectPhrase: [],
-    choseWords: []
+    objectPhrase: []
   },
   mutations: mutations,
   actions: actions
