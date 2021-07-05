@@ -42,34 +42,34 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from 'vuex'
 export default {
-  name: "noun",
+  name: 'noun',
   props: {
-    card: Object,
+    card: Object
   },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
     ...mapState({
       cardColors: (state) => state.playing.cardColors,
       nounPhrase: (state) => state.playing.nounPhrase,
       nounType: (state) => state.playing.nounType,
-      playingStep: (state) => state.playing.playingStep,
-    }),
+      playingStep: (state) => state.playing.playingStep
+    })
   },
   methods: {
-    ...mapMutations(["setNounPhrase", "setNounType"]),
-    chooseNoun(type) {
+    ...mapMutations(['setNounPhrase', 'setNounType']),
+    chooseNoun (type) {
       // console.log(this.card[type]);
-      if (this.playingStep === "choose-word") {
-        this.setNounType(type);
-        let nounPhrase = this.card[type];
+      if (this.playingStep === 'choose-word') {
+        this.setNounType(type)
+        let nounPhrase = this.card[type]
         nounPhrase.bonus = this.card.bonusPoint
-        this.setNounPhrase(this.card[type]);
+        this.setNounPhrase(this.card[type])
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

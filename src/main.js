@@ -50,6 +50,11 @@ function startGame () {
     store.commit('SET_SCREEN')
 
     // console.log(playerData)
+    FBInstant.player.getDataAsync(['locale', 'level', 'point']).then(function (data) {
+      i18n.locale = data['locale']
+      store.commit('setPlayerData', data)
+      store.dispatch('LoadCards', data['level'])
+    })
 
     // Fetch Player's Friends
     FBInstant.player.getConnectedPlayersAsync().then(function (players) {

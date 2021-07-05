@@ -2,9 +2,6 @@ import 'whatwg-fetch'
 
 export default {
   LoadCards: function (store, level) {
-    if (!level) {
-      store.dispatch('SetPlayerDataAsync', { level: 0 })
-    }
     let listCard = ['Noun', 'Verb', 'Location', 'Time']
     let filesCard = listCard.map(
       card => 'contents/cards_set_1/' + card + '.json'

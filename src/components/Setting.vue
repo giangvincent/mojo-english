@@ -86,30 +86,32 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
-import langList from "./langList";
+import { mapActions, mapMutations, mapState } from 'vuex'
+import langList from './langList'
 export default {
-  name: "setting-modal",
+  name: 'setting-modal',
   props: {},
-  data() {
+  data () {
     return {
       popupLanglist: false,
       langList: langList
-    };
+    }
   },
   computed: {
-    ...mapState({})
+    ...mapState({
+      playerData: state => state.player.playerData
+    })
   },
-  mounted() {},
+  mounted () {},
   methods: {
-    ...mapMutations(["TOGGLE_MODAL"]),
-    ...mapActions(["SetPlayerDataAsync"]),
-    changeLanguage(index) {
-      console.log(index);
-      this.popupLanglist = false;
-      this.$i18n.locale = index;
-      this.SetPlayerDataAsync({ locale: index });
+    ...mapMutations(['TOGGLE_MODAL']),
+    ...mapActions(['SetPlayerDataAsync']),
+    changeLanguage (index) {
+      console.log(index)
+      this.popupLanglist = false
+      this.$i18n.locale = index
+      this.SetPlayerDataAsync({ locale: index })
     }
   }
-};
+}
 </script>

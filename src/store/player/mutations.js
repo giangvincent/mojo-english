@@ -1,5 +1,7 @@
 export default {
   setPlayerData: function (state, payload) {
-    state.playerData = payload
+    Object.keys(payload).forEach(key => {
+      state.playerData[key] = payload[key] ? payload[key] : 0
+    })
   }
 }

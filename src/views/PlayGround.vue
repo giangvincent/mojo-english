@@ -93,7 +93,7 @@ import CardContainer from '@/components/cards/CardContainer'
 import DiscardBtn from '@/components/cards/Buttons/DiscardBtn'
 import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn'
 // import FillCardInBtn from '@/components/cards/Buttons/FillCardInBtn'
-import { mapMutations, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 import { shuffleArray } from '@/helper'
 
 function transformScroll (event) {
@@ -163,14 +163,17 @@ export default {
     nounPhrase (newVal, oldVal) {
       this.totalPoint -= oldVal.point ? oldVal.point : 0
       this.totalPoint += newVal.point ? newVal.point : 0
+      this.checkSentenceReady()
     },
     verbPhrase (newVal, oldVal) {
       this.totalPoint -= oldVal.point ? oldVal.point : 0
       this.totalPoint += newVal.point ? newVal.point : 0
+      this.checkSentenceReady()
     },
     objectPhrase (newVal, oldVal) {
       this.totalPoint -= oldVal.point ? oldVal.point : 0
       this.totalPoint += newVal.point ? newVal.point : 0
+      this.checkSentenceReady()
     },
     isDragging (newValue) {
       if (newValue) {
@@ -194,6 +197,20 @@ export default {
   },
   methods: {
     ...mapMutations(['playingStep', 'setPlayingStep']),
+    ...mapActions(['SetPlayerDataAsync']),
+    submitSentence () {
+      this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
+      this.$router.replace('/')
+    },
+    checkSentenceReady () {
+      if (
+        this.nounPhrase && Object.keys(this.nounPhrase).length > 0 &&
+        this.verbPhrase && Object.keys(this.verbPhrase).length > 0 &&
+        this.objectPhrase && Object.keys(this.objectPhrase).length > 0
+      ) {
+        this.isSentenceNotReady = false
+      } else this.isSentenceNotReady = true
+    },
     swipeCard (param) {
       let self = this
       return function (direction, event) {
@@ -236,7 +253,7 @@ export default {
         card.singular.point = 0
         card.plural.point = 0
       }
-      delete card.bonusPoint
+
       return card
     },
     onSortCards () {
@@ -350,6 +367,7 @@ export default {
         this.cards[index] = this.allCards[0]
         this.allCards.splice(0, 1)
       }
+      this.checkPositionOfCards()
     },
     /**
      * distribute Cards

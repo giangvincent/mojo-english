@@ -88,13 +88,7 @@
             alt="avatar"
           />
           <div class="w-20 rounded-lg border-2 p-1 -mt-3 bg-white">
-            {{
-              $t("home")[4] +
-                " " +
-                (typeof playerData.level !== "undefined"
-                  ? playerData.level
-                  : "")
-            }}
+            {{ $t("home")[4] + " " + playerData.level }}
           </div>
         </div>
       </div>
@@ -124,15 +118,6 @@ export default {
     })
   },
   created () {
-    let self = this
-    FBInstant.player.getDataAsync(['locale', 'level']).then(function (data) {
-      self.$i18n.locale = data['locale']
-      let playerData = self.playerData
-      playerData.level = data['level']
-      console.log(playerData)
-      self.setPlayerData(playerData)
-      self.LoadCards(data['level'])
-    })
   },
   methods: {
     ...mapActions(['LoadCards']),
