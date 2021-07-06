@@ -10,18 +10,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
 export default {
-  name: "main-app",
-  created() {},
+  name: 'main-app',
+  created () {},
   computed: {
     ...mapState({
       scr_width: state => state.scr_width,
       scr_height: state => state.scr_height
     })
   }
-};
+}
 </script>
 
 <style lang="scss">

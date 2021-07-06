@@ -58,12 +58,12 @@ function startGame () {
 
     // Fetch Player's Friends
     FBInstant.player.getConnectedPlayersAsync().then(function (players) {
-      console.log('getConnectedPlayersAsync ', players)
+      // console.log('getConnectedPlayersAsync ', players)
     })
 
     // Fetch Context Players
     FBInstant.context.getPlayersAsync().then(function (players) {
-      console.log('getPlayersAsync', players)
+      // console.log('getPlayersAsync', players)
     })
 
     new Vue({
@@ -80,7 +80,7 @@ function startGame () {
   })
 
   FBInstant.onPause(function () {
-    console.log('Pause event was triggered!')
+    // console.log('Pause event was triggered!')
   })
 }
 // const assets = ['@/assets/images/logo.png']
