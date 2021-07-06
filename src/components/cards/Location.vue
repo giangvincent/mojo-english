@@ -110,7 +110,8 @@ export default {
     chooseLocation (content) {
       let contentOb = {
         text: content,
-        point: this.card.point
+        point: this.card.point,
+        bonus: this.card.bonusPoint
       }
       this.setObjectPhrase(contentOb)
     }

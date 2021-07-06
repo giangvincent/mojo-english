@@ -21,7 +21,7 @@
     <div
       ref="tablePlay"
       id="tablePlay"
-      class="flex w-full h-1/2 relative items-center justify-center relative"
+      class="flex w-full h-1/2 relative items-center justify-center"
     >
       <draggable
         element="div"
@@ -160,20 +160,14 @@ export default {
       },
       deep: true
     },
-    nounPhrase (newVal, oldVal) {
-      this.totalPoint -= oldVal.point ? oldVal.point : 0
-      this.totalPoint += newVal.point ? newVal.point : 0
-      this.checkSentenceReady()
+    nounPhrase () {
+      this.caculatePoint()
     },
-    verbPhrase (newVal, oldVal) {
-      this.totalPoint -= oldVal.point ? oldVal.point : 0
-      this.totalPoint += newVal.point ? newVal.point : 0
-      this.checkSentenceReady()
+    verbPhrase () {
+      this.caculatePoint()
     },
-    objectPhrase (newVal, oldVal) {
-      this.totalPoint -= oldVal.point ? oldVal.point : 0
-      this.totalPoint += newVal.point ? newVal.point : 0
-      this.checkSentenceReady()
+    objectPhrase () {
+      this.caculatePoint()
     },
     isDragging (newValue) {
       if (newValue) {
@@ -190,17 +184,67 @@ export default {
     this.cardHeight = (this.scr_height * 3) / 5
     this.cardWidth = (this.cardHeight - 32) / 1.612
     this.distributeCards(this.originalCards)
+    this.resetSentence()
   },
   mounted () {
     var element = this.$refs.tablePlay
     element.addEventListener('wheel', transformScroll)
   },
   methods: {
-    ...mapMutations(['playingStep', 'setPlayingStep']),
+    ...mapMutations(['setPlayingStep', 'resetSentence']),
     ...mapActions(['SetPlayerDataAsync']),
     submitSentence () {
       this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
       this.$router.replace('/')
+    },
+    caculatePoint () {
+      this.totalPoint = 0
+      this.addPoint(this.nounPhrase)
+      this.addPoint(this.verbPhrase)
+      this.addPoint(this.objectPhrase)
+      this.checkSentenceReady()
+    },
+    addPoint (objPhrase) {
+      if (objPhrase && Object.keys(objPhrase).length > 0 && objPhrase.constructor === Object) {
+        this.totalPoint += objPhrase.point ? objPhrase.point : 0
+        this.caculateBonusPoint(objPhrase.bonus ? objPhrase.bonus : [])
+      }
+    },
+    caculateBonusPoint (bonusObj) {
+      let self = this
+      if (Array.isArray(bonusObj)) {
+        let bonusAdded = false
+        bonusObj.forEach(bonus => {
+          bonus.word.forEach(word => {
+            if (canAddBonusPoint(word, bonus.type) && !bonusAdded) {
+              self.totalPoint += bonus.point
+              bonusAdded = true
+            }
+          })
+        })
+      } else {
+        if (bonusObj.word) {
+          bonusObj.word.forEach(word => {
+            if (canAddBonusPoint(word, bonusObj.type)) {
+              self.totalPoint += bonusObj.point
+            }
+          })
+        }
+      }
+      function canAddBonusPoint (word, type) {
+        let cardString = {}
+        self.cards.forEach(card => {
+          if (card.type === type && !self.zeroPointCards.includes(card.id)) {
+            cardString = JSON.stringify(card)
+          }
+        })
+
+        if (cardString.indexOf(word) > -1) {
+          return true
+        }
+        console.log('cannot find :', word, type)
+        return false
+      }
     },
     checkSentenceReady () {
       if (
@@ -232,8 +276,8 @@ export default {
       let self = this
       this.allCards.forEach(card => {
         if (card.type === value.card) {
-          card = self.setPointToZero(card)
-          replaceListCards.push(card)
+          let replaceCard = self.setPointToZero(card)
+          replaceListCards.push(replaceCard)
         }
       })
       shuffleArray(replaceListCards)

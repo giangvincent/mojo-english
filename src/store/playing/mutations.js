@@ -29,6 +29,11 @@ export default {
     state.objectPhrase = payload
   },
   resetSentence: function (state, payload) {
-
+    state.playingStep = 'arrange-card'
+    state.nounPhrase = []
+    state.verbPhrase = []
+    state.objectPhrase = []
+    state.nounType = null
+    state.curTense = null
   }
 }
