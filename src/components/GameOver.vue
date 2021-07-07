@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: "gameover-modal",
-};
+  name: 'gameover-modal'
+}
 </script>

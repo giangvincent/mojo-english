@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import CardContainer from "@/components/cards/CardContainer";
-import BackBtn from "@/components/navigation/BackButton";
+import CardContainer from '@/components/cards/CardContainer'
+import BackBtn from '@/components/navigation/BackButton'
 
 export default {
-  name: "test-view-cards",
+  name: 'test-view-cards',
   components: {
     CardContainer,
-    BackBtn,
-  },
-};
+    BackBtn
+  }
+}
 </script>

@@ -7,6 +7,44 @@
       <img class="w-2/5 mx-auto" src="@/assets/images/logo.png" alt="logo" />
 
       <section class="w-full flex">
+        <div class="w-1/3 -mt-10">
+          <button
+            class=""
+            @click="
+              TOGGLE_MODAL();
+              modalComponent = 'Setting';
+            "
+          >
+            <svg
+              class="h-20 xs:h-24 sm:h-32 md:h-40 text-black"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                clip-rule="evenodd"
+              /></svg
+            >{{ $t("home")[1] }}
+          </button>
+        </div>
+
+        <div class="w-1/3 flex items-center justify-center">
+          <button class="touch-3d text-white flex items-center">
+            <router-link
+              to="play"
+              class="text-2xl bg-red-600 flex items-center text-white p-4 rounded-lg"
+            >
+              <img
+                class="h-16"
+                src="@/assets/images/card-games.svg"
+                alt="play-svg"
+              />
+              <span class="ml-4">{{ $t("home")[0] }}</span>
+            </router-link>
+          </button>
+        </div>
         <div class="w-1/3 -mt-16 flex flex-col">
           <router-link to="market">
             <button class="">
@@ -40,43 +78,6 @@
               >{{ $t("home")[3] }}
             </button>
           </router-link>
-        </div>
-        <div class="w-1/3 flex items-center justify-center">
-          <button class="touch-3d text-white flex items-center">
-            <router-link
-              to="play"
-              class="text-2xl bg-red-600 flex items-center text-white p-4 rounded-lg"
-            >
-              <img
-                class="h-16"
-                src="@/assets/images/card-games.svg"
-                alt="play-svg"
-              />
-              <span class="ml-4">{{ $t("home")[0] }}</span>
-            </router-link>
-          </button>
-        </div>
-        <div class="w-1/3 -mt-10">
-          <button
-            class=""
-            @click="
-              TOGGLE_MODAL();
-              modalComponent = 'Setting';
-            "
-          >
-            <svg
-              class="h-20 xs:h-24 sm:h-32 md:h-40 text-black"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                clip-rule="evenodd"
-              /></svg
-            >{{ $t("home")[1] }}
-          </button>
         </div>
       </section>
       <!-- Action buttons -->

@@ -2,7 +2,7 @@
   <div
     class="flex flex-col justify-center items-center h-full w-full bg-gray-800"
   >
-    <div class="w-full px-4 mb-5 text-left">
+    <div class="w-full px-4 pt-10 mb-5 text-left">
       <div
         class="p-2 border-2 border-white text-white rounded-lg w-full relative"
         v-if="!isDragging"
@@ -12,7 +12,7 @@
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhrase.text : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text : '' }}
-          <div class="-mt-6 absolute bg-white pl-1 pr-1 rounded text-black top-0">{{ $t('playing')['total_point']  }}: {{ totalPoint }}</div>
+          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0">{{ $t('playing')['total_point']  }}: {{ totalPoint }}</div>
         </div>
 
       </div>
@@ -66,7 +66,7 @@
       </draggable>
     </div>
     <!-- Player table -->
-    <div class="mt-5 flex">
+    <div class="mt-5 pb-5 flex justify-center w-full">
       <button
         v-if="isDragging == true"
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
@@ -184,7 +184,6 @@ export default {
     this.cardHeight = (this.scr_height * 3) / 5
     this.cardWidth = (this.cardHeight - 32) / 1.612
     this.distributeCards(this.originalCards)
-    this.resetSentence()
   },
   mounted () {
     var element = this.$refs.tablePlay
@@ -195,6 +194,7 @@ export default {
     ...mapActions(['SetPlayerDataAsync']),
     submitSentence () {
       this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
+      this.resetSentence()
       this.$router.replace('/')
     },
     caculatePoint () {
@@ -242,7 +242,6 @@ export default {
         if (cardString.indexOf(word) > -1) {
           return true
         }
-        console.log('cannot find :', word, type)
         return false
       }
     },
@@ -270,35 +269,33 @@ export default {
       }
     },
     changeCard (value) {
-      console.log(value)
-      // @TODO replace current card to new one followed by value
       let replaceListCards = []
       let self = this
       this.allCards.forEach(card => {
         if (card.type === value.card) {
-          let replaceCard = self.setPointToZero(card)
-          replaceListCards.push(replaceCard)
+          replaceListCards.push(self.setPointToZero(card))
         }
       })
       shuffleArray(replaceListCards)
       this.$set(this.cards, value.index, replaceListCards[0])
     },
     setPointToZero (card) {
+      let zeroPointCard = card
       let cardTypeHaveContent = ['TimeCard', 'Verb']
       if (cardTypeHaveContent.includes(card.type)) {
         card.content.forEach((content, index) => {
-          card.content[index].point = 0
+          zeroPointCard.content[index].point = 0
         })
       }
       if (card.type === 'Location') {
-        card.point = 0
+        zeroPointCard.point = 0
       }
       if (card.type === 'Noun') {
-        card.singular.point = 0
-        card.plural.point = 0
+        zeroPointCard.singular.point = 0
+        zeroPointCard.plural.point = 0
       }
 
-      return card
+      return zeroPointCard
     },
     onSortCards () {
       this.checkPositionOfCards()

@@ -83,18 +83,18 @@
 
 <script>
 export default {
-  name: "adjective-card",
+  name: 'adjective-card',
   props: {
-    card: Object,
+    card: Object
   },
-  data() {
+  data () {
     return {
-      id: "",
+      id: '',
       texts: [],
       point: 0,
       useFor: [],
-      extraPoint: [],
-    };
-  },
-};
+      extraPoint: []
+    }
+  }
+}
 </script>
