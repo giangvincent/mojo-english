@@ -32,7 +32,6 @@
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
         v-if="cards.length > 0"
         :disabled="!isDragging"
-
       >
         <div
           class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
@@ -68,14 +67,14 @@
     <!-- Player table -->
     <div class="mt-5 pb-5 flex justify-center w-full">
       <button
-        v-if="isDragging == true"
+        v-if="isDragging === true"
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
         @click="lockCardPosition()"
       >
         {{ $t('playing')['confirm_position'] }}
       </button>
       <button
-        v-if="isDragging == false"
+        v-if="isDragging === false"
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
         :disabled="isSentenceNotReady"
         :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
@@ -84,6 +83,7 @@
         {{ $t('playing')['submit_sentence'] }}
       </button>
     </div>
+    <game-over v-if="playingStep === 'end'"></game-over>
   </div>
 </template>
 
@@ -92,7 +92,7 @@ import draggable from 'vuedraggable'
 import CardContainer from '@/components/cards/CardContainer'
 import DiscardBtn from '@/components/cards/Buttons/DiscardBtn'
 import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn'
-// import FillCardInBtn from '@/components/cards/Buttons/FillCardInBtn'
+import GameOver from '@/components/GameOver'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { shuffleArray } from '@/helper'
 
@@ -110,8 +110,8 @@ export default {
     CardContainer,
     DiscardBtn,
     ReplaceBtn,
-    // FillCardInBtn,
-    draggable
+    draggable,
+    GameOver
   },
   data () {
     return {
@@ -129,7 +129,6 @@ export default {
       cardWidth: 0,
       cardHeight: 0,
 
-      editable: true,
       isDragging: true,
       delayedDragging: false
     }
@@ -148,7 +147,6 @@ export default {
       return {
         animation: 1,
         group: 'description',
-        disabled: !this.editable,
         ghostClass: 'ghost'
       }
     }
@@ -195,7 +193,8 @@ export default {
     submitSentence () {
       this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
       this.resetSentence()
-      this.$router.replace('/')
+      this.setPlayingStep('end')
+      // this.$router.replace('/')
     },
     caculatePoint () {
       this.totalPoint = 0
@@ -301,7 +300,7 @@ export default {
       this.checkPositionOfCards()
     },
     lockCardPosition () {
-      this.isDragging = false
+      this.$set(this, 'isDragging', false)
       this.setPlayingStep('choose-word')
     },
     autoArrangeOnce () {

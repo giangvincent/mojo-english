@@ -119,10 +119,12 @@ export default {
     })
   },
   created () {
+    this.setPlayingStep('arrange-card')
+    this.LoadCards(this.playerData.level)
   },
   methods: {
     ...mapActions(['LoadCards']),
-    ...mapMutations(['TOGGLE_MODAL', 'setPlayerData'])
+    ...mapMutations(['TOGGLE_MODAL', 'setPlayerData', 'setPlayingStep'])
   }
 }
 </script>

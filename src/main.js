@@ -43,6 +43,7 @@ function startGame () {
     playerData.id = FBInstant.player.getID()
     playerData.name = FBInstant.player.getName()
     playerData.photo = new Image()
+    playerData.level = 0
     playerData.photo.crossOrigin = 'anonymous'
     playerData.photo.src = FBInstant.player.getPhoto()
 
@@ -53,7 +54,6 @@ function startGame () {
     FBInstant.player.getDataAsync(['locale', 'level', 'point']).then(function (data) {
       i18n.locale = data['locale']
       store.commit('setPlayerData', data)
-      store.dispatch('LoadCards', data['level'])
     })
 
     // Fetch Player's Friends
