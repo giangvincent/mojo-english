@@ -12,7 +12,7 @@
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhrase.text : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text : '' }}
-          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0">{{ $t('playing')['total_point']  }}: {{ totalPoint }}</div>
+          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{ $t('playing')['total_point']  }}: {{ totalPoint }}</div>
         </div>
 
       </div>
@@ -68,14 +68,14 @@
     <div class="mt-5 pb-5 flex justify-center w-full">
       <button
         v-if="isDragging === true"
-        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
+        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
         @click="lockCardPosition()"
       >
         {{ $t('playing')['confirm_position'] }}
       </button>
       <button
         v-if="isDragging === false"
-        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white"
+        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
         :disabled="isSentenceNotReady"
         :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
         @click="submitSentence()"
