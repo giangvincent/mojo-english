@@ -83,7 +83,7 @@
         {{ $t('playing')['submit_sentence'] }}
       </button>
     </div>
-    <game-over v-if="playingStep === 'end'"></game-over>
+    <game-over v-if="playingStep === 'end'" :finalSentence="finalSentence" :finalPoint="finalPoint"></game-over>
   </div>
 </template>
 
@@ -125,6 +125,9 @@ export default {
       cardDiscarded: [],
 
       totalPoint: 0,
+      finalPoint: 0,
+      finalSentence: null,
+      finalScreenShot: null,
 
       cardWidth: 0,
       cardHeight: 0,
@@ -160,12 +163,15 @@ export default {
     },
     nounPhrase () {
       this.caculatePoint()
+      this.checkSentenceReady()
     },
     verbPhrase () {
       this.caculatePoint()
+      this.checkSentenceReady()
     },
     objectPhrase () {
       this.caculatePoint()
+      this.checkSentenceReady()
     },
     isDragging (newValue) {
       if (newValue) {
@@ -192,16 +198,16 @@ export default {
     ...mapActions(['SetPlayerDataAsync']),
     submitSentence () {
       this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
+      this.finalSentence = this.nounPhrase.text + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text
+      this.finalPoint = this.totalPoint
       this.resetSentence()
       this.setPlayingStep('end')
-      // this.$router.replace('/')
     },
     caculatePoint () {
       this.totalPoint = 0
       this.addPoint(this.nounPhrase)
       this.addPoint(this.verbPhrase)
       this.addPoint(this.objectPhrase)
-      this.checkSentenceReady()
     },
     addPoint (objPhrase) {
       if (objPhrase && Object.keys(objPhrase).length > 0 && objPhrase.constructor === Object) {
