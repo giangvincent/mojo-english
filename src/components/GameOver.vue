@@ -18,7 +18,7 @@
       <div class="flex flex-col items-start p-4">
         <div class="w-full mt-2 pt-2">
           <span>Congratulation! Your sentence finished:</span>
-          <p class=" font-bold text-2xl uppercase">{{ finalSentence }}</p>
+          <p class=" font-bold text-2xl">{{ finalSentence }}</p>
           <p>+{{ finalPoint }} Points</p>
         </div>
         <div class="w-full mt-2 pt-2">

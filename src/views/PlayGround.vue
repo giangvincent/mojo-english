@@ -9,9 +9,9 @@
       >
         {{ $t('playing')['final_sentence'] }}:
         <div class="ml-2 inline">
-          {{ typeof nounPhrase.text !== 'undefinded' ? nounPhrase.text : '' }}
+          {{ typeof nounPhrase.text !== 'undefinded' ? nounPhraseText : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
-          {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text : '' }}
+          {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text + '.' : '' }}
           <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{ $t('playing')['total_point']  }}: {{ totalPoint }}</div>
         </div>
 
@@ -94,7 +94,7 @@ import DiscardBtn from '@/components/cards/Buttons/DiscardBtn'
 import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn'
 import GameOver from '@/components/GameOver'
 import { mapActions, mapMutations, mapState } from 'vuex'
-import { shuffleArray } from '@/helper'
+import { shuffleArray, capitalizeFirstLetter } from '@/helper'
 
 function transformScroll (event) {
   if (!event.deltaY) {
@@ -152,6 +152,12 @@ export default {
         group: 'description',
         ghostClass: 'ghost'
       }
+    },
+    nounPhraseText: function () {
+      if (this.nounPhrase && this.nounPhrase.text) {
+        return capitalizeFirstLetter(this.nounPhrase.text)
+      }
+      return ''
     }
   },
   watch: {
@@ -198,7 +204,7 @@ export default {
     ...mapActions(['SetPlayerDataAsync']),
     submitSentence () {
       this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
-      this.finalSentence = this.nounPhrase.text + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text
+      this.finalSentence = this.nounPhraseText + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text + '.'
       this.finalPoint = this.totalPoint
       this.resetSentence()
       this.setPlayingStep('end')

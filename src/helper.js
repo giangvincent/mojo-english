@@ -22,3 +22,7 @@ export const shuffleArray1 = function (array) {
   }
   return array
 }
+
+export const capitalizeFirstLetter = function (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
