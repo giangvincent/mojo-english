@@ -65,43 +65,42 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from 'vuex'
 export default {
-  name: "time-card",
+  name: 'time-card',
   props: {
-    card: Object,
+    card: Object
   },
-  data() {
+  data () {
     return {
-      id: "",
-      image: "",
-      text: "",
+      id: '',
+      image: '',
+      text: '',
       point: 0,
       previousCards: [],
-      bonusPoints: [],
-    };
+      bonusPoints: []
+    }
   },
   computed: {
     ...mapState({
       objectPhrase: (state) => state.playing.objectPhrase,
       playingStep: (state) => state.playing.playingStep,
-      curTense: (state) => state.playing.curTense,
-    }),
+      curTense: (state) => state.playing.curTense
+    })
   },
   watch: {
     curTense: function () {
-      console.log("present simple / future simple / past simple".indexOf(this.curTense))
+      console.log('present simple / future simple / past simple'.indexOf(this.curTense))
     }
   },
   methods: {
     ...mapMutations(['setTense', 'setObjectPhrase']),
-    chooseTime(index) {
-
-      if (this.playingStep == "choose-word") {
+    chooseTime (index) {
+      if (this.playingStep === 'choose-word' && this.curTense && this.card.content[index].tense.indexOf(this.curTense) > -1) {
         // this.setTense(this.card.content[index].tense);
         this.setObjectPhrase(this.card.content[index])
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

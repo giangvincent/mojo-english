@@ -130,21 +130,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "helping-verb",
+  name: 'helping-verb',
   props: {
-    card: Object,
+    card: Object
   },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
+      cardColors: (state) => state.playing.cardColors
+    })
   },
-  mounted() {},
-  methods: {},
-};
+  mounted () {},
+  methods: {}
+}
 </script>
