@@ -83,15 +83,15 @@
 
 <script>
 export default {
-  name: "replace-btn",
+  name: 'replace-btn',
   props: {
     cardIndex: Number,
     cardOb: Object
   },
   methods: {
-    changeCard(card) {
-      this.$emit("changeCard", { card: card, index: this.cardIndex });
+    changeCard (card) {
+      this.$emit('changeCard', { card: card, index: this.cardIndex })
     }
   }
-};
+}
 </script>

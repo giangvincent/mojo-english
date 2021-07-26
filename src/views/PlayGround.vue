@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col justify-center items-center h-full w-full bg-gray-800"
+    class="flex flex-col justify-center items-center min-h-screen h-full w-full bg-gray-800"
   >
     <div class="w-full px-4 pt-10 mb-5 text-left">
       <div
@@ -21,19 +21,18 @@
     <div
       ref="tablePlay"
       id="tablePlay"
-      class="flex w-full h-1/2 relative items-center justify-center"
+      class="flex w-full min-h-1/2 relative items-center justify-center"
     >
       <draggable
         element="div"
         v-model="cards"
         v-bind="dragOptions"
-        ghost-class="ghost"
         @change="onSortCards"
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
         v-if="cards.length > 0"
         :disabled="!isDragging"
       >
-        <div
+        <span
           class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
           v-for="(card, index) in cards"
           :key="'card-' + card.id"
@@ -41,6 +40,8 @@
             '-translate-y-3': zeroPointCards.includes(card.id) && !isDragging,
           }"
           v-touch:swipe="swipeCard(card.id)"
+          v-on:click.prevent
+
         >
           <card-container
             :card="card"
@@ -61,7 +62,7 @@
             :cardIndex="index"
             :cardOb="card"
           ></replace-btn>
-        </div>
+        </span>
       </draggable>
     </div>
     <!-- Player table -->
@@ -133,7 +134,8 @@ export default {
       cardHeight: 0,
 
       isDragging: true,
-      delayedDragging: false
+      delayedDragging: false,
+      dragging: false
     }
   },
   computed: {
@@ -148,9 +150,7 @@ export default {
     }),
     dragOptions () {
       return {
-        animation: 1,
-        group: 'description',
-        ghostClass: 'ghost'
+        animation: 0
       }
     },
     nounPhraseText: function () {
@@ -312,6 +312,7 @@ export default {
       this.checkPositionOfCards()
     },
     lockCardPosition () {
+      console.log('Lock cards position')
       this.$set(this, 'isDragging', false)
       this.setPlayingStep('choose-word')
     },
