@@ -105,26 +105,26 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "location-card",
+  name: 'location-card',
   props: {
-    card: Object,
+    card: Object
   },
-  data() {
+  data () {
     return {
-      id: "",
-      image: "",
-      text: "",
+      id: '',
+      image: '',
+      text: '',
       point: 0,
       previousCards: [],
-      bonusPoints: [],
-    };
+      bonusPoints: []
+    }
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
-  },
-};
+      cardColors: (state) => state.playing.cardColors
+    })
+  }
+}
 </script>

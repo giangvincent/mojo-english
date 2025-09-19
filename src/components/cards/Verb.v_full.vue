@@ -165,16 +165,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "verb-card",
+  name: 'verb-card',
   props: {
-    card: Object,
+    card: Object
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
-  },
-};
+      cardColors: (state) => state.playing.cardColors
+    })
+  }
+}
 </script>

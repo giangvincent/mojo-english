@@ -11,9 +11,9 @@ export const shuffleArray = function (a, b, c, d) {
 }
 // Fisher–Yates Shuffle
 export const shuffleArray1 = function (array) {
-  var m = array.length
-  var t
-  var i
+  let m = array.length
+  let t
+  let i
   while (m) {
     i = Math.floor(Math.random() * m--)
     t = array[m]

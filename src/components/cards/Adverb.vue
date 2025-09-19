@@ -94,23 +94,21 @@
 </template>
 
 <script>
-import MeaningType from "@/components/cards/TypeSentence/Meaning.vue";
-import Meaning from "./TypeSentence/Meaning.vue";
-import { mapState } from "vuex";
+import MeaningType from '@/components/cards/TypeSentence/Meaning.vue'
+import { mapState } from 'vuex'
+
 export default {
-  name: "adverb",
+  name: 'adverb',
   props: {
-    card: Object,
+    card: Object
   },
   components: {
-    MeaningType,
+    MeaningType
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
-  },
-};
-
-Meaning;
+      cardColors: state => state.playing.cardColors
+    })
+  }
+}
 </script>

@@ -91,7 +91,7 @@ export default {
   watch: {
     playingStep: function (val, oldVal) {
       if (val === 'choose-word' && typeof this.card.image === 'string') {
-        let contentOb = {
+        const contentOb = {
           text: this.card.content[this.contentIndex],
           point: this.card.point,
           bonus: this.card.bonusPoint
@@ -108,7 +108,7 @@ export default {
   methods: {
     ...mapMutations(['setObjectPhrase']),
     chooseLocation (content) {
-      let contentOb = {
+      const contentOb = {
         text: content,
         point: this.card.point,
         bonus: this.card.bonusPoint

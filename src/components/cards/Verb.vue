@@ -29,35 +29,35 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from 'vuex'
+
 export default {
-  name: "verb-card",
+  name: 'verb-card',
   props: {
-    card: Object,
+    card: Object
   },
   computed: {
     ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-      verbPhrase: (state) => state.playing.verbPhrase,
-      nounType: (state) => state.playing.nounType,
-      curTense: (state) => state.playing.curTense,
-      playingStep: (state) => state.playing.playingStep,
-    }),
+      cardColors: state => state.playing.cardColors,
+      verbPhrase: state => state.playing.verbPhrase,
+      nounType: state => state.playing.nounType,
+      curTense: state => state.playing.curTense,
+      playingStep: state => state.playing.playingStep
+    })
   },
   watch: {
-    nounType: function () {
+    nounType () {
       console.log(this.nounType)
     }
   },
   methods: {
-    ...mapMutations(["setVerbPhrase", "setTense"]),
-    chooseVerb(index) {
-      if (this.playingStep == "choose-word") {
-
-        this.setTense(this.card.content[index].tense);
-        this.setVerbPhrase(this.card.content[index]);
+    ...mapMutations(['setVerbPhrase', 'setTense']),
+    chooseVerb (index) {
+      if (this.playingStep === 'choose-word') {
+        this.setTense(this.card.content[index].tense)
+        this.setVerbPhrase(this.card.content[index])
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

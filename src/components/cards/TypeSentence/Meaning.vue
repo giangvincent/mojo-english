@@ -44,14 +44,14 @@
 
 <script>
 export default {
-  name: "Mean-of-the-sentence",
+  name: 'Mean-of-the-sentence',
   props: {
-    type: String,
+    type: String
   },
-  data() {
+  data () {
     return {
-      classStack: "w-5 h-5 p-0.5 bg-blue-700 text-white",
-    };
-  },
-};
+      classStack: 'w-5 h-5 p-0.5 bg-blue-700 text-white'
+    }
+  }
+}
 </script>

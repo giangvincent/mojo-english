@@ -67,19 +67,19 @@
 
 <script>
 export default {
-  name: "time-card",
+  name: 'time-card',
   props: {
-    card: Object,
+    card: Object
   },
-  data() {
+  data () {
     return {
-      id: "",
-      image: "",
-      text: "",
+      id: '',
+      image: '',
+      text: '',
       point: 0,
       previousCards: [],
-      bonusPoints: [],
-    };
-  },
-};
+      bonusPoints: []
+    }
+  }
+}
 </script>

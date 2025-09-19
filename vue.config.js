@@ -19,9 +19,9 @@ module.exports = {
   // },
   pluginOptions: {
     i18n: {
-      locale: "vi",
-      fallbackLocale: "en",
-      localeDir: "locales",
+      locale: 'vi',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
       enableInSFC: false
     }
   },
@@ -30,10 +30,10 @@ module.exports = {
     port: 8000
   },
   productionSourceMap: false,
-  publicPath: "./",
+  publicPath: './',
   configureWebpack: {
     optimization: {
       splitChunks: false
     }
   }
-};
+}

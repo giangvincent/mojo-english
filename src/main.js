@@ -37,8 +37,8 @@ function startGame () {
     store.commit('SET_SCREEN')
 
     FBInstant.player.getDataAsync(['locale', 'level', 'point']).then(function (data) {
-      if (data['locale']) {
-        i18n.global.locale = data['locale']
+      if (data.locale) {
+        i18n.global.locale = data.locale
       }
       store.commit('setPlayerData', data)
     })

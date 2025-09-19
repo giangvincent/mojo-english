@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-path-concat */
 /* ----- plugins ----- */
-var os = require('os')
-var gulp = require('gulp')
+const os = require('os')
+const gulp = require('gulp')
 const zip = require('gulp-zip')
 const request = require('request')
 const fs = require('fs')
@@ -36,8 +35,8 @@ function archive (archivesFolder, filename) {
     )
     gulp
       .src([
-        __dirname + '/dist/**',
-        '!' + __dirname + '/dist/archives/**',
+        path.join(__dirname, 'dist/**'),
+        '!' + path.join(__dirname, 'dist/archives/**'),
         '!**.zip'
       ])
       .pipe(zip(filename))
@@ -53,7 +52,7 @@ function archive (archivesFolder, filename) {
 function upload (archivesFolder, filename) {
   return new Promise(function (resolve, reject) {
     console.log('Going to upload archive: ' + archivesFolder + '/' + filename)
-    var comment =
+    const comment =
       process.argv[4] ||
       'Uploaded from ' +
         os.hostname() +
@@ -109,10 +108,10 @@ function upload (archivesFolder, filename) {
   })
 }
 
-var today = new Date()
-var date =
+const today = new Date()
+const date =
   today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-var time =
+const time =
   today.getHours() + '-' + today.getMinutes() + '-' + today.getSeconds()
 
 gulp.task('push', function (done) {

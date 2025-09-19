@@ -3,7 +3,7 @@ module.exports = {
   env: {
     node: true
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     '@vue/standard'
   ],
@@ -12,7 +12,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    ecmaVersion: 2020,
+    sourceType: 'module'
   },
   overrides: [
     {

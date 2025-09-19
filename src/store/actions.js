@@ -2,13 +2,13 @@ import 'whatwg-fetch'
 
 export default {
   LoadCards: function (store, level) {
-    let listCard = ['Noun', 'Verb', 'Location', 'Time']
-    let filesCard = listCard.map(
+    const listCard = ['Noun', 'Verb', 'Location', 'Time']
+    const filesCard = listCard.map(
       card => 'contents/cards_set_1/' + card + '.json'
     )
     // console.log(filesCard);
-    var results = []
-    var list = []
+    const results = []
+    const list = []
 
     filesCard.forEach(function (url) {
       list.push(

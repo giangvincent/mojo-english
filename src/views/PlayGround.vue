@@ -32,37 +32,36 @@
         v-if="cards.length > 0"
         :disabled="!isDragging"
       >
-        <span
-          class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
-          v-for="(card, index) in cards"
-          :key="'card-' + card.id"
-          :class="{
-            '-translate-y-3': zeroPointCards.includes(card.id) && !isDragging,
-          }"
-          v-touch:swipe="swipeCard(card.id)"
-          v-on:click.prevent
-
-        >
-          <card-container
-            :card="card"
-            :cardHeight="cardHeight"
-            :canChooseWord="!zeroPointCards.includes(card.id)"
+        <template #item="{ element, index }">
+          <span
+            class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
             :class="{
-              'opacity-25': zeroPointCards.includes(card.id),
+              '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
             }"
-          ></card-container>
+            v-touch:swipe="swipeCard(element.id)"
+            v-on:click.prevent
+          >
+            <card-container
+              :card="element"
+              :cardHeight="cardHeight"
+              :canChooseWord="!zeroPointCards.includes(element.id)"
+              :class="{
+                'opacity-25': zeroPointCards.includes(element.id),
+              }"
+            ></card-container>
 
-          <discard-btn
-            v-if="isDragging && cardDiscarded.length < 3"
-            @click="discardCard(index)"
-          ></discard-btn>
-          <replace-btn
-            v-if="zeroPointCards.includes(card.id) && (cardDiscarded.length >= 3 || playingStep == 'choose-word')"
-            @changeCard="changeCard"
-            :cardIndex="index"
-            :cardOb="card"
-          ></replace-btn>
-        </span>
+            <discard-btn
+              v-if="isDragging && cardDiscarded.length < 3"
+              @click="discardCard(index)"
+            ></discard-btn>
+            <replace-btn
+              v-if="zeroPointCards.includes(element.id) && (cardDiscarded.length >= 3 || playingStep == 'choose-word')"
+              @changeCard="changeCard"
+              :cardIndex="index"
+              :cardOb="element"
+            ></replace-btn>
+          </span>
+        </template>
       </draggable>
     </div>
     <!-- Player table -->
@@ -196,7 +195,7 @@ export default {
     this.distributeCards(this.originalCards)
   },
   mounted () {
-    var element = this.$refs.tablePlay
+    const element = this.$refs.tablePlay
     element.addEventListener('wheel', transformScroll)
   },
   methods: {
@@ -222,7 +221,7 @@ export default {
       }
     },
     caculateBonusPoint (bonusObj) {
-      let self = this
+      const self = this
       if (Array.isArray(bonusObj)) {
         let bonusAdded = false
         bonusObj.forEach(bonus => {
@@ -266,7 +265,7 @@ export default {
       } else this.isSentenceNotReady = true
     },
     swipeCard (param) {
-      let self = this
+      const self = this
       return function (direction, event) {
         if (direction === 'top') {
           let cardIndex = 0
@@ -280,8 +279,8 @@ export default {
       }
     },
     changeCard (value) {
-      let replaceListCards = []
-      let self = this
+      const replaceListCards = []
+      const self = this
       this.allCards.forEach(card => {
         if (card.type === value.card) {
           replaceListCards.push(self.setPointToZero(card))
@@ -291,8 +290,8 @@ export default {
       this.$set(this.cards, value.index, replaceListCards[0])
     },
     setPointToZero (card) {
-      let zeroPointCard = card
-      let cardTypeHaveContent = ['TimeCard', 'Verb']
+      const zeroPointCard = card
+      const cardTypeHaveContent = ['TimeCard', 'Verb']
       if (cardTypeHaveContent.includes(card.type)) {
         card.content.forEach((content, index) => {
           zeroPointCard.content[index].point = 0
@@ -351,7 +350,7 @@ export default {
     },
     checkPositionOfCards () {
       // console.log("call check position of cards", this.cards);
-      let previousCards = []
+      const previousCards = []
       this.zeroPointCards = []
       this.cards.forEach((card, index) => {
         if (this.isIllegalCard(card, index, previousCards)) {
@@ -381,7 +380,7 @@ export default {
            */
           if (
             ['Location', 'TimeCard', 'ExtraInformation'].includes(card.type) &&
-            this.player['level'] > 1
+            this.player.level > 1
           ) {
             const foundPreviousCard = previousCards.some(
               ({ type }) =>

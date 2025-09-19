@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: "leaderboard-component",
-};
+  name: 'leaderboard-component'
+}
 </script>
