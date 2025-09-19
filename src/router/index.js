@@ -1,7 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
   {
@@ -31,8 +28,7 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+export default createRouter({
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
-
-export default router

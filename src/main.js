@@ -1,45 +1,31 @@
 /* eslint-disable no-undef */
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createI18n } from 'vue-i18n'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import '@/assets/css/tailwind.css'
 import '@/assets/css/animate.css'
-import VueI18n from 'vue-i18n'
 import lang from './lang.js'
-import Vue2TouchEvents from 'vue2-touch-events'
-
-Vue.use(Vue2TouchEvents)
-Vue.use(VueI18n)
-/* const i18n = new VueI18n({
-  locale: "vi",
-  messages: lang
-});
-let playerData = {}
-store.commit("setPlayerData", playerData);
-store.commit("SET_SCREEN");
-new Vue({
-  i18n,
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app"); */
-
-Vue.config.productionTip = false
+import Vue3TouchEvents from 'vue3-touch-events'
 
 function startGame () {
   FBInstant.startGameAsync().then(() => {
-    const i18n = new VueI18n({
-      locale:
-        FBInstant.getLocale() !== 'undefined' && FBInstant.getLocale() != null
-          ? FBInstant.getLocale().split('_')[0]
-          : 'en',
+    const locale =
+      FBInstant.getLocale() !== 'undefined' && FBInstant.getLocale() != null
+        ? FBInstant.getLocale().split('_')[0]
+        : 'en'
+
+    const i18n = createI18n({
+      legacy: true,
+      globalInjection: true,
+      locale,
       fallbackLocale: 'en',
       messages: lang
     })
 
-    let playerData = {}
+    const playerData = {}
     playerData.id = FBInstant.player.getID()
     playerData.name = FBInstant.player.getName()
     playerData.photo = new Image()
@@ -50,28 +36,28 @@ function startGame () {
     store.commit('setPlayerData', playerData)
     store.commit('SET_SCREEN')
 
-    // console.log(playerData)
     FBInstant.player.getDataAsync(['locale', 'level', 'point']).then(function (data) {
-      i18n.locale = data['locale']
+      if (data['locale']) {
+        i18n.global.locale = data['locale']
+      }
       store.commit('setPlayerData', data)
     })
 
-    // Fetch Player's Friends
     FBInstant.player.getConnectedPlayersAsync().then(function (players) {
       // console.log('getConnectedPlayersAsync ', players)
     })
 
-    // Fetch Context Players
     FBInstant.context.getPlayersAsync().then(function (players) {
       // console.log('getPlayersAsync', players)
     })
 
-    new Vue({
-      i18n,
-      router,
-      store,
-      render: h => h(App)
-    }).$mount('#app')
+    const app = createApp(App)
+    app.use(store)
+    app.use(router)
+    app.use(i18n)
+    app.use(Vue3TouchEvents)
+
+    app.mount('#app')
 
     router.afterEach((to, from) => {
       // ga('set', 'page', url)
