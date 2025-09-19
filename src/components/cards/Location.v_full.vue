@@ -105,26 +105,24 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'location-card',
   props: {
-    card: Object
-  },
-  data () {
-    return {
-      id: '',
-      image: '',
-      text: '',
-      point: 0,
-      previousCards: [],
-      bonusPoints: []
+    card: {
+      type: Object,
+      required: true
     }
   },
-  computed: {
-    ...mapState({
-      cardColors: (state) => state.playing.cardColors
-    })
+  setup () {
+    const store = useStore()
+    const cardColors = computed(() => store.state.playing.cardColors)
+
+    return {
+      cardColors
+    }
   }
 }
 </script>

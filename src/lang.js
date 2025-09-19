@@ -1,6 +1,12 @@
 export default {
   vi: {
-    home: ['Chơi ngay', 'Cài đặt', 'Cửa hàng', 'Hướng dẫn', 'Cấp'],
+    home: {
+      play_now: 'Chơi ngay',
+      settings: 'Cài đặt',
+      shop: 'Cửa hàng',
+      guides: 'Hướng dẫn',
+      level: 'Cấp'
+    },
     language: 'Tiếng việt',
     setting: ['Cài đặt', 'Âm nhạc', 'Âm thanh', 'Ngôn ngữ'],
     buttons: {
@@ -14,7 +20,13 @@ export default {
     }
   },
   en: {
-    home: ['Play Now', 'Settings', 'Shop', 'Guides', 'Level'],
+    home: {
+      play_now: 'Play Now',
+      settings: 'Settings',
+      shop: 'Shop',
+      guides: 'Guides',
+      level: 'Level'
+    },
     language: 'English',
     setting: ['Settings', 'Music', 'Sound', 'Language'],
     buttons: {

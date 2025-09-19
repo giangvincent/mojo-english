@@ -65,41 +65,42 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { computed, watch } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'time-card',
   props: {
-    card: Object
-  },
-  data () {
-    return {
-      id: '',
-      image: '',
-      text: '',
-      point: 0,
-      previousCards: [],
-      bonusPoints: []
+    card: {
+      type: Object,
+      required: true
     }
   },
-  computed: {
-    ...mapState({
-      objectPhrase: (state) => state.playing.objectPhrase,
-      playingStep: (state) => state.playing.playingStep,
-      curTense: (state) => state.playing.curTense
+  setup (props) {
+    const store = useStore()
+    const objectPhrase = computed(() => store.state.playing.objectPhrase)
+    const playingStep = computed(() => store.state.playing.playingStep)
+    const curTense = computed(() => store.state.playing.curTense)
+
+    const setObjectPhrase = (payload) => {
+      store.commit('setObjectPhrase', payload)
+    }
+
+    watch(curTense, () => {
+      console.log('present simple / future simple / past simple'.indexOf(curTense.value))
     })
-  },
-  watch: {
-    curTense: function () {
-      console.log('present simple / future simple / past simple'.indexOf(this.curTense))
-    }
-  },
-  methods: {
-    ...mapMutations(['setTense', 'setObjectPhrase']),
-    chooseTime (index) {
-      if (this.playingStep === 'choose-word' && this.curTense && this.card.content[index].tense.indexOf(this.curTense) > -1) {
-        // this.setTense(this.card.content[index].tense);
-        this.setObjectPhrase(this.card.content[index])
+
+    const chooseTime = (index) => {
+      if (playingStep.value === 'choose-word' && curTense.value && props.card.content[index].tense.indexOf(curTense.value) > -1) {
+        setObjectPhrase(props.card.content[index])
       }
+    }
+
+    return {
+      objectPhrase,
+      playingStep,
+      curTense,
+      chooseTime
     }
   }
 }

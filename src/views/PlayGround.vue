@@ -7,12 +7,12 @@
         class="p-2 border-2 border-white text-white rounded-lg w-full relative"
         v-if="!isDragging"
       >
-        {{ $t('playing')['final_sentence'] }}:
+        {{ $t('playing.final_sentence') }}:
         <div class="ml-2 inline">
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhraseText : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text + '.' : '' }}
-          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{ $t('playing')['total_point']  }}: {{ totalPoint }}</div>
+          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{ $t('playing.total_point')  }}: {{ totalPoint }}</div>
         </div>
 
       </div>
@@ -31,6 +31,7 @@
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
         v-if="cards.length > 0"
         :disabled="!isDragging"
+        :key="cards.id"
       >
         <template #item="{ element, index }">
           <span
@@ -71,7 +72,7 @@
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
         @click="lockCardPosition()"
       >
-        {{ $t('playing')['confirm_position'] }}
+        {{ $t('playing.confirm_position') }}
       </button>
       <button
         v-if="isDragging === false"
@@ -80,7 +81,7 @@
         :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
         @click="submitSentence()"
       >
-        {{ $t('playing')['submit_sentence'] }}
+        {{ $t('playing.submit_sentence') }}
       </button>
     </div>
     <game-over v-if="playingStep === 'end'" :finalSentence="finalSentence" :finalPoint="finalPoint"></game-over>

@@ -94,21 +94,28 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 import MeaningType from '@/components/cards/TypeSentence/Meaning.vue'
-import { mapState } from 'vuex'
 
 export default {
   name: 'adverb',
-  props: {
-    card: Object
-  },
   components: {
     MeaningType
   },
-  computed: {
-    ...mapState({
-      cardColors: state => state.playing.cardColors
-    })
+  props: {
+    card: {
+      type: Object,
+      required: true
+    }
+  },
+  setup () {
+    const store = useStore()
+    const cardColors = computed(() => store.state.playing.cardColors)
+
+    return {
+      cardColors
+    }
   }
 }
 </script>

@@ -126,7 +126,7 @@
 export default {
   name: 'conjunction-card',
   props: {
-    card: Object
+    card: {}
   },
   data () {
     return {}

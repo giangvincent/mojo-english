@@ -42,33 +42,49 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'noun',
   props: {
-    card: Object
+    card: {
+      type: Object,
+      required: true
+    }
   },
-  data () {
-    return {}
-  },
-  computed: {
-    ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-      nounPhrase: (state) => state.playing.nounPhrase,
-      nounType: (state) => state.playing.nounType,
-      playingStep: (state) => state.playing.playingStep
-    })
-  },
-  methods: {
-    ...mapMutations(['setNounPhrase', 'setNounType']),
-    chooseNoun (type) {
-      // console.log(this.card[type]);
-      if (this.playingStep === 'choose-word') {
-        this.setNounType(type)
-        const nounPhrase = this.card[type]
-        nounPhrase.bonus = this.card.bonusPoint
-        this.setNounPhrase(this.card[type])
+  setup (props) {
+    const store = useStore()
+    const cardColors = computed(() => store.state.playing.cardColors)
+    const nounPhrase = computed(() => store.state.playing.nounPhrase)
+    const nounType = computed(() => store.state.playing.nounType)
+    const playingStep = computed(() => store.state.playing.playingStep)
+
+    const setNounType = (value) => {
+      store.commit('setNounType', value)
+    }
+
+    const setNounPhrase = (payload) => {
+      store.commit('setNounPhrase', payload)
+    }
+
+    const chooseNoun = (type) => {
+      if (playingStep.value === 'choose-word') {
+        setNounType(type)
+        const noun = {
+          ...props.card[type],
+          bonus: props.card.bonusPoint
+        }
+        setNounPhrase(noun)
       }
+    }
+
+    return {
+      cardColors,
+      nounPhrase,
+      nounType,
+      playingStep,
+      chooseNoun
     }
   }
 }

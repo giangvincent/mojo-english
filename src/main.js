@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 import App from './App.vue'
@@ -9,13 +8,13 @@ import '@/assets/css/tailwind.css'
 import '@/assets/css/animate.css'
 import lang from './lang.js'
 import Vue3TouchEvents from 'vue3-touch-events'
+import fbInstant from '@/services/fbInstant'
 
 function startGame () {
-  FBInstant.startGameAsync().then(() => {
-    const locale =
-      FBInstant.getLocale() !== 'undefined' && FBInstant.getLocale() != null
-        ? FBInstant.getLocale().split('_')[0]
-        : 'en'
+  const startGamePromise = typeof fbInstant.startGameAsync === 'function' ? fbInstant.startGameAsync() : Promise.resolve()
+  startGamePromise.then(() => {
+    const fbLocale = typeof fbInstant.getLocale === 'function' ? fbInstant.getLocale() : (typeof navigator !== 'undefined' ? navigator.language || 'en_US' : 'en_US')
+    const locale = fbLocale ? fbLocale.split('_')[0] : 'en'
 
     const i18n = createI18n({
       legacy: true,
@@ -26,30 +25,36 @@ function startGame () {
     })
 
     const playerData = {}
-    playerData.id = FBInstant.player.getID()
-    playerData.name = FBInstant.player.getName()
+    playerData.id = fbInstant.player?.getID ? fbInstant.player.getID() : 'mock-player-id'
+    playerData.name = fbInstant.player?.getName ? fbInstant.player.getName() : 'Guest Player'
     playerData.photo = new Image()
     playerData.level = 0
     playerData.photo.crossOrigin = 'anonymous'
-    playerData.photo.src = FBInstant.player.getPhoto()
+    playerData.photo.src = fbInstant.player?.getPhoto ? fbInstant.player.getPhoto() : ''
 
     store.commit('setPlayerData', playerData)
     store.commit('SET_SCREEN')
 
-    FBInstant.player.getDataAsync(['locale', 'level', 'point']).then(function (data) {
-      if (data.locale) {
-        i18n.global.locale = data.locale
-      }
-      store.commit('setPlayerData', data)
-    })
+    if (fbInstant.player && typeof fbInstant.player.getDataAsync === 'function') {
+      fbInstant.player.getDataAsync(['locale', 'level', 'point']).then(function (data) {
+        if (data.locale) {
+          i18n.global.locale = data.locale
+        }
+        store.commit('setPlayerData', data)
+      })
+    }
 
-    FBInstant.player.getConnectedPlayersAsync().then(function (players) {
-      // console.log('getConnectedPlayersAsync ', players)
-    })
+    if (fbInstant.player && typeof fbInstant.player.getConnectedPlayersAsync === 'function') {
+      fbInstant.player.getConnectedPlayersAsync().then(function (players) {
+        // console.log('getConnectedPlayersAsync ', players)
+      })
+    }
 
-    FBInstant.context.getPlayersAsync().then(function (players) {
-      // console.log('getPlayersAsync', players)
-    })
+    if (fbInstant.context && typeof fbInstant.context.getPlayersAsync === 'function') {
+      fbInstant.context.getPlayersAsync().then(function (players) {
+        // console.log('getPlayersAsync', players)
+      })
+    }
 
     const app = createApp(App)
     app.use(store)
@@ -65,18 +70,21 @@ function startGame () {
     })
   })
 
-  FBInstant.onPause(function () {
+  fbInstant.onPause && fbInstant.onPause(function () {
     // console.log('Pause event was triggered!')
   })
 }
 // const assets = ['@/assets/images/logo.png']
 window.onload = function () {
-  FBInstant.initializeAsync().then(() => {
+  const initializePromise = typeof fbInstant.initializeAsync === 'function' ? fbInstant.initializeAsync() : Promise.resolve()
+  initializePromise.then(() => {
     // for (let i in assets) {
     //   // When preloading assets, make sure to report the progress
     //   FBInstant.setLoadingProgress((i / assets.length) * 100);
     // }
-    FBInstant.setLoadingProgress(30 + Math.random() * 50)
+    if (typeof fbInstant.setLoadingProgress === 'function') {
+      fbInstant.setLoadingProgress(30 + Math.random() * 50)
+    }
     return startGame()
   })
   // (function(i, s, o, g, r, a, m) {

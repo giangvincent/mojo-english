@@ -69,7 +69,7 @@
 export default {
   name: 'time-card',
   props: {
-    card: Object
+    card: {}
   },
   data () {
     return {

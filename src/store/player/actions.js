@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+import fbInstant from '@/services/fbInstant'
 export default {
   SetPlayerDataAsync: function (store, payload) {
     const preparePayload = {
@@ -12,8 +12,10 @@ export default {
     })
     store.commit('setPlayerData', store.state.playerData)
 
-    FBInstant.player.setDataAsync(preparePayload).then(function () {
-      console.log('data is set', preparePayload)
-    })
+    if (fbInstant.player && typeof fbInstant.player.setDataAsync === 'function') {
+      fbInstant.player.setDataAsync(preparePayload).then(function () {
+        console.log('data is set', preparePayload)
+      })
+    }
   }
 }

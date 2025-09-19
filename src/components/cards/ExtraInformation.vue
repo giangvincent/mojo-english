@@ -185,7 +185,7 @@
 export default {
   name: 'Extra-Information-card',
   props: {
-    card: Object
+    card: {}
   },
   data () {
     return {}

@@ -165,16 +165,24 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'verb-card',
   props: {
-    card: Object
+    card: {
+      type: Object,
+      required: true
+    }
   },
-  computed: {
-    ...mapState({
-      cardColors: (state) => state.playing.cardColors
-    })
+  setup () {
+    const store = useStore()
+    const cardColors = computed(() => store.state.playing.cardColors)
+
+    return {
+      cardColors
+    }
   }
 }
 </script>

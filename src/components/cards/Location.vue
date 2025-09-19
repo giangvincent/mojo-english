@@ -70,50 +70,61 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'location-card',
   props: {
-    card: Object
-  },
-  data () {
-    return {
-      contentIndex: 0
+    card: {
+      type: Object,
+      required: true
     }
   },
-  computed: {
-    ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-      objectPhrase: (state) => state.playing.objectPhrase,
-      playingStep: (state) => state.playing.playingStep
-    })
-  },
-  watch: {
-    playingStep: function (val, oldVal) {
-      if (val === 'choose-word' && typeof this.card.image === 'string') {
+  setup (props) {
+    const store = useStore()
+    const contentIndex = ref(0)
+    const cardColors = computed(() => store.state.playing.cardColors)
+    const playingStep = computed(() => store.state.playing.playingStep)
+
+    const setObjectPhrase = (payload) => {
+      store.commit('setObjectPhrase', payload)
+    }
+
+    const emitObjectPhrase = () => {
+      if (playingStep.value === 'choose-word' && typeof props.card.image === 'string') {
         const contentOb = {
-          text: this.card.content[this.contentIndex],
-          point: this.card.point,
-          bonus: this.card.bonusPoint
+          text: props.card.content[contentIndex.value],
+          point: props.card.point,
+          bonus: props.card.bonusPoint
         }
-        this.setObjectPhrase(contentOb)
+        setObjectPhrase(contentOb)
       }
     }
-  },
-  mounted () {
-    if (this.card.content.length > 1) {
-      this.contentIndex = Math.floor(Math.random() * this.card.content.length)
-    }
-  },
-  methods: {
-    ...mapMutations(['setObjectPhrase']),
-    chooseLocation (content) {
+
+    watch(playingStep, emitObjectPhrase)
+
+    onMounted(() => {
+      if (props.card.content.length > 1) {
+        contentIndex.value = Math.floor(Math.random() * props.card.content.length)
+      }
+      emitObjectPhrase()
+    })
+
+    const chooseLocation = (content) => {
       const contentOb = {
         text: content,
-        point: this.card.point,
-        bonus: this.card.bonusPoint
+        point: props.card.point,
+        bonus: props.card.bonusPoint
       }
-      this.setObjectPhrase(contentOb)
+      setObjectPhrase(contentOb)
+    }
+
+    return {
+      contentIndex,
+      cardColors,
+      playingStep,
+      chooseLocation
     }
   }
 }

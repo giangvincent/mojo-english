@@ -85,7 +85,7 @@
 export default {
   name: 'adjective-card',
   props: {
-    card: Object
+    card: {}
   },
   data () {
     return {

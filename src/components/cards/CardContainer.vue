@@ -12,37 +12,45 @@
 </template>
 
 <script>
+import { computed, defineAsyncComponent } from 'vue'
+
 export default {
   name: 'card-container',
   props: {
-    canChooseWord: Boolean,
-    card: Object,
-    cardHeight: Number
-  },
-  components: {
-    Noun: () => import('@/components/cards/Noun.vue'),
-    Location: () => import('@/components/cards/Location.vue'),
-    TimeCard: () => import('@/components/cards/TimeCard.vue'),
-
-    Verb: () => import('@/components/cards/Verb.vue'),
-    HelpingVerb: () => import('@/components/cards/HelpingVerb.vue'),
-
-    Conj: () => import('@/components/cards/Conj.vue'),
-    Prep: () => import('@/components/cards/Prep.vue'),
-    Adj: () => import('@/components/cards/Adj.vue'),
-    Adverb: () => import('@/components/cards/Adverb.vue'),
-
-    ExtraInformation: () => import('@/components/cards/ExtraInformation.vue')
-  },
-  data () {
-    return {
-      cardWidth: 0
+    canChooseWord: {
+      type: Boolean,
+      default: true
+    },
+    card: {
+      type: Object,
+      required: true
+    },
+    cardHeight: {
+      type: Number,
+      required: true
     }
   },
-  created () {
-    this.cardWidth = (this.cardHeight - 32) / 1.612
+  components: {
+    Noun: defineAsyncComponent(() => import('@/components/cards/Noun.vue')),
+    Location: defineAsyncComponent(() => import('@/components/cards/Location.vue')),
+    TimeCard: defineAsyncComponent(() => import('@/components/cards/TimeCard.vue')),
+
+    Verb: defineAsyncComponent(() => import('@/components/cards/Verb.vue')),
+    HelpingVerb: defineAsyncComponent(() => import('@/components/cards/HelpingVerb.vue')),
+
+    Conj: defineAsyncComponent(() => import('@/components/cards/Conj.vue')),
+    Prep: defineAsyncComponent(() => import('@/components/cards/Prep.vue')),
+    Adj: defineAsyncComponent(() => import('@/components/cards/Adj.vue')),
+    Adverb: defineAsyncComponent(() => import('@/components/cards/Adverb.vue')),
+
+    ExtraInformation: defineAsyncComponent(() => import('@/components/cards/ExtraInformation.vue'))
   },
-  mounted () {},
-  methods: {}
+  setup (props) {
+    const cardWidth = computed(() => (props.cardHeight - 32) / 1.612)
+
+    return {
+      cardWidth
+    }
+  }
 }
 </script>

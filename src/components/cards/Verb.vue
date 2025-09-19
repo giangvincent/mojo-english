@@ -29,34 +29,51 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { computed, watch } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'verb-card',
   props: {
-    card: Object
-  },
-  computed: {
-    ...mapState({
-      cardColors: state => state.playing.cardColors,
-      verbPhrase: state => state.playing.verbPhrase,
-      nounType: state => state.playing.nounType,
-      curTense: state => state.playing.curTense,
-      playingStep: state => state.playing.playingStep
-    })
-  },
-  watch: {
-    nounType () {
-      console.log(this.nounType)
+    card: {
+      type: Object,
+      required: true
     }
   },
-  methods: {
-    ...mapMutations(['setVerbPhrase', 'setTense']),
-    chooseVerb (index) {
-      if (this.playingStep === 'choose-word') {
-        this.setTense(this.card.content[index].tense)
-        this.setVerbPhrase(this.card.content[index])
+  setup (props) {
+    const store = useStore()
+    const cardColors = computed(() => store.state.playing.cardColors)
+    const verbPhrase = computed(() => store.state.playing.verbPhrase)
+    const nounType = computed(() => store.state.playing.nounType)
+    const curTense = computed(() => store.state.playing.curTense)
+    const playingStep = computed(() => store.state.playing.playingStep)
+
+    const setVerbPhrase = (payload) => {
+      store.commit('setVerbPhrase', payload)
+    }
+
+    const setTense = (payload) => {
+      store.commit('setTense', payload)
+    }
+
+    const chooseVerb = (index) => {
+      if (playingStep.value === 'choose-word') {
+        setTense(props.card.content[index].tense)
+        setVerbPhrase(props.card.content[index])
       }
+    }
+
+    watch(nounType, (value) => {
+      console.log(value)
+    })
+
+    return {
+      cardColors,
+      verbPhrase,
+      nounType,
+      curTense,
+      playingStep,
+      chooseVerb
     }
   }
 }
