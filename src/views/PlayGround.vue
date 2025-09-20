@@ -313,7 +313,7 @@ export default {
     },
     lockCardPosition () {
       console.log('Lock cards position')
-      this.$set(this, 'isDragging', false)
+      this.isDragging = false
       this.setPlayingStep('choose-word')
     },
     autoArrangeOnce () {
