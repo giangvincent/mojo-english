@@ -1,6 +1,8 @@
 module.exports = {
-  purge: [],
-  target: 'relaxed',
+  content: [
+    './index.html',
+    './src/**/*.{vue,js,jsx,ts,tsx}'
+  ],
   prefix: '',
   important: false,
   separator: ':',
@@ -700,7 +702,6 @@ module.exports = {
       }
     }
   },
-  variants: {},
   corePlugins: {},
   plugins: []
 }

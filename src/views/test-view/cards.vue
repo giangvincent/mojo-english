@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import CardContainer from '@/components/cards/CardContainer'
-import BackBtn from '@/components/navigation/BackButton'
+import CardContainer from '@/components/cards/CardContainer.vue'
+import BackBtn from '@/components/navigation/BackButton.vue'
 
 export default {
   name: 'test-view-cards',

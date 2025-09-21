@@ -90,10 +90,10 @@
 
 <script>
 import draggable from 'vuedraggable'
-import CardContainer from '@/components/cards/CardContainer'
-import DiscardBtn from '@/components/cards/Buttons/DiscardBtn'
-import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn'
-import GameOver from '@/components/GameOver'
+import CardContainer from '@/components/cards/CardContainer.vue'
+import DiscardBtn from '@/components/cards/Buttons/DiscardBtn.vue'
+import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn.vue'
+import GameOver from '@/components/GameOver.vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { shuffleArray, capitalizeFirstLetter } from '@/helper'
 
