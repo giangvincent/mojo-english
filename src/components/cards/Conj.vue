@@ -124,12 +124,12 @@
 
 <script>
 export default {
-  name: "conjunction-card",
+  name: 'conjunction-card',
   props: {
-    card: Object
+    card: {}
   },
-  data() {
-    return {};
+  data () {
+    return {}
   }
-};
+}
 </script>

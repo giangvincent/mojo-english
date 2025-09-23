@@ -28,7 +28,7 @@
         <div class="w-1/4"></div>
         <div
           class="w-3/4 pl-4 border-1 border-black text-left -mr-1"
-          :class="cardColors['Adverb']"
+          :class="'bg-' + cardColors['Adverb']"
         >
           away
         </div>
@@ -36,7 +36,10 @@
       <div class="h-1/4">
         <div class="w-full flex justify-between items-center">
           <div class="flex z-10">
-            <div class="w-3 flex flex-col" :class="cardColors['Verb']"></div>
+            <div
+              class="w-3 flex flex-col"
+              :class="'bg-' + cardColors['Verb']"
+            ></div>
             <span
               class="-ml-1 p-0.5 bg-gray-200 rounded-md border-1 border-black text-black text-sxs md:text-xs"
               >{{ card.id }}</span
@@ -78,16 +81,24 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
-  name: "prep-card",
+  name: 'prep-card',
   props: {
-    card: Object,
+    card: {
+      type: Object,
+      required: true
+    }
   },
-  computed: {
-    ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
-  },
-};
+  setup () {
+    const store = useStore()
+    const cardColors = computed(() => store.state.playing.cardColors)
+
+    return {
+      cardColors
+    }
+  }
+}
 </script>

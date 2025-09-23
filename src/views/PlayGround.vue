@@ -1,461 +1,443 @@
 <template>
-  <div class="flex justify-between relative h-full">
-    <div class="flex flex-wrap">
-      <div class="m-2">
-        <figure>
-          <img
-            class="w-16 rounded-md border-2 border-gray-500"
-            src="@/assets/images/default-avatar.jpg"
-            alt=""
-            srcset=""
-          />
-        </figure>
-        player 1
-      </div>
-      <div class="m-2">
-        <figure>
-          <img
-            class="w-16 rounded-md border-2 border-gray-500"
-            src="@/assets/images/default-avatar.jpg"
-            alt=""
-            srcset=""
-          />
-        </figure>
-        player 2
-      </div>
-      <div class="m-2">
-        <figure>
-          <img
-            class="w-16 rounded-md border-2 border-gray-500"
-            src="@/assets/images/default-avatar.jpg"
-            alt=""
-            srcset=""
-          />
-        </figure>
-        player 3
-      </div>
-    </div>
-    <!-- Other players -->
-    <div class="flex">
+  <div
+    class="flex flex-col justify-center items-center min-h-screen h-full w-full bg-gray-800"
+  >
+    <div class="w-full px-4 pt-10 mb-5 text-left">
       <div
-        class="w-16 h-24 border-2 border-dashed border-orange-800 m-2 relative rounded-lg flex items-center justify-center"
-        @click="discardCard()"
+        class="p-2 border-2 border-white text-white rounded-lg w-full relative"
+        v-if="!isDragging"
       >
-        <span
-          class="text-orange-800 absolute w-full h-full z-10 flex items-center justify-center"
-          ><svg
-            class="w-8 h-8"
-            :class="{ 'text-white': cardDiscarded.length > 0 }"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </span>
-        <div
-          class="w-full h-full z-0 bg-orange-400 absolute border-2 rounded-lg"
-          v-if="cardDiscarded.length > 0"
-        ></div>
-        <span
-          v-if="cardDiscarded.length > 0"
-          class="rounded-full bg-purple-900 text-white font-bold absolute bottom-0 left-0 w-6 h-6 -m-2"
-          >{{ cardDiscarded.length }}</span
-        >
-      </div>
-      <div class="w-16 h-24 m-2 relative">
-        <div
-          class="text-white font-bold absolute z-10 flex flex-wrap justify-center items-center rounded-lg bg-orange-800 w-full h-full"
-        >
-          Cards ({{ allCards.length }})
+        {{ $t('playing.final_sentence') }}:
+        <div class="ml-2 inline">
+          {{ typeof nounPhrase.text !== 'undefinded' ? nounPhraseText : '' }}
+          {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
+          {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text + '.' : '' }}
+          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{ $t('playing.total_point')  }}: {{ totalPoint }}</div>
         </div>
 
-        <div
-          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-600 w-full z-0"
-          style="margin: -2px 0 0 -2px"
-        ></div>
-        <div
-          class="absolute top-0 left-0 h-full rounded-lg border-1 border-orange-500 w-full z-0"
-          style="margin: -4px 0 0 -4px"
-        ></div>
       </div>
     </div>
-
     <!-- Table -->
     <div
-      class="w-full absolute bottom-0 bg-gray-700"
-      :style="{ height: cardHeight + 'px' }"
+      ref="tablePlay"
+      id="tablePlay"
+      class="flex w-full min-h-1/2 relative items-center justify-center"
     >
-      <div class="absolute top-0 right-0 h-8 flex -mt-8 mr-2 items-center">
-        <div
-          class="bg-red-800 hover:bg-black rounded-t-lg px-2 py-1 font-bold text-white cursor-pointer"
-          @click="finishSentence()"
-        >
-          Kết thúc
-        </div>
-      </div>
-      <div
-        ref="tablePlay"
-        id="tablePlay"
-        class="flex w-full h-full px-2 py-4 overflow-x-auto"
+      <draggable
+        element="div"
+        v-model="cards"
+        v-bind="dragOptions"
+        @change="onSortCards"
+        class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
+        v-if="cards.length > 0"
+        :disabled="!isDragging"
+        :key="cards.id"
       >
-        <div
-          class="flex flex-row flex-no-wrap pl-2 pr-4"
-          v-if="cards.length > 0"
-        >
-          <div
-            class="flex flex-row flex-no-wrap relative duration-300 transform"
-            v-for="(card, index) in cards"
-            :key="'card-' + card.id"
-            :class="{ '-translate-y-2': indexChange == index }"
-            v-bind:style="{
-              transform: translateX > 0 && index == desIndex ? desTranslate : ''
+        <template #item="{ element, index }">
+          <span
+            class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
+            :class="{
+              '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
             }"
+            v-touch:swipe="swipeCard(element.id)"
+            v-on:click.prevent
           >
-            <span
-              v-if="stateForMoving && index === 0 && indexChange !== 0"
-              class="absolute left-0 h-full flex items-center -ml-2 z-10"
-              @click="movingCard(-1)"
-            >
-              <fill-card-in-btn></fill-card-in-btn>
-            </span>
             <card-container
-              :card="card"
+              :card="element"
               :cardHeight="cardHeight"
+              :canChooseWord="!zeroPointCards.includes(element.id)"
               :class="{
-                'opacity-25': zeroPointCards.includes(card.id)
+                'opacity-25': zeroPointCards.includes(element.id),
               }"
             ></card-container>
-            <span
-              v-if="
-                stateForMoving &&
-                  indexChange !== index &&
-                  indexChange - 1 !== index
-              "
-              class="absolute right-0 h-full flex items-center -mr-2"
-              @click="movingCard(index)"
-            >
-              <fill-card-in-btn></fill-card-in-btn>
-            </span>
 
-            <position-state-btn
-              @click="readyToChange(index)"
-            ></position-state-btn>
-          </div>
-        </div>
-      </div>
-      <!-- Player table -->
+            <discard-btn
+              v-if="isDragging && cardDiscarded.length < 3"
+              @click="discardCard(index)"
+            ></discard-btn>
+            <replace-btn
+              v-if="zeroPointCards.includes(element.id) && (cardDiscarded.length >= 3 || playingStep == 'choose-word')"
+              @changeCard="changeCard"
+              :cardIndex="index"
+              :cardOb="element"
+            ></replace-btn>
+          </span>
+        </template>
+      </draggable>
     </div>
+    <!-- Player table -->
+    <div class="mt-5 pb-5 flex justify-center w-full">
+      <button
+        v-if="isDragging === true"
+        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
+        @click="lockCardPosition()"
+      >
+        {{ $t('playing.confirm_position') }}
+      </button>
+      <button
+        v-if="isDragging === false"
+        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
+        :disabled="isSentenceNotReady"
+        :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
+        @click="submitSentence()"
+      >
+        {{ $t('playing.submit_sentence') }}
+      </button>
+    </div>
+    <game-over v-if="playingStep === 'end'" :finalSentence="finalSentence" :finalPoint="finalPoint"></game-over>
   </div>
 </template>
 
 <script>
-import CardContainer from "@/components/cards/CardContainer";
-import PositionStateBtn from "@/components/cards/Buttons/PositionStateBtn";
-import FillCardInBtn from "@/components/cards/Buttons/FillCardInBtn";
-import { mapState } from "vuex";
+import draggable from 'vuedraggable'
+import CardContainer from '@/components/cards/CardContainer.vue'
+import DiscardBtn from '@/components/cards/Buttons/DiscardBtn.vue'
+import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn.vue'
+import GameOver from '@/components/GameOver.vue'
+import { mapActions, mapMutations, mapState } from 'vuex'
+import { shuffleArray, capitalizeFirstLetter } from '@/helper'
 
-function transformScroll(event) {
+function transformScroll (event) {
   if (!event.deltaY) {
-    return;
+    return
   }
-  event.currentTarget.scrollLeft -= event.deltaY * 10;
-  event.preventDefault();
+  event.currentTarget.scrollLeft -= event.deltaY * 10
+  event.preventDefault()
 }
 
 export default {
-  name: "playing-ground",
+  name: 'playing-ground',
   components: {
     CardContainer,
-    PositionStateBtn,
-    FillCardInBtn
+    DiscardBtn,
+    ReplaceBtn,
+    draggable,
+    GameOver
   },
-  data() {
+  data () {
     return {
-      indexChange: -1,
-      originalCards: [],
-      stateForMoving: false,
-      desIndex: -1,
+      numCardAllow: 3,
+      isSentenceNotReady: true,
 
       allCards: [],
-      cardDiscarded: [],
       cards: [],
-
       zeroPointCards: [],
-      nounPharse: [],
-      objectPhrase: [],
-      verbPhrase: [],
-      isQuestion: false,
+      illegalCardPosition: [],
+      cardDiscarded: [],
+
+      totalPoint: 0,
+      finalPoint: 0,
+      finalSentence: null,
+      finalScreenShot: null,
 
       cardWidth: 0,
       cardHeight: 0,
-      translateX: 0,
-      sourceTranslate: "",
-      desTranslate: ""
-    };
+
+      isDragging: true,
+      delayedDragging: false,
+      dragging: false
+    }
   },
   computed: {
     ...mapState({
-      scr_height: state => state.scr_height
-    })
-  },
-  watch: {
-    indexChange: function(newVal, oldVal) {
-      if (newVal >= 0) {
-        this.stateForMoving = true;
-      } else {
-        this.stateForMoving = false;
+      player: state => state.player.playerData,
+      originalCards: (state) => state.playing.cards,
+      scr_height: (state) => state.scr_height,
+      nounPhrase: (state) => state.playing.nounPhrase,
+      verbPhrase: state => state.playing.verbPhrase,
+      objectPhrase: state => state.playing.objectPhrase,
+      playingStep: state => state.playing.playingStep
+    }),
+    dragOptions () {
+      return {
+        animation: 0
       }
     },
-    stateForMoving: function(newVal, oldVal) {
-      if (newVal !== oldVal || newVal) {
-        this.checkPositionOfCards();
+    nounPhraseText: function () {
+      if (this.nounPhrase && this.nounPhrase.text) {
+        return capitalizeFirstLetter(this.nounPhrase.text)
       }
+      return ''
     }
   },
-  created() {
-    this.cardHeight = (this.scr_height * 3) / 5;
-    this.cardWidth = (this.cardHeight - 32) / 1.612;
-    let self = this;
-    fetch("contents/cardSet1.json")
-      .then(res => res.json())
-      .then(cards => {
-        self.originalCards = cards;
-        self.distributeCards(cards);
-      });
+  watch: {
+    cards: {
+      handler: function () {
+        this.checkPositionOfCards()
+      },
+      deep: true
+    },
+    nounPhrase () {
+      this.caculatePoint()
+      this.checkSentenceReady()
+    },
+    verbPhrase () {
+      this.caculatePoint()
+      this.checkSentenceReady()
+    },
+    objectPhrase () {
+      this.caculatePoint()
+      this.checkSentenceReady()
+    },
+    isDragging (newValue) {
+      if (newValue) {
+        this.delayedDragging = true
+        this.checkPositionOfCards()
+        return
+      }
+      this.$nextTick(() => {
+        this.delayedDragging = false
+      })
+    }
   },
-  mounted() {
-    var element = this.$refs.tablePlay;
-    element.addEventListener("wheel", transformScroll);
+  created () {
+    this.cardHeight = (this.scr_height * 3) / 5
+    this.cardWidth = (this.cardHeight - 32) / 1.612
+    this.distributeCards(this.originalCards)
+  },
+  mounted () {
+    const element = this.$refs.tablePlay
+    element.addEventListener('wheel', transformScroll)
   },
   methods: {
-    finishSentence() {
-      this.translateX = 0;
-      this.indexChange = -1;
-      this.desIndex = -1;
-      this.cardDiscarded = [];
-      this.distributeCards(this.originalCards);
+    ...mapMutations(['setPlayingStep', 'resetSentence']),
+    ...mapActions(['SetPlayerDataAsync']),
+    submitSentence () {
+      this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
+      this.finalSentence = this.nounPhraseText + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text + '.'
+      this.finalPoint = this.totalPoint
+      this.resetSentence()
+      this.setPlayingStep('end')
     },
-    detectNounPhrase() {
-      this.nounPharse = [];
-      let isNounPhrase = false;
-      this.cards.forEach((card, index) => {
-        if ((card.type == "Adj" || card.type == "Noun") && !isNounPhrase) {
-          isNounPhrase = true;
+    caculatePoint () {
+      this.totalPoint = 0
+      this.addPoint(this.nounPhrase)
+      this.addPoint(this.verbPhrase)
+      this.addPoint(this.objectPhrase)
+    },
+    addPoint (objPhrase) {
+      if (objPhrase && Object.keys(objPhrase).length > 0 && objPhrase.constructor === Object) {
+        this.totalPoint += objPhrase.point ? objPhrase.point : 0
+        this.caculateBonusPoint(objPhrase.bonus ? objPhrase.bonus : [])
+      }
+    },
+    caculateBonusPoint (bonusObj) {
+      const self = this
+      if (Array.isArray(bonusObj)) {
+        let bonusAdded = false
+        bonusObj.forEach(bonus => {
+          bonus.word.forEach(word => {
+            if (canAddBonusPoint(word, bonus.type) && !bonusAdded) {
+              self.totalPoint += bonus.point
+              bonusAdded = true
+            }
+          })
+        })
+      } else {
+        if (bonusObj.word) {
+          bonusObj.word.forEach(word => {
+            if (canAddBonusPoint(word, bonusObj.type)) {
+              self.totalPoint += bonusObj.point
+            }
+          })
         }
-        if (
-          (card.type == "ExtraInformation" || card.type == "Noun") &&
-          isNounPhrase
-        ) {
-          isNounPhrase = true;
+      }
+      function canAddBonusPoint (word, type) {
+        let cardString = {}
+        self.cards.forEach(card => {
+          if (card.type === type && !self.zeroPointCards.includes(card.id)) {
+            cardString = JSON.stringify(card)
+          }
+        })
+
+        if (cardString.indexOf(word) > -1) {
+          return true
         }
-      });
+        return false
+      }
     },
-    detectObjectPhrase() {
-      this.objectPhrase = [];
-      this.cards.forEach((card, index) => {});
+    checkSentenceReady () {
+      if (
+        this.nounPhrase && Object.keys(this.nounPhrase).length > 0 &&
+        this.verbPhrase && Object.keys(this.verbPhrase).length > 0 &&
+        this.objectPhrase && Object.keys(this.objectPhrase).length > 0
+      ) {
+        this.isSentenceNotReady = false
+      } else this.isSentenceNotReady = true
     },
-    autoArrangeOnce() {
-      let temp = null;
+    swipeCard (param) {
+      const self = this
+      return function (direction, event) {
+        if (direction === 'top') {
+          let cardIndex = 0
+          self.cards.forEach((card, index) => {
+            if (card.id === param) {
+              cardIndex = index
+            }
+          })
+          self.discardCard(cardIndex)
+        }
+      }
+    },
+    changeCard (value) {
+      const replaceListCards = []
+      const self = this
+      this.allCards.forEach(card => {
+        if (card.type === value.card) {
+          replaceListCards.push(self.setPointToZero(card))
+        }
+      })
+      shuffleArray(replaceListCards)
+      this.$set(this.cards, value.index, replaceListCards[0])
+    },
+    setPointToZero (card) {
+      const zeroPointCard = card
+      const cardTypeHaveContent = ['TimeCard', 'Verb']
+      if (cardTypeHaveContent.includes(card.type)) {
+        card.content.forEach((content, index) => {
+          zeroPointCard.content[index].point = 0
+        })
+      }
+      if (card.type === 'Location') {
+        zeroPointCard.point = 0
+      }
+      if (card.type === 'Noun') {
+        zeroPointCard.singular.point = 0
+        zeroPointCard.plural.point = 0
+      }
+
+      return zeroPointCard
+    },
+    onSortCards () {
+      this.checkPositionOfCards()
+    },
+    lockCardPosition () {
+      console.log('Lock cards position')
+      this.isDragging = false
+      this.setPlayingStep('choose-word')
+    },
+    autoArrangeOnce () {
+      let temp = null
       this.cards.forEach((card, index) => {
         if (
-          card.type == "Noun" &&
+          card.type === 'Noun' &&
           index !== 0 &&
-          this.cards[0].type != "Noun"
+          this.cards[0].type !== 'Noun'
         ) {
-          temp = this.cards[0];
-          this.cards[0] = card;
-          this.cards[index] = temp;
+          temp = this.cards[0]
+          this.cards[0] = card
+          this.cards[index] = temp
         }
         if (
-          card.type == "Verb" &&
+          card.type === 'Verb' &&
           index !== 1 &&
-          this.cards[1].type != "Verb"
+          this.cards[1].type !== 'Verb'
         ) {
-          temp = this.cards[1];
-          this.cards[1] = card;
-          this.cards[index] = temp;
+          temp = this.cards[1]
+          this.cards[1] = card
+          this.cards[index] = temp
         }
 
         if (
-          (card.type == "TimeCard" || card.type == "Location") &&
+          (card.type === 'TimeCard' || card.type === 'Location') &&
           index !== 2 &&
-          (this.cards[2].type != "TimeCard" || this.cards[2].type != "Location")
+          (this.cards[2].type !== 'TimeCard' || this.cards[2].type !== 'Location')
         ) {
-          temp = this.cards[2];
-          this.cards[2] = card;
-          this.cards[index] = temp;
+          temp = this.cards[2]
+          this.cards[2] = card
+          this.cards[index] = temp
         }
-      });
+      })
     },
-    checkPositionOfCards() {
-      let previousCards = [];
-      this.zeroPointCards = [];
+    checkPositionOfCards () {
+      // console.log("call check position of cards", this.cards);
+      const previousCards = []
+      this.zeroPointCards = []
       this.cards.forEach((card, index) => {
         if (this.isIllegalCard(card, index, previousCards)) {
-          this.zeroPointCards.push(card.id);
+          this.zeroPointCards.push(card.id)
+          this.illegalCardPosition.push(index)
         }
 
-        previousCards.push(card);
-      });
-      this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
+        previousCards.push(card)
+      })
+      // this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
-    isIllegalCard(card, index, previousCards) {
-      if (index > 0 && index < 6) {
-        console.log(
-          index,
-          this.isPreviousCardsIllegal(card, index) &&
-            this.isNextCardsIllegal(card, index)
-        );
+    isIllegalCard (card, index, previousCards) {
+      if (index > 0 && index < this.numCardAllow - 1) {
         return (
           this.isPreviousCardsIllegal(card, index) &&
           this.isNextCardsIllegal(card, index)
-        );
+        )
       } else {
-        if (index == 0) {
-          console.log(index, this.isNextCardsIllegal(card, index));
-          return this.isNextCardsIllegal(card, index);
+        if (index === 0) {
+          return this.isNextCardsIllegal(card, index)
         }
-        if (index == 6) {
+        if (index === this.numCardAllow - 1) {
           /**
            * check the last card
            * if all the previous cards is allowed and the last card must be Location, Time or Extra Information
            * else check last card like a normal card
            */
-          console.log(
-            index,
-            card.type,
-            this.isPreviousCardsIllegal(card, index)
-          );
           if (
-            ["Location", "TimeCard", "ExtraInformation"].includes(card.type)
+            ['Location', 'TimeCard', 'ExtraInformation'].includes(card.type) &&
+            this.player.level > 1
           ) {
             const foundPreviousCard = previousCards.some(
               ({ type }) =>
                 card.previousCards && card.previousCards.includes(type)
-            );
-            console.log(foundPreviousCard);
-            return !foundPreviousCard;
-          } else return this.isPreviousCardsIllegal(card, index);
+            )
+            return !foundPreviousCard
+          } else return this.isPreviousCardsIllegal(card, index)
         }
       }
     },
     // check previous card legal or not
-    isPreviousCardsIllegal(card, index) {
+    isPreviousCardsIllegal (card, index) {
       if (
         card.previousCards &&
-        !card.previousCards.includes(this.cards[index - 1].type) &&
-        card.allowCards &&
-        !card.allowCards.includes(this.cards[index - 1].type)
-      )
-        return true;
-      return false;
-    },
-    isNextCardsIllegal(card, index) {
+        card.previousCards.includes(this.cards[index - 1].type)
+      ) { return false }
       if (
-        card.nextCards &&
-        !card.nextCards.includes(this.cards[index + 1].type) &&
         card.allowCards &&
-        !card.allowCards.includes(this.cards[index + 1].type)
-      )
-        return true;
-      return false;
+        card.allowCards.includes(this.cards[index - 1].type)
+      ) { return false }
+      return true
+    },
+    isNextCardsIllegal (card, index) {
+      if (card.nextCards && card.nextCards.includes(this.cards[index + 1].type)) { return false }
+      if (
+        card.allowCards &&
+        card.allowCards.includes(this.cards[index + 1].type)
+      ) { return false }
+
+      return true
+    },
+
+    discardCard (index) {
+      if (this.cardDiscarded.length < 3) {
+        this.cardDiscarded.push(this.cards[index])
+        this.cards[index] = this.allCards[0]
+        this.allCards.splice(0, 1)
+      }
+      this.checkPositionOfCards()
     },
     /**
-     * chia bài
+     * distribute Cards
+     * get random cards into playtable
      */
-    distributeCards(cards) {
-      shuffleArray(cards);
-      this.cards = cards.slice(0, 7);
-      this.allCards = cards.slice(29, cards.length - 1);
-      this.autoArrangeOnce();
-      this.checkPositionOfCards();
-    },
-    readyToChange(index) {
-      if (index == this.indexChange) {
-        this.indexChange = -1;
-        return;
-      }
-      this.indexChange = index;
-    },
-    movingCard(index) {
-      this.stateForMoving = false;
-
-      if (this.indexChange > index) {
-        this.translateX = this.cardWidth * (this.indexChange - (index + 1));
-        this.sourceTranslate = "translateX(-" + this.translateX + "px)";
-        this.desTranslate = "translateX(" + this.translateX + "px)";
-        this.desIndex = index + 1;
-      } else {
-        this.translateX = this.cardWidth * (index - this.indexChange);
-        this.sourceTranslate = "translateX(" + this.translateX + "px)";
-        this.desTranslate = "translateX(-" + this.translateX + "px)";
-        this.desIndex = index;
-      }
-
-      let self = this;
-      setTimeout(function() {
-        self.swapCard(self.indexChange, self.desIndex);
-      }, 350);
-    },
-    swapCard(source, des) {
-      let temp = {};
-      temp = this.cards[source];
-      let runLength = Math.abs(source - des);
-      for (let i = 0; i < runLength; i++) {
-        if (source < des) {
-          this.cards[source + i] = this.cards[source + i + 1];
-        } else {
-          this.cards[source - i] = this.cards[source - i - 1];
-        }
-      }
-      this.cards[des] = temp;
-
-      this.translateX = 0;
-      this.indexChange = -1;
-      this.desIndex = -1;
-      this.checkPositionOfCards();
-    },
-    discardCard() {
-      if (this.cardDiscarded.length < 3 && this.indexChange >= 0) {
-        this.cardDiscarded.push(this.cards[this.indexChange]);
-        shuffleArray(this.allCards);
-        // this.allCards = shuffleArray(this.allCards);
-        this.cards[this.indexChange] = this.allCards[0];
-        this.allCards.splice(0, 1);
-        this.indexChange = -1;
-        this.checkPositionOfCards();
-      }
+    distributeCards (cards) {
+      shuffleArray(cards)
+      this.cards = cards.slice(0, this.numCardAllow)
+      this.allCards = cards.slice(
+        this.cards.length,
+        this.originalCards.length - 1
+      )
+      this.autoArrangeOnce()
     }
   }
-};
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
 }
-// Fisher–Yates Shuffle Faster version
-function shuffleArray(a, b, c, d) {
-  //array,placeholder,placeholder,placeholder
-  c = a.length;
-  while (c)
-    (b = (Math.random() * c--) | 0), (d = a[c]), (a[c] = a[b]), (a[b] = d);
-}
-// Fisher–Yates Shuffle
-function shuffleArray1(array) {
-  var m = array.length,
-    t,
-    i;
-  while (m) {
-    i = Math.floor(Math.random() * m--);
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-  }
-  return array;
-}
+
 </script>
 
 <style>

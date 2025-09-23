@@ -1,0 +1,271 @@
+[
+    {
+        "id": "E1a",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "type": "singular",
+                "text": "in a fur coat"
+            },
+            {
+                "type": "plural",
+                "text": "in panda costumes"
+            }
+        ],
+        "point": 5,
+        "previousCards": [
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb",
+            "ExtraInformation"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "vampire",
+                    "magician"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "E1b",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "with short, curly hair"
+            },
+            {
+                "type": "singular",
+                "text": "with a pink mohawk"
+            }
+        ],
+        "point": 5,
+        "previousCards": [
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb",
+            "ExtraInformation",
+            "Location"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "hero",
+                    "giant"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "E1c",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "type": "singular",
+                "text": "wearing a silk dress"
+            },
+            {
+                "text": "wearing faded jeans"
+            }
+        ],
+        "point": 5,
+        "previousCards": [
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Conj"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb",
+            "ExtraInformation",
+            "Location"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "werewolf",
+                    "zombie"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "E1d",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "type": "singular",
+                "text": "with a big belly"
+            },
+            {
+                "text": "with large ears"
+            }
+        ],
+        "point": 5,
+        "previousCards": [
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb",
+            "ExtraInformation",
+            "Location"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "troll",
+                    "monster"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "E1e",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "type": "singular",
+                "text": "with only one tooth"
+            },
+            {
+                "text": "with no teeth"
+            }
+        ],
+        "point": 5,
+        "previousCards": [
+            "Noun",
+            "Verb",
+            "Location",
+            "TimeCard",
+            "Prep",
+            "Conj"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb",
+            "ExtraInformation",
+            "Location"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "content": [
+                    "mummy",
+                    "unicorn"
+                ],
+                "point": 5
+            }
+        ]
+    },
+    {
+        "id": "E1f",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Location",
+                "categories": [
+                    "C",
+                    "D"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "where it snows a lot"
+            },
+            {
+                "text": "where it is very windy"
+            }
+        ],
+        "point": 5,
+        "previousCards": [
+            "Location"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Location",
+                "content": [
+                    "<svg class='w-3 h-3' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z'/></svg> (C)"
+                ],
+                "categories": [
+                    "C"
+                ],
+                "point": 3
+            }
+        ]
+    }
+]

@@ -20,6 +20,6 @@
 
 <script>
 export default {
-  name: "back-button",
-};
+  name: 'back-button'
+}
 </script>

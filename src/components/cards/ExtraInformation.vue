@@ -183,12 +183,12 @@
 
 <script>
 export default {
-  name: "Extra-Information-card",
+  name: 'Extra-Information-card',
   props: {
-    card: Object,
+    card: {}
   },
-  data() {
-    return {};
-  },
-};
+  data () {
+    return {}
+  }
+}
 </script>

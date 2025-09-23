@@ -1,0 +1,80 @@
+[
+    {
+        "id": "T1a",
+        "type": "TimeCard",
+        "symbol": "T",
+        "content": [
+            {
+                "text": "yesterday",
+                "tense": "past simple",
+                "point": 7
+            },
+            {
+                "text": "during the day",
+                "tense": "present simple / future simple / past simple",
+                "point": 4
+            },
+            {
+                "text": "every day",
+                "tense": "present simple",
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "Adverb",
+            "Verb"
+        ]
+    },
+    {
+        "id": "T1b",
+        "type": "TimeCard",
+        "symbol": "T",
+        "content": [
+            {
+                "text": "last night",
+                "tense": "past simple",
+                "point": 5
+            },
+            {
+                "text": "at night",
+                "tense": "present simple / future simple / past simple",
+                "point": 4
+            },
+            {
+                "text": "every night",
+                "tense": "present simple",
+                "point": 3
+            }
+        ],
+        "previousCards": [
+            "Adverb",
+            "Verb"
+        ]
+    },
+    {
+        "id": "T1c",
+        "type": "TimeCard",
+        "symbol": "T",
+        "content": [
+            {
+                "text": "yesterday morning",
+                "tense": "past simple",
+                "point": 3
+            },
+            {
+                "tense": "present simple / future simple / past simple",
+                "text": "in the afternoon",
+                "point": 4
+            },
+            {
+                "tense": "present simple",
+                "text": "every afternoon",
+                "point": 7
+            }
+        ],
+        "previousCards": [
+            "Adverb",
+            "Verb"
+        ]
+    }
+]

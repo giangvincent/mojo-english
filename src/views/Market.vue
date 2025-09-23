@@ -168,12 +168,12 @@
 </template>
 
 <script>
-import BackBtn from "@/components/navigation/BackButton";
+import BackBtn from '@/components/navigation/BackButton.vue'
 
 export default {
-  name: "market-view",
+  name: 'market-view',
   components: {
-    BackBtn,
-  },
-};
+    BackBtn
+  }
+}
 </script>

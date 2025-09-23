@@ -1,10 +1,10 @@
-import actions from "./actions"
-import mutations from "./mutations"
+import actions from './actions'
+import mutations from './mutations'
 
 export default {
-    state: {
-        playerData: {}
-    },
-    actions: actions,
-    mutations: mutations
+  state: {
+    playerData: {}
+  },
+  actions: actions,
+  mutations: mutations
 }

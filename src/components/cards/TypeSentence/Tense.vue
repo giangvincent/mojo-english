@@ -4,9 +4,9 @@
 
 <script>
 export default {
-  name: "tense-of-the-sentence",
+  name: 'tense-of-the-sentence',
   props: {
     type: String
   }
-};
+}
 </script>

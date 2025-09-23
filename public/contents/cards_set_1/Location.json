@@ -1,0 +1,259 @@
+[
+    {
+        "id": "L1a",
+        "type": "Location",
+        "symbol": "B",
+        "point": 5,
+        "image": "cave1.jpg",
+        "content": [
+            "in a cave"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "mummy",
+                    "unicorn"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "exercise",
+                    "sing"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1b",
+        "type": "Location",
+        "symbol": "C",
+        "point": 5,
+        "image": "mountain1.jpg",
+        "content": [
+            "on top of a mountain",
+            "in the mountains"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "hero",
+                    "giant"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "crawl",
+                    "skip"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1c",
+        "type": "Location",
+        "symbol": "D",
+        "point": 5,
+        "image": "island1.jpg",
+        "content": [
+            "on an island"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "vampire",
+                    "magician"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "dance",
+                    "play"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1d",
+        "type": "Location",
+        "symbol": "C",
+        "point": 5,
+        "image": "jungle1.jpg",
+        "content": [
+            "in a jungle"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "zombie",
+                    "troll"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "jump",
+                    "jog"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1e",
+        "type": "Location",
+        "symbol": "C",
+        "point": 5,
+        "image": "forest1.jpg",
+        "content": [
+            "in a forest",
+            "in the woods"
+        ],
+        "condition": [
+            {
+                "type": "Adj",
+                "category": [
+                    "location"
+                ]
+            }
+        ],
+        "previousCards": [
+            "Adj",
+            "Verb"
+        ],
+        "allowCards": [
+            "Conj",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
+        "bonusPoint": [
+            {
+                "type": "Noun",
+                "word": [
+                    "werewolf",
+                    "monster"
+                ],
+                "point": 3
+            },
+            {
+                "type": "Verb",
+                "word": [
+                    "run",
+                    "walk"
+                ],
+                "point": 3
+            }
+        ]
+    },
+    {
+        "id": "L1f",
+        "type": "Location",
+        "symbol": "A/E",
+        "point": 6,
+        "image": [
+            "snow1.jpg",
+            "rain1.jpg"
+        ],
+        "content": [
+            "in the deep, fluffy snow",
+            "in the heavy rain"
+        ],
+        "condition": [],
+        "previousCards": [
+            "Verb"
+        ],
+        "allowCards": [
+            "Location",
+            "ExtraInformation",
+            "TimeCard",
+            "Adverb"
+        ],
+        "bonusPoint": []
+    }
+]

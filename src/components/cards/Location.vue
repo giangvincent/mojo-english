@@ -11,45 +11,26 @@
         {{ card.point }}
       </div>
       <div class="w-full"></div>
-      <div class="flex w-full my-3">
-        <div class="w-4 h-full">
-          <div
-            class="h-1/2"
-            :class="cardColors[card]"
-            v-for="(card, index) in card.previousCards"
-            :key="'previousCards-' + index"
-          ></div>
-        </div>
-        <!-- previous card colors -->
+      <div class="flex w-full">
         <div
-          class="w-full -ml-1 bg-white rounded-lg border-1 border-gray-700 relative"
+          class="w-full bg-white rounded-lg border-1 border-gray-700 relative"
         >
-          <div class="p-1 text-sxs md:text-xs flex flex-col leading-3">
-            <span
-              v-for="(cardContent, index) in card.content"
-              :key="'content-' + index"
-            >
-              {{ cardContent }}
-            </span>
+          <div class="p-1 flex flex-col leading-5" @click="chooseLocation(card.content[contentIndex])">
+            {{ card.content[contentIndex] }}
           </div>
 
-          <div class="flex border-t-1 border-gray-800 text-sxs ms:text-xs">
+          <div class="flex flex-col border-t-1 border-gray-800 relative">
             <div
-              class="w-1/5 border-r-1 border-gray-800 flex items-center justify-center"
+              v-for="(bonusContent, index) in card.bonusPoint"
+              :key="'bonusPoint-' + index"
+              :class="{ 'text-green-700': bonusContent.type == 'Verb' }"
             >
-              {{ card.id }}
+              {{ bonusContent.word.join("/") }}
             </div>
-            <div class="w-4/5 flex flex-col relative pr-2 py-1 leading-3">
-              <div
-                v-for="(bonusContent, index) in card.bonusPoint"
-                :key="'bonusPoint-' + index"
-              >
-                {{ bonusContent.word.join("/") }}
-              </div>
-              <span class="absolute right-0 mr-0.5 h-full flex items-center"
-                >+{{ card.bonusPoint[0].point }}</span
-              >
-            </div>
+            <span
+              class="absolute right-0 bottom-0 bg-white w-5 h-5 border-1 border-black rounded-full flex items-center justify-center -m-0.5 text-sm"
+              >+{{ card.bonusPoint[0].point }}</span
+            >
           </div>
           <!-- bonus point -->
         </div>
@@ -68,36 +49,20 @@
         <div class="absolute bottom-0 w-full">
           <div
             class="w-full -mx-1 bg-white rounded-lg border-1 border-gray-700 relative"
+            @click="chooseLocation(card.content[0])"
           >
-            <div class="p-1 text-sxs md:text-xs flex flex-col">
+            <div class="p-1 flex flex-col">
               {{ card.content[0] }}
             </div>
           </div>
         </div>
       </div>
       <div class="flex w-full h-1/2 relative">
-        <div class="absolute bottom-0 w-full">
-          <!-- previous card colors -->
-          <div class="w-full flex">
-            <div class="w-4">
-              <div
-                class="h-full"
-                :class="cardColors[card.previousCards[0]]"
-              ></div>
-            </div>
-            <div
-              class="w-full bg-white rounded-lg border-1 border-gray-700 relative -ml-1 text-sxs md:text-xs flex"
-            >
-              <div
-                class="w-1/5 h-6 border-r-1 border-gray-800 flex items-center justify-center"
-              >
-                {{ card.id }}
-              </div>
-              <div class="w-4/5 flex items-center justify-center">
-                {{ card.content[1] }}
-              </div>
-            </div>
-          </div>
+        <div
+          class="absolute bottom-0 w-full bg-white rounded-lg border-1 border-gray-700 px-0.5"
+          @click="chooseLocation(card.content[1])"
+        >
+          {{ card.content[1] }}
         </div>
       </div>
     </div>
@@ -105,26 +70,62 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { computed, onMounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
-  name: "location-card",
+  name: 'location-card',
   props: {
-    card: Object,
+    card: {
+      type: Object,
+      required: true
+    }
   },
-  data() {
+  setup (props) {
+    const store = useStore()
+    const contentIndex = ref(0)
+    const cardColors = computed(() => store.state.playing.cardColors)
+    const playingStep = computed(() => store.state.playing.playingStep)
+
+    const setObjectPhrase = (payload) => {
+      store.commit('setObjectPhrase', payload)
+    }
+
+    const emitObjectPhrase = () => {
+      if (playingStep.value === 'choose-word' && typeof props.card.image === 'string') {
+        const contentOb = {
+          text: props.card.content[contentIndex.value],
+          point: props.card.point,
+          bonus: props.card.bonusPoint
+        }
+        setObjectPhrase(contentOb)
+      }
+    }
+
+    watch(playingStep, emitObjectPhrase)
+
+    onMounted(() => {
+      if (props.card.content.length > 1) {
+        contentIndex.value = Math.floor(Math.random() * props.card.content.length)
+      }
+      emitObjectPhrase()
+    })
+
+    const chooseLocation = (content) => {
+      const contentOb = {
+        text: content,
+        point: props.card.point,
+        bonus: props.card.bonusPoint
+      }
+      setObjectPhrase(contentOb)
+    }
+
     return {
-      id: "",
-      image: "",
-      text: "",
-      point: 0,
-      previousCards: [],
-      bonusPoints: [],
-    };
-  },
-  computed: {
-    ...mapState({
-      cardColors: (state) => state.playing.cardColors,
-    }),
-  },
-};
+      contentIndex,
+      cardColors,
+      playingStep,
+      chooseLocation
+    }
+  }
+}
 </script>
