@@ -6,7 +6,7 @@
     <div
       class="px-1 pt-2 pb-6 flex flex-col w-full h-full text-xs items-center"
     >
-      <div class="w-full h-1/2 flex flex-col items-center justify-end pb-1">
+      <div class="w-full h-1/2 flex flex-col items-center justify-end pb-1 cursor-pointer" :class="{ 'opacity-70': !isActive('top') }" @click="chooseExtra('top', card.content[0])">
         <span>{{ card.content[0].text }}</span>
         <span v-if="card.content[0].type && card.content[0].type == 'singular'">
           <svg
@@ -26,7 +26,7 @@
         </span>
       </div>
       <hr class="w-2/3 border-b-1 border-black" />
-      <div class="w-full h-1/2 flex flex-col items-center pt-1">
+      <div class="w-full h-1/2 flex flex-col items-center pt-1 cursor-pointer" :class="{ 'opacity-70': !isActive('bottom') }" @click="chooseExtra('bottom', card.content[1])">
         <span v-if="card.content[1].type && card.content[1].type == 'singular'">
           <svg
             class="w-3 h-3 text-black"
@@ -182,13 +182,32 @@
 </template>
 
 <script>
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'Extra-Information-card',
   props: {
     card: {}
   },
-  data () {
-    return {}
+  emits: ['choose'],
+  setup(props, { emit }) {
+    const store = useStore()
+    const playingStep = computed(() => store.state.playing.playingStep)
+    const selectedKey = ref('')
+
+    const chooseExtra = (key, content) => {
+      if (playingStep.value !== 'choose-word') return
+      selectedKey.value = key
+      emit('choose', { ...content, cardId: props.card.id, point: props.card.point })
+    }
+
+    const isActive = (key) => selectedKey.value === '' || selectedKey.value === key
+
+    return {
+      chooseExtra,
+      isActive
+    }
   }
 }
 </script>

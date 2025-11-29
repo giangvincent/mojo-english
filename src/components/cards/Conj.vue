@@ -4,9 +4,11 @@
   >
     <div class="pb-10 flex flex-col w-full h-32">
       <div
-        class="h-1/2 flex flex-col items-center justify-center relative"
+        class="h-1/2 flex flex-col items-center justify-center relative cursor-pointer"
         v-for="(cardContent, index) in card.content"
         :key="'content-' + index"
+        :class="{ 'opacity-70': !isActive(index) }"
+        @click="chooseConj(index, cardContent)"
       >
         <span class="flex items-center justify-center h-full text-2xl">{{
           cardContent.text
@@ -123,13 +125,32 @@
 </template>
 
 <script>
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'conjunction-card',
   props: {
     card: {}
   },
-  data () {
-    return {}
+  emits: ['choose'],
+  setup(props, { emit }) {
+    const store = useStore()
+    const playingStep = computed(() => store.state.playing.playingStep)
+    const selectedIndex = ref(-1)
+
+    const chooseConj = (index, content) => {
+      if (playingStep.value !== 'choose-word') return
+      selectedIndex.value = index
+      emit('choose', { ...content, cardId: props.card.id })
+    }
+
+    const isActive = (index) => selectedIndex.value === -1 || selectedIndex.value === index
+
+    return {
+      chooseConj,
+      isActive
+    }
   }
 }
 </script>

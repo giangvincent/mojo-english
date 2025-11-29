@@ -7,6 +7,8 @@
     <div class="my-1 flex flex-col" v-if="card.content[0].text">
       <div
         class="my-1 pb-1 border-b-1 border-black flex flex-col justify-center"
+        :class="{ 'opacity-70': !isActive('first') }"
+        @click="chooseAdverb('first', card.content[0])"
       >
         <span
           v-for="(content, index) in card.content[0].text"
@@ -32,6 +34,8 @@
         <span
           v-for="(content, index) in card.content[1].text"
           :key="'content-' + index"
+          :class="{ 'opacity-70': !isActive('second') }"
+          @click="chooseAdverb('second', card.content[1])"
           >{{ content }}</span
         >
       </div>
@@ -45,7 +49,7 @@
         v-for="(content, index) in card.content"
         :key="'content-' + index"
       >
-        <span>{{ content }}</span>
+        <span class="cursor-pointer" :class="{ 'opacity-70': !isActive('fallback-' + index) }" @click="chooseAdverb('fallback-' + index, content)">{{ content }}</span>
       </div>
     </div>
 
@@ -94,7 +98,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import MeaningType from '@/components/cards/TypeSentence/Meaning.vue'
 
@@ -109,12 +113,31 @@ export default {
       required: true
     }
   },
-  setup () {
+  emits: ['choose'],
+  setup (props, { emit }) {
     const store = useStore()
     const cardColors = computed(() => store.state.playing.cardColors)
+    const playingStep = computed(() => store.state.playing.playingStep)
+    const selectedKey = ref('')
+
+    const chooseAdverb = (key, payload) => {
+      if (playingStep.value !== 'choose-word') return
+      selectedKey.value = key
+      const normalized = typeof payload === 'string' ? { text: payload } : payload
+      emit('choose', {
+        ...normalized,
+        cardId: props.card.id,
+        point: props.card.point,
+        symbol: props.card.symbol
+      })
+    }
+
+    const isActive = (key) => selectedKey.value === '' || selectedKey.value === key
 
     return {
-      cardColors
+      cardColors,
+      chooseAdverb,
+      isActive
     }
   }
 }

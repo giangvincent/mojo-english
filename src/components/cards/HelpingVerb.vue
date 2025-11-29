@@ -44,10 +44,12 @@
           </span>
         </div>
         <div
-          class="flex flex-col justify-center w-full h-full items-center relative"
+          class="flex flex-col justify-center w-full h-full items-center relative cursor-pointer"
           :class="card.content.length === 1 ? 'h-1/2' : ''"
           v-for="(text, textIndex) in cardContent.texts"
           :key="'text-' + textIndex"
+          :class="{ 'opacity-70': !isActive(index, textIndex) }"
+          @click="chooseHelpingVerb(index, textIndex, text)"
         >
           <div
             class="h-full flex flex-wrap px-5 items-center justify-center"
@@ -130,7 +132,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -141,12 +143,31 @@ export default {
       required: true
     }
   },
-  setup () {
+  emits: ['choose'],
+  setup (props, { emit }) {
     const store = useStore()
     const cardColors = computed(() => store.state.playing.cardColors)
+    const playingStep = computed(() => store.state.playing.playingStep)
+    const selectedKey = ref('')
+
+    const chooseHelpingVerb = (contentIndex, textIndex, text) => {
+      if (playingStep.value !== 'choose-word') return
+      selectedKey.value = `${contentIndex}-${textIndex}`
+      emit('choose', {
+        ...text,
+        cardId: props.card.id,
+        point: props.card.content[contentIndex]?.point || 0
+      })
+    }
+
+    const isActive = (contentIndex, textIndex) => {
+      return selectedKey.value === '' || selectedKey.value === `${contentIndex}-${textIndex}`
+    }
 
     return {
-      cardColors
+      cardColors,
+      chooseHelpingVerb,
+      isActive
     }
   }
 }

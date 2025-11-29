@@ -70,10 +70,11 @@
       </div>
     </div>
     <!-- Table -->
-    <div ref="tablePlay" id="tablePlay" class="flex w-full min-h-1/2 relative items-center justify-center">
+    <div ref="tablePlay" id="tablePlay"
+      class="flex w-full px-2 sm:px-4 flex-1 relative items-center justify-center overflow-x-auto">
       <draggable element="div" v-model="cards" v-bind="dragOptions" @change="onSortCards"
-        class="flex flex-row flex-no-wrap items-center justify-center w-full h-full" v-if="cards.length > 0"
-        :disabled="!isDragging" item-key="id" @start="onDragStart" @end="onDragEnd">
+        class="flex flex-row flex-nowrap items-center justify-center gap-1 sm:gap-2 w-full h-full min-w-fit"
+        v-if="cards.length > 0" :disabled="!isDragging" item-key="id" @start="onDragStart" @end="onDragEnd">
         <template #item="{ element, index }">
           <span class="flex flex-row flex-no-wrap relative duration-300 transform h-full" :class="{
             '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
@@ -251,8 +252,18 @@ export default {
     }
   },
   created() {
-    this.cardHeight = (this.scr_height * 3) / 5
-    this.cardWidth = (this.cardHeight - 32) / 1.612
+    // Calculate card dimensions based on viewport
+    const screenHeight = this.scr_height
+    const screenWidth = window.innerWidth
+
+    // For 7 cards, we need to calculate width that fits comfortably
+    // Card aspect ratio is ~1.6:1 (width:height)
+    const maxCardWidth = (screenWidth * 0.85) / 7
+    const maxCardHeight = screenHeight * 0.55
+
+    // Use the smaller dimension to ensure cards fit properly
+    this.cardHeight = Math.min(maxCardHeight, maxCardWidth * 1.6)
+    this.cardWidth = this.cardHeight / 1.6
 
     // Don't distribute immediately, wait for mode selection
     // this.distributeCards(this.originalCards)
@@ -278,11 +289,7 @@ export default {
       // Show tutorial on first load (could be persisted)
       this.showTutorial = true
 
-      if (mode === '5-4-split') {
-        this.numCardAllow = 5
-      } else {
-        this.numCardAllow = 7
-      }
+      this.syncNumCardsWithMode()
 
       // Reset discard counter per round explicitly for clarity
       this.cardDiscarded = []
@@ -410,6 +417,7 @@ export default {
       this.cardDiscarded = []
       this.zeroPointCards = []
       this.setWinner(null)
+      this.syncNumCardsWithMode()
 
       // Deal new cards
       this.distributeCards(this.originalCards)
@@ -861,6 +869,8 @@ export default {
       SoundManager.play('deal')
       shuffleArray(cards)
 
+      this.syncNumCardsWithMode()
+
       if (this.gameMode === '5-4-split') {
         if (this.initialSharedCardIds.length === 0) {
           // First deal: set shared cards
@@ -885,6 +895,9 @@ export default {
 
       this.autoArrangeOnce()
     },
+    syncNumCardsWithMode() {
+      this.numCardAllow = this.gameMode === '5-4-split' ? 5 : 7
+    }
   }
 }
 
