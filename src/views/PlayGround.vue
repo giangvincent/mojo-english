@@ -1,15 +1,56 @@
 <template>
   <div class="flex flex-col justify-center items-center min-h-screen h-full w-full bg-gray-800">
-    <!-- Round Indicator -->
-    <div class="w-full px-4 pt-4 flex justify-between items-center text-white">
-      <div class="bg-blue-600 px-4 py-2 rounded-lg">
-        <span class="font-bold">Round {{ currentRound }}</span> / {{ maxRounds }}
+    <game-mode-selector v-if="showModeSelector" @select-mode="onModeSelected" />
+    <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" />
+    <round-summary v-if="showRoundSummary" :round="currentRound" :score="roundScores[currentRound - 1] || 0"
+      :totalScore="totalScore" :sentence="finalSentence" @next-round="handleNextRound" />
+
+    <!-- Round Indicator & Mode Badge -->
+    <div class="w-full px-4 pt-4 flex justify-between items-center text-white relative">
+      <!-- Help Button -->
+      <div class="absolute top-4 right-4 flex gap-2 z-10">
+        <button
+          class="bg-red-600 hover:bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center border border-red-400 shadow-lg"
+          @click="resetGame" title="Reset Game">
+          &#8635;
+        </button>
+        <button
+          class="bg-gray-700 hover:bg-gray-600 text-white rounded-full w-8 h-8 flex items-center justify-center border border-gray-500 shadow-lg"
+          @click="showTutorial = true" title="How to Play">
+          ?
+        </button>
       </div>
-      <div class="bg-green-600 px-4 py-2 rounded-lg">
+
+      <div class="flex items-center gap-2">
+        <div class="bg-blue-600 px-4 py-2 rounded-lg shadow-lg">
+          <span class="font-bold">Round {{ currentRound }}</span> / {{ maxRounds }}
+        </div>
+        <!-- Game Mode Badge -->
+        <div
+          class="bg-gray-700 px-3 py-2 rounded-lg border border-gray-500 text-sm font-semibold uppercase tracking-wider text-gray-300 shadow-lg">
+          {{ gameMode === '5-4-split' ? '5/4 Split' : gameMode }}
+        </div>
+      </div>
+
+      <div class="bg-green-600 px-4 py-2 rounded-lg shadow-lg">
         <span class="font-bold">Total Score:</span> {{ totalScore }}
       </div>
-      <div v-if="roundScores.length > 0" class="bg-purple-600 px-4 py-2 rounded-lg">
+      <div v-if="roundScores.length > 0" class="bg-purple-600 px-4 py-2 rounded-lg shadow-lg">
         <span class="font-bold">This Round:</span> {{ roundScores[currentRound - 1] || 0 }}
+      </div>
+    </div>
+
+    <!-- Shared Cards Area (5/4 Split) -->
+    <div v-if="gameMode === '5-4-split' && sharedCardsList.length > 0" class="w-full px-4 mt-4">
+      <div class="bg-gray-700 p-2 rounded-lg border-2 border-green-500">
+        <h3 class="text-white text-sm font-bold mb-2">Shared Cards (Drag to use):</h3>
+        <draggable v-model="sharedCardsList" class="flex justify-center gap-2 h-24" group="people" item-key="id">
+          <template #item="{ element }">
+            <div class="h-full cursor-move">
+              <card-container :card="element" :cardHeight="100" :canChooseWord="false" />
+            </div>
+          </template>
+        </draggable>
       </div>
     </div>
 
@@ -30,7 +71,8 @@
     <div ref="tablePlay" id="tablePlay" class="flex w-full min-h-1/2 relative items-center justify-center">
       <draggable element="div" v-model="cards" v-bind="dragOptions" @change="onSortCards"
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full" v-if="cards.length > 0"
-        :disabled="!isDragging" :key="cards.id">
+        :disabled="!isDragging" item-key="id" tag="transition-group"
+        :component-data="{ name: 'flip-list', type: 'transition' }">
         <template #item="{ element, index }">
           <span class="flex flex-row flex-no-wrap relative duration-300 transform h-full" :class="{
             '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
@@ -83,14 +125,19 @@ function transformScroll(event) {
   event.preventDefault()
 }
 
+import SoundManager from '@/utils/soundManager'
+
 export default {
-  name: 'playing-ground',
+  name: 'PlayGround',
   components: {
     CardContainer,
     DiscardBtn,
     ReplaceBtn,
     draggable,
-    GameOver
+    GameOver,
+    GameModeSelector: defineAsyncComponent(() => import('@/components/GameModeSelector.vue')),
+    RoundSummary: defineAsyncComponent(() => import('@/components/RoundSummary.vue')),
+    TutorialOverlay: defineAsyncComponent(() => import('@/components/TutorialOverlay.vue')),
   },
   data() {
     return {
@@ -117,7 +164,14 @@ export default {
 
       // Round tracking
       originalCardsSnapshot: null,
-      cardsModified: false
+      cardsModified: false,
+
+      // Game Mode
+      showModeSelector: true,
+      showRoundSummary: false,
+      showTutorial: false,
+      sharedCardsList: [],
+      initialSharedCardIds: []
     }
   },
   computed: {
@@ -135,7 +189,8 @@ export default {
       maxRounds: state => state.playing.maxRounds,
       roundScores: state => state.playing.roundScores,
       totalScore: state => state.playing.totalScore,
-      usedOriginalCards: state => state.playing.usedOriginalCards
+      usedOriginalCards: state => state.playing.usedOriginalCards,
+      sharedCards: state => state.playing.sharedCards
     }),
     dragOptions() {
       return {
@@ -182,7 +237,9 @@ export default {
   created() {
     this.cardHeight = (this.scr_height * 3) / 5
     this.cardWidth = (this.cardHeight - 32) / 1.612
-    this.distributeCards(this.originalCards)
+
+    // Don't distribute immediately, wait for mode selection
+    // this.distributeCards(this.originalCards)
 
     // Track original cards for bonus calculation
     this.cardsModified = false
@@ -192,9 +249,44 @@ export default {
     element.addEventListener('wheel', transformScroll)
   },
   methods: {
-    ...mapMutations(['setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards']),
+    ...mapMutations(['setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards', 'setGameMode', 'setSharedCards']),
     ...mapActions(['SetPlayerDataAsync']),
+
+    onModeSelected(mode) {
+      this.setGameMode(mode)
+      this.showModeSelector = false
+
+      // Show tutorial on first load (could be persisted)
+      this.showTutorial = true
+
+      if (mode === '5-4-split') {
+        this.numCardAllow = 5
+      } else {
+        this.numCardAllow = 7
+      }
+
+      this.distributeCards(this.originalCards)
+    },
+
     submitSentence() {
+      // Validation for 5/4 Split Mode
+      if (this.gameMode === '5-4-split') {
+        const usedCardIds = [
+          this.nounPhrase?.cardId,
+          this.verbPhrase?.cardId,
+          this.objectPhrase?.cardId
+        ].filter(Boolean)
+
+        const hasSharedCard = usedCardIds.some(id => this.initialSharedCardIds.includes(id))
+
+        if (!hasSharedCard) {
+          alert('In 5/4 Split Mode, you must use at least one Shared Card in your sentence!')
+          SoundManager.play('error')
+          return
+        }
+      }
+
+      SoundManager.play('success')
       let roundScore = this.totalPoint
 
       // +5 bonus if player used all 7 original cards without discarding
@@ -218,19 +310,22 @@ export default {
       } else if (this.currentRound >= this.maxRounds) {
         // Completed all rounds
         console.log('Game Over! Completed all rounds!')
+        SoundManager.play('win')
         this.endGame()
       } else {
         // Continue to next round
         console.log(`Round ${this.currentRound} complete! Score: ${roundScore}`)
+        SoundManager.play('success')
         this.showRoundSummaryAndContinue()
       }
     },
     showRoundSummaryAndContinue() {
-      // Show round summary then go to next round
-      // For now, automatically continue after a delay
-      setTimeout(() => {
-        this.startNextRound()
-      }, 2000)
+      // Show round summary modal
+      this.showRoundSummary = true
+    },
+    handleNextRound() {
+      this.showRoundSummary = false
+      this.startNextRound()
     },
     startNextRound() {
       // Advance to next round
@@ -472,6 +567,7 @@ export default {
     },
 
     discardCard(index) {
+      SoundManager.play('click')
       if (this.cardDiscarded.length < 3) {
         this.cardDiscarded.push(this.cards[index])
         this.cards[index] = this.allCards[0]
@@ -487,18 +583,50 @@ export default {
      * get random cards into playtable
      */
     distributeCards(cards) {
+      SoundManager.play('deal')
       shuffleArray(cards)
-      this.cards = cards.slice(0, this.numCardAllow)
-      this.allCards = cards.slice(
-        this.cards.length,
-        this.originalCards.length - 1
-      )
+
+      if (this.gameMode === '5-4-split') {
+        // Deal 5 to hand
+        this.cards = cards.slice(0, 5)
+        // Deal 4 to shared
+        this.sharedCardsList = cards.slice(5, 9)
+        this.initialSharedCardIds = this.sharedCardsList.map(c => c.id)
+        this.setSharedCards(this.sharedCardsList)
+
+        this.allCards = cards.slice(9, cards.length - 1)
+      } else {
+        // Standard / Co-op: Deal 7 to hand
+        this.cards = cards.slice(0, this.numCardAllow)
+        this.allCards = cards.slice(
+          this.cards.length,
+          this.originalCards.length - 1
+        )
+      }
+
       this.autoArrangeOnce()
-    }
+    },
   }
 }
 
 </script>
+
+<style scoped>
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.flip-list-enter-active,
+.flip-list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.flip-list-enter-from,
+.flip-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+</style>
 
 <style>
 .w-1\/7 {

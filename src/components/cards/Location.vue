@@ -77,7 +77,8 @@ export default {
         const contentOb = {
           text: props.card.content[contentIndex.value],
           point: props.card.point,
-          bonus: props.card.bonusPoint
+          bonus: props.card.bonusPoint,
+          cardId: props.card.id
         }
         setObjectPhrase(contentOb)
       }
@@ -96,7 +97,8 @@ export default {
       const contentOb = {
         text: content,
         point: props.card.point,
-        bonus: props.card.bonusPoint
+        bonus: props.card.bonusPoint,
+        cardId: props.card.id
       }
       setObjectPhrase(contentOb)
     }

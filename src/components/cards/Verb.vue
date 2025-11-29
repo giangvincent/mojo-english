@@ -53,7 +53,10 @@ export default {
     const chooseVerb = (index) => {
       if (playingStep.value === 'choose-word') {
         setTense(props.card.content[index].tense)
-        setVerbPhrase(props.card.content[index])
+        setVerbPhrase({
+          ...props.card.content[index],
+          cardId: props.card.id
+        })
       }
     }
 

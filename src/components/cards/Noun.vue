@@ -64,7 +64,8 @@ export default {
         setNounType(type)
         const noun = {
           ...props.card[type],
-          bonus: props.card.bonusPoint
+          bonus: props.card.bonusPoint,
+          cardId: props.card.id
         }
         setNounPhrase(noun)
       }
