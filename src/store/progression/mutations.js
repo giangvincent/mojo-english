@@ -1,0 +1,43 @@
+export default {
+  setXp: function (state, payload) {
+    state.xp = payload
+  },
+  addXp: function (state, payload) {
+    state.xp += payload
+  },
+  setLevel: function (state, payload) {
+    state.level = payload
+  },
+  setXpToNext: function (state, payload) {
+    state.xpToNext = payload
+  },
+  setMissions: function (state, payload) {
+    state.missions = payload
+  },
+  updateMissionProgress: function (state, payload) {
+    const { id, progress } = payload
+    state.missionProgress = { ...state.missionProgress, [id]: progress }
+  },
+  completeMission: function (state, payload) {
+    state.missions = {
+      ...state.missions,
+      [payload.type]: state.missions[payload.type]?.map(m =>
+        m.id === payload.id ? { ...m, completed: true } : m
+      ) || []
+    }
+  },
+  addAchievement: function (state, payload) {
+    if (!state.achievements.find(a => a.id === payload.id)) {
+      state.achievements.push(payload)
+    }
+  },
+  grantUnlock: function (state, payload) {
+    const { category, item } = payload
+    if (!state.unlocks[category]) {
+      state.unlocks[category] = []
+    }
+    if (!state.unlocks[category].includes(item)) {
+      state.unlocks[category].push(item)
+    }
+  }
+}

@@ -5,6 +5,7 @@ import states from './states.js'
 
 import playing from './playing'
 import player from './player'
+import progression from './progression'
 
 export default createStore({
   state: states,
@@ -12,6 +13,7 @@ export default createStore({
   actions: actions,
   modules: {
     playing,
-    player
+    player,
+    progression
   }
 })

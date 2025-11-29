@@ -20,9 +20,9 @@
             :alt="currentUser?.displayName || 'avatar'" />
           <div>
             <p class="text-sm font-semibold">{{ currentUser?.displayName || playerData.name || 'Guest' }}</p>
-            <p class="text-xs text-emerald-200">{{ $t('home.level') }} {{ playerData.level }}</p>
+            <p class="text-xs text-emerald-200">{{ $t('home.level') }} {{ progressionLevel || playerData.level }}</p>
           </div>
-          <div class="level-pill">{{ playerData.level }}</div>
+          <div class="level-pill">{{ progressionLevel || playerData.level }}</div>
         </div>
         <button class="icon-btn" @click="TOGGLE_MODAL(); modalComponent = 'Setting';">
           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -83,6 +83,7 @@
               <p class="text-xs text-white/50">3-round sprint</p>
             </div>
             <div class="stat-tile col-span-2">
+              <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext" :level="progressionLevel || playerData.level" />
               <div class="flex items-center justify-between">
                 <div>
                   <p class="text-xs uppercase text-white/60">5/4 Split</p>
@@ -156,11 +157,13 @@
 /* eslint-disable no-undef */
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { auth, signInWithGoogle, signOutUser, onAuthStateChanged } from '@/services/firebase'
+import XpBar from '@/components/ui/XpBar.vue'
 
 export default {
   name: 'Home',
   components: {
-    Setting: () => import('@/components/Setting.vue')
+    Setting: () => import('@/components/Setting.vue'),
+    XpBar
   },
   data() {
     return {
@@ -172,7 +175,10 @@ export default {
   computed: {
     ...mapState({
       playerData: state => state.player.playerData,
-      popupModal: state => state.popupModal
+      popupModal: state => state.popupModal,
+      progressionLevel: state => state.progression.level,
+      progressionXp: state => state.progression.xp,
+      progressionXpToNext: state => state.progression.xpToNext
     })
   },
   created() {
