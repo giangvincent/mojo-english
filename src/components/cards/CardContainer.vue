@@ -13,7 +13,7 @@
       </div>
 
       <!-- Card Body -->
-      <div class="flex-1 relative overflow-hidden">
+      <div class="flex-1 relative overflow-hidden bg-cover bg-center bg-no-repeat" :style="backgroundStyle">
         <component :card="card" v-bind:is="card.type"></component>
       </div>
 
@@ -66,6 +66,16 @@ export default {
   setup(props) {
     const cardWidth = computed(() => (props.cardHeight - 32) / 1.612)
 
+    // Dynamic import to avoid issues if file doesn't exist yet in some environments
+    const backgroundStyle = computed(() => {
+      try {
+        const { getCardBackgroundStyle } = require('@/utils/cardImageMapper')
+        return getCardBackgroundStyle(props.card.id)
+      } catch (e) {
+        return {}
+      }
+    })
+
     const getBarColor = (type) => {
       const colors = {
         Noun: 'bg-white',
@@ -84,7 +94,8 @@ export default {
 
     return {
       cardWidth,
-      getBarColor
+      getBarColor,
+      backgroundStyle
     }
   }
 }
