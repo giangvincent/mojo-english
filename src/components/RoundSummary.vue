@@ -13,6 +13,11 @@
                 <div class="text-3xl font-bold text-yellow-400">{{ totalScore }}</div>
             </div>
 
+            <div v-if="winner" class="mb-4 text-left bg-purple-700 bg-opacity-40 p-3 rounded-lg">
+                <p class="text-xs text-purple-200 uppercase tracking-wide">Co-op Leader</p>
+                <p class="text-lg font-semibold text-purple-100">{{ winner }}</p>
+            </div>
+
             <div class="mb-6 text-left bg-gray-700 p-4 rounded-lg" v-if="sentence">
                 <p class="text-xs text-gray-400 mb-1">Your Sentence:</p>
                 <p class="text-lg italic">"{{ sentence }}"</p>
@@ -44,6 +49,10 @@ export default {
             required: true
         },
         sentence: {
+            type: String,
+            default: ''
+        },
+        winner: {
             type: String,
             default: ''
         }

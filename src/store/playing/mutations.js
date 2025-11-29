@@ -56,6 +56,8 @@ export default {
     state.nounType = null
     state.curTense = null
     state.playingStep = 'arrange-card'
+    state.turnHistory = []
+    state.lastPlayerWhoAddedCard = null
   },
   resetGame: function (state) {
     state.currentRound = 1
@@ -68,6 +70,9 @@ export default {
     state.curTense = null
     state.playingStep = 'arrange-card'
     state.usedOriginalCards = true
+    state.turnHistory = []
+    state.lastPlayerWhoAddedCard = null
+    state.winner = null
   },
   setUsedOriginalCards: function (state, payload) {
     state.usedOriginalCards = payload
@@ -77,5 +82,20 @@ export default {
   },
   setSharedCards: function (state, payload) {
     state.sharedCards = payload
+  },
+  // Turn / winner tracking (Co-op & PvP)
+  setTrackTurnOrder: function (state, payload) {
+    state.trackTurnOrder = payload
+  },
+  recordTurn: function (state, payload) {
+    state.turnHistory.push(payload)
+    state.lastPlayerWhoAddedCard = payload.playerId
+  },
+  resetTurns: function (state) {
+    state.turnHistory = []
+    state.lastPlayerWhoAddedCard = null
+  },
+  setWinner: function (state, payload) {
+    state.winner = payload
   }
 }

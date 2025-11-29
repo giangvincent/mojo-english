@@ -39,11 +39,11 @@
                 <div class="text-5xl mb-4 text-center">🤝</div>
                 <h2 class="text-2xl font-bold mb-2 text-center text-purple-400">Co-op</h2>
                 <p class="text-gray-300 text-sm mb-4">
-                    Work together to build sentences. No winners or losers.
+                    Work together to build sentences. Last card played wins the round.
                 </p>
                 <ul class="text-sm text-gray-400 list-disc list-inside">
-                    <li>Collaborative Play</li>
-                    <li>Shared Goal</li>
+                    <li>Collaborative Play with turn tracking</li>
+                    <li>Winner = last player to add a card</li>
                     <li>Practice together</li>
                 </ul>
             </div>

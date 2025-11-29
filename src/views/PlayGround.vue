@@ -3,7 +3,8 @@
     <game-mode-selector v-if="showModeSelector" @select-mode="onModeSelected" />
     <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" />
     <round-summary v-if="showRoundSummary" :round="currentRound" :score="roundScores[currentRound - 1] || 0"
-      :totalScore="totalScore" :sentence="finalSentence" @next-round="handleNextRound" />
+      :totalScore="totalScore" :sentence="finalSentence" :winner="gameMode === 'coop' ? winner : ''"
+      @next-round="handleNextRound" />
 
     <!-- Round Indicator & Mode Badge -->
     <div class="w-full px-4 pt-4 flex justify-between items-center text-white relative">
@@ -11,7 +12,7 @@
       <div class="absolute top-4 right-4 flex gap-2 z-10">
         <button
           class="bg-red-600 hover:bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center border border-red-400 shadow-lg"
-          @click="resetGame" title="Reset Game">
+          @click="handleResetGame" title="Reset Game">
           &#8635;
         </button>
         <button
@@ -43,11 +44,12 @@
     <!-- Shared Cards Area (5/4 Split) -->
     <div v-if="gameMode === '5-4-split' && sharedCardsList.length > 0" class="w-full px-4 mt-4">
       <div class="bg-gray-700 p-2 rounded-lg border-2 border-green-500">
-        <h3 class="text-white text-sm font-bold mb-2">Shared Cards (Drag to use):</h3>
-        <draggable v-model="sharedCardsList" class="flex justify-center gap-2 h-24" group="people" item-key="id">
+        <h3 class="text-white text-sm font-bold mb-2">Shared Cards (tap to use, not discardable):</h3>
+        <draggable v-model="sharedCardsList" class="flex justify-center gap-2 h-24" item-key="id" :sort="false"
+          :group="{ name: 'shared', pull: false, put: false }" :move="() => false">
           <template #item="{ element }">
-            <div class="h-full cursor-move">
-              <card-container :card="element" :cardHeight="100" :canChooseWord="false" />
+            <div class="h-full cursor-pointer">
+              <card-container :card="element" :cardHeight="100" :canChooseWord="true" />
             </div>
           </template>
         </draggable>
@@ -71,10 +73,11 @@
     <div ref="tablePlay" id="tablePlay" class="flex w-full min-h-1/2 relative items-center justify-center">
       <draggable element="div" v-model="cards" v-bind="dragOptions" @change="onSortCards"
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full" v-if="cards.length > 0"
-        :disabled="!isDragging" item-key="id"> <template #item="{ element, index }">
+        :disabled="!isDragging" item-key="id" @start="onDragStart" @end="onDragEnd">
+        <template #item="{ element, index }">
           <span class="flex flex-row flex-no-wrap relative duration-300 transform h-full" :class="{
             '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
-          }" v-touch:swipe="swipeCard(element.id)" v-on:click.prevent>
+          }" :data-card-ref="element.id" v-touch:swipe="swipeCard(element.id)" v-on:click.prevent>
             <card-container :card="element" :cardHeight="cardHeight"
               :canChooseWord="!zeroPointCards.includes(element.id)" :class="{
                 'opacity-25': zeroPointCards.includes(element.id),
@@ -125,6 +128,8 @@ function transformScroll(event) {
 }
 
 import SoundManager from '@/utils/soundManager'
+import { getTimeSymbol } from '@/utils/timeRules'
+import { applyPvpEffect } from '@/utils/pvpEffects'
 
 export default {
   name: 'PlayGround',
@@ -160,6 +165,10 @@ export default {
       isDragging: true,
       delayedDragging: false,
       dragging: false,
+      sentenceStartAllowed: ['TimeCard', 'Location'],
+      sentenceStartFollowups: ['Noun', 'Adj', 'HelpingVerb'],
+      discardLimit: 3,
+      draggedCardRef: null,
 
       // Round tracking
       originalCardsSnapshot: null,
@@ -170,7 +179,8 @@ export default {
       showRoundSummary: false,
       showTutorial: false,
       sharedCardsList: [],
-      initialSharedCardIds: []
+      initialSharedCardIds: [],
+      usedSharedCardIds: []
     }
   },
   computed: {
@@ -189,7 +199,11 @@ export default {
       roundScores: state => state.playing.roundScores,
       totalScore: state => state.playing.totalScore,
       usedOriginalCards: state => state.playing.usedOriginalCards,
-      sharedCards: state => state.playing.sharedCards
+      sharedCards: state => state.playing.sharedCards,
+      trackTurnOrder: state => state.playing.trackTurnOrder,
+      turnHistory: state => state.playing.turnHistory,
+      lastPlayerWhoAddedCard: state => state.playing.lastPlayerWhoAddedCard,
+      winner: state => state.playing.winner
     }),
     dragOptions() {
       return {
@@ -213,14 +227,17 @@ export default {
     nounPhrase() {
       this.caculatePoint()
       this.checkSentenceReady()
+      this.noteCardPlayed(this.nounPhrase)
     },
     verbPhrase() {
       this.caculatePoint()
       this.checkSentenceReady()
+      this.noteCardPlayed(this.verbPhrase)
     },
     objectPhrase() {
       this.caculatePoint()
       this.checkSentenceReady()
+      this.noteCardPlayed(this.objectPhrase)
     },
     isDragging(newValue) {
       if (newValue) {
@@ -248,11 +265,14 @@ export default {
     element.addEventListener('wheel', transformScroll)
   },
   methods: {
-    ...mapMutations(['setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards', 'setGameMode', 'setSharedCards']),
+    ...mapMutations(['setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards', 'setGameMode', 'setSharedCards', 'setTrackTurnOrder', 'recordTurn', 'resetTurns', 'setWinner']),
     ...mapActions(['SetPlayerDataAsync']),
 
     onModeSelected(mode) {
       this.setGameMode(mode)
+      this.setTrackTurnOrder(mode === 'coop')
+      this.resetTurns()
+      this.setWinner(null)
       this.showModeSelector = false
 
       // Show tutorial on first load (could be persisted)
@@ -264,24 +284,41 @@ export default {
         this.numCardAllow = 7
       }
 
+      // Reset discard counter per round explicitly for clarity
+      this.cardDiscarded = []
+      this.discardLimit = 3
+      this.usedSharedCardIds = []
+
       this.distributeCards(this.originalCards)
     },
 
     submitSentence() {
+      const usedCardIds = this.getUsedCardIdsInSentence()
       // Validation for 5/4 Split Mode
       if (this.gameMode === '5-4-split') {
-        const usedCardIds = [
-          this.nounPhrase?.cardId,
-          this.verbPhrase?.cardId,
-          this.objectPhrase?.cardId
-        ].filter(Boolean)
-
-        const hasSharedCard = usedCardIds.some(id => this.initialSharedCardIds.includes(id))
+        const sharedUsedThisSentence = usedCardIds.filter(id => this.initialSharedCardIds.includes(id))
+        const hasSharedCard = sharedUsedThisSentence.length > 0
 
         if (!hasSharedCard) {
           alert('In 5/4 Split Mode, you must use at least one Shared Card in your sentence!')
           SoundManager.play('error')
           return
+        }
+
+        // Track shared usage across rounds and enforce all shared cards by final round
+        sharedUsedThisSentence.forEach(id => {
+          if (!this.usedSharedCardIds.includes(id)) {
+            this.usedSharedCardIds.push(id)
+          }
+        })
+
+        if (this.currentRound >= this.maxRounds) {
+          const missingShared = this.initialSharedCardIds.filter(id => !this.usedSharedCardIds.includes(id))
+          if (missingShared.length > 0) {
+            alert('All 4 shared cards must appear in a sentence by the end of the game.')
+            SoundManager.play('error')
+            return
+          }
         }
       }
 
@@ -294,12 +331,29 @@ export default {
         console.log('Bonus +5 for using all 7 original cards!')
       }
 
-      // Add this round's score
+      // Apply PvP card effects if present in the built sentence
+      usedCardIds.forEach(id => {
+        const card = this.findCardById(id)
+        if (card && card.pvpEffect) {
+          roundScore = applyPvpEffect(card.pvpEffect, {
+            roundScore,
+            cards: this.cards,
+            sharedCards: this.sharedCardsList,
+            discarded: this.cardDiscarded
+          })
+        }
+      })
+
+      // Add this round's score (after PvP effects)
       this.addRoundScore(roundScore)
 
       // Store sentence for display
       this.finalSentence = this.nounPhraseText + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text + '.'
       this.finalPoint = roundScore
+
+      if (this.gameMode === 'coop' && this.trackTurnOrder) {
+        this.setWinner(this.lastPlayerWhoAddedCard || (this.player?.name || 'local-player'))
+      }
 
       // Check win conditions
       if (this.totalScore >= 200) {
@@ -317,6 +371,24 @@ export default {
         SoundManager.play('success')
         this.showRoundSummaryAndContinue()
       }
+    },
+    handleResetGame() {
+      this.resetGame()
+      this.cards = []
+      this.allCards = []
+      this.sharedCardsList = []
+      this.initialSharedCardIds = []
+      this.usedSharedCardIds = []
+      this.zeroPointCards = []
+      this.cardDiscarded = []
+      this.showModeSelector = true
+      this.showRoundSummary = false
+      this.showTutorial = false
+      this.isDragging = true
+      this.numCardAllow = 7
+      this.setTrackTurnOrder(false)
+      this.resetTurns()
+      this.setWinner(null)
     },
     showRoundSummaryAndContinue() {
       // Show round summary modal
@@ -337,6 +409,7 @@ export default {
       this.isDragging = true
       this.cardDiscarded = []
       this.zeroPointCards = []
+      this.setWinner(null)
 
       // Deal new cards
       this.distributeCards(this.originalCards)
@@ -386,7 +459,7 @@ export default {
       function canAddBonusPoint(word, type) {
         let cardString = ''
         self.cards.forEach(card => {
-          if (card.type === type && !self.zeroPointCards.includes(card.id)) {
+          if (self.getEffectiveCardType(card) === type && !self.zeroPointCards.includes(card.id)) {
             cardString = JSON.stringify(card)
           }
         })
@@ -459,8 +532,28 @@ export default {
 
       return zeroPointCard
     },
-    onSortCards() {
+    onSortCards(evt) {
+      this.logDragReference(evt)
+      if (evt && evt.moved && evt.moved.element) {
+        this.ensureWildAssignment(evt.moved.element, evt.moved.newIndex)
+      }
+      if (evt && evt.added && evt.added.element) {
+        this.ensureWildAssignment(evt.added.element, evt.added.newIndex)
+      }
       this.checkPositionOfCards()
+    },
+    onDragStart(evt) {
+      this.draggedCardRef = this.extractDragRef(evt)
+      if (this.draggedCardRef) {
+        console.log(`Dragging card: ${this.draggedCardRef}`)
+      }
+    },
+    onDragEnd(evt) {
+      const ref = this.extractDragRef(evt) || this.draggedCardRef
+      if (ref) {
+        console.log(`Dropped card: ${ref}`)
+      }
+      this.draggedCardRef = null
     },
     lockCardPosition() {
       console.log('Lock cards position')
@@ -470,6 +563,15 @@ export default {
     autoArrangeOnce() {
       let temp = null
       this.cards.forEach((card, index) => {
+        if (
+          this.sentenceStartAllowed.includes(card.type) &&
+          index !== 0 &&
+          !this.sentenceStartAllowed.includes(this.cards[0].type)
+        ) {
+          temp = this.cards[0]
+          this.cards[0] = card
+          this.cards[index] = temp
+        }
         if (
           card.type === 'Noun' &&
           index !== 0 &&
@@ -501,10 +603,11 @@ export default {
       })
     },
     checkPositionOfCards() {
-      // console.log("call check position of cards", this.cards);
       const previousCards = []
       this.zeroPointCards = []
       this.cards.forEach((card, index) => {
+        this.hydrateCardRules(card)
+        this.ensureWildAssignment(card, index)
         if (this.isIllegalCard(card, index, previousCards)) {
           this.zeroPointCards.push(card.id)
           this.illegalCardPosition.push(index)
@@ -515,14 +618,16 @@ export default {
       // this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
     isIllegalCard(card, index, previousCards) {
+      const effectiveType = this.getEffectiveCardType(card)
+      const isStartAllowed = this.sentenceStartAllowed.includes(effectiveType)
       if (index > 0 && index < this.numCardAllow - 1) {
         return (
-          this.isPreviousCardsIllegal(card, index) &&
+          this.isPreviousCardsIllegal(card, index, previousCards) &&
           this.isNextCardsIllegal(card, index)
         )
       } else {
         if (index === 0) {
-          return this.isNextCardsIllegal(card, index)
+          return this.isNextCardsIllegal(card, index, isStartAllowed)
         }
         if (index === this.numCardAllow - 1) {
           /**
@@ -531,51 +636,222 @@ export default {
            * else check last card like a normal card
            */
           if (
-            ['Location', 'TimeCard', 'ExtraInformation'].includes(card.type) &&
+            ['Location', 'TimeCard', 'ExtraInformation'].includes(effectiveType) &&
             this.player.level > 1
           ) {
             const foundPreviousCard = previousCards.some(
-              ({ type }) =>
-                card.previousCards && card.previousCards.includes(type)
+              (previousCard) =>
+                card.previousCards && this.matchesAllowedType(card.previousCards, previousCard)
             )
             return !foundPreviousCard
-          } else return this.isPreviousCardsIllegal(card, index)
+          } else return this.isPreviousCardsIllegal(card, index, previousCards)
         }
       }
+      return false
     },
     // check previous card legal or not
-    isPreviousCardsIllegal(card, index) {
+    isPreviousCardsIllegal(card, index, previousCards = []) {
+      const previousCard = this.cards[index - 1]
+      if (!previousCard) { return false }
+      if (!this.isModifierAllowed(previousCard, card) || !this.isModifierAllowed(card, previousCard)) { return true }
+
+      if (this.matchesAllowedType(card.previousCards, previousCard)) {
+        return !this.areTimeSymbolsCompatible(previousCard, card)
+      }
+      if (this.matchesAllowedType(card.allowCards, previousCard)) {
+        return !this.areTimeSymbolsCompatible(previousCard, card)
+      }
+
+      // Allow inversion if the sentence starts with a time/location card
       if (
-        card.previousCards &&
-        card.previousCards.includes(this.cards[index - 1].type)
-      ) { return false }
-      if (
-        card.allowCards &&
-        card.allowCards.includes(this.cards[index - 1].type)
-      ) { return false }
+        index - 1 === 0 &&
+        this.sentenceStartAllowed.includes(this.getEffectiveCardType(previousCard)) &&
+        this.sentenceStartFollowups.includes(this.getEffectiveCardType(card))
+      ) {
+        return false
+      }
+
+      // Multi-match support: allow any earlier card that satisfies the rule
+      if (this.cardSupportsMultiMatch(card)) {
+        const earlierMatch = previousCards.some(
+          prev => this.matchesAllowedType(card.previousCards, prev) || this.matchesAllowedType(card.allowCards, prev)
+        )
+        if (earlierMatch) { return false }
+      }
+
       return true
     },
-    isNextCardsIllegal(card, index) {
-      if (card.nextCards && card.nextCards.includes(this.cards[index + 1].type)) { return false }
-      if (
-        card.allowCards &&
-        card.allowCards.includes(this.cards[index + 1].type)
-      ) { return false }
+    isNextCardsIllegal(card, index, fromSentenceStart = false) {
+      const nextCard = this.cards[index + 1]
+      if (!nextCard) { return false }
+      if (!this.isModifierAllowed(nextCard, card) || !this.isModifierAllowed(card, nextCard)) { return true }
+
+      if (fromSentenceStart &&
+        this.sentenceStartFollowups.includes(this.getEffectiveCardType(nextCard))) {
+        return false
+      }
+      if (this.matchesAllowedType(card.nextCards, nextCard)) {
+        return !this.areTimeSymbolsCompatible(card, nextCard)
+      }
+      if (this.matchesAllowedType(card.allowCards, nextCard)) {
+        return !this.areTimeSymbolsCompatible(card, nextCard)
+      }
+
+      if (this.cardSupportsMultiMatch(card)) {
+        const futureMatch = this.cards.slice(index + 1).some(
+          futureCard => this.matchesAllowedType(card.nextCards, futureCard) || this.matchesAllowedType(card.allowCards, futureCard)
+        )
+        if (futureMatch) { return false }
+      }
 
       return true
     },
 
     discardCard(index) {
       SoundManager.play('click')
-      if (this.cardDiscarded.length < 3) {
-        this.cardDiscarded.push(this.cards[index])
-        this.cards[index] = this.allCards[0]
-        this.allCards.splice(0, 1)
-
-        // Mark that cards have been modified (no +5 bonus)
-        this.cardsModified = true
+      if (this.cardDiscarded.length >= this.discardLimit) {
+        SoundManager.play('error')
+        return
       }
+      if (!this.cards[index]) {
+        SoundManager.play('error')
+        return
+      }
+      this.cardDiscarded.push(this.cards[index])
+      const replacement = this.allCards.shift()
+      if (replacement) {
+        this.cards[index] = replacement
+      }
+
+      // Mark that cards have been modified (no +5 bonus)
+      this.cardsModified = true
       this.checkPositionOfCards()
+    },
+    hydrateCardRules(card) {
+      if (!card || card._rulesHydrated) return
+      if (Array.isArray(card.condition)) {
+        const adverbConditions = card.condition.filter(cond => cond.type === 'Adverb' && cond.symbol)
+        if (adverbConditions.length) {
+          const allowed = new Set(card.allowedModifiers || [])
+          adverbConditions.forEach(cond => allowed.add(cond.symbol))
+          card.allowedModifiers = Array.from(allowed)
+        }
+      }
+      card._rulesHydrated = true
+    },
+    cardSupportsMultiMatch(card) {
+      return !!(
+        card &&
+        (
+          (Array.isArray(card.previousCards) && card.previousCards.some(Array.isArray)) ||
+          (Array.isArray(card.nextCards) && card.nextCards.some(Array.isArray)) ||
+          card.allowMultiMatch === true
+        )
+      )
+    },
+    normalizeCardType(type) {
+      return (type || '').toString().trim().toLowerCase()
+    },
+    getEffectiveCardType(card) {
+      if (!card) return ''
+      return card.assignedType || card.type || ''
+    },
+    matchesAllowedType(allowedTypes, neighborCard) {
+      if (!allowedTypes || !neighborCard) { return false }
+      const neighborType = this.normalizeCardType(this.getEffectiveCardType(neighborCard))
+      const rules = Array.isArray(allowedTypes) ? allowedTypes : [allowedTypes]
+      return rules.some(rule => {
+        if (!rule) return false
+        if (Array.isArray(rule)) {
+          return rule.some(r => this.normalizeCardType(r) === neighborType)
+        }
+        if (typeof rule === 'object' && rule.any) {
+          return rule.any.some(r => this.normalizeCardType(r) === neighborType)
+        }
+        return this.normalizeCardType(rule) === neighborType
+      })
+    },
+    isWildCard(card) {
+      return card && (card.type === 'Wild' || card.type === 'WildCard')
+    },
+    ensureWildAssignment(card, index) {
+      if (!this.isWildCard(card)) { return }
+      if (card.assignedType) { return }
+      const neighbors = []
+      if (this.cards[index - 1]) neighbors.push(this.getEffectiveCardType(this.cards[index - 1]))
+      if (this.cards[index + 1]) neighbors.push(this.getEffectiveCardType(this.cards[index + 1]))
+      const allowedTypes = [
+        ...(Array.isArray(card.previousCards) ? card.previousCards : (card.previousCards ? [card.previousCards] : [])),
+        ...(Array.isArray(card.nextCards) ? card.nextCards : (card.nextCards ? [card.nextCards] : [])),
+        ...(Array.isArray(card.allowCards) ? card.allowCards : (card.allowCards ? [card.allowCards] : []))
+      ]
+      const candidate = neighbors.find(type => this.matchesAllowedType(allowedTypes, { type }))
+        || (allowedTypes.length > 0 ? allowedTypes[0] : neighbors[0])
+      card.assignedType = Array.isArray(candidate) ? candidate[0] : candidate || 'Noun'
+    },
+    isModifierAllowed(modifierCard, targetCard) {
+      if (!modifierCard || !targetCard) { return true }
+      const modifierType = this.getEffectiveCardType(modifierCard)
+      if (modifierType !== 'Adverb') { return true }
+      const adverbSymbol = modifierCard.symbol
+      const allowedModifiers = targetCard.allowedModifiers || []
+      const adverbConditions = Array.isArray(targetCard.condition) ? targetCard.condition.filter(cond => cond.type === 'Adverb') : []
+      if (allowedModifiers.length > 0) {
+        return allowedModifiers.includes(adverbSymbol)
+      }
+      if (adverbConditions.length > 0) {
+        return adverbConditions.some(cond => !cond.symbol || cond.symbol === adverbSymbol)
+      }
+      return true
+    },
+    areTimeSymbolsCompatible(cardA, cardB) {
+      if (!cardA || !cardB) return true
+      const symbolA = getTimeSymbol(cardA.timeSymbol || cardA.tense || cardA.curTense)
+      const symbolB = getTimeSymbol(cardB.timeSymbol || cardB.tense || cardB.curTense)
+      if (!symbolA || !symbolB) return true
+      return symbolA === symbolB
+    },
+    extractDragRef(evt) {
+      if (!evt || !evt.item) return null
+      if (evt.item.dataset && evt.item.dataset.cardRef) {
+        return evt.item.dataset.cardRef
+      }
+      if (evt.item.__draggable_context && evt.item.__draggable_context.element) {
+        return evt.item.__draggable_context.element.id
+      }
+      return evt.item.id || null
+    },
+    logDragReference(evt) {
+      const ref = (evt && evt.moved && evt.moved.element && evt.moved.element.id) ||
+        (evt && evt.added && evt.added.element && evt.added.element.id)
+      if (ref) {
+        this.draggedCardRef = ref
+        console.log(`Reordered card: ${ref}`)
+      }
+    },
+    getUsedCardIdsInSentence() {
+      return [
+        this.nounPhrase?.cardId,
+        this.verbPhrase?.cardId,
+        this.objectPhrase?.cardId
+      ].filter(Boolean)
+    },
+    findCardById(id) {
+      if (!id) return null
+      return this.cards.find(c => c.id === id) ||
+        this.sharedCardsList.find(c => c.id === id) ||
+        this.allCards.find(c => c.id === id) ||
+        null
+    },
+    noteCardPlayed(phrase) {
+      if (!this.trackTurnOrder || !phrase || !phrase.cardId) return
+      const playerId = this.player?.name || this.player?.id || 'local-player'
+      this.recordTurn({
+        playerId,
+        cardId: phrase.cardId,
+        round: this.currentRound,
+        timestamp: Date.now()
+      })
     },
     /**
      * distribute Cards
@@ -586,21 +862,25 @@ export default {
       shuffleArray(cards)
 
       if (this.gameMode === '5-4-split') {
-        // Deal 5 to hand
-        this.cards = cards.slice(0, 5)
-        // Deal 4 to shared
-        this.sharedCardsList = cards.slice(5, 9)
-        this.initialSharedCardIds = this.sharedCardsList.map(c => c.id)
-        this.setSharedCards(this.sharedCardsList)
+        if (this.initialSharedCardIds.length === 0) {
+          // First deal: set shared cards
+          this.sharedCardsList = cards.slice(5, 9)
+          this.initialSharedCardIds = this.sharedCardsList.map(c => c.id)
+          this.usedSharedCardIds = []
+          this.setSharedCards(this.sharedCardsList)
+        }
 
-        this.allCards = cards.slice(9, cards.length - 1)
+        // Remove shared cards from the draw pile to keep them immutable
+        const remainingDeck = cards.filter(card => !this.initialSharedCardIds.includes(card.id))
+        this.cards = remainingDeck.slice(0, 5)
+        this.allCards = remainingDeck.slice(5)
       } else {
         // Standard / Co-op: Deal 7 to hand
         this.cards = cards.slice(0, this.numCardAllow)
-        this.allCards = cards.slice(
-          this.cards.length,
-          this.originalCards.length - 1
-        )
+        this.allCards = cards.slice(this.cards.length)
+        this.initialSharedCardIds = []
+        this.sharedCardsList = []
+        this.setSharedCards([])
       }
 
       this.autoArrangeOnce()

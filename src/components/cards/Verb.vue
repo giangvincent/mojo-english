@@ -25,6 +25,7 @@
 <script>
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import { getTimeSymbol } from '@/utils/timeRules'
 
 export default {
   name: 'verb-card',
@@ -55,7 +56,8 @@ export default {
         setTense(props.card.content[index].tense)
         setVerbPhrase({
           ...props.card.content[index],
-          cardId: props.card.id
+          cardId: props.card.id,
+          timeSymbol: getTimeSymbol(props.card.content[index].tense)
         })
       }
     }

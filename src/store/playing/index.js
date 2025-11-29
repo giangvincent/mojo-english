@@ -32,7 +32,12 @@ export default {
     totalScore: 0,
     sharedCards: [], // For 5/4 Split mode
     usedOriginalCards: true, // Track if player kept all 7 original cards
-    originalCardsHash: null // Hash of original 7 cards
+    originalCardsHash: null, // Hash of original 7 cards
+    // Turn / winner tracking (Co-op & PvP)
+    trackTurnOrder: false,
+    turnHistory: [],
+    lastPlayerWhoAddedCard: null,
+    winner: null
   },
   mutations: mutations,
   actions: actions

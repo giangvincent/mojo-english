@@ -54,6 +54,7 @@
 <script>
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import { getTimeSymbol } from '@/utils/timeRules'
 
 export default {
   name: 'time-card',
@@ -78,10 +79,18 @@ export default {
     })
 
     const chooseTime = (index) => {
-      if (playingStep.value === 'choose-word' && curTense.value && props.card.content[index].tense.indexOf(curTense.value) > -1) {
+      const selectedContent = props.card.content[index]
+      const currentSymbol = getTimeSymbol(curTense.value)
+      const targetSymbol = getTimeSymbol(selectedContent.tense)
+
+      if (playingStep.value === 'choose-word' &&
+        curTense.value &&
+        selectedContent.tense.indexOf(curTense.value) > -1 &&
+        (!currentSymbol || !targetSymbol || currentSymbol === targetSymbol)) {
         setObjectPhrase({
-          ...props.card.content[index],
-          cardId: props.card.id
+          ...selectedContent,
+          cardId: props.card.id,
+          timeSymbol: targetSymbol
         })
       }
     }

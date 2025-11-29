@@ -61,7 +61,9 @@ export default {
     Adverb: defineAsyncComponent(() => import('@/components/cards/Adverb.vue')),
 
     ExtraInformation: defineAsyncComponent(() => import('@/components/cards/ExtraInformation.vue')),
-    CardSymbols: defineAsyncComponent(() => import('@/components/cards/CardSymbols.vue'))
+    CardSymbols: defineAsyncComponent(() => import('@/components/cards/CardSymbols.vue')),
+    WildCard: defineAsyncComponent(() => import('@/components/cards/WildCard.vue')),
+    Wild: defineAsyncComponent(() => import('@/components/cards/WildCard.vue'))
   },
   setup(props) {
     const cardWidth = computed(() => (props.cardHeight - 32) / 1.612)
@@ -87,7 +89,9 @@ export default {
         Adverb: 'bg-pink-700',
         HelpingVerb: 'bg-blue-700',
         ExtraInformation: 'bg-yellow-700',
-        Conj: 'bg-white'
+        Conj: 'bg-white',
+        WildCard: 'bg-gray-500',
+        Wild: 'bg-gray-500'
       }
       return colors[type] || 'bg-gray-400'
     }
