@@ -71,9 +71,7 @@
     <div ref="tablePlay" id="tablePlay" class="flex w-full min-h-1/2 relative items-center justify-center">
       <draggable element="div" v-model="cards" v-bind="dragOptions" @change="onSortCards"
         class="flex flex-row flex-no-wrap items-center justify-center w-full h-full" v-if="cards.length > 0"
-        :disabled="!isDragging" item-key="id" tag="transition-group"
-        :component-data="{ name: 'flip-list', type: 'transition' }">
-        <template #item="{ element, index }">
+        :disabled="!isDragging" item-key="id"> <template #item="{ element, index }">
           <span class="flex flex-row flex-no-wrap relative duration-300 transform h-full" :class="{
             '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
           }" v-touch:swipe="swipeCard(element.id)" v-on:click.prevent>
@@ -109,6 +107,7 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import draggable from 'vuedraggable'
 import CardContainer from '@/components/cards/CardContainer.vue'
 import DiscardBtn from '@/components/cards/Buttons/DiscardBtn.vue'
@@ -385,7 +384,7 @@ export default {
         }
       }
       function canAddBonusPoint(word, type) {
-        let cardString = {}
+        let cardString = ''
         self.cards.forEach(card => {
           if (card.type === type && !self.zeroPointCards.includes(card.id)) {
             cardString = JSON.stringify(card)
