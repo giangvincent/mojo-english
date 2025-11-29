@@ -1,86 +1,51 @@
 <template>
-  <div
-    class="flex flex-col justify-center items-center min-h-screen h-full w-full bg-gray-800"
-  >
+  <div class="flex flex-col justify-center items-center min-h-screen h-full w-full bg-gray-800">
     <div class="w-full px-4 pt-10 mb-5 text-left">
-      <div
-        class="p-2 border-2 border-white text-white rounded-lg w-full relative"
-        v-if="!isDragging"
-      >
+      <div class="p-2 border-2 border-white text-white rounded-lg w-full relative" v-if="!isDragging">
         {{ $t('playing.final_sentence') }}:
         <div class="ml-2 inline">
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhraseText : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text + '.' : '' }}
-          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{ $t('playing.total_point')  }}: {{ totalPoint }}</div>
+          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{
+            $t('playing.total_point') }}: {{ totalPoint }}</div>
         </div>
 
       </div>
     </div>
     <!-- Table -->
-    <div
-      ref="tablePlay"
-      id="tablePlay"
-      class="flex w-full min-h-1/2 relative items-center justify-center"
-    >
-      <draggable
-        element="div"
-        v-model="cards"
-        v-bind="dragOptions"
-        @change="onSortCards"
-        class="flex flex-row flex-no-wrap items-center justify-center w-full h-full"
-        v-if="cards.length > 0"
-        :disabled="!isDragging"
-        :key="cards.id"
-      >
+    <div ref="tablePlay" id="tablePlay" class="flex w-full min-h-1/2 relative items-center justify-center">
+      <draggable element="div" v-model="cards" v-bind="dragOptions" @change="onSortCards"
+        class="flex flex-row flex-no-wrap items-center justify-center w-full h-full" v-if="cards.length > 0"
+        :disabled="!isDragging" :key="cards.id">
         <template #item="{ element, index }">
-          <span
-            class="flex flex-row flex-no-wrap relative duration-300 transform h-full"
-            :class="{
-              '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
-            }"
-            v-touch:swipe="swipeCard(element.id)"
-            v-on:click.prevent
-          >
-            <card-container
-              :card="element"
-              :cardHeight="cardHeight"
-              :canChooseWord="!zeroPointCards.includes(element.id)"
-              :class="{
+          <span class="flex flex-row flex-no-wrap relative duration-300 transform h-full" :class="{
+            '-translate-y-3': zeroPointCards.includes(element.id) && !isDragging,
+          }" v-touch:swipe="swipeCard(element.id)" v-on:click.prevent>
+            <card-container :card="element" :cardHeight="cardHeight"
+              :canChooseWord="!zeroPointCards.includes(element.id)" :class="{
                 'opacity-25': zeroPointCards.includes(element.id),
-              }"
-            ></card-container>
+              }"></card-container>
 
-            <discard-btn
-              v-if="isDragging && cardDiscarded.length < 3"
-              @click="discardCard(index)"
-            ></discard-btn>
+            <discard-btn v-if="isDragging && cardDiscarded.length < 3" @click="discardCard(index)"></discard-btn>
             <replace-btn
               v-if="zeroPointCards.includes(element.id) && (cardDiscarded.length >= 3 || playingStep == 'choose-word')"
-              @changeCard="changeCard"
-              :cardIndex="index"
-              :cardOb="element"
-            ></replace-btn>
+              @changeCard="changeCard" :cardIndex="index" :cardOb="element"></replace-btn>
           </span>
         </template>
       </draggable>
     </div>
     <!-- Player table -->
     <div class="mt-5 pb-5 flex justify-center w-full">
-      <button
-        v-if="isDragging === true"
+      <button v-if="isDragging === true"
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
-        @click="lockCardPosition()"
-      >
+        @click="lockCardPosition()">
         {{ $t('playing.confirm_position') }}
       </button>
-      <button
-        v-if="isDragging === false"
+      <button v-if="isDragging === false"
         class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
-        :disabled="isSentenceNotReady"
-        :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
-        @click="submitSentence()"
-      >
+        :disabled="isSentenceNotReady" :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
+        @click="submitSentence()">
         {{ $t('playing.submit_sentence') }}
       </button>
     </div>
@@ -97,7 +62,7 @@ import GameOver from '@/components/GameOver.vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { shuffleArray, capitalizeFirstLetter } from '@/helper'
 
-function transformScroll (event) {
+function transformScroll(event) {
   if (!event.deltaY) {
     return
   }
@@ -114,9 +79,9 @@ export default {
     draggable,
     GameOver
   },
-  data () {
+  data() {
     return {
-      numCardAllow: 3,
+      numCardAllow: 7,
       isSentenceNotReady: true,
 
       allCards: [],
@@ -148,7 +113,7 @@ export default {
       objectPhrase: state => state.playing.objectPhrase,
       playingStep: state => state.playing.playingStep
     }),
-    dragOptions () {
+    dragOptions() {
       return {
         animation: 0
       }
@@ -167,19 +132,19 @@ export default {
       },
       deep: true
     },
-    nounPhrase () {
+    nounPhrase() {
       this.caculatePoint()
       this.checkSentenceReady()
     },
-    verbPhrase () {
+    verbPhrase() {
       this.caculatePoint()
       this.checkSentenceReady()
     },
-    objectPhrase () {
+    objectPhrase() {
       this.caculatePoint()
       this.checkSentenceReady()
     },
-    isDragging (newValue) {
+    isDragging(newValue) {
       if (newValue) {
         this.delayedDragging = true
         this.checkPositionOfCards()
@@ -190,38 +155,38 @@ export default {
       })
     }
   },
-  created () {
+  created() {
     this.cardHeight = (this.scr_height * 3) / 5
     this.cardWidth = (this.cardHeight - 32) / 1.612
     this.distributeCards(this.originalCards)
   },
-  mounted () {
+  mounted() {
     const element = this.$refs.tablePlay
     element.addEventListener('wheel', transformScroll)
   },
   methods: {
     ...mapMutations(['setPlayingStep', 'resetSentence']),
     ...mapActions(['SetPlayerDataAsync']),
-    submitSentence () {
+    submitSentence() {
       this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
       this.finalSentence = this.nounPhraseText + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text + '.'
       this.finalPoint = this.totalPoint
       this.resetSentence()
       this.setPlayingStep('end')
     },
-    caculatePoint () {
+    caculatePoint() {
       this.totalPoint = 0
       this.addPoint(this.nounPhrase)
       this.addPoint(this.verbPhrase)
       this.addPoint(this.objectPhrase)
     },
-    addPoint (objPhrase) {
+    addPoint(objPhrase) {
       if (objPhrase && Object.keys(objPhrase).length > 0 && objPhrase.constructor === Object) {
         this.totalPoint += objPhrase.point ? objPhrase.point : 0
         this.caculateBonusPoint(objPhrase.bonus ? objPhrase.bonus : [])
       }
     },
-    caculateBonusPoint (bonusObj) {
+    caculateBonusPoint(bonusObj) {
       const self = this
       if (Array.isArray(bonusObj)) {
         let bonusAdded = false
@@ -242,7 +207,7 @@ export default {
           })
         }
       }
-      function canAddBonusPoint (word, type) {
+      function canAddBonusPoint(word, type) {
         let cardString = {}
         self.cards.forEach(card => {
           if (card.type === type && !self.zeroPointCards.includes(card.id)) {
@@ -256,7 +221,7 @@ export default {
         return false
       }
     },
-    checkSentenceReady () {
+    checkSentenceReady() {
       if (
         this.nounPhrase && Object.keys(this.nounPhrase).length > 0 &&
         this.verbPhrase && Object.keys(this.verbPhrase).length > 0 &&
@@ -265,7 +230,7 @@ export default {
         this.isSentenceNotReady = false
       } else this.isSentenceNotReady = true
     },
-    swipeCard (param) {
+    swipeCard(param) {
       const self = this
       return function (direction, event) {
         if (direction === 'top') {
@@ -279,7 +244,7 @@ export default {
         }
       }
     },
-    changeCard (value) {
+    changeCard(value) {
       const replaceListCards = []
       const self = this
       this.allCards.forEach(card => {
@@ -290,33 +255,43 @@ export default {
       shuffleArray(replaceListCards)
       this.$set(this.cards, value.index, replaceListCards[0])
     },
-    setPointToZero (card) {
-      const zeroPointCard = card
-      const cardTypeHaveContent = ['TimeCard', 'Verb']
-      if (cardTypeHaveContent.includes(card.type)) {
-        card.content.forEach((content, index) => {
-          zeroPointCard.content[index].point = 0
-        })
+    setPointToZero(card) {
+      const zeroPointCard = { ...card }
+
+      // Cards with content array containing point property
+      const cardTypesWithContentPoint = ['TimeCard', 'Verb', 'HelpingVerb', 'Conj']
+      if (cardTypesWithContentPoint.includes(card.type) && card.content) {
+        zeroPointCard.content = card.content.map(content => ({
+          ...content,
+          point: 0,
+          // Handle nested texts array in HelpingVerb
+          texts: content.texts ? content.texts.map(t => ({ ...t })) : undefined
+        }))
       }
-      if (card.type === 'Location') {
+
+      // Cards with single point property
+      const cardTypesWithSinglePoint = ['Location', 'Adj', 'Adverb', 'ExtraInformation', 'Prep']
+      if (cardTypesWithSinglePoint.includes(card.type)) {
         zeroPointCard.point = 0
       }
+
+      // Noun cards with singular and plural points
       if (card.type === 'Noun') {
-        zeroPointCard.singular.point = 0
-        zeroPointCard.plural.point = 0
+        zeroPointCard.singular = { ...card.singular, point: 0 }
+        zeroPointCard.plural = { ...card.plural, point: 0 }
       }
 
       return zeroPointCard
     },
-    onSortCards () {
+    onSortCards() {
       this.checkPositionOfCards()
     },
-    lockCardPosition () {
+    lockCardPosition() {
       console.log('Lock cards position')
       this.isDragging = false
       this.setPlayingStep('choose-word')
     },
-    autoArrangeOnce () {
+    autoArrangeOnce() {
       let temp = null
       this.cards.forEach((card, index) => {
         if (
@@ -349,7 +324,7 @@ export default {
         }
       })
     },
-    checkPositionOfCards () {
+    checkPositionOfCards() {
       // console.log("call check position of cards", this.cards);
       const previousCards = []
       this.zeroPointCards = []
@@ -363,7 +338,7 @@ export default {
       })
       // this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
-    isIllegalCard (card, index, previousCards) {
+    isIllegalCard(card, index, previousCards) {
       if (index > 0 && index < this.numCardAllow - 1) {
         return (
           this.isPreviousCardsIllegal(card, index) &&
@@ -393,7 +368,7 @@ export default {
       }
     },
     // check previous card legal or not
-    isPreviousCardsIllegal (card, index) {
+    isPreviousCardsIllegal(card, index) {
       if (
         card.previousCards &&
         card.previousCards.includes(this.cards[index - 1].type)
@@ -404,7 +379,7 @@ export default {
       ) { return false }
       return true
     },
-    isNextCardsIllegal (card, index) {
+    isNextCardsIllegal(card, index) {
       if (card.nextCards && card.nextCards.includes(this.cards[index + 1].type)) { return false }
       if (
         card.allowCards &&
@@ -414,7 +389,7 @@ export default {
       return true
     },
 
-    discardCard (index) {
+    discardCard(index) {
       if (this.cardDiscarded.length < 3) {
         this.cardDiscarded.push(this.cards[index])
         this.cards[index] = this.allCards[0]
@@ -426,7 +401,7 @@ export default {
      * distribute Cards
      * get random cards into playtable
      */
-    distributeCards (cards) {
+    distributeCards(cards) {
       shuffleArray(cards)
       this.cards = cards.slice(0, this.numCardAllow)
       this.allCards = cards.slice(

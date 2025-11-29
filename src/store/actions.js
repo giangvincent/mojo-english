@@ -2,7 +2,18 @@ import 'whatwg-fetch'
 
 export default {
   LoadCards: function (store, level) {
-    const listCard = ['Noun', 'Verb', 'Location', 'Time']
+    const listCard = [
+      'Noun',
+      'Verb',
+      'Adjective',
+      'Adverb',
+      'Location',
+      'Time',
+      'HelpingVerb',
+      'ExtraInformation',
+      'Preposition',
+      'Conjuntion'
+    ]
     const filesCard = listCard.map(
       card => 'contents/cards_set_1/' + card + '.json'
     )
