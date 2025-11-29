@@ -35,5 +35,47 @@ export default {
     state.objectPhrase = []
     state.nounType = null
     state.curTense = null
+  },
+  // Game Mode & Round Management
+  setGameMode: function (state, payload) {
+    state.gameMode = payload
+  },
+  setCurrentRound: function (state, payload) {
+    state.currentRound = payload
+  },
+  addRoundScore: function (state, payload) {
+    state.roundScores.push(payload)
+    state.totalScore = state.roundScores.reduce((sum, score) => sum + score, 0)
+  },
+  nextRound: function (state) {
+    state.currentRound += 1
+    // Reset for next round
+    state.nounPhrase = []
+    state.verbPhrase = []
+    state.objectPhrase = []
+    state.nounType = null
+    state.curTense = null
+    state.playingStep = 'arrange-card'
+  },
+  resetGame: function (state) {
+    state.currentRound = 1
+    state.roundScores = []
+    state.totalScore = 0
+    state.nounPhrase = []
+    state.verbPhrase = []
+    state.objectPhrase = []
+    state.nounType = null
+    state.curTense = null
+    state.playingStep = 'arrange-card'
+    state.usedOriginalCards = true
+  },
+  setUsedOriginalCards: function (state, payload) {
+    state.usedOriginalCards = payload
+  },
+  setOriginalCardsHash: function (state, payload) {
+    state.originalCardsHash = payload
+  },
+  setSharedCards: function (state, payload) {
+    state.sharedCards = payload
   }
 }

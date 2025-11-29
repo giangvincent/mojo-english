@@ -1,6 +1,19 @@
 <template>
   <div class="flex flex-col justify-center items-center min-h-screen h-full w-full bg-gray-800">
-    <div class="w-full px-4 pt-10 mb-5 text-left">
+    <!-- Round Indicator -->
+    <div class="w-full px-4 pt-4 flex justify-between items-center text-white">
+      <div class="bg-blue-600 px-4 py-2 rounded-lg">
+        <span class="font-bold">Round {{ currentRound }}</span> / {{ maxRounds }}
+      </div>
+      <div class="bg-green-600 px-4 py-2 rounded-lg">
+        <span class="font-bold">Total Score:</span> {{ totalScore }}
+      </div>
+      <div v-if="roundScores.length > 0" class="bg-purple-600 px-4 py-2 rounded-lg">
+        <span class="font-bold">This Round:</span> {{ roundScores[currentRound - 1] || 0 }}
+      </div>
+    </div>
+
+    <div class="w-full px-4 pt-6 mb-5 text-left">
       <div class="p-2 border-2 border-white text-white rounded-lg w-full relative" v-if="!isDragging">
         {{ $t('playing.final_sentence') }}:
         <div class="ml-2 inline">
@@ -100,7 +113,11 @@ export default {
 
       isDragging: true,
       delayedDragging: false,
-      dragging: false
+      dragging: false,
+
+      // Round tracking
+      originalCardsSnapshot: null,
+      cardsModified: false
     }
   },
   computed: {
@@ -111,7 +128,14 @@ export default {
       nounPhrase: (state) => state.playing.nounPhrase,
       verbPhrase: state => state.playing.verbPhrase,
       objectPhrase: state => state.playing.objectPhrase,
-      playingStep: state => state.playing.playingStep
+      playingStep: state => state.playing.playingStep,
+      // Game mode & rounds
+      gameMode: state => state.playing.gameMode,
+      currentRound: state => state.playing.currentRound,
+      maxRounds: state => state.playing.maxRounds,
+      roundScores: state => state.playing.roundScores,
+      totalScore: state => state.playing.totalScore,
+      usedOriginalCards: state => state.playing.usedOriginalCards
     }),
     dragOptions() {
       return {
@@ -159,19 +183,77 @@ export default {
     this.cardHeight = (this.scr_height * 3) / 5
     this.cardWidth = (this.cardHeight - 32) / 1.612
     this.distributeCards(this.originalCards)
+
+    // Track original cards for bonus calculation
+    this.cardsModified = false
   },
   mounted() {
     const element = this.$refs.tablePlay
     element.addEventListener('wheel', transformScroll)
   },
   methods: {
-    ...mapMutations(['setPlayingStep', 'resetSentence']),
+    ...mapMutations(['setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards']),
     ...mapActions(['SetPlayerDataAsync']),
     submitSentence() {
-      this.SetPlayerDataAsync({ point: this.player.point + this.totalPoint })
+      let roundScore = this.totalPoint
+
+      // +5 bonus if player used all 7 original cards without discarding
+      if (!this.cardsModified && this.cards.length === 7) {
+        roundScore += 5
+        console.log('Bonus +5 for using all 7 original cards!')
+      }
+
+      // Add this round's score
+      this.addRoundScore(roundScore)
+
+      // Store sentence for display
       this.finalSentence = this.nounPhraseText + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text + '.'
-      this.finalPoint = this.totalPoint
+      this.finalPoint = roundScore
+
+      // Check win conditions
+      if (this.totalScore >= 200) {
+        // Player reached 200 points
+        console.log('Game Over! Reached 200 points!')
+        this.endGame()
+      } else if (this.currentRound >= this.maxRounds) {
+        // Completed all rounds
+        console.log('Game Over! Completed all rounds!')
+        this.endGame()
+      } else {
+        // Continue to next round
+        console.log(`Round ${this.currentRound} complete! Score: ${roundScore}`)
+        this.showRoundSummaryAndContinue()
+      }
+    },
+    showRoundSummaryAndContinue() {
+      // Show round summary then go to next round
+      // For now, automatically continue after a delay
+      setTimeout(() => {
+        this.startNextRound()
+      }, 2000)
+    },
+    startNextRound() {
+      // Advance to next round
+      this.nextRound()
+
+      // Reset game state for new round
       this.resetSentence()
+      this.totalPoint = 0
+      this.isSentenceNotReady = true
+      this.isDragging = true
+      this.cardDiscarded = []
+      this.zeroPointCards = []
+
+      // Deal new cards
+      this.distributeCards(this.originalCards)
+
+      console.log(`Starting Round ${this.currentRound}`)
+    },
+    endGame() {
+      // Update player total points
+      this.SetPlayerDataAsync({ point: this.player.point + this.totalScore })
+
+      // Show game over screen
       this.setPlayingStep('end')
     },
     caculatePoint() {
@@ -394,6 +476,9 @@ export default {
         this.cardDiscarded.push(this.cards[index])
         this.cards[index] = this.allCards[0]
         this.allCards.splice(0, 1)
+
+        // Mark that cards have been modified (no +5 bonus)
+        this.cardsModified = true
       }
       this.checkPositionOfCards()
     },

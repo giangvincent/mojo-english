@@ -23,7 +23,16 @@ export default {
     curTense: null,
     nounPhrase: [],
     verbPhrase: [],
-    objectPhrase: []
+    objectPhrase: [],
+    // Game Mode & Round System
+    gameMode: 'standard', // 'standard' | '5-4-split' | 'coop'
+    currentRound: 1,
+    maxRounds: 3,
+    roundScores: [],
+    totalScore: 0,
+    sharedCards: [], // For 5/4 Split mode
+    usedOriginalCards: true, // Track if player kept all 7 original cards
+    originalCardsHash: null // Hash of original 7 cards
   },
   mutations: mutations,
   actions: actions
