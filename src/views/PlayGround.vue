@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center items-center min-h-screen h-full w-full bg-gray-800">
+  <div class="flex flex-col items-center min-h-screen w-full bg-gray-800 overflow-y-auto py-4">
     <game-mode-selector v-if="showModeSelector" @select-mode="onModeSelected" />
     <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" />
     <round-summary v-if="showRoundSummary" :round="currentRound" :score="roundScores[currentRound - 1] || 0"

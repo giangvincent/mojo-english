@@ -1,10 +1,10 @@
 <template>
   <div class="home-shell min-h-screen text-white relative overflow-hidden">
-        <div class="bg-grid"></div>
+    <div class="bg-grid"></div>
     <div class="bg-glow bg-glow-1"></div>
     <div class="bg-glow bg-glow-2"></div>
 
-    <header class="flex items-center justify-between px-6 md:px-12 py-6 relative z-10">
+    <header class="flex items-center justify-between px-4 md:px-12 py-4 md:py-6 relative z-10 sticky top-0 bg-[#0b1021]/90 backdrop-blur">
       <div class="flex items-center gap-4">
         <img class="h-14 w-auto drop-shadow-lg" src="@/assets/images/logo.png" alt="Mojo English logo" />
         <div>
@@ -39,7 +39,7 @@
       </div>
     </header>
 
-    <main class="px-6 md:px-12 pb-16 relative z-10">
+    <main class="px-4 md:px-12 pb-20 relative z-10 overflow-y-auto max-w-6xl mx-auto w-full">
       <section class="grid lg:grid-cols-2 gap-10 items-center">
         <div class="space-y-6">
           <div
@@ -66,6 +66,9 @@
             </router-link>
             <router-link to="progress" class="cta ghost">
               Progress
+            </router-link>
+            <router-link to="dashboard" class="cta ghost">
+              Dashboard
             </router-link>
           </div>
           <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-wide">

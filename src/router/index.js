@@ -35,6 +35,11 @@ const routes = [
     path: '/cosmetics',
     name: 'cosmetics',
     component: () => import('../views/CosmeticsScreen.vue')
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('../views/Dashboard.vue')
   }
 ]
 
