@@ -28,8 +28,7 @@
         <div class="w-1/4"></div>
         <div
           class="w-3/4 pl-4 border-1 border-black text-left -mr-1"
-          :class="'bg-' + cardColors['Adverb']"
-          :class="{ 'opacity-70': !isActive('away') }"
+          :class="['bg-' + cardColors['Adverb'], { 'opacity-70': !isActive('away') }]"
           @click="choosePrep('away', card.point)"
         >
           away

@@ -45,10 +45,9 @@
         </div>
         <div
           class="flex flex-col justify-center w-full h-full items-center relative cursor-pointer"
-          :class="card.content.length === 1 ? 'h-1/2' : ''"
+          :class="[card.content.length === 1 ? 'h-1/2' : '', { 'opacity-70': !isActive(index, textIndex) }]"
           v-for="(text, textIndex) in cardContent.texts"
           :key="'text-' + textIndex"
-          :class="{ 'opacity-70': !isActive(index, textIndex) }"
           @click="chooseHelpingVerb(index, textIndex, text)"
         >
           <div
