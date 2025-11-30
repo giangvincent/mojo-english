@@ -12,7 +12,7 @@
             class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 18 18"
-            @click="TOGGLE_MODAL"
+            @click="close"
           >
             <title>Close</title>
             <path
@@ -104,8 +104,11 @@ export default {
   },
   mounted () {},
   methods: {
-    ...mapMutations(['TOGGLE_MODAL']),
+    ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL']),
     ...mapActions(['SetPlayerDataAsync']),
+    close () {
+      this.SET_MODAL(false)
+    },
     changeLanguage (index) {
       console.log(index)
       this.popupLanglist = false

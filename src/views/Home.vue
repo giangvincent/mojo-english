@@ -1,6 +1,6 @@
 <template>
   <div class="home-shell min-h-screen text-white relative overflow-hidden">
-    <div class="bg-grid"></div>
+        <div class="bg-grid"></div>
     <div class="bg-glow bg-glow-1"></div>
     <div class="bg-glow bg-glow-2"></div>
 
@@ -24,11 +24,16 @@
           </div>
           <div class="level-pill">{{ progressionLevel || playerData.level }}</div>
         </div>
-        <button class="icon-btn" @click="TOGGLE_MODAL(); modalComponent = 'Setting';">
+        <button class="icon-btn" @click="openSettings">
           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd"
               d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
               clip-rule="evenodd" />
+          </svg>
+        </button>
+        <button class="icon-btn" @click="showTutorial = true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-4a3 3 0 00-2.824 1.995.75.75 0 11-1.408-.51A4.5 4.5 0 1110 14.5a.75.75 0 010-1.5 3 3 0 100-6zM9.25 15.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5z" clip-rule="evenodd" />
           </svg>
         </button>
       </div>
@@ -155,27 +160,35 @@
       <button v-else @click="handleSignOut" class="cta auth danger">Sign out</button>
     </div>
 
-    <component v-if="popupModal" v-bind:is="modalComponent"></component>
+    <div v-if="popupModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+      <component v-bind:is="modalComponent"></component>
+    </div>
+    <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" class="z-50" />
   </div>
 </template>
 
 <script>
 /* eslint-disable no-undef */
+import { onBeforeUnmount } from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { auth, signInWithGoogle, signOutUser, onAuthStateChanged } from '@/services/firebase'
 import XpBar from '@/components/ui/XpBar.vue'
+import TutorialOverlay from '@/components/TutorialOverlay.vue'
 
 export default {
   name: 'Home',
   components: {
     Setting: () => import('@/components/Setting.vue'),
-    XpBar
+    XpBar,
+    TutorialOverlay
   },
   data() {
     return {
       modalComponent: 'Setting',
       currentUser: null,
-      defaultAvatar: 'https://placehold.co/96x96?text=User'
+      defaultAvatar: 'https://placehold.co/96x96?text=User',
+      showTutorial: false,
+      unsubscribeAuth: null
     }
   },
   computed: {
@@ -193,7 +206,7 @@ export default {
   },
   mounted() {
     // Listen for auth state changes
-    onAuthStateChanged(auth, (user) => {
+    this.unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       this.currentUser = user
       if (user) {
         // Update player data when user logs in
@@ -209,13 +222,30 @@ export default {
       }
     })
   },
+  unmounted() {
+    if (typeof this.unsubscribeAuth === 'function') {
+      this.unsubscribeAuth()
+    }
+  },
   methods: {
     ...mapActions(['LoadCards']),
-    ...mapMutations(['TOGGLE_MODAL', 'setPlayerData', 'setPlayingStep']),
+    ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL', 'setPlayerData', 'setPlayingStep']),
     async handleGoogleSignIn() {
       try {
+        if (!auth) {
+          alert('Firebase is not configured. Please set the environment variables.')
+          return
+        }
         const result = await signInWithGoogle()
-        console.log('User signed in:', result.user)
+        if (result?.user) {
+          this.currentUser = result.user
+          this.setPlayerData({
+            id: result.user.uid,
+            name: result.user.displayName || 'Player',
+            photo: { src: result.user.photoURL || '' },
+            level: this.playerData.level || 0
+          })
+        }
       } catch (error) {
         console.error('Error signing in with Google:', error)
         alert('Failed to sign in with Google. Please try again.')
@@ -236,6 +266,10 @@ export default {
       } catch (error) {
         console.error('Error signing out:', error)
       }
+    },
+    openSettings() {
+      this.modalComponent = 'Setting'
+      this.SET_MODAL(true)
     }
   }
 }
