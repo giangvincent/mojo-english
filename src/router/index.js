@@ -25,6 +25,16 @@ const routes = [
     path: '/test-cards',
     name: 'test-cards',
     component: () => import('../views/test-view/cards.vue')
+  },
+  {
+    path: '/progress',
+    name: 'progress',
+    component: () => import('../views/ProgressScreen.vue')
+  },
+  {
+    path: '/cosmetics',
+    name: 'cosmetics',
+    component: () => import('../views/CosmeticsScreen.vue')
   }
 ]
 

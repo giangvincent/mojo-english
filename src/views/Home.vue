@@ -37,14 +37,16 @@
     <main class="px-6 md:px-12 pb-16 relative z-10">
       <section class="grid lg:grid-cols-2 gap-10 items-center">
         <div class="space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-emerald-500/10 text-emerald-200 border border-emerald-500/20 text-xs uppercase tracking-[0.2em]">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-emerald-500/10 text-emerald-200 border border-emerald-500/20 text-xs uppercase tracking-[0.2em]">
             Updated UI • Clearer rules
           </div>
           <h2 class="text-4xl md:text-5xl font-display leading-tight">
             Build bold sentences, unlock points, and play together.
           </h2>
           <p class="text-base text-slate-200/80 max-w-xl">
-            Choose Standard, 5/4 Split, or Co-op. Drag cards, respect grammar colors, and race to complete the final sentence.
+            Choose Standard, 5/4 Split, or Co-op. Drag cards, respect grammar colors, and race to complete the final
+            sentence.
           </p>
           <div class="flex flex-wrap gap-3">
             <router-link to="play" class="cta primary">
@@ -54,8 +56,11 @@
             <router-link to="tutorial" class="cta ghost">
               {{ $t('home.guides') }}
             </router-link>
-            <router-link to="market" class="cta ghost alt">
+            <router-link to="cosmetics" class="cta ghost alt">
               {{ $t('home.shop') }}
+            </router-link>
+            <router-link to="progress" class="cta ghost">
+              Progress
             </router-link>
           </div>
           <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-wide">
@@ -83,7 +88,8 @@
               <p class="text-xs text-white/50">3-round sprint</p>
             </div>
             <div class="stat-tile col-span-2">
-              <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext" :level="progressionLevel || playerData.level" />
+              <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext"
+                :level="progressionLevel || playerData.level" />
               <div class="flex items-center justify-between">
                 <div>
                   <p class="text-xs uppercase text-white/60">5/4 Split</p>

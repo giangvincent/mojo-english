@@ -4,7 +4,9 @@
     <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" />
     <round-summary v-if="showRoundSummary" :round="currentRound" :score="roundScores[currentRound - 1] || 0"
       :totalScore="totalScore" :sentence="finalSentence" :winner="gameMode === 'coop' ? winner : ''"
-      @next-round="handleNextRound" />
+      :xpEarned="lastXpEarned" :xpContext="lastXpContext" :xpCurrent="progressionXp" :xpToNext="progressionXpToNext"
+      :level="progressionLevel || playerData.level" @next-round="handleNextRound" />
+    <level-up-modal v-if="showLevelUpModal" :level="newLevel" :unlocks="newUnlocks" @close="showLevelUpModal = false" />
 
     <!-- Round Indicator & Mode Badge -->
     <div class="w-full px-4 pt-4 flex justify-between items-center text-white relative">
@@ -131,6 +133,7 @@ function transformScroll(event) {
 import SoundManager from '@/utils/soundManager'
 import { getTimeSymbol } from '@/utils/timeRules'
 import { applyPvpEffect } from '@/utils/pvpEffects'
+import { calculateXpFromContext } from '@/utils/xp'
 
 export default {
   name: 'PlayGround',
@@ -143,6 +146,7 @@ export default {
     GameModeSelector: defineAsyncComponent(() => import('@/components/GameModeSelector.vue')),
     RoundSummary: defineAsyncComponent(() => import('@/components/RoundSummary.vue')),
     TutorialOverlay: defineAsyncComponent(() => import('@/components/TutorialOverlay.vue')),
+    LevelUpModal: defineAsyncComponent(() => import('@/components/LevelUpModal.vue')),
   },
   data() {
     return {
@@ -170,6 +174,11 @@ export default {
       sentenceStartFollowups: ['Noun', 'Adj', 'HelpingVerb'],
       discardLimit: 3,
       draggedCardRef: null,
+      draggedCardRef: null,
+      lastXpEarned: 0,
+      lastXpContext: {},
+      invalidPlacementWarnings: 0,
+      invalidWarningLocked: false,
 
       // Round tracking
       originalCardsSnapshot: null,
@@ -181,7 +190,19 @@ export default {
       showTutorial: false,
       sharedCardsList: [],
       initialSharedCardIds: [],
-      usedSharedCardIds: []
+      usedSharedCardIds: [],
+
+      // Economy & Progression
+      matchCombos: [], // Track unique combos used in match
+      badGrammarPenalties: 0,
+      invalidPlacementPenaltyCount: 0,
+      penaltyThreshold: 3,
+      penaltyAmount: 5,
+
+      // Level Up
+      showLevelUpModal: false,
+      newLevel: 1,
+      newUnlocks: []
     }
   },
   computed: {
@@ -204,7 +225,10 @@ export default {
       trackTurnOrder: state => state.playing.trackTurnOrder,
       turnHistory: state => state.playing.turnHistory,
       lastPlayerWhoAddedCard: state => state.playing.lastPlayerWhoAddedCard,
-      winner: state => state.playing.winner
+      winner: state => state.playing.winner,
+      progressionLevel: state => state.progression.level,
+      progressionXp: state => state.progression.xp,
+      progressionXpToNext: state => state.progression.xpToNext
     }),
     dragOptions() {
       return {
@@ -249,6 +273,20 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false
       })
+    },
+    progressionLevel(newVal, oldVal) {
+      if (newVal > oldVal && oldVal > 0) {
+        this.newLevel = newVal
+        // Fetch unlocks for this level (we need a helper or just get from store if we tracked 'new' unlocks)
+        // For now, let's just use the utility directly or assume store has them.
+        // We can import getUnlocksForLevel here or add a getter.
+        // Let's import the utility.
+        import('@/utils/unlocks').then(({ getUnlocksForLevel }) => {
+          this.newUnlocks = getUnlocksForLevel(newVal)
+          this.showLevelUpModal = true
+          SoundManager.play('win') // Reuse win sound or add levelup sound
+        })
+      }
     }
   },
   created() {
@@ -270,6 +308,9 @@ export default {
 
     // Track original cards for bonus calculation
     this.cardsModified = false
+
+    // Initialize missions
+    this.initializeMissions()
   },
   mounted() {
     const element = this.$refs.tablePlay
@@ -277,7 +318,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards', 'setGameMode', 'setSharedCards', 'setTrackTurnOrder', 'recordTurn', 'resetTurns', 'setWinner']),
-    ...mapActions(['SetPlayerDataAsync']),
+    ...mapActions(['SetPlayerDataAsync', 'awardFromContext', 'gainXp', 'initializeMissions', 'onSentenceSubmit', 'onRoundComplete', 'onMatchComplete']),
 
     onModeSelected(mode) {
       this.setGameMode(mode)
@@ -354,6 +395,69 @@ export default {
       // Add this round's score (after PvP effects)
       this.addRoundScore(roundScore)
 
+      // Calculate Combos
+      const usedCards = usedCardIds.map(id => this.findCardById(id))
+      const currentCombos = this.detectCombos(usedCards)
+
+      // Add unique combos to match tracking
+      currentCombos.forEach(c => {
+        if (!this.matchCombos.includes(c)) {
+          this.matchCombos.push(c)
+        }
+      })
+
+      // Calculate Penalties
+      let penalties = 0
+      // Bad grammar penalty (placeholder for now, would come from API check)
+      // if (badGrammar) penalties += 2
+
+      // Invalid placement penalty
+      if (this.invalidPlacementWarnings >= this.penaltyThreshold) {
+        penalties += this.penaltyAmount
+        // Reset warnings after penalty? Or keep punishing? Spec says "3x invalid placement warning -5".
+        // Usually implies per match or per occurrence. Let's assume once per threshold hit.
+        // For now, we just subtract. Logic in checkPositionOfCards handles incrementing warnings.
+        // We might want to track if penalty already applied for this set of warnings.
+        // Simplified: Just calculate total penalty based on count / 3
+        const penaltyCount = Math.floor(this.invalidPlacementWarnings / this.penaltyThreshold)
+        if (penaltyCount > this.invalidPlacementPenaltyCount) {
+          penalties += (penaltyCount - this.invalidPlacementPenaltyCount) * this.penaltyAmount
+          this.invalidPlacementPenaltyCount = penaltyCount
+        }
+      }
+
+      const xpContext = {
+        correctSentence: true, // Assumed if submitted successfully (client-side validation passed)
+        usedAllSeven: !this.cardsModified && this.cards.length === 7,
+        correctTense: true, // Placeholder: need to validate against requested tense if applicable
+        bonusCombos: currentCombos.length,
+        finishedMatch: false,
+        wonMatch: false,
+        dailyReward: 0,
+        weeklyReward: 0,
+        penalties: penalties,
+        badGrammarPenalty: 0,
+        invalidPlacementPenalty: penalties,
+        multiplier: this.$store.state.progression.xpMultiplier || 1,
+
+        // Context for missions/achievements
+        sentenceBuilt: true,
+        tense: this.curTense, // Assuming this tracks the current tense
+        cardsUsed: usedCards,
+        bonusPoints: roundScore - this.totalPoint, // Approx bonus
+        perfectRound: !this.cardsModified && this.cards.length === 7,
+        sentenceText: this.finalSentence,
+        combos: currentCombos
+      }
+
+      this.lastXpEarned = calculateXpFromContext(xpContext)
+      this.lastXpContext = xpContext
+      this.awardFromContext(xpContext)
+
+      // Dispatch events
+      this.onSentenceSubmit(xpContext)
+      this.onRoundComplete(xpContext)
+
       // Store sentence for display
       this.finalSentence = this.nounPhraseText + ' ' + this.verbPhrase.text + ' ' + this.objectPhrase.text + '.'
       this.finalPoint = roundScore
@@ -366,12 +470,12 @@ export default {
       if (this.totalScore >= 200) {
         // Player reached 200 points
         console.log('Game Over! Reached 200 points!')
-        this.endGame()
+        this.endGame(true)
       } else if (this.currentRound >= this.maxRounds) {
         // Completed all rounds
         console.log('Game Over! Completed all rounds!')
         SoundManager.play('win')
-        this.endGame()
+        this.endGame(true)
       } else {
         // Continue to next round
         console.log(`Round ${this.currentRound} complete! Score: ${roundScore}`)
@@ -396,6 +500,8 @@ export default {
       this.setTrackTurnOrder(false)
       this.resetTurns()
       this.setWinner(null)
+      this.invalidPlacementWarnings = 0
+      this.invalidWarningLocked = false
     },
     showRoundSummaryAndContinue() {
       // Show round summary modal
@@ -417,6 +523,8 @@ export default {
       this.cardDiscarded = []
       this.zeroPointCards = []
       this.setWinner(null)
+      this.invalidPlacementWarnings = 0
+      this.invalidWarningLocked = false
       this.syncNumCardsWithMode()
 
       // Deal new cards
@@ -424,9 +532,19 @@ export default {
 
       console.log(`Starting Round ${this.currentRound}`)
     },
-    endGame() {
+    endGame(isWin = false) {
       // Update player total points
       this.SetPlayerDataAsync({ point: this.player.point + this.totalScore })
+
+      const context = {
+        finishedMatch: true,
+        wonMatch: isWin,
+        matchesWon: isWin ? 1 : 0,
+        score: this.totalScore,
+        matchCombos: this.matchCombos
+      }
+
+      this.onMatchComplete(context)
 
       // Show game over screen
       this.setPlayingStep('end')
@@ -477,6 +595,41 @@ export default {
         }
         return false
       }
+    },
+    detectCombos(cards) {
+      const combos = []
+
+      // Check for Noun + ExtraInformation
+      if (cards.some(c => c.type === 'Noun') && cards.some(c => c.type === 'ExtraInformation')) {
+        combos.push('Noun+Extra')
+      }
+
+      // Check for Verb + Adverb
+      if (cards.some(c => c.type === 'Verb') && cards.some(c => c.type === 'Adverb')) {
+        combos.push('Verb+Adverb')
+      }
+
+      // Check for Verb + Location
+      if (cards.some(c => c.type === 'Verb') && cards.some(c => c.type === 'Location')) {
+        combos.push('Verb+Location')
+      }
+
+      // Check for Adjective + Noun
+      if (cards.some(c => c.type === 'Adj') && cards.some(c => c.type === 'Noun')) {
+        combos.push('Adj+Noun')
+      }
+
+      // Check for TimeCard + Location
+      if (cards.some(c => c.type === 'TimeCard') && cards.some(c => c.type === 'Location')) {
+        combos.push('Time+Location')
+      }
+
+      // Check for HelpingVerb + Verb
+      if (cards.some(c => c.type === 'HelpingVerb') && cards.some(c => c.type === 'Verb')) {
+        combos.push('Helping+Verb')
+      }
+
+      return combos
     },
     checkSentenceReady() {
       if (
@@ -613,16 +766,26 @@ export default {
     checkPositionOfCards() {
       const previousCards = []
       this.zeroPointCards = []
+      this.illegalCardPosition = []
       this.cards.forEach((card, index) => {
         this.hydrateCardRules(card)
         this.ensureWildAssignment(card, index)
         if (this.isIllegalCard(card, index, previousCards)) {
           this.zeroPointCards.push(card.id)
           this.illegalCardPosition.push(index)
+          if (!this.invalidWarningLocked) {
+            this.invalidPlacementWarnings += 1
+            this.invalidWarningLocked = true
+          }
+        } else {
+          this.illegalCardPosition.push(index)
         }
 
         previousCards.push(card)
       })
+      if (this.zeroPointCards.length === 0) {
+        this.invalidWarningLocked = false
+      }
       // this.zeroPointCards = this.zeroPointCards.filter(onlyUnique);
     },
     isIllegalCard(card, index, previousCards) {
@@ -897,6 +1060,33 @@ export default {
     },
     syncNumCardsWithMode() {
       this.numCardAllow = this.gameMode === '5-4-split' ? 5 : 7
+    },
+    buildXpContext(roundScore) {
+      const correctSentence = !this.isSentenceNotReady && this.zeroPointCards.length === 0
+      const usedAllSeven = this.numCardAllow === 7 && !this.cardsModified
+      const correctTense = !!this.verbPhrase
+      const bonusCombos = [
+        this.nounPhrase?.bonus,
+        this.objectPhrase?.bonus,
+        this.verbPhrase?.bonus
+      ].filter(Boolean).length
+      const finishedMatch = this.currentRound >= this.maxRounds
+      const wonMatch = finishedMatch // single-player or co-op treated as completion
+      const grammarPenalties = correctSentence ? 0 : 2
+      const placementPenalties = Math.floor(this.invalidPlacementWarnings / 3) * 5
+      const penalties = grammarPenalties + placementPenalties
+
+      return {
+        correctSentence,
+        usedAllSeven,
+        correctTense,
+        bonusCombos,
+        finishedMatch,
+        wonMatch,
+        penalties,
+        finishedRoundScore: roundScore,
+        multiplier: this.$store.state.progression?.xpMultiplier || 1
+      }
     }
   }
 }

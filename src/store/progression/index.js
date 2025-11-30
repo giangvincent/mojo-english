@@ -7,6 +7,7 @@ export default {
     xp: 0,
     level: 1,
     xpToNext: getRequiredXp(1),
+    xpMultiplier: 1,
     // Unlock tracking
     unlocks: {
       tenses: ['present simple'],
@@ -19,7 +20,17 @@ export default {
       weekly: [],
       seasonal: []
     },
-    missionProgress: {}
+    missionProgress: {},
+    achievementProgress: {},
+    cosmetics: {
+      equipped: {
+        cardBack: null,
+        avatar: null,
+        border: null
+      },
+      unlocked: []
+    },
+    lastLevelUpTime: null
   },
   mutations: mutations,
   actions: actions

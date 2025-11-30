@@ -16,7 +16,8 @@ export function getRequiredXp(level = 1) {
  *   wonMatch: boolean,
  *   dailyReward: number,
  *   weeklyReward: number,
- *   penalties: number
+ *   penalties: number,
+ *   multiplier: number
  * }
  */
 export function calculateXpFromContext(context = {}) {
@@ -29,8 +30,17 @@ export function calculateXpFromContext(context = {}) {
   if (context.wonMatch) xp += 20
   if (context.dailyReward) xp += context.dailyReward
   if (context.weeklyReward) xp += context.weeklyReward
-  if (context.penalties) xp -= context.penalties
-  return xp
+
+  // Penalties
+  if (context.badGrammarPenalty) xp -= context.badGrammarPenalty
+  if (context.invalidPlacementPenalty) xp -= context.invalidPlacementPenalty
+
+  // Ensure XP doesn't go below 0 for a single action, unless we want to allow de-leveling (usually not)
+  // But penalties are usually applied to the total sum.
+  // Let's allow negative result here, but handle it in the store (e.g. don't drop below 0 total XP or level)
+
+  const multiplier = context.multiplier || 1
+  return Math.floor(xp * multiplier)
 }
 
 export function computeLevelFromXp(totalXp) {
