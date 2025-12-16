@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center min-h-screen w-full bg-gray-800 overflow-y-auto py-4">
+  <div class="flex flex-col items-center min-h-screen w-full pixel-bg overflow-y-auto py-4">
     <game-mode-selector v-if="showModeSelector" @select-mode="onModeSelected" />
     <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" />
     <round-summary v-if="showRoundSummary" :round="currentRound" :score="roundScores[currentRound - 1] || 0"
@@ -9,44 +9,44 @@
     <level-up-modal v-if="showLevelUpModal" :level="newLevel" :unlocks="newUnlocks" @close="showLevelUpModal = false" />
 
     <!-- Round Indicator & Mode Badge -->
-    <div class="w-full px-4 pt-4 flex justify-between items-center text-white relative">
+    <div class="w-full px-4 pt-4 flex flex-wrap justify-between items-center relative text-slate-900 gap-2">
       <!-- Help Button -->
       <div class="absolute top-4 right-4 flex gap-2 z-10">
         <button
-          class="bg-red-600 hover:bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center border border-red-400 shadow-lg"
+          class="pixel-icon-btn danger"
           @click="handleResetGame" title="Reset Game">
           &#8635;
         </button>
         <button
-          class="bg-gray-700 hover:bg-gray-600 text-white rounded-full w-8 h-8 flex items-center justify-center border border-gray-500 shadow-lg"
+          class="pixel-icon-btn"
           @click="showTutorial = true" title="How to Play">
           ?
         </button>
       </div>
 
       <div class="flex items-center gap-2">
-        <div class="bg-blue-600 px-4 py-2 rounded-lg shadow-lg">
-          <span class="font-bold">Round {{ currentRound }}</span> / {{ maxRounds }}
+        <div class="pixel-panel px-4 py-2">
+          <span class="font-bold uppercase tracking-wider">Round {{ currentRound }}</span> / {{ maxRounds }}
         </div>
         <!-- Game Mode Badge -->
         <div
-          class="bg-gray-700 px-3 py-2 rounded-lg border border-gray-500 text-sm font-semibold uppercase tracking-wider text-gray-300 shadow-lg">
+          class="pixel-inset px-3 py-2 text-sm font-semibold uppercase tracking-wider">
           {{ gameMode === '5-4-split' ? '5/4 Split' : gameMode }}
         </div>
       </div>
 
-      <div class="bg-green-600 px-4 py-2 rounded-lg shadow-lg">
-        <span class="font-bold">Total Score:</span> {{ totalScore }}
+      <div class="pixel-panel px-4 py-2">
+        <span class="font-bold uppercase tracking-wider">Total:</span> {{ totalScore }}
       </div>
-      <div v-if="roundScores.length > 0" class="bg-purple-600 px-4 py-2 rounded-lg shadow-lg">
-        <span class="font-bold">This Round:</span> {{ roundScores[currentRound - 1] || 0 }}
+      <div v-if="roundScores.length > 0" class="pixel-panel px-4 py-2">
+        <span class="font-bold uppercase tracking-wider">Round:</span> {{ roundScores[currentRound - 1] || 0 }}
       </div>
     </div>
 
     <!-- Shared Cards Area (5/4 Split) -->
     <div v-if="gameMode === '5-4-split' && sharedCardsList.length > 0" class="w-full px-4 mt-4">
-      <div class="bg-gray-700 p-2 rounded-lg border-2 border-green-500">
-        <h3 class="text-white text-sm font-bold mb-2">Shared Cards (tap to use, not discardable):</h3>
+      <div class="pixel-panel p-3">
+        <h3 class="text-slate-900 text-sm font-bold uppercase tracking-wider mb-2">Shared cards (tap to use):</h3>
         <draggable v-model="sharedCardsList" class="flex justify-center gap-2 h-24" item-key="id" :sort="false"
           :group="{ name: 'shared', pull: false, put: false }" :move="() => false">
           <template #item="{ element }">
@@ -59,13 +59,13 @@
     </div>
 
     <div class="w-full px-4 pt-6 mb-5 text-left">
-      <div class="p-2 border-2 border-white text-white rounded-lg w-full relative" v-if="!isDragging">
-        {{ $t('playing.final_sentence') }}:
+      <div class="pixel-panel p-3 w-full relative" v-if="!isDragging">
+        <span class="font-bold uppercase tracking-wider">{{ $t('playing.final_sentence') }}:</span>
         <div class="ml-2 inline">
           {{ typeof nounPhrase.text !== 'undefinded' ? nounPhraseText : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text + '.' : '' }}
-          <div class="-mt-6 w-auto absolute bg-white pl-1 pr-1 rounded text-black top-0 whitespace-no-wrap">{{
+          <div class="-mt-6 w-auto absolute top-0 whitespace-no-wrap pixel-chip">{{
             $t('playing.total_point') }}: {{ totalPoint }}</div>
         </div>
 
@@ -97,13 +97,13 @@
     <!-- Player table -->
     <div class="mt-5 pb-5 flex justify-center w-full">
       <button v-if="isDragging === true"
-        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
+        class="pixel-btn primary m-1 whitespace-no-wrap"
         @click="lockCardPosition()">
         {{ $t('playing.confirm_position') }}
       </button>
       <button v-if="isDragging === false"
-        class="px-3 py-2 m-1 border-b-4 border-l-2 shadow-lg bg-teal-700 border-teal-900 text-white whitespace-no-wrap"
-        :disabled="isSentenceNotReady" :class="{ 'opacity-50 cursor-not-allowed': isSentenceNotReady }"
+        class="pixel-btn success m-1 whitespace-no-wrap"
+        :disabled="isSentenceNotReady"
         @click="submitSentence()">
         {{ $t('playing.submit_sentence') }}
       </button>

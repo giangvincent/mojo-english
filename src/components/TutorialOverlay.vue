@@ -1,21 +1,21 @@
 <template>
-    <div class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+    <div class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4"
         @click.self="$emit('close')">
         <div
-            class="bg-white text-gray-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold"
+            class="pixel-panel max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+            <button class="absolute top-4 right-4 pixel-icon-btn"
                 @click="$emit('close')">
                 &times;
             </button>
 
             <div class="p-8">
-                <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">How to Play Mojo Family Fun</h2>
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">How to Play</h2>
 
                 <div class="space-y-6">
                     <section>
                         <h3 class="text-xl font-bold mb-2 flex items-center">
                             <span
-                                class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center mr-2">1</span>
+                                class="pixel-inset w-9 h-9 flex items-center justify-center mr-2 font-black">1</span>
                             Goal
                         </h3>
                         <p class="text-gray-700 ml-10">
@@ -26,7 +26,7 @@
                     <section>
                         <h3 class="text-xl font-bold mb-2 flex items-center">
                             <span
-                                class="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center mr-2">2</span>
+                                class="pixel-inset w-9 h-9 flex items-center justify-center mr-2 font-black">2</span>
                             Gameplay
                         </h3>
                         <ul class="list-disc ml-14 text-gray-700 space-y-1">
@@ -40,7 +40,7 @@
                     <section>
                         <h3 class="text-xl font-bold mb-2 flex items-center">
                             <span
-                                class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center mr-2">3</span>
+                                class="pixel-inset w-9 h-9 flex items-center justify-center mr-2 font-black">3</span>
                             Winning
                         </h3>
                         <p class="text-gray-700 ml-10">
@@ -50,9 +50,9 @@
                         </p>
                     </section>
 
-                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mt-6">
-                        <h4 class="font-bold text-yellow-800 mb-2">💡 Pro Tip:</h4>
-                        <p class="text-yellow-700 text-sm">
+                    <div class="pixel-inset p-4 mt-6">
+                        <h4 class="font-bold mb-2 uppercase tracking-wider">Pro Tip</h4>
+                        <p class="text-sm text-slate-700">
                             Look for the colored bars on the sides of cards. They show you which cards can connect to
                             each other!
                         </p>
@@ -61,7 +61,7 @@
 
                 <div class="mt-8 text-center">
                     <button
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105"
+                        class="pixel-btn primary"
                         @click="$emit('close')">
                         Got it! Let's Play
                     </button>

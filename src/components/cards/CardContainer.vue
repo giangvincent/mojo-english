@@ -1,5 +1,5 @@
 <template>
-  <div class="my-1 mx-2 bg-gray-300 rounded-md border-1 border-white overflow-hidden h-full relative flex"
+  <div class="pixel-card my-1 mx-2 overflow-hidden h-full relative flex"
     :style="{ width: cardWidth + 'px' }">
     <!-- Left Color Bar -->
     <div class="w-2 h-full" :class="getBarColor(card.type)"></div>
@@ -8,7 +8,7 @@
       <div v-if="!canChooseWord" class="absolute w-full h-full top-0 left-0 bottom-0 right-0 z-50"></div>
 
       <!-- Header: Reference Code -->
-      <div class="w-full bg-gray-200 text-xs px-1 flex justify-between items-center h-4">
+      <div class="w-full bg-slate-200 text-[10px] px-1 flex justify-between items-center h-5 border-b-2 border-black">
         <span class="font-bold text-gray-700">{{ card.id }}</span>
       </div>
 
@@ -18,7 +18,7 @@
       </div>
 
       <!-- Footer: Symbols -->
-      <div class="bg-gray-200 h-4 w-full">
+      <div class="bg-slate-200 h-5 w-full border-t-2 border-black">
         <card-symbols :card="card" />
       </div>
     </div>

@@ -31,6 +31,20 @@ export default {
 }
 
 .main-bg {
-  background: #dbf9ff;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #7dd3fc 0,
+      #7dd3fc 8px,
+      #38bdf8 8px,
+      #38bdf8 16px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.2) 0,
+      rgba(255, 255, 255, 0.2) 8px,
+      rgba(0, 0, 0, 0.05) 8px,
+      rgba(0, 0, 0, 0.05) 16px
+    );
 }
 </style>

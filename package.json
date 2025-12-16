@@ -1,7 +1,8 @@
 {
-  "name": "mojo-family-fun",
-  "version": "0.2.1",
+  "name": "verbapix",
+  "version": "1.0.1",
   "private": true,
+  "description": "Cards, Grammar, Fun",
   "scripts": {
     "dev": "vite",
     "serve": "vite",

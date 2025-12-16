@@ -1,26 +1,26 @@
 <template>
-  <div class="home-shell min-h-screen text-white relative overflow-hidden">
+  <div class="home-shell pixel-bg min-h-screen text-slate-900 relative overflow-hidden">
     <div class="bg-grid"></div>
     <div class="bg-glow bg-glow-1"></div>
     <div class="bg-glow bg-glow-2"></div>
 
-    <header class="flex items-center justify-between px-4 md:px-12 py-4 md:py-6 relative z-10 sticky top-0 bg-[#0b1021]/90 backdrop-blur">
+    <header class="pixel-panel flex items-center justify-between px-4 md:px-12 py-4 md:py-6 relative z-10 sticky top-0">
       <div class="flex items-center gap-4">
-        <img class="h-14 w-auto drop-shadow-lg" src="@/assets/images/logo.png" alt="Mojo English logo" />
+        <img class="h-14 w-auto drop-shadow-lg" src="@/assets/images/logo.png" alt="VerbaPix logo" />
         <div>
-          <p class="text-amber-300 uppercase tracking-[0.25em] text-[11px] font-semibold">Mojo Family Fun</p>
-          <h1 class="text-2xl md:text-3xl font-display leading-tight">English Sentence Builder</h1>
+          <p class="pixel-chip inline-flex">VerbaPix</p>
+          <h1 class="text-2xl md:text-3xl font-display leading-tight">Cards, Grammar, Fun</h1>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
         <div class="glass chip flex items-center gap-3">
-          <img class="h-12 w-12 rounded-xl border border-white/20 object-cover"
+          <img class="h-12 w-12 rounded-xl border border-black object-cover"
             :src="currentUser?.photoURL || playerData?.photo?.src || defaultAvatar"
             :alt="currentUser?.displayName || 'avatar'" />
           <div>
             <p class="text-sm font-semibold">{{ currentUser?.displayName || playerData.name || 'Guest' }}</p>
-            <p class="text-xs text-emerald-200">{{ $t('home.level') }} {{ progressionLevel || playerData.level }}</p>
+            <p class="text-xs text-slate-700">{{ $t('home.level') }} {{ progressionLevel || playerData.level }}</p>
           </div>
           <div class="level-pill">{{ progressionLevel || playerData.level }}</div>
         </div>
@@ -43,13 +43,13 @@
       <section class="grid lg:grid-cols-2 gap-10 items-center">
         <div class="space-y-6">
           <div
-            class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-emerald-500/10 text-emerald-200 border border-emerald-500/20 text-xs uppercase tracking-[0.2em]">
+            class="pixel-chip inline-flex items-center gap-2">
             Updated UI • Clearer rules
           </div>
           <h2 class="text-4xl md:text-5xl font-display leading-tight">
             Build bold sentences, unlock points, and play together.
           </h2>
-          <p class="text-base text-slate-200/80 max-w-xl">
+          <p class="text-base text-slate-700 max-w-xl">
             Choose Standard, 5/4 Split, or Co-op. Drag cards, respect grammar colors, and race to complete the final
             sentence.
           </p>
@@ -82,25 +82,25 @@
         <div class="glass hero-panel card-preview">
           <div class="grid grid-cols-2 gap-4 h-full">
             <div class="stat-tile">
-              <p class="text-xs text-white/70 uppercase tracking-wide">Standard</p>
+              <p class="text-xs text-slate-700 uppercase tracking-wide">Standard</p>
               <div class="text-5xl font-display leading-none">7</div>
-              <p class="text-sm text-white/60">Cards ready every round</p>
+              <p class="text-sm text-slate-700">Cards ready every round</p>
             </div>
             <div class="stat-tile">
-              <p class="text-xs text-white/70 uppercase tracking-wide">Rounds</p>
+              <p class="text-xs text-slate-700 uppercase tracking-wide">Rounds</p>
               <div class="flex items-center gap-2">
                 <span class="progress-dot active"></span>
                 <span class="progress-dot active"></span>
                 <span class="progress-dot"></span>
               </div>
-              <p class="text-xs text-white/50">3-round sprint</p>
+              <p class="text-xs text-slate-700">3-round sprint</p>
             </div>
             <div class="stat-tile col-span-2">
               <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext"
                 :level="progressionLevel || playerData.level" />
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-xs uppercase text-white/60">5/4 Split</p>
+                  <p class="text-xs uppercase text-slate-700">5/4 Split</p>
                   <p class="text-lg font-semibold">Shared cards stay center</p>
                 </div>
                 <div class="badge badge-green">Immutable</div>
@@ -108,7 +108,7 @@
               <div class="divider"></div>
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-xs uppercase text-white/60">Co-op</p>
+                  <p class="text-xs uppercase text-slate-700">Co-op</p>
                   <p class="text-lg font-semibold">Last card played wins</p>
                 </div>
                 <div class="badge badge-purple">Turn Track</div>
@@ -279,30 +279,18 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 .home-shell {
-  background: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.18), transparent 30%), radial-gradient(circle at 80% 0%, rgba(16, 185, 129, 0.14), transparent 28%), #0b1021;
-  font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+  background: transparent;
+  font-family: var(--pix-font);
+  letter-spacing: 0.02em;
 }
 
 .bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 
 .bg-glow {
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  border-radius: 9999px;
-  filter: blur(120px);
-  opacity: 0.5;
-  z-index: 1;
+  display: none;
 }
 
 .bg-glow-1 {
@@ -318,30 +306,35 @@ export default {
 }
 
 .font-display {
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+  background: var(--pix-paper);
+  color: var(--pix-ink);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
 }
 
 .chip {
   padding: 0.65rem 0.9rem;
-  border-radius: 14px;
+  border-radius: 0;
 }
 
 .level-pill {
   margin-left: auto;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: #0b1021;
+  padding: 0.25rem 0.55rem;
+  border-radius: 0;
+  background: linear-gradient(180deg, #86efac, var(--pix-success));
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  color: #052e16;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 900;
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.35);
 }
 
 .icon-btn {
@@ -349,74 +342,82 @@ export default {
   height: 44px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(59, 130, 246, 0.25));
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  border-radius: 0;
+  background: var(--pix-paper);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  box-shadow: 0 var(--px) 0 var(--pix-shadow);
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
 }
 
 .icon-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+  filter: brightness(1.05);
 }
 
 .cta {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.9rem 1.25rem;
-  border-radius: 14px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  border: 1px solid transparent;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  box-shadow: 0 var(--px) 0 var(--pix-shadow);
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
   text-decoration: none;
 }
 
 .cta.primary {
-  background: linear-gradient(135deg, #f97316, #ef4444);
+  background: linear-gradient(180deg, #fca5a5, var(--pix-danger));
   color: #fff;
-  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.35);
 }
 
 .cta.ghost {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e5e7eb;
-  border-color: rgba(255, 255, 255, 0.14);
+  background: var(--pix-paper);
+  color: var(--pix-ink);
 }
 
 .cta.ghost.alt {
-  background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: #a7f3d0;
+  background: linear-gradient(180deg, #86efac, var(--pix-success));
+  color: #052e16;
 }
 
 .cta.auth {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: var(--pix-paper);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
   padding: 0.75rem 1rem;
-  color: #e5e7eb;
+  color: var(--pix-ink);
 }
 
 .cta.auth.danger {
-  border-color: rgba(248, 113, 113, 0.4);
-  color: #fecdd3;
+  background: linear-gradient(180deg, #fca5a5, var(--pix-danger));
+  color: #450a0a;
 }
 
 .cta:hover {
-  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.cta:active,
+.icon-btn:active {
+  transform: translate3d(0, var(--px), 0);
+  box-shadow: 0 0 0 var(--pix-shadow);
 }
 
 .pill {
   padding: 0.4rem 0.6rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #cbd5e1;
+  border-radius: 0;
+  background: var(--pix-paper);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  color: var(--pix-ink);
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .hero-panel {
-  border-radius: 22px;
+  border-radius: 0;
   padding: 1.25rem;
   min-height: 320px;
 }
@@ -426,42 +427,45 @@ export default {
 }
 
 .stat-tile {
-  border-radius: 18px;
+  border-radius: 0;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  background: var(--pix-paper-2);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  box-shadow:
+    inset calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.28),
+    inset calc(var(--px) / -2) calc(var(--px) / -2) 0 rgba(255, 255, 255, 0.7);
 }
 
 .progress-dot {
   width: 10px;
   height: 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.18);
 }
 
 .progress-dot.active {
-  background: linear-gradient(135deg, #22c55e, #10b981);
+  background: linear-gradient(180deg, #86efac, var(--pix-success));
 }
 
 .badge {
   padding: 0.4rem 0.75rem;
-  border-radius: 999px;
+  border-radius: 0;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
 }
 
 .badge-green {
-  background: rgba(16, 185, 129, 0.15);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  background: linear-gradient(180deg, #86efac, var(--pix-success));
+  color: #052e16;
 }
 
 .badge-purple {
-  background: rgba(168, 85, 247, 0.16);
-  color: #e9d5ff;
-  border: 1px solid rgba(168, 85, 247, 0.45);
+  background: linear-gradient(180deg, #c4b5fd, #8b5cf6);
+  color: #1f1147;
 }
 
 .divider {
@@ -472,10 +476,11 @@ export default {
 }
 
 .mode-card {
-  border-radius: 18px;
+  border-radius: 0;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--pix-paper);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
@@ -486,22 +491,25 @@ export default {
   align-items: center;
   gap: 0.35rem;
   padding: 0.35rem 0.6rem;
-  border-radius: 10px;
-  background: rgba(99, 102, 241, 0.2);
-  color: #c7d2fe;
+  border-radius: 0;
+  background: linear-gradient(180deg, var(--pix-primary-2), var(--pix-primary));
+  color: #fff;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
 }
 
 .mode-badge.green {
-  background: rgba(16, 185, 129, 0.18);
-  color: #a7f3d0;
+  background: linear-gradient(180deg, #86efac, var(--pix-success));
+  color: #052e16;
 }
 
 .mode-badge.purple {
-  background: rgba(168, 85, 247, 0.2);
-  color: #e9d5ff;
+  background: linear-gradient(180deg, #c4b5fd, #8b5cf6);
+  color: #1f1147;
 }
 
 .mode-title {
@@ -510,7 +518,7 @@ export default {
 }
 
 .mode-body {
-  color: #cbd5e1;
+  color: #334155;
   font-size: 0.95rem;
 }
 
@@ -519,13 +527,21 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: #f8fafc;
-  font-weight: 700;
+  color: #fff;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   text-decoration: none;
   padding: 0.65rem 0.9rem;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(99, 102, 241, 0.35));
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0;
+  background: linear-gradient(180deg, var(--pix-primary-2), var(--pix-primary));
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  box-shadow: 0 var(--px) 0 var(--pix-shadow);
+}
+
+.mode-cta:active {
+  transform: translate3d(0, var(--px), 0);
+  box-shadow: 0 0 0 var(--pix-shadow);
 }
 
 .auth-stack {
