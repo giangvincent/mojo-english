@@ -1,5 +1,5 @@
 <template>
-  <div class="pixel-card my-1 mx-2 overflow-hidden h-full relative flex"
+  <div class="pixel-card card-font my-1 mx-2 overflow-hidden h-full relative flex"
     :style="{ width: cardWidth + 'px' }">
     <!-- Left Color Bar -->
     <div class="w-2 h-full" :class="getBarColor(card.type)"></div>

@@ -3,12 +3,12 @@
     <div class="max-w-6xl mx-auto space-y-6">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <p class="uppercase text-xs tracking-[0.2em] text-emerald-300">Player Dashboard</p>
-          <h1 class="text-3xl font-bold">Progress & Upgrades</h1>
-          <p class="text-sm text-gray-300">Track XP, themes, sets, and billing options.</p>
+          <p class="uppercase text-xs tracking-[0.2em] text-emerald-300">{{ $t('dashboard.kicker') }}</p>
+          <h1 class="text-3xl font-bold">{{ $t('dashboard.title') }}</h1>
+          <p class="text-sm text-gray-300">{{ $t('dashboard.subtitle') }}</p>
         </div>
         <router-link to="/" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-sm font-semibold">
-          ← Back Home
+          ← {{ $t('dashboard.back_home') }}
         </router-link>
       </div>
 
@@ -16,7 +16,7 @@
         <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs uppercase text-gray-400">Level</p>
+              <p class="text-xs uppercase text-gray-400">{{ $t('home.level') }}</p>
               <p class="text-2xl font-bold">Lv {{ level }}</p>
             </div>
             <div class="text-right">
@@ -25,7 +25,7 @@
             </div>
           </div>
           <XpBar :currentXp="xp" :xpToNext="xpToNext" :level="level" class="mt-3" />
-          <p class="text-xs text-gray-300 mt-2">Multiplier: x{{ xpMultiplier }}</p>
+          <p class="text-xs text-gray-300 mt-2">{{ $t('dashboard.multiplier') }}: x{{ xpMultiplier }}</p>
         </div>
 
         <div class="bg-white/5 border border-white/10 rounded-2xl p-4">

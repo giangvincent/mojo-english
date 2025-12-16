@@ -5,14 +5,14 @@
             <button @click="$router.push('/')" class="mr-4 p-2 bg-gray-800 rounded-full hover:bg-gray-700">
                 ←
             </button>
-            <h1 class="text-2xl font-bold">Your Progress</h1>
+            <h1 class="text-2xl font-bold">{{ $t('progress.title') }}</h1>
         </div>
 
         <!-- Level & XP Card -->
         <div class="bg-gray-800 rounded-xl p-6 mb-6 shadow-lg border border-gray-700">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <div class="text-gray-400 text-sm uppercase tracking-wider">Current Level</div>
+                    <div class="text-gray-400 text-sm uppercase tracking-wider">{{ $t('progress.current_level') }}</div>
                     <div class="text-4xl font-bold text-yellow-400">{{ level }}</div>
                 </div>
                 <div class="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-2xl">
@@ -21,7 +21,7 @@
             </div>
 
             <div class="mb-2 flex justify-between text-sm">
-                <span>XP Progress</span>
+                <span>{{ $t('progress.xp_progress') }}</span>
                 <span>{{ xp }} / {{ xpToNext }} XP</span>
             </div>
             <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
@@ -29,26 +29,26 @@
                 </div>
             </div>
             <div class="mt-2 text-xs text-gray-500 text-right">
-                {{ xpToNext - xp }} XP to next level
+                {{ xpToNext - xp }} {{ $t('progress.to_next_level') }}
             </div>
         </div>
 
         <!-- Missions Section -->
         <div class="mb-8">
             <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-                <span>📜</span> Missions
+                <span>📜</span> {{ $t('progress.missions') }}
             </h2>
 
             <!-- Daily -->
             <div class="mb-4">
-                <h3 class="text-sm text-gray-400 uppercase mb-2 font-bold">Daily Missions</h3>
+                <h3 class="text-sm text-gray-400 uppercase mb-2 font-bold">{{ $t('progress.daily_missions') }}</h3>
                 <div class="space-y-3">
                     <div v-for="mission in missions.daily" :key="mission.id"
                         class="bg-gray-800 p-4 rounded-lg border border-gray-700 relative overflow-hidden"
                         :class="{ 'border-green-500': mission.completed }">
                         <div v-if="mission.completed"
                             class="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded-bl">
-                            COMPLETED
+                            {{ $t('progress.completed') }}
                         </div>
                         <div class="flex justify-between items-start mb-2">
                             <div class="font-medium">{{ mission.description }}</div>

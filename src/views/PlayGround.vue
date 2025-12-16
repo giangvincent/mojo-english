@@ -14,39 +14,42 @@
       <div class="absolute top-4 right-4 flex gap-2 z-10">
         <button
           class="pixel-icon-btn danger"
-          @click="handleResetGame" title="Reset Game">
+          @click="handleResetGame" :title="$t('common.reset')">
           &#8635;
+        </button>
+        <button class="pixel-icon-btn" @click="openSettings" :title="$t('common.settings')">
+          ⚙
         </button>
         <button
           class="pixel-icon-btn"
-          @click="showTutorial = true" title="How to Play">
+          @click="showTutorial = true" :title="$t('common.how_to_play')">
           ?
         </button>
       </div>
 
       <div class="flex items-center gap-2">
         <div class="pixel-panel px-4 py-2">
-          <span class="font-bold uppercase tracking-wider">Round {{ currentRound }}</span> / {{ maxRounds }}
+          <span class="font-bold uppercase tracking-wider">{{ $t('playing.round') }} {{ currentRound }}</span> / {{ maxRounds }}
         </div>
         <!-- Game Mode Badge -->
         <div
           class="pixel-inset px-3 py-2 text-sm font-semibold uppercase tracking-wider">
-          {{ gameMode === '5-4-split' ? '5/4 Split' : gameMode }}
+          {{ $t(`modes.${gameMode}`) }}
         </div>
       </div>
 
       <div class="pixel-panel px-4 py-2">
-        <span class="font-bold uppercase tracking-wider">Total:</span> {{ totalScore }}
+        <span class="font-bold uppercase tracking-wider">{{ $t('playing.total_score') }}:</span> {{ totalScore }}
       </div>
       <div v-if="roundScores.length > 0" class="pixel-panel px-4 py-2">
-        <span class="font-bold uppercase tracking-wider">Round:</span> {{ roundScores[currentRound - 1] || 0 }}
+        <span class="font-bold uppercase tracking-wider">{{ $t('playing.round_score') }}:</span> {{ roundScores[currentRound - 1] || 0 }}
       </div>
     </div>
 
     <!-- Shared Cards Area (5/4 Split) -->
     <div v-if="gameMode === '5-4-split' && sharedCardsList.length > 0" class="w-full px-4 mt-4">
       <div class="pixel-panel p-3">
-        <h3 class="text-slate-900 text-sm font-bold uppercase tracking-wider mb-2">Shared cards (tap to use):</h3>
+        <h3 class="text-slate-900 text-sm font-bold uppercase tracking-wider mb-2">{{ $t('playing.shared_cards') }}</h3>
         <draggable v-model="sharedCardsList" class="flex justify-center gap-2 h-24" item-key="id" :sort="false"
           :group="{ name: 'shared', pull: false, put: false }" :move="() => false">
           <template #item="{ element }">
@@ -317,8 +320,12 @@ export default {
     element.addEventListener('wheel', transformScroll)
   },
   methods: {
-    ...mapMutations(['setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards', 'setGameMode', 'setSharedCards', 'setTrackTurnOrder', 'recordTurn', 'resetTurns', 'setWinner']),
+    ...mapMutations(['SET_MODAL', 'setPlayingStep', 'resetSentence', 'addRoundScore', 'nextRound', 'resetGame', 'setUsedOriginalCards', 'setGameMode', 'setSharedCards', 'setTrackTurnOrder', 'recordTurn', 'resetTurns', 'setWinner']),
     ...mapActions(['SetPlayerDataAsync', 'awardFromContext', 'gainXp', 'initializeMissions', 'onSentenceSubmit', 'onRoundComplete', 'onMatchComplete']),
+
+    openSettings() {
+      this.SET_MODAL(true)
+    },
 
     onModeSelected(mode) {
       this.setGameMode(mode)
@@ -348,7 +355,7 @@ export default {
         const hasSharedCard = sharedUsedThisSentence.length > 0
 
         if (!hasSharedCard) {
-          alert('In 5/4 Split Mode, you must use at least one Shared Card in your sentence!')
+          alert(this.$t('playing.must_use_shared'))
           SoundManager.play('error')
           return
         }
@@ -363,10 +370,10 @@ export default {
         if (this.currentRound >= this.maxRounds) {
           const missingShared = this.initialSharedCardIds.filter(id => !this.usedSharedCardIds.includes(id))
           if (missingShared.length > 0) {
-            alert('All 4 shared cards must appear in a sentence by the end of the game.')
-            SoundManager.play('error')
-            return
-          }
+          alert(this.$t('playing.must_use_all_shared'))
+          SoundManager.play('error')
+          return
+        }
         }
       }
 

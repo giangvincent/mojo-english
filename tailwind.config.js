@@ -260,7 +260,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
-        'mojo-font',
+        'mpluscodelatin',
         'system-ui',
         '-apple-system',
         'BlinkMacSystemFont',
@@ -276,7 +276,7 @@ module.exports = {
         '"Noto Color Emoji"'
       ],
       serif: [
-        'mojo-font',
+        'mpluscodelatin',
         'Georgia',
         'Cambria',
         '"Times New Roman"',
@@ -284,7 +284,7 @@ module.exports = {
         'serif'
       ],
       mono: [
-        'mojo-font',
+        'mpluscodelatin',
         'Menlo',
         'Monaco',
         'Consolas',

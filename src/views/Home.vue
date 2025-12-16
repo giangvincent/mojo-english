@@ -6,7 +6,7 @@
 
     <header class="pixel-panel flex items-center justify-between px-4 md:px-12 py-4 md:py-6 relative z-10 sticky top-0">
       <div class="flex items-center gap-4">
-        <img class="h-14 w-auto drop-shadow-lg" src="@/assets/images/logo.png" alt="VerbaPix logo" />
+        <img class="h-10 md:h-12 w-auto pixelated" src="@/assets/images/logo.png" alt="VerbaPix logo" />
         <div>
           <p class="pixel-chip inline-flex">VerbaPix</p>
           <h1 class="text-2xl md:text-3xl font-display leading-tight">Cards, Grammar, Fun</h1>
@@ -44,14 +44,13 @@
         <div class="space-y-6">
           <div
             class="pixel-chip inline-flex items-center gap-2">
-            Updated UI • Clearer rules
+            {{ $t('home.badge_updated') }}
           </div>
           <h2 class="text-4xl md:text-5xl font-display leading-tight">
-            Build bold sentences, unlock points, and play together.
+            {{ $t('home.hero_title') }}
           </h2>
           <p class="text-base text-slate-700 max-w-xl">
-            Choose Standard, 5/4 Split, or Co-op. Drag cards, respect grammar colors, and race to complete the final
-            sentence.
+            {{ $t('home.hero_desc') }}
           </p>
           <div class="flex flex-wrap gap-3">
             <router-link to="play" class="cta primary">
@@ -65,35 +64,35 @@
               {{ $t('home.shop') }}
             </router-link>
             <router-link to="progress" class="cta ghost">
-              Progress
+              {{ $t('nav.progress') }}
             </router-link>
             <router-link to="dashboard" class="cta ghost">
-              Dashboard
+              {{ $t('nav.dashboard') }}
             </router-link>
           </div>
           <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-wide">
-            <span class="pill">7-card hand</span>
-            <span class="pill">Shared 4-card pool</span>
-            <span class="pill">Co-op last-card winner</span>
-            <span class="pill">PvP power plays</span>
+            <span class="pill">{{ $t('home.pill_hand') }}</span>
+            <span class="pill">{{ $t('home.pill_shared') }}</span>
+            <span class="pill">{{ $t('home.pill_coop') }}</span>
+            <span class="pill">{{ $t('home.pill_pvp') }}</span>
           </div>
         </div>
 
         <div class="glass hero-panel card-preview">
           <div class="grid grid-cols-2 gap-4 h-full">
             <div class="stat-tile">
-              <p class="text-xs text-slate-700 uppercase tracking-wide">Standard</p>
+              <p class="text-xs text-slate-700 uppercase tracking-wide">{{ $t('modes.standard') }}</p>
               <div class="text-5xl font-display leading-none">7</div>
-              <p class="text-sm text-slate-700">Cards ready every round</p>
+              <p class="text-sm text-slate-700">{{ $t('home.cards_ready') }}</p>
             </div>
             <div class="stat-tile">
-              <p class="text-xs text-slate-700 uppercase tracking-wide">Rounds</p>
+              <p class="text-xs text-slate-700 uppercase tracking-wide">{{ $t('home.rounds') }}</p>
               <div class="flex items-center gap-2">
                 <span class="progress-dot active"></span>
                 <span class="progress-dot active"></span>
                 <span class="progress-dot"></span>
               </div>
-              <p class="text-xs text-slate-700">3-round sprint</p>
+              <p class="text-xs text-slate-700">{{ $t('home.rounds_sprint') }}</p>
             </div>
             <div class="stat-tile col-span-2">
               <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext"
@@ -101,17 +100,17 @@
               <div class="flex items-center justify-between">
                 <div>
                   <p class="text-xs uppercase text-slate-700">5/4 Split</p>
-                  <p class="text-lg font-semibold">Shared cards stay center</p>
+                  <p class="text-lg font-semibold">{{ $t('home.shared_center') }}</p>
                 </div>
-                <div class="badge badge-green">Immutable</div>
+                <div class="badge badge-green">{{ $t('home.badge_immutable') }}</div>
               </div>
               <div class="divider"></div>
               <div class="flex items-center justify-between">
                 <div>
                   <p class="text-xs uppercase text-slate-700">Co-op</p>
-                  <p class="text-lg font-semibold">Last card played wins</p>
+                  <p class="text-lg font-semibold">{{ $t('home.coop_last_card') }}</p>
                 </div>
-                <div class="badge badge-purple">Turn Track</div>
+                <div class="badge badge-purple">{{ $t('home.badge_turn_track') }}</div>
               </div>
             </div>
           </div>
@@ -120,24 +119,24 @@
 
       <section class="mt-12 grid md:grid-cols-3 gap-6">
         <article class="mode-card">
-          <div class="mode-badge">Standard</div>
-          <p class="mode-title">Classic 7-card hands.</p>
-          <p class="mode-body">Perfect for quick games. 3 rounds, +5 bonus when you keep your cards.</p>
-          <router-link to="play" class="mode-cta">Start Standard</router-link>
+          <div class="mode-badge">{{ $t('modes.standard') }}</div>
+          <p class="mode-title">{{ $t('home.mode_standard_title') }}</p>
+          <p class="mode-body">{{ $t('home.mode_standard_body') }}</p>
+          <router-link to="play" class="mode-cta">{{ $t('home.start_standard') }}</router-link>
         </article>
 
         <article class="mode-card">
-          <div class="mode-badge green">5/4 Split</div>
-          <p class="mode-title">Shared center, focused hands.</p>
-          <p class="mode-body">Use all 4 center cards by the finale. Your 5 hand cards are discard-limited.</p>
-          <router-link to="play" class="mode-cta">Start 5/4 Split</router-link>
+          <div class="mode-badge green">{{ $t('modes.5-4-split') }}</div>
+          <p class="mode-title">{{ $t('home.mode_split_title') }}</p>
+          <p class="mode-body">{{ $t('home.mode_split_body') }}</p>
+          <router-link to="play" class="mode-cta">{{ $t('home.start_split') }}</router-link>
         </article>
 
         <article class="mode-card">
-          <div class="mode-badge purple">Co-op</div>
-          <p class="mode-title">Play together, chase the last card.</p>
-          <p class="mode-body">Track turn order, celebrate the teammate who seals the sentence.</p>
-          <router-link to="play" class="mode-cta">Start Co-op</router-link>
+          <div class="mode-badge purple">{{ $t('modes.coop') }}</div>
+          <p class="mode-title">{{ $t('home.mode_coop_title') }}</p>
+          <p class="mode-body">{{ $t('home.mode_coop_body') }}</p>
+          <router-link to="play" class="mode-cta">{{ $t('home.start_coop') }}</router-link>
         </article>
       </section>
     </main>
@@ -158,21 +157,15 @@
             d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
             fill="#EA4335" />
         </svg>
-        <span>Sign in</span>
+        <span>{{ $t('home.sign_in') }}</span>
       </button>
-      <button v-else @click="handleSignOut" class="cta auth danger">Sign out</button>
-    </div>
-
-    <div v-if="popupModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <component v-bind:is="modalComponent"></component>
+      <button v-else @click="handleSignOut" class="cta auth danger">{{ $t('home.sign_out') }}</button>
     </div>
     <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" class="z-50" />
   </div>
 </template>
 
 <script>
-/* eslint-disable no-undef */
-import { onBeforeUnmount } from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { auth, signInWithGoogle, signOutUser, onAuthStateChanged } from '@/services/firebase'
 import XpBar from '@/components/ui/XpBar.vue'
@@ -181,13 +174,11 @@ import TutorialOverlay from '@/components/TutorialOverlay.vue'
 export default {
   name: 'Home',
   components: {
-    Setting: () => import('@/components/Setting.vue'),
     XpBar,
     TutorialOverlay
   },
   data() {
     return {
-      modalComponent: 'Setting',
       currentUser: null,
       defaultAvatar: 'https://placehold.co/96x96?text=User',
       showTutorial: false,
@@ -197,7 +188,6 @@ export default {
   computed: {
     ...mapState({
       playerData: state => state.player.playerData,
-      popupModal: state => state.popupModal,
       progressionLevel: state => state.progression.level,
       progressionXp: state => state.progression.xp,
       progressionXpToNext: state => state.progression.xpToNext
@@ -271,7 +261,6 @@ export default {
       }
     },
     openSettings() {
-      this.modalComponent = 'Setting'
       this.SET_MODAL(true)
     }
   }
@@ -281,7 +270,7 @@ export default {
 <style scoped>
 .home-shell {
   background: transparent;
-  font-family: var(--pix-font);
+  font-family: var(--ui-font);
   letter-spacing: 0.02em;
 }
 

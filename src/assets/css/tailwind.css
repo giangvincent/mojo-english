@@ -2,31 +2,27 @@
 @tailwind components;
 
 @font-face {
-  font-family: "mojo-font";
-  src: url("../gargle.regular.ttf") format("truetype");
+  font-family: "mpluscodelatin";
+  src: url("../fonts/MPLUSCodeLatin-Regular.ttf") format("truetype");
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: "mojo-font";
-  src: url("../gargle.italic.ttf") format("truetype");
-  font-style: italic;
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: "mojo-font";
-  src: url("../gargle.bold-italic.ttf") format("truetype");
-  font-style: italic;
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: "mojo-font";
-  src: url("../gargle.bold.ttf") format("truetype");
+  font-family: "mpluscodelatin";
+  src: url("../fonts/MPLUSCodeLatin-SemiBold.ttf") format("truetype");
   font-style: normal;
-  font-weight: bold;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "webplus_ibm_vga";
+  src: url("../fonts/WebPlus_IBM_VGA_9x16.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
 }
 
 .border-1 {
@@ -64,7 +60,10 @@
     --pix-bg-a: #7dd3fc;
     --pix-bg-b: #38bdf8;
 
-    --pix-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --ui-font: "mpluscodelatin", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    --card-font: "webplus_ibm_vga", "mpluscodelatin", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
   }
 
   html,
@@ -74,7 +73,7 @@
   }
 
   body {
-    font-family: var(--pix-font);
+    font-family: var(--ui-font);
     letter-spacing: 0.02em;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: grayscale;
@@ -93,6 +92,11 @@
 }
 
 @layer components {
+  .card-font {
+    font-family: var(--card-font);
+    letter-spacing: 0;
+  }
+
   .pixel-bg {
     background:
       repeating-linear-gradient(
