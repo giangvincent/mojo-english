@@ -1,21 +1,21 @@
 <template>
-  <div class="home-shell pixel-bg min-h-screen text-slate-900 relative overflow-hidden">
+  <div class="relative min-h-screen overflow-hidden home-shell pixel-bg text-slate-900">
     <div class="bg-grid"></div>
     <div class="bg-glow bg-glow-1"></div>
     <div class="bg-glow bg-glow-2"></div>
 
-    <header class="pixel-panel flex items-center justify-between px-4 md:px-12 py-4 md:py-6 relative z-10 sticky top-0">
+    <header class="relative sticky top-0 z-10 flex items-center justify-between px-4 py-4 md:px-12 md:py-6">
       <div class="flex items-center gap-4">
-        <img class="h-10 md:h-12 w-auto pixelated" src="@/assets/images/logo.png" alt="VerbaPix logo" />
+        <img class="w-auto h-10 md:h-12 pixelated" src="@/assets/images/logo.png" alt="VerbaPix logo" />
         <div>
-          <p class="pixel-chip inline-flex">VerbaPix</p>
-          <h1 class="text-2xl md:text-3xl font-display leading-tight">Cards, Grammar, Fun</h1>
+          <h1 class="inline-flex text-2xl font-bold leading-tight md:text-3xl card-font">VerbaPix</h1>
+          <sup class="leading-tight font-display card-font">Cards, Grammar, Fun</sup>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <div class="glass chip flex items-center gap-3">
-          <img class="h-12 w-12 rounded-xl border border-black object-cover"
+        <div class="flex items-center gap-3 glass chip">
+          <img class="object-cover w-12 h-12 border border-black rounded-xl"
             :src="currentUser?.photoURL || playerData?.photo?.src || defaultAvatar"
             :alt="currentUser?.displayName || 'avatar'" />
           <div>
@@ -25,31 +25,31 @@
           <div class="level-pill">{{ progressionLevel || playerData.level }}</div>
         </div>
         <button class="icon-btn" @click="openSettings">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd"
               d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
               clip-rule="evenodd" />
           </svg>
         </button>
         <button class="icon-btn" @click="showTutorial = true">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-4a3 3 0 00-2.824 1.995.75.75 0 11-1.408-.51A4.5 4.5 0 1110 14.5a.75.75 0 010-1.5 3 3 0 100-6zM9.25 15.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5z" clip-rule="evenodd" />
           </svg>
         </button>
       </div>
     </header>
 
-    <main class="px-4 md:px-12 pb-20 relative z-10 overflow-y-auto max-w-6xl mx-auto w-full">
-      <section class="grid lg:grid-cols-2 gap-10 items-center">
+    <main class="relative z-10 w-full max-w-6xl px-4 pb-20 mx-auto overflow-y-auto md:px-12">
+      <section class="grid items-center gap-10 lg:grid-cols-2">
         <div class="space-y-6">
           <div
-            class="pixel-chip inline-flex items-center gap-2">
+            class="inline-flex items-center gap-2 pixel-chip">
             {{ $t('home.badge_updated') }}
           </div>
-          <h2 class="text-4xl md:text-5xl font-display leading-tight">
+          <h2 class="text-4xl leading-tight md:text-5xl font-display">
             {{ $t('home.hero_title') }}
           </h2>
-          <p class="text-base text-slate-700 max-w-xl">
+          <p class="max-w-xl text-base text-slate-700">
             {{ $t('home.hero_desc') }}
           </p>
           <div class="flex flex-wrap gap-3">
@@ -79,14 +79,14 @@
         </div>
 
         <div class="glass hero-panel card-preview">
-          <div class="grid grid-cols-2 gap-4 h-full">
+          <div class="grid h-full grid-cols-2 gap-4">
             <div class="stat-tile">
-              <p class="text-xs text-slate-700 uppercase tracking-wide">{{ $t('modes.standard') }}</p>
-              <div class="text-5xl font-display leading-none">7</div>
+              <p class="text-xs tracking-wide uppercase text-slate-700">{{ $t('modes.standard') }}</p>
+              <div class="text-5xl leading-none font-display">7</div>
               <p class="text-sm text-slate-700">{{ $t('home.cards_ready') }}</p>
             </div>
             <div class="stat-tile">
-              <p class="text-xs text-slate-700 uppercase tracking-wide">{{ $t('home.rounds') }}</p>
+              <p class="text-xs tracking-wide uppercase text-slate-700">{{ $t('home.rounds') }}</p>
               <div class="flex items-center gap-2">
                 <span class="progress-dot active"></span>
                 <span class="progress-dot active"></span>
@@ -94,7 +94,7 @@
               </div>
               <p class="text-xs text-slate-700">{{ $t('home.rounds_sprint') }}</p>
             </div>
-            <div class="stat-tile col-span-2">
+            <div class="col-span-2 stat-tile">
               <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext"
                 :level="progressionLevel || playerData.level" />
               <div class="flex items-center justify-between">
@@ -117,7 +117,7 @@
         </div>
       </section>
 
-      <section class="mt-12 grid md:grid-cols-3 gap-6">
+      <section class="grid gap-6 mt-12 md:grid-cols-3">
         <article class="mode-card">
           <div class="mode-badge">{{ $t('modes.standard') }}</div>
           <p class="mode-title">{{ $t('home.mode_standard_title') }}</p>
@@ -301,41 +301,41 @@ export default {
 }
 
 .glass {
-  background: var(--pix-paper);
-  color: var(--pix-ink);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
   backdrop-filter: none;
   box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  border-radius: 0;
+  background: var(--pix-paper);
+  color: var(--pix-ink);
 }
 
 .chip {
-  padding: 0.65rem 0.9rem;
   border-radius: 0;
+  padding: 0.65rem 0.9rem;
 }
 
 .level-pill {
   margin-left: auto;
-  padding: 0.25rem 0.55rem;
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.35);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
   border-radius: 0;
   background: linear-gradient(180deg, #86efac, var(--pix-success));
-  border: calc(var(--px) / 2) solid var(--pix-ink);
+  padding: 0.25rem 0.55rem;
   color: #052e16;
-  font-size: 12px;
   font-weight: 900;
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.35);
+  font-size: 12px;
 }
 
 .icon-btn {
-  width: 44px;
-  height: 44px;
   display: grid;
   place-items: center;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
+  box-shadow: 0 var(--px) 0 var(--pix-shadow);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
   border-radius: 0;
   background: var(--pix-paper);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  box-shadow: 0 var(--px) 0 var(--pix-shadow);
-  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
+  width: 44px;
+  height: 44px;
 }
 
 .icon-btn:hover {
@@ -346,15 +346,15 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-radius: 0;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  box-shadow: 0 var(--px) 0 var(--pix-shadow);
   transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
+  box-shadow: 0 var(--px) 0 var(--pix-shadow);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-decoration: none;
+  text-transform: uppercase;
 }
 
 .cta.primary {
@@ -373,8 +373,8 @@ export default {
 }
 
 .cta.auth {
-  background: var(--pix-paper);
   border: calc(var(--px) / 2) solid var(--pix-ink);
+  background: var(--pix-paper);
   padding: 0.75rem 1rem;
   color: var(--pix-ink);
 }
@@ -395,14 +395,14 @@ export default {
 }
 
 .pill {
-  padding: 0.4rem 0.6rem;
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.3);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
   border-radius: 0;
   background: var(--pix-paper);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
+  padding: 0.4rem 0.6rem;
   color: var(--pix-ink);
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.3);
-  text-transform: uppercase;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .hero-panel {
@@ -416,20 +416,20 @@ export default {
 }
 
 .stat-tile {
-  border-radius: 0;
-  padding: 1rem;
-  background: var(--pix-paper-2);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
   box-shadow:
     inset calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.28),
     inset calc(var(--px) / -2) calc(var(--px) / -2) 0 rgba(255, 255, 255, 0.7);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  border-radius: 0;
+  background: var(--pix-paper-2);
+  padding: 1rem;
 }
 
 .progress-dot {
-  width: 10px;
-  height: 10px;
   border-radius: 0;
   background: rgba(0, 0, 0, 0.18);
+  width: 10px;
+  height: 10px;
 }
 
 .progress-dot.active {
@@ -437,14 +437,14 @@ export default {
 }
 
 .badge {
-  padding: 0.4rem 0.75rem;
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
   border-radius: 0;
-  font-size: 12px;
+  padding: 0.4rem 0.75rem;
   font-weight: 700;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
 }
 
 .badge-green {
@@ -458,37 +458,37 @@ export default {
 }
 
 .divider {
-  height: 1px;
-  width: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
   margin: 0.75rem 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  width: 100%;
+  height: 1px;
 }
 
 .mode-card {
-  border-radius: 0;
-  padding: 1.25rem;
-  background: var(--pix-paper);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
+  border-radius: 0;
+  background: var(--pix-paper);
+  padding: 1.25rem;
 }
 
 .mode-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.6rem;
+  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
   border-radius: 0;
   background: linear-gradient(180deg, var(--pix-primary-2), var(--pix-primary));
+  padding: 0.35rem 0.6rem;
   color: #fff;
-  font-size: 12px;
   font-weight: 700;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
 }
 
 .mode-badge.green {
@@ -502,8 +502,8 @@ export default {
 }
 
 .mode-title {
-  font-size: 1.1rem;
   font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .mode-body {
@@ -512,20 +512,20 @@ export default {
 }
 
 .mode-cta {
-  margin-top: auto;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: #fff;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  padding: 0.65rem 0.9rem;
+  margin-top: auto;
+  box-shadow: 0 var(--px) 0 var(--pix-shadow);
+  border: calc(var(--px) / 2) solid var(--pix-ink);
   border-radius: 0;
   background: linear-gradient(180deg, var(--pix-primary-2), var(--pix-primary));
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  box-shadow: 0 var(--px) 0 var(--pix-shadow);
+  padding: 0.65rem 0.9rem;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 .mode-cta:active {
@@ -534,10 +534,10 @@ export default {
 }
 
 .auth-stack {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
   display: flex;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
   flex-direction: column;
   gap: 0.5rem;
   z-index: 20;

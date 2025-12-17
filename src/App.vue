@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="w-screen h-screen overflow-y-auto main-bg">
     <div
-      class="flex items-center content-center w-full game_screen"
+      class="flex items-center justify-center w-full game_screen"
     >
       <router-view />
     </div>

@@ -97,6 +97,21 @@
     letter-spacing: 0;
   }
 
+  .page-shell {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 1rem 3rem;
+  }
+
+  .page-panel {
+    background: var(--pix-paper);
+    color: var(--pix-ink);
+    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border-radius: 0;
+    box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
+  }
+
   .pixel-bg {
     background:
       repeating-linear-gradient(

@@ -1,138 +1,136 @@
 <template>
-    <div class="min-h-screen bg-gray-900 text-white p-4 pb-20">
-        <!-- Header -->
-        <div class="flex items-center mb-6">
-            <button @click="$router.push('/')" class="mr-4 p-2 bg-gray-800 rounded-full hover:bg-gray-700">
-                ←
-            </button>
-            <h1 class="text-2xl font-bold">{{ $t('progress.title') }}</h1>
+  <div class="page-shell pixel-bg text-slate-900">
+    <div class="page-panel w-full max-w-5xl p-6 md:p-8 space-y-8">
+      <!-- Header -->
+      <div class="flex items-center">
+        <button @click="$router.push('/')" class="pixel-btn ghost mr-4 px-3 py-2 text-sm">
+          ←
+        </button>
+        <h1 class="text-2xl font-bold">{{ $t('progress.title') }}</h1>
+      </div>
+
+      <!-- Level & XP Card -->
+      <div class="pixel-panel p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <div class="text-slate-600 text-sm uppercase tracking-wider">{{ $t('progress.current_level') }}</div>
+            <div class="text-4xl font-bold text-amber-600">{{ level }}</div>
+          </div>
+          <div class="w-16 h-16 pixel-inset flex items-center justify-center text-2xl">
+            🏆
+          </div>
         </div>
 
-        <!-- Level & XP Card -->
-        <div class="bg-gray-800 rounded-xl p-6 mb-6 shadow-lg border border-gray-700">
-            <div class="flex items-center justify-between mb-4">
-                <div>
-                    <div class="text-gray-400 text-sm uppercase tracking-wider">{{ $t('progress.current_level') }}</div>
-                    <div class="text-4xl font-bold text-yellow-400">{{ level }}</div>
-                </div>
-                <div class="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-2xl">
-                    🏆
-                </div>
-            </div>
+        <div class="mb-2 flex justify-between text-sm">
+          <span>{{ $t('progress.xp_progress') }}</span>
+          <span>{{ xp }} / {{ xpToNext }} XP</span>
+        </div>
+        <div class="w-full pixel-inset h-4 overflow-hidden">
+          <div class="bg-blue-500 h-full transition-all duration-500" :style="{ width: xpPercentage + '%' }">
+          </div>
+        </div>
+        <div class="mt-2 text-xs text-slate-600 text-right">
+          {{ xpToNext - xp }} {{ $t('progress.to_next_level') }}
+        </div>
+      </div>
 
-            <div class="mb-2 flex justify-between text-sm">
-                <span>{{ $t('progress.xp_progress') }}</span>
-                <span>{{ xp }} / {{ xpToNext }} XP</span>
+      <!-- Missions Section -->
+      <div class="space-y-4">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <span>📜</span> {{ $t('progress.missions') }}
+        </h2>
+
+        <!-- Daily -->
+        <div class="space-y-3">
+          <h3 class="text-sm text-slate-600 uppercase font-bold">{{ $t('progress.daily_missions') }}</h3>
+          <div v-for="mission in missions.daily" :key="mission.id"
+            class="pixel-panel p-4 relative overflow-hidden"
+            :class="{ 'border-green-500': mission.completed }">
+            <div v-if="mission.completed"
+              class="absolute top-0 right-0 pixel-chip">
+              {{ $t('progress.completed') }}
             </div>
-            <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
-                <div class="bg-blue-500 h-full transition-all duration-500" :style="{ width: xpPercentage + '%' }">
-                </div>
+            <div class="flex justify-between items-start mb-2">
+              <div class="font-medium">{{ mission.description }}</div>
+              <div class="text-xs pixel-chip">
+                +{{ mission.rewards.xp }} XP
+              </div>
             </div>
-            <div class="mt-2 text-xs text-gray-500 text-right">
-                {{ xpToNext - xp }} {{ $t('progress.to_next_level') }}
+            <div class="w-full pixel-inset h-2">
+              <div class="bg-green-500 h-full transition-all duration-500"
+                :style="{ width: Math.min(100, (mission.progress / mission.condition.count) * 100) + '%' }">
+              </div>
             </div>
+            <div class="mt-1 text-xs text-right text-slate-600">
+              {{ mission.progress }} / {{ mission.condition.count }}
+            </div>
+          </div>
         </div>
 
-        <!-- Missions Section -->
-        <div class="mb-8">
-            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-                <span>📜</span> {{ $t('progress.missions') }}
-            </h2>
-
-            <!-- Daily -->
-            <div class="mb-4">
-                <h3 class="text-sm text-gray-400 uppercase mb-2 font-bold">{{ $t('progress.daily_missions') }}</h3>
-                <div class="space-y-3">
-                    <div v-for="mission in missions.daily" :key="mission.id"
-                        class="bg-gray-800 p-4 rounded-lg border border-gray-700 relative overflow-hidden"
-                        :class="{ 'border-green-500': mission.completed }">
-                        <div v-if="mission.completed"
-                            class="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded-bl">
-                            {{ $t('progress.completed') }}
-                        </div>
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="font-medium">{{ mission.description }}</div>
-                            <div class="text-xs bg-gray-700 px-2 py-1 rounded text-yellow-300">
-                                +{{ mission.rewards.xp }} XP
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-2">
-                            <div class="bg-green-500 h-full transition-all duration-500"
-                                :style="{ width: Math.min(100, (mission.progress / mission.condition.count) * 100) + '%' }">
-                            </div>
-                        </div>
-                        <div class="mt-1 text-xs text-right text-gray-400">
-                            {{ mission.progress }} / {{ mission.condition.count }}
-                        </div>
-                    </div>
-                </div>
+        <!-- Weekly -->
+        <div class="space-y-3">
+          <h3 class="text-sm text-slate-600 uppercase font-bold">{{ $t('progress.weekly_missions') }}</h3>
+          <div v-for="mission in missions.weekly" :key="mission.id"
+            class="pixel-panel p-4 relative overflow-hidden"
+            :class="{ 'border-purple-500': mission.completed }">
+            <div v-if="mission.completed"
+              class="absolute top-0 right-0 pixel-chip">
+              {{ $t('progress.completed') }}
             </div>
-
-            <!-- Weekly -->
-            <div>
-                <h3 class="text-sm text-gray-400 uppercase mb-2 font-bold">Weekly Missions</h3>
-                <div class="space-y-3">
-                    <div v-for="mission in missions.weekly" :key="mission.id"
-                        class="bg-gray-800 p-4 rounded-lg border border-gray-700 relative overflow-hidden"
-                        :class="{ 'border-purple-500': mission.completed }">
-                        <div v-if="mission.completed"
-                            class="absolute top-0 right-0 bg-purple-500 text-white text-xs px-2 py-1 rounded-bl">
-                            COMPLETED
-                        </div>
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="font-medium">{{ mission.description }}</div>
-                            <div class="text-xs bg-gray-700 px-2 py-1 rounded text-yellow-300">
-                                +{{ mission.rewards.xp }} XP
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-2">
-                            <div class="bg-purple-500 h-full transition-all duration-500"
-                                :style="{ width: Math.min(100, (mission.progress / mission.condition.count) * 100) + '%' }">
-                            </div>
-                        </div>
-                        <div class="mt-1 text-xs text-right text-gray-400">
-                            {{ mission.progress }} / {{ mission.condition.count }}
-                        </div>
-                    </div>
-                </div>
+            <div class="flex justify-between items-start mb-2">
+              <div class="font-medium">{{ mission.description }}</div>
+              <div class="text-xs pixel-chip">
+                +{{ mission.rewards.xp }} XP
+              </div>
             </div>
+            <div class="w-full pixel-inset h-2">
+              <div class="bg-purple-500 h-full transition-all duration-500"
+                :style="{ width: Math.min(100, (mission.progress / mission.condition.count) * 100) + '%' }">
+              </div>
+            </div>
+            <div class="mt-1 text-xs text-right text-slate-600">
+              {{ mission.progress }} / {{ mission.condition.count }}
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Achievements Section -->
-        <div>
-            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-                <span>🏅</span> Achievements
-            </h2>
-            <div class="grid grid-cols-1 gap-4">
-                <div v-for="achievement in allAchievements" :key="achievement.id"
-                    class="bg-gray-800 p-4 rounded-lg border border-gray-700 flex items-center gap-4"
-                    :class="{ 'opacity-60': !isUnlocked(achievement.id), 'border-yellow-500 bg-gray-750': isUnlocked(achievement.id) }">
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
-                        :class="isUnlocked(achievement.id) ? 'bg-yellow-500 text-white' : 'bg-gray-700 text-gray-500'">
-                        {{ isUnlocked(achievement.id) ? '✓' : '🔒' }}
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-bold" :class="isUnlocked(achievement.id) ? 'text-white' : 'text-gray-400'">
-                            {{ achievement.name }}
-                        </div>
-                        <div class="text-sm text-gray-400">{{ achievement.description }}</div>
-
-                        <!-- Progress Bar for incremental achievements -->
-                        <div v-if="!isUnlocked(achievement.id) && achievement.condition.count" class="mt-2">
-                            <div class="w-full bg-gray-700 rounded-full h-1.5">
-                                <div class="bg-yellow-600 h-full"
-                                    :style="{ width: Math.min(100, (getProgress(achievement.id) / achievement.condition.count) * 100) + '%' }">
-                                </div>
-                            </div>
-                            <div class="text-xs text-right text-gray-500 mt-0.5">
-                                {{ getProgress(achievement.id) }} / {{ achievement.condition.count }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <!-- Achievements Section -->
+      <div class="space-y-4">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <span>🏅</span> {{ $t('dashboard.achievements') }}
+        </h2>
+        <div class="grid grid-cols-1 gap-4">
+          <div v-for="achievement in allAchievements" :key="achievement.id"
+            class="pixel-panel p-4 flex items-center gap-4"
+            :class="{ 'opacity-60': !isUnlocked(achievement.id) }">
+            <div class="w-12 h-12 pixel-inset flex items-center justify-center text-2xl"
+              :class="isUnlocked(achievement.id) ? 'bg-amber-400 text-white' : 'bg-slate-200 text-slate-500'">
+              {{ isUnlocked(achievement.id) ? '✓' : '🔒' }}
             </div>
+            <div class="flex-1">
+              <div class="font-bold" :class="isUnlocked(achievement.id) ? 'text-slate-900' : 'text-slate-500'">
+                {{ achievement.name }}
+              </div>
+              <div class="text-sm text-slate-600">{{ achievement.description }}</div>
+
+              <!-- Progress Bar for incremental achievements -->
+              <div v-if="!isUnlocked(achievement.id) && achievement.condition.count" class="mt-2">
+                <div class="w-full pixel-inset h-1.5">
+                  <div class="bg-yellow-500 h-full"
+                    :style="{ width: Math.min(100, (getProgress(achievement.id) / achievement.condition.count) * 100) + '%' }">
+                  </div>
+                </div>
+                <div class="text-xs text-right text-slate-600 mt-0.5">
+                  {{ getProgress(achievement.id) }} / {{ achievement.condition.count }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

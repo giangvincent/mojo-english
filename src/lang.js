@@ -112,6 +112,7 @@ export default {
       to_next_level: 'XP đến cấp tiếp theo',
       missions: 'Nhiệm vụ',
       daily_missions: 'Nhiệm vụ hằng ngày',
+      weekly_missions: 'Nhiệm vụ hằng tuần',
       completed: 'HOÀN THÀNH'
     },
     dashboard: {
@@ -235,6 +236,7 @@ export default {
       to_next_level: 'XP to next level',
       missions: 'Missions',
       daily_missions: 'Daily Missions',
+      weekly_missions: 'Weekly Missions',
       completed: 'COMPLETED'
     },
     dashboard: {

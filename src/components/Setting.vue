@@ -1,15 +1,15 @@
 <template>
   <div
-    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-transparent p-4 overflow-auto z-50"
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black/60 p-4 overflow-auto z-50"
   >
-    <div class="bg-white rounded-lg w-full shadow">
+    <div class="page-panel w-full max-w-xl shadow">
       <div class="flex flex-col items-start p-4">
         <div class="flex items-center w-full">
-          <div class="text-gray-900 font-medium text-lg">
+          <div class="text-slate-900 font-medium text-lg">
             {{ $t("setting")[0] }}
           </div>
           <svg
-            class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer"
+            class="ml-auto fill-current text-slate-700 w-6 h-6 cursor-pointer"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 18 18"
             @click="close"
@@ -20,7 +20,7 @@
             />
           </svg>
         </div>
-        <div class="w-full mt-2 pt-2 border-t-2 border-gray-200">
+        <div class="w-full mt-2 pt-2 border-t-2 border-slate-300">
           <ul class="">
             <li class="flex py-2">
               <div class="w-1/2 text-left">{{ $t("setting")[1] }}</div>
