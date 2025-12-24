@@ -12,28 +12,24 @@
     <div class="w-full px-4 pt-4 flex flex-wrap justify-between items-center relative text-slate-900 gap-2">
       <!-- Help Button -->
       <div class="absolute top-4 right-4 flex gap-2 z-10">
-        <button
-          class="pixel-icon-btn danger"
-          @click="handleResetGame" :title="$t('common.reset')">
+        <button class="pixel-icon-btn danger" @click="handleResetGame" :title="$t('common.reset')">
           &#8635;
         </button>
         <button class="pixel-icon-btn" @click="openSettings" :title="$t('common.settings')">
           ⚙
         </button>
-        <button
-          class="pixel-icon-btn"
-          @click="showTutorial = true" :title="$t('common.how_to_play')">
+        <button class="pixel-icon-btn" @click="showTutorial = true" :title="$t('common.how_to_play')">
           ?
         </button>
       </div>
 
       <div class="flex items-center gap-2">
         <div class="pixel-panel px-4 py-2">
-          <span class="font-bold uppercase tracking-wider">{{ $t('playing.round') }} {{ currentRound }}</span> / {{ maxRounds }}
+          <span class="font-bold uppercase tracking-wider">{{ $t('playing.round') }} {{ currentRound }}</span> / {{
+          maxRounds }}
         </div>
         <!-- Game Mode Badge -->
-        <div
-          class="pixel-inset px-3 py-2 text-sm font-semibold uppercase tracking-wider">
+        <div class="pixel-inset px-3 py-2 text-sm font-semibold uppercase tracking-wider">
           {{ $t(`modes.${gameMode}`) }}
         </div>
       </div>
@@ -42,7 +38,8 @@
         <span class="font-bold uppercase tracking-wider">{{ $t('playing.total_score') }}:</span> {{ totalScore }}
       </div>
       <div v-if="roundScores.length > 0" class="pixel-panel px-4 py-2">
-        <span class="font-bold uppercase tracking-wider">{{ $t('playing.round_score') }}:</span> {{ roundScores[currentRound - 1] || 0 }}
+        <span class="font-bold uppercase tracking-wider">{{ $t('playing.round_score') }}:</span> {{
+          roundScores[currentRound - 1] || 0 }}
       </div>
     </div>
 
@@ -65,7 +62,7 @@
       <div class="pixel-panel p-3 w-full relative" v-if="!isDragging">
         <span class="font-bold uppercase tracking-wider">{{ $t('playing.final_sentence') }}:</span>
         <div class="ml-2 inline">
-          {{ typeof nounPhrase.text !== 'undefinded' ? nounPhraseText : '' }}
+          {{ typeof nounPhrase.text !== 'undefined' ? nounPhraseText : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text + '.' : '' }}
           <div class="-mt-6 w-auto absolute top-0 whitespace-no-wrap pixel-chip">{{
@@ -99,15 +96,11 @@
     </div>
     <!-- Player table -->
     <div class="mt-5 pb-5 flex justify-center w-full">
-      <button v-if="isDragging === true"
-        class="pixel-btn primary m-1 whitespace-no-wrap"
-        @click="lockCardPosition()">
+      <button v-if="isDragging === true" class="pixel-btn primary m-1 whitespace-no-wrap" @click="lockCardPosition()">
         {{ $t('playing.confirm_position') }}
       </button>
-      <button v-if="isDragging === false"
-        class="pixel-btn success m-1 whitespace-no-wrap"
-        :disabled="isSentenceNotReady"
-        @click="submitSentence()">
+      <button v-if="isDragging === false" class="pixel-btn success m-1 whitespace-no-wrap"
+        :disabled="isSentenceNotReady" @click="submitSentence()">
         {{ $t('playing.submit_sentence') }}
       </button>
     </div>
@@ -176,7 +169,6 @@ export default {
       sentenceStartAllowed: ['TimeCard', 'Location'],
       sentenceStartFollowups: ['Noun', 'Adj', 'HelpingVerb'],
       discardLimit: 3,
-      draggedCardRef: null,
       draggedCardRef: null,
       lastXpEarned: 0,
       lastXpContext: {},
@@ -370,10 +362,10 @@ export default {
         if (this.currentRound >= this.maxRounds) {
           const missingShared = this.initialSharedCardIds.filter(id => !this.usedSharedCardIds.includes(id))
           if (missingShared.length > 0) {
-          alert(this.$t('playing.must_use_all_shared'))
-          SoundManager.play('error')
-          return
-        }
+            alert(this.$t('playing.must_use_all_shared'))
+            SoundManager.play('error')
+            return
+          }
         }
       }
 
@@ -670,7 +662,7 @@ export default {
         }
       })
       shuffleArray(replaceListCards)
-      this.$set(this.cards, value.index, replaceListCards[0])
+      this.cards[value.index] = replaceListCards[0]
     },
     setPointToZero(card) {
       const zeroPointCard = { ...card }

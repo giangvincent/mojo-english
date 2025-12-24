@@ -17,6 +17,14 @@ export default {
     },
     tense: ['present simple', 'past simple', 'future simple'],
     typeSentence: ['positive', 'negative', 'question'],
+
+    // Verba / Mojo Specific State
+    deck: [],             // Full deck of VerbaCards
+    hand: [],             // Player's hand
+    communityCards: [],   // Shared cards for 5/4 split
+    discardPile: [],      // Discarded cards
+
+    // Legacy / Existing State (keeping for safety)
     cards: [],
     playingStep: 'arrange-card',
     nounType: null,
@@ -24,15 +32,17 @@ export default {
     nounPhrase: [],
     verbPhrase: [],
     objectPhrase: [],
+
     // Game Mode & Round System
     gameMode: 'standard', // 'standard' | '5-4-split' | 'coop'
     currentRound: 1,
     maxRounds: 3,
     roundScores: [],
     totalScore: 0,
-    sharedCards: [], // For 5/4 Split mode
-    usedOriginalCards: true, // Track if player kept all 7 original cards
-    originalCardsHash: null, // Hash of original 7 cards
+    sharedCards: [], // Legacy alias for communityCards?
+    usedOriginalCards: true,
+    originalCardsHash: null,
+
     // Turn / winner tracking (Co-op & PvP)
     trackTurnOrder: false,
     turnHistory: [],

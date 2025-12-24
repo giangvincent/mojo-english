@@ -37,5 +37,7 @@ export function checkAchievement(achievementId, progress, achievements) {
 }
 
 export function getAchievementProgress(achievementId, state) {
-    return state.progression.achievementProgress[achievementId] || 0
+    // Check if state is the global state (has progression module) or local progression state
+    const progressionState = state.progression || state
+    return progressionState.achievementProgress?.[achievementId] || 0
 }
