@@ -1,0 +1,104 @@
+[
+    {
+        "id": "T2a",
+        "type": "time",
+        "symbol": "T",
+        "image": "Set2-RoundEdge-30.png",
+        "content": [
+            {
+                "text": "last Friday",
+                "tense": "past",
+                "point": 3
+            },
+            {
+                "text": "on Thursdays",
+                "tense": "present",
+                "point": 4
+            },
+            {
+                "text": "every Sunday",
+                "tense": "frequency",
+                "point": 7
+            },
+            {
+                "text": "on Saturdays",
+                "tense": "frequency",
+                "point": 2
+            },
+            {
+                "text": "next Wednesday",
+                "tense": "future",
+                "point": 5
+            }
+        ],
+        "previousCards": []
+    },
+    {
+        "id": "T2b",
+        "type": "time",
+        "symbol": "T",
+        "image": "Set2-RoundEdge-31.png",
+        "content": [
+            {
+                "text": "last month",
+                "tense": "past",
+                "point": 7
+            },
+            {
+                "text": "during the week",
+                "tense": "present",
+                "point": 4
+            },
+            {
+                "text": "every weekend",
+                "tense": "frequency",
+                "point": 5
+            },
+            {
+                "text": "every weekend",
+                "tense": "frequency",
+                "point": 2
+            },
+            {
+                "text": "next year",
+                "tense": "future",
+                "point": 3
+            }
+        ],
+        "previousCards": []
+    },
+    {
+        "id": "T2c",
+        "type": "time",
+        "symbol": "T",
+        "image": "Set2-RoundEdge-32.png",
+        "content": [
+            {
+                "text": "last Halloween",
+                "tense": "past",
+                "point": 5
+            },
+            {
+                "text": "during the spring",
+                "tense": "present",
+                "point": 4
+            },
+            {
+                "text": "every summer",
+                "tense": "frequency",
+                "point": 3
+            },
+            {
+                "text": "every summer",
+                "tense": "frequency",
+                "point": 2
+            },
+            {
+                "text": "next Thanksgiving",
+                "tense": "future",
+                "point": 7
+            }
+        ],
+        "previousCards": []
+    }
+]

@@ -1,0 +1,24 @@
+[
+    {
+        "id": "W1a",
+        "type": "wild_card",
+        "image": "Set1RoundEdge-60.png",
+        "content": {
+            "text": "Wild Card"
+        },
+        "point": 0,
+        "previousCards": [],
+        "nextCards": []
+    },
+    {
+        "id": "W1b",
+        "type": "wild_card",
+        "image": "Set1RoundEdge-59.png",
+        "content": {
+            "text": "Wild Card"
+        },
+        "point": 0,
+        "previousCards": [],
+        "nextCards": []
+    }
+]
