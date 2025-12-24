@@ -1,0 +1,80 @@
+# VerbaPix Project Summary
+
+## 1. High-Level Overview
+
+**VerbaPix** is a web-based language learning game designed to be played as a **Facebook Instant Game**. It gamifies the process of learning English grammar by combining card game mechanics with sentence construction challenges.
+
+Players collect and arrange "word cards" to form grammatically correct sentences. The game features multiple modes, a progression system, and an in-game economy, all while integrating seamlessly with the Facebook Instant Games platform for social features and persistence.
+
+**Core Concept:** "Cards, Grammar, Fun".
+
+## 2. Technical Architecture
+
+The application is a **Single Page Application (SPA)** built with modern web technologies:
+
+*   **Frontend Framework:** [Vue.js 3](https://vuejs.org/) (using Options API and Composition API).
+*   **Build Tool:** [Vite](https://vitejs.dev/).
+*   **State Management:** [Vuex 4](https://vuex.vuejs.org/).
+    *   Modularized into `player` (profile), `playing` (game session state), and `progression` (long-term stats).
+*   **Styling:**
+    *   [Tailwind CSS](https://tailwindcss.com/) for utility-first styling.
+    *   `Animate.css` for animations.
+    *   Pixel-art themed UI components.
+*   **Language:** JavaScript, with [TypeScript](https://www.typescriptlang.org/) used for core game logic (`src/core`).
+*   **Platform Integration:**
+    *   **Facebook Instant Games SDK (`fbInstant`)**: Handles authentication, player data, context (social), and ads.
+    *   **Firebase**: Used for backend services (likely analytics, secondary storage).
+*   **Internationalization:** `vue-i18n`.
+*   **Key Libraries:**
+    *   `vuedraggable`: For the core drag-and-drop card interface.
+    *   `howler`: For audio management.
+    *   `vue3-touch-events`: For mobile touch interaction.
+
+## 3. Folder Structure
+
+The source code is organized in the `src` directory:
+
+*   **`src/assets/`**: Static resources like images, CSS files (`tailwind.css`, `animate.css`), and audio.
+*   **`src/components/`**: Reusable Vue components.
+    *   `cards/`: Components related to the playing cards.
+    *   `ui/`: Generic UI elements.
+    *   Specific feature components like `GameModeSelector`, `LevelUpModal`, `LeaderBoard`.
+*   **`src/core/`**: Pure logic and type definitions, written in TypeScript.
+    *   `cards.ts`: Definitions of card data and properties.
+    *   `types.ts`: TypeScript interfaces for game entities.
+*   **`src/router/`**: Vue Router configuration.
+    *   `index.js`: Defines the routes (`/`, `/play`, `/market`, etc.) and guards.
+*   **`src/services/`**: Abstractions for external APIs.
+    *   `fbInstant.js`: Wrapper for Facebook Instant Games interactions.
+    *   `firebase.js`: Firebase configuration and service methods.
+*   **`src/store/`**: Vuex store configuration.
+    *   `index.js`: Store entry point.
+    *   `modules/`: Separated state logic (`player`, `playing`, `progression`).
+*   **`src/views/`**: Main page components acting as route targets.
+    *   `Home.vue`, `PlayGround.vue`, `Market.vue`, `Tutorial.vue`, etc.
+*   **`src/utils/`**: Helper functions for math, sound, time rules, and XP calculations.
+*   **`src/main.js`**: Application entry point. Initializes Vue, Router, Store, i18n, and handles FB Instant Games initialization.
+
+## 4. Key Features
+
+*   **Card-Based Gameplay (`PlayGround.vue`)**:
+    *   Players receive a hand of cards (Nouns, Verbs, Adjectives, etc.).
+    *   Drag-and-drop interface to arrange cards into valid sentences (Noun Phrase + Verb Phrase + Object Phrase).
+    *   Real-time validation of grammar rules.
+*   **Game Modes**:
+    *   **Standard**: Classic 7-card hand.
+    *   **5-4 Split**: A strategic mode with shared community cards.
+    *   **Co-op**: Cooperative play mode.
+*   **Progression System**:
+    *   Experience (XP) tracking.
+    *   Level-up system with unlocks (`LevelUpModal`).
+    *   Persistent player stats via FB Instant / Firebase.
+*   **In-Game Economy**:
+    *   `Market.vue`: Storefront for purchasing items.
+    *   `CosmeticsScreen.vue`: Customization options for the player.
+*   **Social Integration**:
+    *   Leaderboards.
+    *   Connected players fetching.
+    *   Social contexts via FB Instant Games.
+*   **Tutorials**: Interactive tutorial system (`Tutorial.vue`, `TutorialOverlay.vue`) to guide new players.
+*   **Localization**: Multi-language support to make the game accessible to a global audience.
