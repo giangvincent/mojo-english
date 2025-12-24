@@ -2,6 +2,7 @@
   "name": "verbapix",
   "version": "1.0.1",
   "private": true,
+  "type": "module",
   "description": "Cards, Grammar, Fun",
   "scripts": {
     "dev": "vite",

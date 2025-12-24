@@ -30,6 +30,7 @@
 
 <script>
 import { computed, defineAsyncComponent } from 'vue'
+import { getCardBackgroundStyle } from '@/utils/cardImageMapper'
 
 export default {
   name: 'card-container',
@@ -71,7 +72,6 @@ export default {
     // Dynamic import to avoid issues if file doesn't exist yet in some environments
     const backgroundStyle = computed(() => {
       try {
-        const { getCardBackgroundStyle } = require('@/utils/cardImageMapper')
         return getCardBackgroundStyle(props.card.id)
       } catch (e) {
         return {}
