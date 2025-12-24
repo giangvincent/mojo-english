@@ -8,6 +8,8 @@ Players collect and arrange "word cards" to form grammatically correct sentences
 
 **Core Concept:** "Cards, Grammar, Fun".
 
+For detailed game rules and mechanics, please refer to [Game Rules](rules_nook.md).
+
 ## 2. Technical Architecture
 
 The application is a **Single Page Application (SPA)** built with modern web technologies:
