@@ -1,0 +1,53 @@
+[
+    {
+        "id": "C2a",
+        "type": "conjunction",
+        "image": "Set2-RoundEdge-56.png",
+        "content": [
+            {
+                "text": "and",
+                "point": 6
+            },
+            {
+                "text": "or",
+                "point": 5
+            }
+        ],
+        "previousCards": [],
+        "nextCards": []
+    },
+    {
+        "id": "C2b",
+        "type": "conjunction",
+        "image": "Set2-RoundEdge-57.png",
+        "content": [
+            {
+                "text": "and",
+                "point": 5
+            },
+            {
+                "text": "or",
+                "point": 4
+            }
+        ],
+        "previousCards": [],
+        "nextCards": []
+    },
+    {
+        "id": "C2c",
+        "type": "conjunction",
+        "image": "Set2-RoundEdge-58.png",
+        "content": [
+            {
+                "text": "and",
+                "point": 4
+            },
+            {
+                "text": "or",
+                "point": 6
+            }
+        ],
+        "previousCards": [],
+        "nextCards": []
+    }
+]

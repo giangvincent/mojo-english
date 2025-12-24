@@ -20,7 +20,7 @@
                 "text": "in panda costumes"
             }
         ],
-        "point": 5,
+        "point": 1,
         "previousCards": [
             "Noun",
             "Verb",
@@ -66,7 +66,7 @@
                 "text": "with a pink mohawk"
             }
         ],
-        "point": 5,
+        "point": 2,
         "previousCards": [
             "Noun",
             "Verb",
@@ -112,7 +112,7 @@
                 "text": "wearing faded jeans"
             }
         ],
-        "point": 5,
+        "point": 12,
         "previousCards": [
             "Noun",
             "Verb",
@@ -158,7 +158,7 @@
                 "text": "with large ears"
             }
         ],
-        "point": 5,
+        "point": 9,
         "previousCards": [
             "Noun",
             "Verb",
@@ -251,7 +251,7 @@
                 "text": "where it is very windy"
             }
         ],
-        "point": 5,
+        "point": 6,
         "previousCards": [
             "Location"
         ],
@@ -267,5 +267,449 @@
                 "point": 3
             }
         ]
+    },
+    {
+        "id": "E1g",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "is wearing a velvet suit",
+                "type": "singular"
+            },
+            {
+                "text": "are wearing denim vests",
+                "type": "plural"
+            }
+        ],
+        "point": 1,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1h",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "has black hair",
+                "type": "singular"
+            },
+            {
+                "text": "have black hair",
+                "type": "plural"
+            },
+            {
+                "text": "has greasy dreadlocks",
+                "type": "singular"
+            },
+            {
+                "text": "have nice afros",
+                "type": "plural"
+            },
+            {
+                "text": "hair is greasy"
+            }
+        ],
+        "point": 2,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1i",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "is wearing a cotton dress",
+                "type": "singular"
+            },
+            {
+                "text": "are wearing tartan kilts",
+                "type": "plural"
+            }
+        ],
+        "point": 3,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1j",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "has a strong jaw",
+                "type": "singular"
+            },
+            {
+                "text": "have long noses",
+                "type": "plural"
+            }
+        ],
+        "point": 4,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1k",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "has buck teeth",
+                "type": "singular"
+            },
+            {
+                "text": "have no pointy fangs",
+                "type": "plural"
+            }
+        ],
+        "point": 5,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1l",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "TimeCard"
+            }
+        ],
+        "content": [
+            {
+                "text": "Today is stormy"
+            },
+            {
+                "text": "Yesterday was very hot"
+            },
+            {
+                "text": "Tomorrow will be snowy"
+            }
+        ],
+        "point": 6,
+        "previousCards": [
+            "TimeCard"
+        ],
+        "nextCards": [],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1m",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "is wearing a straw hat",
+                "type": "singular"
+            },
+            {
+                "text": "are wearing gold rings",
+                "type": "plural"
+            }
+        ],
+        "point": 7,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1n",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "is carrying an umbrella",
+                "type": "singular"
+            },
+            {
+                "text": "is using a cane to walk",
+                "type": "singular"
+            },
+            {
+                "text": "is holding a well-used wallet",
+                "type": "singular"
+            },
+            {
+                "text": "are carrying umbrellas",
+                "type": "plural"
+            }
+        ],
+        "point": 8,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1o",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "has rosy cheeks",
+                "type": "singular"
+            },
+            {
+                "text": "have butterfly eyes",
+                "type": "plural"
+            },
+            {
+                "text": "horns are curved"
+            }
+        ],
+        "point": 9,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1p",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "is wearing fur gloves",
+                "type": "singular"
+            },
+            {
+                "text": "are wearing cool goggles",
+                "type": "plural"
+            }
+        ],
+        "point": 10,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1q",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "has a baby baboon",
+                "type": "singular"
+            },
+            {
+                "text": "have a baby baboon",
+                "type": "plural"
+            },
+            {
+                "text": "has albino lions",
+                "type": "singular"
+            },
+            {
+                "text": "have albino lions",
+                "type": "plural"
+            },
+            {
+                "text": "pet elk is aquatic"
+            }
+        ],
+        "point": 11,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1r",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "is wearing new pyjamas",
+                "type": "singular"
+            },
+            {
+                "text": "are wearing shiny boots",
+                "type": "plural"
+            }
+        ],
+        "point": 12,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
+    },
+    {
+        "id": "E1s",
+        "type": "ExtraInformation",
+        "condition": [
+            {
+                "type": "Noun",
+                "categories": [
+                    "person",
+                    "animal"
+                ]
+            }
+        ],
+        "content": [
+            {
+                "text": "has a nice beard",
+                "type": "singular"
+            },
+            {
+                "text": "have blue moustaches",
+                "type": "plural"
+            },
+            {
+                "text": "has long sideburns",
+                "type": "singular"
+            },
+            {
+                "text": "have long sideburns",
+                "type": "plural"
+            }
+        ],
+        "point": 13,
+        "previousCards": [
+            "Noun"
+        ],
+        "nextCards": [
+            "HelpingVerb",
+            "Verb"
+        ],
+        "bonusPoint": []
     }
 ]
