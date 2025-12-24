@@ -65,7 +65,7 @@
       <div class="pixel-panel p-3 w-full relative" v-if="!isDragging">
         <span class="font-bold uppercase tracking-wider">{{ $t('playing.final_sentence') }}:</span>
         <div class="ml-2 inline">
-          {{ typeof nounPhrase.text !== 'undefinded' ? nounPhraseText : '' }}
+          {{ typeof nounPhrase.text !== 'undefined' ? nounPhraseText : '' }}
           {{ typeof verbPhrase.text !== 'undefined' ? verbPhrase.text : '' }}
           {{ typeof objectPhrase.text !== 'undefined' ? objectPhrase.text + '.' : '' }}
           <div class="-mt-6 w-auto absolute top-0 whitespace-no-wrap pixel-chip">{{
@@ -176,7 +176,6 @@ export default {
       sentenceStartAllowed: ['TimeCard', 'Location'],
       sentenceStartFollowups: ['Noun', 'Adj', 'HelpingVerb'],
       discardLimit: 3,
-      draggedCardRef: null,
       draggedCardRef: null,
       lastXpEarned: 0,
       lastXpContext: {},
