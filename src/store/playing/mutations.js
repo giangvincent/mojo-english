@@ -97,5 +97,27 @@ export default {
   },
   setWinner: function (state, payload) {
     state.winner = payload
+  },
+  // Verba Specific Mutations
+  setDeck: function (state, payload) {
+    state.deck = payload
+  },
+  setHand: function (state, payload) {
+    state.hand = payload
+  },
+  setCommunityCards: function (state, payload) {
+    state.communityCards = payload
+  },
+  addToCommunityCards: function (state, card) {
+    state.communityCards.push(card)
+  },
+  addToHand: function (state, card) {
+    state.hand.push(card)
+  },
+  removeFromHand: function (state, cardId) {
+    state.hand = state.hand.filter(c => c.id !== cardId)
+  },
+  addToDiscardPile: function (state, card) {
+    state.discardPile.push(card)
   }
 }
