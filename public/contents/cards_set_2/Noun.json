@@ -1,0 +1,368 @@
+[
+    {
+        "id": "N2a",
+        "type": "noun",
+        "image": "Set2-RoundEdge-01.png",
+        "singular": {
+            "text": "the dragon",
+            "point": 7
+        },
+        "plural": {
+            "text": "(the) dragons",
+            "point": 3
+        },
+        "category": "Animal",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "call",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "play",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2e",
+            "E2d"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2b",
+        "type": "noun",
+        "image": "Set2-RoundEdge-02.png",
+        "singular": {
+            "text": "the fairy",
+            "point": 4
+        },
+        "plural": {
+            "text": "(the) fairies",
+            "point": 5
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "help",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "sing",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2a",
+            "E2f"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2c",
+        "type": "noun",
+        "image": "Set2-RoundEdge-03.png",
+        "singular": {
+            "text": "the goblin",
+            "point": 3
+        },
+        "plural": {
+            "text": "(the) goblins",
+            "point": 6
+        },
+        "category": "Person, Animal",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "tickle",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "crawl",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2f",
+            "E2b",
+            "E2g",
+            "A2f"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2d",
+        "type": "noun",
+        "image": "Set2-RoundEdge-04.png",
+        "singular": {
+            "text": "the king",
+            "point": 6
+        },
+        "plural": {
+            "text": "(the) kings",
+            "point": 2
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "high five",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "jump",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2a",
+            "E2a",
+            "E2e"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2e",
+        "type": "noun",
+        "image": "Set2-RoundEdge-05.png",
+        "singular": {
+            "text": "the knight",
+            "point": 4
+        },
+        "plural": {
+            "text": "(the) knights",
+            "point": 5
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "fist bump",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "exercise",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2f",
+            "E2e",
+            "E2g"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2f",
+        "type": "noun",
+        "image": "Set2-RoundEdge-06.png",
+        "singular": {
+            "text": "the prince",
+            "point": 5
+        },
+        "plural": {
+            "text": "(the) princes",
+            "point": 4
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "tease",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "run",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2b",
+            "E2d"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2g",
+        "type": "noun",
+        "image": "Set2-RoundEdge-07.png",
+        "singular": {
+            "text": "the princess",
+            "point": 5
+        },
+        "plural": {
+            "text": "(the) princesses",
+            "point": 4
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "hold hands",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "dance",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2c",
+            "E2b"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2h",
+        "type": "noun",
+        "image": "Set2-RoundEdge-08.png",
+        "singular": {
+            "text": "the queen",
+            "point": 6
+        },
+        "plural": {
+            "text": "(the) queens",
+            "point": 2
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "hug",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "jog",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2c",
+            "E2c",
+            "E2f"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2i",
+        "type": "noun",
+        "image": "Set2-RoundEdge-09.png",
+        "singular": {
+            "text": "the witch",
+            "point": 4
+        },
+        "plural": {
+            "text": "(the) witches",
+            "point": 6
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "kiss",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "skip",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2d",
+            "A2e",
+            "E2g"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    },
+    {
+        "id": "N2j",
+        "type": "noun",
+        "image": "Set2-RoundEdge-10.png",
+        "singular": {
+            "text": "the wizard",
+            "point": 6
+        },
+        "plural": {
+            "text": "(the) wizards",
+            "point": 4
+        },
+        "category": "Person",
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "shake hands",
+                    "type": "verb"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "walk",
+                    "type": "verb"
+                },
+                "point": 5
+            }
+        ],
+        "previousCards": [
+            "A2b",
+            "E2a"
+        ],
+        "nextCards": [],
+        "allowCards": []
+    }
+]
