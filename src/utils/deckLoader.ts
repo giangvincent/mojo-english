@@ -14,30 +14,35 @@ const CARD_FILES = [
   "Time.json"
 ];
 
-const BASE_PATH = "/contents/cards_set_1/";
+// Base path pattern
+const GET_BASE_PATH = (setId: number | string) => `/contents/cards_set_${setId}/`;
 
-export async function loadDeck(): Promise<VerbaCard[]> {
+export async function loadDeck(setId: number | string = 1): Promise<VerbaCard[]> {
   let deck: VerbaCard[] = [];
+  const basePath = GET_BASE_PATH(setId);
 
   for (const file of CARD_FILES) {
     try {
-      const response = await fetch(`${BASE_PATH}${file}`);
+      const response = await fetch(`${basePath}${file}`);
       if (!response.ok) {
-        console.error(`Failed to load ${file}: ${response.statusText}`);
+        console.error(`Failed to load ${file} from Set ${setId}: ${response.statusText}`);
         continue;
       }
       const cards: VerbaCard[] = await response.json();
 
-      // Post-processing if needed (e.g. assigning unique IDs if missing, though JSON seems to have them)
-      // Fix specific data issues if found (like "type" casing)
+      // Post-processing
       cards.forEach(card => {
+          // Tag with Set ID for tracking
+          // @ts-ignore
+          card.setId = Number(setId);
+
           // Ensure type consistency if needed
           if (file === "Conjuntion.json" && !card.type) card.type = "Conj";
       });
 
       deck = deck.concat(cards);
     } catch (error) {
-      console.error(`Error loading ${file}:`, error);
+      console.error(`Error loading ${file} from Set ${setId}:`, error);
     }
   }
 

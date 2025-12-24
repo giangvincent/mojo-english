@@ -1,12 +1,26 @@
 import { loadDeck, shuffleDeck } from '@/utils/deckLoader';
 
 export default {
-  async initializeGame({ commit }, mode = 'standard') {
+  /**
+   * Initialize Game
+   * payload can be a string (mode) OR an object { mode: string, setId: number }
+   */
+  async initializeGame({ commit }, payload = 'standard') {
+    let mode = 'standard';
+    let setId = 1;
+
+    if (typeof payload === 'string') {
+        mode = payload;
+    } else if (typeof payload === 'object') {
+        mode = payload.mode || 'standard';
+        setId = payload.setId || 1;
+    }
+
     commit('setGameMode', mode);
     commit('resetGame');
 
-    // 1. Load Deck
-    const rawDeck = await loadDeck();
+    // 1. Load Deck with Set ID
+    const rawDeck = await loadDeck(setId);
     const shuffledDeck = shuffleDeck(rawDeck);
 
     // 2. Deal based on mode

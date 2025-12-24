@@ -55,7 +55,8 @@ export default defineComponent({
 
     onMounted(async () => {
         // Initialize Game (Standard by default for now, or fetch from route params)
-        await store.dispatch('initializeGame', '5-4-split'); // Testing the complex mode
+        // Set ID can be passed here. For now, defaulting to 1, but ready for 2.
+        await store.dispatch('initializeGame', { mode: '5-4-split', setId: 1 });
         loading.value = false;
     });
 
