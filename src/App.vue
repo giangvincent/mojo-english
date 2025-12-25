@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="w-screen h-screen overflow-y-auto pixel-bg">
-    <div
-      class="flex items-center justify-center w-full game_screen"
-    >
+    <div class="flex items-center justify-center w-full game_screen">
       <router-view />
     </div>
     <Setting v-if="popupModal" />
@@ -18,7 +16,7 @@ export default {
   components: {
     Setting: defineAsyncComponent(() => import('@/components/Setting.vue'))
   },
-  created () {},
+  created() { },
   computed: {
     ...mapState({
       scr_width: state => state.scr_width,
@@ -31,11 +29,7 @@ export default {
 
 <style lang="scss">
 #app {
-  color: #2c3e50;
+  color: var(--pix-ink);
   text-align: center;
-}
-
-.main-bg {
-  /* Using global pixel-bg class instead */
 }
 </style>

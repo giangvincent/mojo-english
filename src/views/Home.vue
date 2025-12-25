@@ -33,110 +33,88 @@
         </button>
         <button class="pixel-icon-btn" @click="showTutorial = true">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-4a3 3 0 00-2.824 1.995.75.75 0 11-1.408-.51A4.5 4.5 0 1110 14.5a.75.75 0 010-1.5 3 3 0 100-6zM9.25 15.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5z" clip-rule="evenodd" />
+            <path fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-4a3 3 0 00-2.824 1.995.75.75 0 11-1.408-.51A4.5 4.5 0 1110 14.5a.75.75 0 010-1.5 3 3 0 100-6zM9.25 15.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5z"
+              clip-rule="evenodd" />
           </svg>
         </button>
       </div>
     </header>
 
-    <main class="relative z-10 w-full max-w-6xl px-4 pb-20 mx-auto overflow-y-auto md:px-12">
-      <section class="grid items-center gap-10 lg:grid-cols-2">
-        <div class="space-y-6">
-          <div
-            class="inline-flex items-center gap-2 pixel-chip">
-            {{ $t('home.badge_updated') }}
-          </div>
-          <h2 class="text-4xl leading-tight md:text-5xl font-display">
-            {{ $t('home.hero_title') }}
-          </h2>
-          <p class="max-w-xl text-base text-slate-700">
+    <main class="relative z-10 w-full max-w-6xl px-4 pb-20 mx-auto overflow-y-auto md:px-12 pt-8">
+
+      <!-- Hero Section -->
+      <section class="pixel-panel p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center bg-pix-paper mb-12">
+        <div class="flex-1 space-y-4">
+          <div class="pixel-chip bg-pix-primary text-white w-max font-bold">NEW UPDATE</div>
+          <h2 class="text-4xl md:text-6xl font-display text-pix-ink mb-2">VerbaPix</h2>
+          <p class="text-lg md:text-xl text-pix-ink font-pixel leading-relaxed">
             {{ $t('home.hero_desc') }}
           </p>
-          <div class="flex flex-wrap gap-3">
-            <router-link to="play" class="pixel-btn primary flex items-center gap-2">
-              <img class="h-6" src="@/assets/images/card-games.svg" alt="play now" />
-              <span>{{ $t('home.play_now') }}</span>
+
+          <div class="flex flex-wrap gap-4 pt-4">
+            <router-link to="play" class="pixel-btn primary text-lg min-w-[160px] text-center">
+              {{ $t('home.play_now') }}
             </router-link>
-            <router-link to="tutorial" class="pixel-btn ghost">
+            <router-link to="tutorial" class="pixel-btn ghost border-2 border-pix-ink bg-white">
               {{ $t('home.guides') }}
             </router-link>
-            <router-link to="cosmetics" class="pixel-btn ghost text-pix-success">
-              {{ $t('home.shop') }}
-            </router-link>
-            <router-link to="progress" class="pixel-btn ghost">
-              {{ $t('nav.progress') }}
-            </router-link>
-            <router-link to="dashboard" class="pixel-btn ghost">
-              {{ $t('nav.dashboard') }}
-            </router-link>
-          </div>
-          <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-wide">
-            <span class="pill">{{ $t('home.pill_hand') }}</span>
-            <span class="pill">{{ $t('home.pill_shared') }}</span>
-            <span class="pill">{{ $t('home.pill_coop') }}</span>
-            <span class="pill">{{ $t('home.pill_pvp') }}</span>
           </div>
         </div>
 
-        <div class="glass hero-panel card-preview">
-          <div class="grid h-full grid-cols-2 gap-4">
-            <div class="stat-tile">
-              <p class="text-xs tracking-wide uppercase text-slate-700">{{ $t('modes.standard') }}</p>
-              <div class="text-5xl leading-none font-display">7</div>
-              <p class="text-sm text-slate-700">{{ $t('home.cards_ready') }}</p>
+        <!-- Decorative / Stats Block -->
+        <div class="w-full md:w-1/3 flex flex-col gap-4">
+          <div class="pixel-inset p-4">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs font-bold uppercase text-pix-ink">Level</span>
+              <span class="text-xl font-bold text-pix-primary">{{ progressionLevel || playerData.level }}</span>
             </div>
-            <div class="stat-tile">
-              <p class="text-xs tracking-wide uppercase text-slate-700">{{ $t('home.rounds') }}</p>
-              <div class="flex items-center gap-2">
-                <span class="progress-dot active"></span>
-                <span class="progress-dot active"></span>
-                <span class="progress-dot"></span>
-              </div>
-              <p class="text-xs text-slate-700">{{ $t('home.rounds_sprint') }}</p>
+            <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext"
+              :level="progressionLevel || playerData.level" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="pixel-panel p-2 flex flex-col items-center justify-center bg-pix-paper-2">
+              <span class="text-3xl font-display text-pix-ink">7</span>
+              <span class="text-[10px] uppercase font-bold text-pix-ink-light">Hand Size</span>
             </div>
-            <div class="col-span-2 stat-tile">
-              <XpBar :currentXp="progressionXp" :xpToNext="progressionXpToNext"
-                :level="progressionLevel || playerData.level" />
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-xs uppercase text-slate-700">5/4 Split</p>
-                  <p class="text-lg font-semibold">{{ $t('home.shared_center') }}</p>
-                </div>
-                <div class="badge badge-green">{{ $t('home.badge_immutable') }}</div>
-              </div>
-              <div class="divider"></div>
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-xs uppercase text-slate-700">Co-op</p>
-                  <p class="text-lg font-semibold">{{ $t('home.coop_last_card') }}</p>
-                </div>
-                <div class="badge badge-purple">{{ $t('home.badge_turn_track') }}</div>
-              </div>
+            <div class="pixel-panel p-2 flex flex-col items-center justify-center bg-pix-paper-2">
+              <span class="text-xl font-display text-pix-warning">5/4</span>
+              <span class="text-[10px] uppercase font-bold text-pix-ink-light">Split Mode</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="grid gap-6 mt-12 md:grid-cols-3">
-        <article class="pixel-panel p-4 flex flex-col gap-2">
-          <div class="pixel-chip bg-retro-primary text-white w-max">{{ $t('modes.standard') }}</div>
-          <p class="mode-title font-bold text-lg">{{ $t('home.mode_standard_title') }}</p>
-          <p class="mode-body text-sm">{{ $t('home.mode_standard_body') }}</p>
-          <router-link to="play" class="pixel-btn primary mt-auto text-center">{{ $t('home.start_standard') }}</router-link>
+      <!-- Game Modes -->
+      <section class="grid gap-8 md:grid-cols-3">
+
+        <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
+          <div class="h-32 bg-pix-primary flex items-center justify-center border-b-4 border-pix-ink">
+            <span class="text-white font-display text-4xl">STD</span>
+          </div>
+          <h3 class="font-display text-xl mt-2">{{ $t('modes.standard') }}</h3>
+          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_standard_body') }}</p>
+          <router-link to="play" class="pixel-btn primary mt-auto text-center w-full block">PLAY</router-link>
         </article>
 
-        <article class="pixel-panel p-4 flex flex-col gap-2">
-          <div class="pixel-chip bg-retro-warning text-retro-ink w-max">{{ $t('modes.5-4-split') }}</div>
-          <p class="mode-title font-bold text-lg">{{ $t('home.mode_split_title') }}</p>
-          <p class="mode-body text-sm">{{ $t('home.mode_split_body') }}</p>
-          <router-link to="play" class="pixel-btn warning mt-auto text-center">{{ $t('home.start_split') }}</router-link>
+        <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
+          <div class="h-32 bg-pix-warning flex items-center justify-center border-b-4 border-pix-ink">
+            <span class="text-pix-ink font-display text-4xl">SPLIT</span>
+          </div>
+          <h3 class="font-display text-xl mt-2">{{ $t('modes.5-4-split') }}</h3>
+          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_split_body') }}</p>
+          <router-link to="play" class="pixel-btn warning mt-auto text-center w-full block">PLAY</router-link>
         </article>
 
-        <article class="pixel-panel p-4 flex flex-col gap-2">
-          <div class="pixel-chip bg-purple-400 text-white w-max">{{ $t('modes.coop') }}</div>
-          <p class="mode-title font-bold text-lg">{{ $t('home.mode_coop_title') }}</p>
-          <p class="mode-body text-sm">{{ $t('home.mode_coop_body') }}</p>
-          <router-link to="play" class="pixel-btn mt-auto text-center" style="background: #c084fc; color: white;">{{ $t('home.start_coop') }}</router-link>
+        <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
+          <div class="h-32 bg-purple-500 flex items-center justify-center border-b-4 border-pix-ink">
+            <span class="text-white font-display text-4xl">CO-OP</span>
+          </div>
+          <h3 class="font-display text-xl mt-2">{{ $t('modes.coop') }}</h3>
+          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_coop_body') }}</p>
+          <router-link to="play" class="pixel-btn mt-auto text-center w-full block"
+            style="background: #c084fc; color: white;">PLAY</router-link>
         </article>
       </section>
     </main>
@@ -274,263 +252,10 @@ export default {
   letter-spacing: 0.02em;
 }
 
-.bg-grid {
-  display: none;
-}
-
-.bg-glow {
-  display: none;
-}
-
-.bg-glow-1 {
-  top: 10%;
-  right: 5%;
-  background: rgba(59, 130, 246, 0.6);
-}
-
-.bg-glow-2 {
-  bottom: 8%;
-  left: 5%;
-  background: rgba(16, 185, 129, 0.6);
-}
-
 .font-display {
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.glass {
-  backdrop-filter: none;
-  box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: var(--pix-paper);
-  color: var(--pix-ink);
-}
-
-.chip {
-  border-radius: 0;
-  padding: 0.65rem 0.9rem;
-}
-
-.level-pill {
-  margin-left: auto;
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.35);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: linear-gradient(180deg, #86efac, var(--pix-success));
-  padding: 0.25rem 0.55rem;
-  color: #052e16;
-  font-weight: 900;
-  font-size: 12px;
-}
-
-.icon-btn {
-  display: grid;
-  place-items: center;
-  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
-  box-shadow: 0 var(--px) 0 var(--pix-shadow);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: var(--pix-paper);
-  width: 44px;
-  height: 44px;
-}
-
-.icon-btn:hover {
-  filter: brightness(1.05);
-}
-
-.cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
-  box-shadow: 0 var(--px) 0 var(--pix-shadow);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  padding: 0.75rem 1rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.cta.primary {
-  background: linear-gradient(180deg, #fca5a5, var(--pix-danger));
-  color: #fff;
-}
-
-.cta.ghost {
-  background: var(--pix-paper);
-  color: var(--pix-ink);
-}
-
-.cta.ghost.alt {
-  background: linear-gradient(180deg, #86efac, var(--pix-success));
-  color: #052e16;
-}
-
-.cta.auth {
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  background: var(--pix-paper);
-  padding: 0.75rem 1rem;
-  color: var(--pix-ink);
-}
-
-.cta.auth.danger {
-  background: linear-gradient(180deg, #fca5a5, var(--pix-danger));
-  color: #450a0a;
-}
-
-.cta:hover {
-  filter: brightness(1.05);
-}
-
-.cta:active,
-.icon-btn:active {
-  transform: translate3d(0, var(--px), 0);
-  box-shadow: 0 0 0 var(--pix-shadow);
-}
-
-.pill {
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.3);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: var(--pix-paper);
-  padding: 0.4rem 0.6rem;
-  color: var(--pix-ink);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.hero-panel {
-  border-radius: 0;
-  padding: 1.25rem;
-  min-height: 320px;
-}
-
-.card-preview {
-  aspect-ratio: 4 / 3;
-}
-
-.stat-tile {
-  box-shadow:
-    inset calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.28),
-    inset calc(var(--px) / -2) calc(var(--px) / -2) 0 rgba(255, 255, 255, 0.7);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: var(--pix-paper-2);
-  padding: 1rem;
-}
-
-.progress-dot {
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.18);
-  width: 10px;
-  height: 10px;
-}
-
-.progress-dot.active {
-  background: linear-gradient(180deg, #86efac, var(--pix-success));
-}
-
-.badge {
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  padding: 0.4rem 0.75rem;
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.badge-green {
-  background: linear-gradient(180deg, #86efac, var(--pix-success));
-  color: #052e16;
-}
-
-.badge-purple {
-  background: linear-gradient(180deg, #c4b5fd, #8b5cf6);
-  color: #1f1147;
-}
-
-.divider {
-  margin: 0.75rem 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
-  width: 100%;
-  height: 1px;
-}
-
-.mode-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: var(--pix-paper);
-  padding: 1.25rem;
-}
-
-.mode-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.25);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: linear-gradient(180deg, var(--pix-primary-2), var(--pix-primary));
-  padding: 0.35rem 0.6rem;
-  color: #fff;
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.mode-badge.green {
-  background: linear-gradient(180deg, #86efac, var(--pix-success));
-  color: #052e16;
-}
-
-.mode-badge.purple {
-  background: linear-gradient(180deg, #c4b5fd, #8b5cf6);
-  color: #1f1147;
-}
-
-.mode-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.mode-body {
-  color: #334155;
-  font-size: 0.95rem;
-}
-
-.mode-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: auto;
-  box-shadow: 0 var(--px) 0 var(--pix-shadow);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  border-radius: 0;
-  background: linear-gradient(180deg, var(--pix-primary-2), var(--pix-primary));
-  padding: 0.65rem 0.9rem;
-  color: #fff;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.mode-cta:active {
-  transform: translate3d(0, var(--px), 0);
-  box-shadow: 0 0 0 var(--pix-shadow);
 }
 
 .auth-stack {
