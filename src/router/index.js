@@ -45,6 +45,11 @@ const routes = [
     path: '/verba',
     name: 'verba',
     component: () => import('../views/VerbaGame.vue')
+  },
+  {
+    path: '/lobby',
+    name: 'lobby',
+    component: () => import('../views/MultiplayerLobby.vue')
   }
 ]
 

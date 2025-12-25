@@ -2,6 +2,10 @@ import { loadDeck, shuffleDeck } from '@/utils/deckLoader';
 
 export default {
   async initializeGame({ commit }, mode = 'standard') {
+    // If receiving an object as mode (e.g. from dispatch), extract the string
+    if (typeof mode === 'object' && mode.mode) {
+      mode = mode.mode;
+    }
     commit('setGameMode', mode);
     commit('resetGame');
 

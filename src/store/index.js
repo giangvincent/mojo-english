@@ -6,6 +6,7 @@ import states from './states.js'
 import playing from './playing'
 import player from './player'
 import progression from './progression'
+import multiplayer from './multiplayer'
 
 export default createStore({
   state: states,
@@ -14,6 +15,7 @@ export default createStore({
   modules: {
     playing,
     player,
-    progression
+    progression,
+    multiplayer
   }
 })
