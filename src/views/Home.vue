@@ -138,6 +138,13 @@
           <p class="mode-body">{{ $t('home.mode_coop_body') }}</p>
           <router-link to="play" class="mode-cta">{{ $t('home.start_coop') }}</router-link>
         </article>
+
+        <article class="mode-card">
+          <div class="mode-badge" style="background: linear-gradient(180deg, #60a5fa, #2563eb);">Multiplayer</div>
+          <p class="mode-title">Online Lobby</p>
+          <p class="mode-body">Play with friends or find a match online.</p>
+          <router-link to="lobby" class="mode-cta" style="background: linear-gradient(180deg, #60a5fa, #2563eb);">Enter Lobby</router-link>
+        </article>
       </section>
     </main>
 
