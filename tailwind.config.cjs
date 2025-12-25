@@ -130,6 +130,18 @@ module.exports = {
         700: '#d668ac',
         800: '#d155a1',
         900: '#cc4297'
+      },
+      pix: {
+        ink: '#134686',
+        paper: '#FDF4E3',
+        primary: '#ED3F27',
+        warning: '#FEB21A'
+      },
+      retro: {
+        ink: '#134686',
+        paper: '#FDF4E3',
+        primary: '#ED3F27',
+        warning: '#FEB21A'
       }
     },
     spacing: {
@@ -275,6 +287,10 @@ module.exports = {
         '"Segoe UI Symbol"',
         '"Noto Color Emoji"'
       ],
+      pixel: ['"WebPlus_IBM_VGA_9x16"', 'monospace'],
+      card: ['"WebPlus_IBM_VGA_9x16"', 'monospace'],
+      mplus: ['"M PLUS Code Latin"', 'monospace'],
+      webplus: ['"WebPlus_IBM_VGA_9x16"', 'monospace'],
       serif: [
         'mpluscodelatin',
         'Georgia',

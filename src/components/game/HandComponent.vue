@@ -1,16 +1,15 @@
 <template>
-  <div class="w-full bg-gray-100 p-4 rounded-t-xl fixed bottom-0 left-0 right-0 z-50 shadow-up">
-     <h3 class="text-gray-500 text-xs mb-1 text-center">Your Hand</h3>
-     <draggable
-        v-model="localHand"
-        group="cards"
-        item-key="id"
-        class="flex flex-nowrap overflow-x-auto gap-2 py-2 px-4 justify-center"
-     >
-        <template #item="{ element }">
-           <CardComponent :card="element" :is-interactive="true" />
-        </template>
-     </draggable>
+  <div class="w-full pixel-panel border-b-0 fixed bottom-0 left-0 right-0 z-50 p-2 pb-6">
+    <h3 class="text-pix-ink text-xs mb-1 text-center font-bold tracking-widest uppercase">Your Hand</h3>
+    <draggable v-model="localHand" group="cards" item-key="id"
+      class="flex flex-row flex-nowrap overflow-x-auto gap-4 py-4 px-4 items-center"
+      style="min-height: 240px; justify-content: flex-start;">
+      <template #item="{ element }">
+        <div class="flex-shrink-0">
+          <CardComponent :card="element" :is-interactive="true" />
+        </div>
+      </template>
+    </draggable>
   </div>
 </template>
 
@@ -28,8 +27,8 @@ export default defineComponent({
 
     // Two-way binding helper for Vuex state
     const localHand = computed({
-        get: () => store.state.hand,
-        set: (val) => store.commit('setHand', val)
+      get: () => store.state.hand,
+      set: (val) => store.commit('setHand', val)
     });
 
     return { localHand };
@@ -38,7 +37,21 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.shadow-up {
-    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+/* Custom scrollbar for the hand */
+::-webkit-scrollbar {
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pix-paper-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pix-ink);
+  border: 2px solid var(--pix-paper);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pix-primary);
 }
 </style>

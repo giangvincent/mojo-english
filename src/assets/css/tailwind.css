@@ -45,20 +45,20 @@
   :root {
     --px: 4px;
 
-    --pix-ink: #111827;
+    --pix-ink: #134686;
     --pix-ink-soft: #1f2937;
-    --pix-paper: #f8fafc;
-    --pix-paper-2: #e2e8f0;
+    --pix-paper: #FDF4E3;
+    --pix-paper-2: #FDF4E3;
     --pix-shadow: #0b1021;
 
-    --pix-primary: #2563eb;
-    --pix-primary-2: #60a5fa;
+    --pix-primary: #ED3F27;
+    --pix-primary-2: #FEB21A;
     --pix-success: #22c55e;
     --pix-danger: #ef4444;
-    --pix-warning: #f59e0b;
+    --pix-warning: #FEB21A;
 
-    --pix-bg-a: #7dd3fc;
-    --pix-bg-b: #38bdf8;
+    --pix-bg-a: var(--pix-ink);
+    --pix-bg-b: #0d305c;
 
     --ui-font: "mpluscodelatin", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
@@ -107,57 +107,47 @@
   .page-panel {
     background: var(--pix-paper);
     color: var(--pix-ink);
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
-    box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
+    box-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-bg {
-    background:
-      repeating-linear-gradient(
-        90deg,
-        var(--pix-bg-a) 0,
-        var(--pix-bg-a) calc(var(--px) * 2),
-        var(--pix-bg-b) calc(var(--px) * 2),
-        var(--pix-bg-b) calc(var(--px) * 4)
-      ),
-      repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.2) 0,
-        rgba(255, 255, 255, 0.2) calc(var(--px) * 2),
-        rgba(0, 0, 0, 0.05) calc(var(--px) * 2),
-        rgba(0, 0, 0, 0.05) calc(var(--px) * 4)
-      );
+    background-image: url('/assets/images/pixel_default_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   .pixel-panel {
     background: var(--pix-paper);
     color: var(--pix-ink);
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
-    box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
+    box-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-inset {
     background: var(--pix-paper-2);
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
     box-shadow:
-      inset calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.28),
-      inset calc(var(--px) / -2) calc(var(--px) / -2) 0 rgba(255, 255, 255, 0.7);
+      inset var(--px) var(--px) 0 rgba(0, 0, 0, 0.28),
+      inset calc(var(--px) * -1) calc(var(--px) * -1) 0 rgba(255, 255, 255, 0.7);
   }
 
   .pixel-border {
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
   }
 
   .pixel-chip {
     background: var(--pix-paper);
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
     padding: 0.35rem 0.6rem;
-    box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.3);
+    box-shadow: var(--px) var(--px) 0 rgba(0, 0, 0, 0.3);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-size: 12px;
@@ -166,7 +156,7 @@
 
   .pixel-btn {
     appearance: none;
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
     padding: 0.65rem 1rem;
     font-weight: 700;
@@ -182,6 +172,8 @@
 
   .pixel-btn:hover {
     filter: brightness(1.05);
+    transform: translate3d(0, calc(var(--px) * -1), 0);
+    box-shadow: 0 calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-btn:active {
@@ -194,6 +186,8 @@
     opacity: 0.55;
     filter: grayscale(1);
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 
   .pixel-btn.primary {
@@ -218,23 +212,32 @@
 
   .pixel-btn.ghost {
     background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .pixel-btn.ghost:hover {
+     background: rgba(255,255,255,0.1);
+     transform: none;
+     box-shadow: none;
   }
 
   .pixel-card {
     background: var(--pix-paper);
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
-    box-shadow: calc(var(--px) / 2) calc(var(--px) / 2) 0 rgba(0, 0, 0, 0.45);
+    box-shadow: var(--px) var(--px) 0 rgba(0, 0, 0, 0.45);
+    /* Double border effect handled in component usually, but we can try pseudo-elements if needed */
   }
 
   .pixel-icon-btn {
     appearance: none;
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     padding: 0;
     display: inline-grid;
     place-items: center;
-    border: calc(var(--px) / 2) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
     font-weight: 900;
     color: var(--pix-ink);
@@ -247,6 +250,8 @@
 
   .pixel-icon-btn:hover {
     filter: brightness(1.05);
+    transform: translate3d(0, calc(var(--px) * -1), 0);
+    box-shadow: 0 calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-icon-btn:active {
