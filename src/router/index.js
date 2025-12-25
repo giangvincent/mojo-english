@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/play',
     name: 'play',
-    component: () => import('../views/PlayGround.vue')
+    component: () => import('../views/VerbaGame.vue')
   },
   {
     path: '/market',

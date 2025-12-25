@@ -4,6 +4,8 @@
     <div class="bg-glow bg-glow-1"></div>
     <div class="bg-glow bg-glow-2"></div>
 
+    <game-mode-selector v-if="showModeSelector" @select-mode="onModeSelected" />
+
     <header class="relative sticky top-0 z-10 flex items-center justify-between px-4 py-4 md:px-12 md:py-6">
       <div class="flex items-center gap-4">
         <img class="w-auto h-10 md:h-12 pixelated" src="@/assets/images/logo.png" alt="VerbaPix logo" />
@@ -53,9 +55,9 @@
           </p>
 
           <div class="flex flex-wrap gap-4 pt-4">
-            <router-link to="play" class="pixel-btn primary text-lg min-w-[160px] text-center">
+            <button @click="showModeSelector = true" class="pixel-btn primary text-lg min-w-[160px] text-center">
               {{ $t('home.play_now') }}
-            </router-link>
+            </button>
             <router-link to="tutorial" class="pixel-btn ghost border-2 border-pix-ink bg-white">
               {{ $t('home.guides') }}
             </router-link>
@@ -95,7 +97,8 @@
           </div>
           <h3 class="font-display text-xl mt-2">{{ $t('modes.standard') }}</h3>
           <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_standard_body') }}</p>
-          <router-link to="play" class="pixel-btn primary mt-auto text-center w-full block">PLAY</router-link>
+          <button @click="startGame('standard')"
+            class="pixel-btn primary mt-auto text-center w-full block">PLAY</button>
         </article>
 
         <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
@@ -104,7 +107,8 @@
           </div>
           <h3 class="font-display text-xl mt-2">{{ $t('modes.5-4-split') }}</h3>
           <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_split_body') }}</p>
-          <router-link to="play" class="pixel-btn warning mt-auto text-center w-full block">PLAY</router-link>
+          <button @click="startGame('5-4-split')"
+            class="pixel-btn warning mt-auto text-center w-full block">PLAY</button>
         </article>
 
         <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
@@ -113,15 +117,16 @@
           </div>
           <h3 class="font-display text-xl mt-2">{{ $t('modes.coop') }}</h3>
           <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_coop_body') }}</p>
-          <router-link to="play" class="pixel-btn mt-auto text-center w-full block"
-            style="background: #c084fc; color: white;">PLAY</router-link>
+          <button @click="startGame('coop')" class="pixel-btn mt-auto text-center w-full block"
+            style="background: #c084fc; color: white;">PLAY</button>
         </article>
 
         <article class="mode-card">
           <div class="mode-badge" style="background: linear-gradient(180deg, #60a5fa, #2563eb);">Multiplayer</div>
           <p class="mode-title">Online Lobby</p>
           <p class="mode-body">Play with friends or find a match online.</p>
-          <router-link to="lobby" class="mode-cta" style="background: linear-gradient(180deg, #60a5fa, #2563eb);">Enter Lobby</router-link>
+          <router-link to="lobby" class="mode-cta" style="background: linear-gradient(180deg, #60a5fa, #2563eb);">Enter
+            Lobby</router-link>
         </article>
       </section>
     </main>
@@ -155,18 +160,21 @@ import { mapActions, mapMutations, mapState } from 'vuex'
 import { auth, signInWithGoogle, signOutUser, onAuthStateChanged } from '@/services/firebase'
 import XpBar from '@/components/ui/XpBar.vue'
 import TutorialOverlay from '@/components/TutorialOverlay.vue'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   name: 'Home',
   components: {
     XpBar,
-    TutorialOverlay
+    TutorialOverlay,
+    GameModeSelector: defineAsyncComponent(() => import('@/components/GameModeSelector.vue'))
   },
   data() {
     return {
       currentUser: null,
       defaultAvatar: 'https://placehold.co/96x96?text=User',
       showTutorial: false,
+      showModeSelector: false,
       unsubscribeAuth: null
     }
   },
@@ -247,6 +255,13 @@ export default {
     },
     openSettings() {
       this.SET_MODAL(true)
+    },
+    onModeSelected(mode) {
+      this.showModeSelector = false
+      this.$router.push({ name: 'play', query: { mode: mode } })
+    },
+    startGame(mode) {
+      this.$router.push({ name: 'play', query: { mode: mode } })
     }
   }
 }

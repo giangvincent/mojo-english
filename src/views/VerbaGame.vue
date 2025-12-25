@@ -7,7 +7,7 @@
             class="flex items-start justify-between mb-6 sticky top-0 z-[100] p-3 bg-pix-paper border-b-4 border-pix-ink shadow-lg">
             <div class="flex flex-col gap-2">
                 <button @click="$router.push('/')" class="pixel-btn danger text-sm font-bold tracking-wider">
-                    &lt; EXIT GAME
+                    &lt; EXIT
                 </button>
                 <div class="pixel-chip bg-pix-paper text-pix-ink mt-2 font-pixel text-xs">
                     <span class="font-bold">MODE:</span> {{ gameMode }}
@@ -15,10 +15,20 @@
             </div>
 
             <div class="flex flex-col items-end gap-2">
-                <div class="pixel-chip bg-pix-warning text-pix-ink font-pixel text-lg">
+                <div class="pixel-chip bg-pix-warning text-pix-ink font-pixel text-lg mb-1">
                     ROUND {{ round }}
                 </div>
-                <!-- Debug button removed or made smaller/hidden if not needed for user -->
+                <div class="flex gap-2">
+                    <button class="pixel-icon-btn danger sm" @click="handleResetGame" title="Reset Game">
+                        &#8635;
+                    </button>
+                    <button class="pixel-icon-btn sm" @click="openSettings" title="Settings">
+                        ⚙
+                    </button>
+                    <button class="pixel-icon-btn sm" @click="showTutorial = true" title="How to Play">
+                        ?
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -39,6 +49,19 @@
         <!-- Hand Component -->
         <HandComponent />
 
+        <!-- Modals -->
+        <round-summary v-if="showRoundSummary" :round="round" :score="roundScores[round - 1] || 0"
+            :totalScore="totalScore" :sentence="finalSentence" :winner="gameMode === 'coop' ? winner : ''"
+            :xpEarned="lastXpEarned" :xpContext="lastXpContext" :xpCurrent="progressionXp"
+            :xpToNext="progressionXpToNext" :level="progressionLevel || playerData.level"
+            @next-round="handleNextRound" />
+
+        <level-up-modal v-if="showLevelUpModal" :level="newLevel" :unlocks="newUnlocks"
+            @close="showLevelUpModal = false" />
+
+        <game-over v-if="playingStep === 'end'" :finalSentence="finalSentence" :finalPoint="finalPoint"></game-over>
+        <tutorial-overlay v-if="showTutorial" @close="showTutorial = false" />
+
         <!-- Loading State -->
         <div v-if="loading" class="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
             <div class="text-xl font-bold animate-pulse text-pix-primary font-pixel">Loading Deck...</div>
@@ -47,44 +70,106 @@
 </template>
 
 <script>
-import { defineComponent, computed, onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { defineComponent, computed, onMounted, ref, defineAsyncComponent, watch } from 'vue';
+import { useStore, mapMutations, mapActions } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 import HandComponent from '@/components/game/HandComponent.vue';
 import TableArea from '@/components/game/TableArea.vue';
 import CommunityPool from '@/components/game/CommunityPool.vue';
+import SoundManager from '@/utils/soundManager';
+import { applyPvpEffect } from '@/utils/pvpEffects';
+import { calculateXpFromContext } from '@/utils/xp';
 
 export default defineComponent({
     name: 'VerbaGame',
-    components: { HandComponent, TableArea, CommunityPool },
+    components: {
+        HandComponent,
+        TableArea,
+        CommunityPool,
+        RoundSummary: defineAsyncComponent(() => import('@/components/RoundSummary.vue')),
+        TutorialOverlay: defineAsyncComponent(() => import('@/components/TutorialOverlay.vue')),
+        LevelUpModal: defineAsyncComponent(() => import('@/components/LevelUpModal.vue')),
+        GameOver: defineAsyncComponent(() => import('@/components/GameOver.vue')),
+    },
     setup() {
         const store = useStore();
         const router = useRouter();
+        const route = useRoute();
         const loading = ref(true);
 
-        const gameMode = computed(() => store.state.gameMode);
-        const round = computed(() => store.state.currentRound);
+        const showRoundSummary = ref(false);
+        const showLevelUpModal = ref(false);
+        const showTutorial = ref(false);
+        const newLevel = ref(1);
+        const newUnlocks = ref([]);
+
+        // Mapped State
+        const gameMode = computed(() => store.state.playing.gameMode);
+        // PlayGround uses mapState: currentRound: state => state.playing.currentRound
+        // Let's use robust computed getters
+        const currentRound = computed(() => store.state.playing.currentRound);
+        const round = currentRound; // Alias for compatibility with template
+        const maxRounds = computed(() => store.state.playing.maxRounds);
+        const totalScore = computed(() => store.state.playing.totalScore);
+        const roundScores = computed(() => store.state.playing.roundScores);
+        const winner = computed(() => store.state.playing.winner);
+
+        const progressionLevel = computed(() => store.state.progression.level);
+        const progressionXp = computed(() => store.state.progression.xp);
+        const progressionXpToNext = computed(() => store.state.progression.xpToNext);
+        const playerData = computed(() => store.state.player.playerData);
+
+        const sharedCards = computed(() => store.state.playing.communityCards || []); // Fallback
+
+        // Validations state
+        const initialSharedCardIds = computed(() => store.state.playing.initialSharedCardIds || []);
+        const usedSharedCardIds = computed(() => store.state.playing.usedSharedCardIds || []);
+
+        // Tracking
+        const matchCombos = ref([]);
+        const lastXpEarned = ref(0);
+        const lastXpContext = ref({});
+        const finalSentence = ref('');
+        const playingStep = computed(() => store.state.playing.playingStep);
+        const finalPoint = ref(0);
 
         onMounted(async () => {
             // Initialize Game (Standard by default for now, or fetch from route params)
-            await store.dispatch('initializeGame', '5-4-split'); // Testing the complex mode
+            const mode = route.query.mode || 'standard';
+            console.log('Initializing game with mode:', mode);
+            await store.dispatch('initializeGame', mode);
             loading.value = false;
         });
 
-        const nextRound = () => {
+        const handleNextRound = () => {
+            showRoundSummary.value = false;
             store.dispatch('advanceRound');
+            console.log(`Starting Round ${currentRound.value}`);
         };
 
-        const handlePlaySentence = (sentence) => {
-            console.log("Playing Sentence:", sentence);
-            // Dispatch action to finalize turn, score, etc.
-            // store.dispatch('completeTurn', sentence);
-            alert(`Played sentence with ${sentence.length} cards!`);
+        const handleResetGame = () => {
+            store.commit('resetGame');
+            router.push('/');
         };
 
-        // Dynamic Background Logic
-        const currentBg = ref('url("/assets/images/pixel_default_bg.jpg")'); // Default Space
+        const openSettings = () => {
+            store.commit('SET_MODAL', true);
+        };
 
+        // Watch for Level Up
+        watch(progressionLevel, (newVal, oldVal) => {
+            if (newVal > oldVal && oldVal > 0) {
+                newLevel.value = newVal;
+                import('@/utils/unlocks').then(({ getUnlocksForLevel }) => {
+                    newUnlocks.value = getUnlocksForLevel(newVal);
+                    showLevelUpModal.value = true;
+                    SoundManager.play('win');
+                });
+            }
+        });
+
+        // Dynamic Background Logic (keep existing)
+        const currentBg = ref('url("/assets/images/pixel_default_bg.jpg")');
         const bgDefinitions = {
             'default': 'url("/assets/images/pixel_default_bg.jpg")',
             'space': 'url("/assets/images/pixel_space_fun.jpg")',
@@ -98,22 +183,11 @@ export default defineComponent({
         };
 
         const updateBackgroundParams = (sentence) => {
-            // Debugging: Check if this function is called and what checks are properly detected
-            console.log('updateBackgroundParams called with sentence:', sentence);
             const locationCard = sentence.find(c => c.type === 'Location');
-            console.log('Location Card Found:', locationCard);
-
             if (locationCard) {
-                // Determine the text to match against: prefer selectedText (if user made a choice), detection fallback to content[0]
-                let text = '';
-                if (locationCard.selectedText) {
-                    text = locationCard.selectedText.toLowerCase();
-                } else if (Array.isArray(locationCard.content) && locationCard.content.length > 0) {
-                    // Check if content is string or object
-                    const firstContent = locationCard.content[0];
-                    text = (typeof firstContent === 'string' ? firstContent : firstContent.text).toLowerCase();
-                }
-                console.log("Checking background for text:", text);
+                let text = locationCard.selectedText ||
+                    (Array.isArray(locationCard.content) && locationCard.content[0] ? (typeof locationCard.content[0] === 'string' ? locationCard.content[0] : locationCard.content[0].text) : '');
+                text = text.toLowerCase();
 
                 if (text.includes('cave')) currentBg.value = bgDefinitions['cave'];
                 else if (text.includes('mountain')) currentBg.value = bgDefinitions['mountain'];
@@ -123,9 +197,6 @@ export default defineComponent({
                 else if (text.includes('snow')) currentBg.value = bgDefinitions['snow'];
                 else if (text.includes('rain')) currentBg.value = bgDefinitions['rain'];
                 else currentBg.value = bgDefinitions['default'];
-
-                console.log("Set background to:", currentBg.value);
-
             } else {
                 currentBg.value = bgDefinitions['space'];
             }
@@ -143,14 +214,115 @@ export default defineComponent({
             };
         });
 
+        const handlePlaySentence = async (sentence) => {
+            console.log("Playing Sentence:", sentence);
+
+            // 1. Validation for Split Mode
+            if (gameMode.value === '5-4-split') {
+                // Check if ANY shared card is used
+                // Assuming community pool cards are in store.state.playing.communityCards
+                // and we need to verify usage.
+                if (store.state.playing.communityCards && store.state.playing.communityCards.length > 0) { // Simple check if pool exists
+                    const usedIds = sentence.map(c => c.id);
+                    const communityIds = store.state.playing.communityCards.map(c => c.id);
+                    const hasShared = usedIds.some(id => communityIds.includes(id));
+
+                    if (!hasShared) {
+                        alert("You must use at least one card from the Community Pool!");
+                        SoundManager.play('error');
+                        return;
+                    }
+                }
+            }
+
+            SoundManager.play('success');
+
+            // 2. Score Calculation
+            let roundScore = 0;
+            // Base points from cards
+            sentence.forEach(card => {
+                // If CardComponent logic worked, card.selectedPoint should be set?
+                // Or fallback to default logic.
+                // TableArea sets card.selectedPoint on selection-change.
+                roundScore += (card.selectedPoint !== undefined ? card.selectedPoint : (card.point || 0));
+            });
+
+            // Sentence Length Bonus (+5 for 7 cards)
+            // Assuming standard deck size 7.
+            // In PlayGround: cards.length === 7. Here 'sentence' is the array of used cards.
+            // If they used 7 cards, they filled the slot? Or is it based on hand?
+            // "use all 7 original cards without discarding" -> Harder to track here without hand state.
+            // Let's rely on sentence length for now.
+            if (sentence.length >= 7) {
+                roundScore += 5;
+            }
+
+            // 3. Commit Score
+            store.commit('addRoundScore', roundScore);
+
+            // 4. XP Calculation
+            const xpContext = {
+                correctSentence: true,
+                score: roundScore,
+                cardsUsed: sentence,
+                sentenceText: sentence.map(c => c.selectedText || c.content?.main || c.content?.[0] || 'card').join(' '),
+                multiplier: store.state.progression.xpMultiplier || 1,
+                // Add more context as needed
+            };
+
+            lastXpEarned.value = calculateXpFromContext(xpContext);
+            lastXpContext.value = xpContext;
+            await store.dispatch('awardFromContext', xpContext);
+            await store.dispatch('gainXp', lastXpEarned.value);
+
+            // 5. Finalize Round
+            finalSentence.value = xpContext.sentenceText;
+            finalPoint.value = roundScore;
+
+            // Check Win/End
+            if (totalScore.value >= 200 || currentRound.value >= maxRounds.value) {
+                store.commit('setPlayingStep', 'end'); // Trigger Game Over
+                SoundManager.play('win');
+                // Save Match Stats
+                await store.dispatch('onMatchComplete', {
+                    finishedMatch: true,
+                    wonMatch: totalScore.value >= 200,
+                    score: totalScore.value
+                });
+            } else {
+                showRoundSummary.value = true;
+            }
+        };
+
         return {
             gameMode,
-            round,
+            round: currentRound,
+            currentRound,
+            maxRounds,
+            totalScore,
+            roundScores,
             loading,
-            nextRound,
+            handleNextRound,
             handlePlaySentence,
+            handleResetGame,
+            openSettings,
             backgroundStyle,
-            updateBackgroundParams
+            updateBackgroundParams,
+            showRoundSummary,
+            showLevelUpModal,
+            showTutorial,
+            newLevel,
+            newUnlocks,
+            lastXpEarned,
+            lastXpContext,
+            progressionLevel,
+            progressionXp,
+            progressionXpToNext,
+            finalSentence,
+            winner,
+            playingStep,
+            finalPoint,
+            playerData
         };
     }
 });

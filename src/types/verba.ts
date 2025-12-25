@@ -61,6 +61,26 @@ export interface CardCondition {
     desc?: string;
 }
 
+export interface AdjectiveAdditional {
+    synonym?: string[];
+    antonym?: string[];
+}
+
+export interface AdjectiveContent {
+    main: string;
+    additional?: AdjectiveAdditional;
+}
+
+export interface AdverbContentGroup {
+    type?: string[];
+    text?: string[];
+}
+
+export interface ExtraInfoBonus {
+    content: string[];
+    point: number;
+}
+
 // Main Card Interface
 export interface VerbaCard {
     id: string;
@@ -72,7 +92,9 @@ export interface VerbaCard {
     plural?: CardContent;
 
     // Verb-specific (Verb.json has 'content' array)
-    content?: CardContent[];
+    // Also used for Adverb, Conj, HelpingVerb, ExtraInfo(top/bottom text)
+    // Updated to allow AdjectiveContent, AdverbContentGroup
+    content?: CardContent[] | AdjectiveContent | AdverbContentGroup[] | any;
 
     // General matching rules
     previousCards?: string[]; // List of types
@@ -81,7 +103,7 @@ export interface VerbaCard {
     condition?: CardCondition[];
 
     // Bonus
-    bonusPoint?: BonusCondition;
+    bonusPoint?: BonusCondition[] | ExtraInfoBonus[]; // Extra Info has array of bonus points
 }
 
 export interface Player {

@@ -27,7 +27,7 @@ export default defineComponent({
 
     // Two-way binding helper for Vuex state
     const localHand = computed({
-      get: () => store.state.hand,
+      get: () => store.state.playing.hand,
       set: (val) => store.commit('setHand', val)
     });
 
