@@ -1,14 +1,23 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col p-4 pb-40">
-    <!-- Header / Stats -->
-    <div class="flex justify-between items-center mb-4">
-        <div>
-            <h1 class="text-xl font-bold text-gray-800">VerbaPix Game</h1>
-            <div class="text-sm text-gray-500">Mode: {{ gameMode }} | Round: {{ round }}</div>
+  <div class="min-h-screen flex flex-col p-4 pb-64 relative pixel-bg">
+
+    <!-- Navigation / Header -->
+    <div class="flex items-start justify-between mb-6 sticky top-0 z-40 pt-2">
+        <div class="flex flex-col gap-2">
+           <button @click="$router.push('/')" class="pixel-btn danger text-xs">
+              &lt; EXIT
+           </button>
+           <div class="pixel-chip bg-retro-paper text-retro-ink mt-2">
+              <span class="font-bold">MODE:</span> {{ gameMode }}
+           </div>
         </div>
-        <div class="text-right">
-             <button @click="nextRound" class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-300">
-                Advance Round (Debug)
+
+        <div class="flex flex-col items-end gap-2">
+            <div class="pixel-chip bg-retro-warning text-retro-ink">
+               ROUND {{ round }}
+            </div>
+             <button @click="nextRound" class="pixel-btn text-xs">
+                NEXT ROUND (Debug)
              </button>
         </div>
     </div>
@@ -22,7 +31,7 @@
     <TableArea @play="handlePlaySentence" />
 
     <!-- Discard Area (Placeholder) -->
-    <div class="mt-8 text-center text-gray-400 border-2 border-dashed border-gray-300 rounded p-4">
+    <div class="mt-8 text-center text-retro-ink opacity-50 border-2 border-dashed border-retro-ink p-4 bg-white bg-opacity-20 pixel-border font-mono">
         Discard Area (Drag here to discard)
     </div>
 
@@ -30,8 +39,8 @@
     <HandComponent />
 
     <!-- Loading State -->
-    <div v-if="loading" class="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">
-        <div class="text-xl font-bold animate-pulse">Loading Deck...</div>
+    <div v-if="loading" class="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+        <div class="text-xl font-bold animate-pulse text-retro-primary pixel-font">Loading Deck...</div>
     </div>
   </div>
 </template>
@@ -39,6 +48,7 @@
 <script>
 import { defineComponent, computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import HandComponent from '@/components/game/HandComponent.vue';
 import TableArea from '@/components/game/TableArea.vue';
 import CommunityPool from '@/components/game/CommunityPool.vue';
@@ -48,6 +58,7 @@ export default defineComponent({
   components: { HandComponent, TableArea, CommunityPool },
   setup() {
     const store = useStore();
+    const router = useRouter();
     const loading = ref(true);
 
     const gameMode = computed(() => store.state.gameMode);

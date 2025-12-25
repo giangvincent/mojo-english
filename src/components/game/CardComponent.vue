@@ -1,47 +1,47 @@
 <template>
   <div
-    class="relative w-32 h-48 border-2 rounded-lg bg-white shadow-md flex flex-col overflow-hidden select-none transition-transform hover:scale-105"
-    :class="{'border-blue-500': isSelected, 'opacity-50': isUsed}"
+    class="relative w-40 h-56 pixel-card flex flex-col overflow-hidden select-none transition-transform hover:scale-105"
+    :class="{'ring-4 ring-retro-primary': isSelected, 'opacity-50': isUsed}"
   >
     <!-- Header: Points -->
-    <div class="absolute top-1 right-1 bg-yellow-400 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold text-white z-10">
+    <div class="absolute top-1 right-1 bg-retro-warning text-retro-ink border border-retro-ink w-6 h-6 flex items-center justify-center text-xs font-bold z-10 card-font">
       {{ displayPoints }}
     </div>
 
     <!-- Image Area -->
-    <div class="h-2/3 w-full bg-gray-200 overflow-hidden">
-       <img v-if="card.image" :src="`/assets/images/${card.image}`" class="w-full h-full object-cover" alt="card image" @error="handleImageError"/>
-       <div v-else class="w-full h-full flex items-center justify-center text-gray-400 text-xs">No Image</div>
+    <div class="h-2/3 w-full bg-gray-200 overflow-hidden border-b-2 border-retro-ink">
+       <img v-if="card.image" :src="`/assets/images/${card.image}`" class="w-full h-full object-cover pixelated" alt="card image" @error="handleImageError"/>
+       <div v-else class="w-full h-full flex items-center justify-center text-gray-400 text-xs card-font">No Image</div>
     </div>
 
     <!-- Content Area -->
-    <div class="h-1/3 w-full flex flex-col justify-between p-1 bg-gray-50 text-xs">
+    <div class="h-1/3 w-full flex flex-col justify-between p-1 bg-retro-paper text-xs card-font">
 
         <!-- Text Selection (if multiple choices like singular/plural) -->
         <div v-if="hasChoices" class="flex flex-col gap-1">
              <div
                v-if="card.singular"
                @click.stop="selectChoice('singular')"
-               class="cursor-pointer hover:bg-gray-200 p-0.5 rounded"
-               :class="{'font-bold text-blue-600': selectedChoice === 'singular'}"
+               class="cursor-pointer hover:bg-retro-warning p-1"
+               :class="{'font-bold text-retro-ink underline': selectedChoice === 'singular'}"
              >
                 {{ card.singular.text }}
              </div>
              <div
                v-if="card.plural"
                 @click.stop="selectChoice('plural')"
-                class="cursor-pointer hover:bg-gray-200 p-0.5 rounded"
-                :class="{'font-bold text-blue-600': selectedChoice === 'plural'}"
+                class="cursor-pointer hover:bg-retro-warning p-1"
+                :class="{'font-bold text-retro-ink underline': selectedChoice === 'plural'}"
              >
                 {{ card.plural.text }}
              </div>
         </div>
-        <div v-else class="text-center font-semibold text-gray-800">
+        <div v-else class="text-center font-bold text-lg text-retro-ink mt-2">
             {{ displayContent.text }}
         </div>
 
         <!-- ID / Code -->
-        <div class="text-[10px] text-gray-500 self-start">{{ card.id }}</div>
+        <div class="text-[10px] text-gray-500 self-start font-mono">{{ card.id }}</div>
     </div>
 
     <!-- Syntax Bars (Bottom) -->

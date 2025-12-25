@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="w-screen h-screen overflow-y-auto main-bg">
+  <div id="app" class="w-screen h-screen overflow-y-auto pixel-bg">
     <div
       class="flex items-center justify-center w-full game_screen"
     >
@@ -36,20 +36,6 @@ export default {
 }
 
 .main-bg {
-  background:
-    repeating-linear-gradient(
-      90deg,
-      #7dd3fc 0,
-      #7dd3fc 8px,
-      #38bdf8 8px,
-      #38bdf8 16px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.2) 0,
-      rgba(255, 255, 255, 0.2) 8px,
-      rgba(0, 0, 0, 0.05) 8px,
-      rgba(0, 0, 0, 0.05) 16px
-    );
+  /* Using global pixel-bg class instead */
 }
 </style>

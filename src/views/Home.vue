@@ -24,14 +24,14 @@
           </div>
           <div class="level-pill">{{ progressionLevel || playerData.level }}</div>
         </div>
-        <button class="icon-btn" @click="openSettings">
+        <button class="pixel-icon-btn" @click="openSettings">
           <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd"
               d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
               clip-rule="evenodd" />
           </svg>
         </button>
-        <button class="icon-btn" @click="showTutorial = true">
+        <button class="pixel-icon-btn" @click="showTutorial = true">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-4a3 3 0 00-2.824 1.995.75.75 0 11-1.408-.51A4.5 4.5 0 1110 14.5a.75.75 0 010-1.5 3 3 0 100-6zM9.25 15.75a.75.75 0 000 1.5h1.5a.75.75 0 000-1.5h-1.5z" clip-rule="evenodd" />
           </svg>
@@ -53,20 +53,20 @@
             {{ $t('home.hero_desc') }}
           </p>
           <div class="flex flex-wrap gap-3">
-            <router-link to="play" class="cta primary">
+            <router-link to="play" class="pixel-btn primary flex items-center gap-2">
               <img class="h-6" src="@/assets/images/card-games.svg" alt="play now" />
               <span>{{ $t('home.play_now') }}</span>
             </router-link>
-            <router-link to="tutorial" class="cta ghost">
+            <router-link to="tutorial" class="pixel-btn ghost">
               {{ $t('home.guides') }}
             </router-link>
-            <router-link to="cosmetics" class="cta ghost alt">
+            <router-link to="cosmetics" class="pixel-btn ghost text-pix-success">
               {{ $t('home.shop') }}
             </router-link>
-            <router-link to="progress" class="cta ghost">
+            <router-link to="progress" class="pixel-btn ghost">
               {{ $t('nav.progress') }}
             </router-link>
-            <router-link to="dashboard" class="cta ghost">
+            <router-link to="dashboard" class="pixel-btn ghost">
               {{ $t('nav.dashboard') }}
             </router-link>
           </div>
@@ -118,25 +118,25 @@
       </section>
 
       <section class="grid gap-6 mt-12 md:grid-cols-3">
-        <article class="mode-card">
-          <div class="mode-badge">{{ $t('modes.standard') }}</div>
-          <p class="mode-title">{{ $t('home.mode_standard_title') }}</p>
-          <p class="mode-body">{{ $t('home.mode_standard_body') }}</p>
-          <router-link to="play" class="mode-cta">{{ $t('home.start_standard') }}</router-link>
+        <article class="pixel-panel p-4 flex flex-col gap-2">
+          <div class="pixel-chip bg-retro-primary text-white w-max">{{ $t('modes.standard') }}</div>
+          <p class="mode-title font-bold text-lg">{{ $t('home.mode_standard_title') }}</p>
+          <p class="mode-body text-sm">{{ $t('home.mode_standard_body') }}</p>
+          <router-link to="play" class="pixel-btn primary mt-auto text-center">{{ $t('home.start_standard') }}</router-link>
         </article>
 
-        <article class="mode-card">
-          <div class="mode-badge green">{{ $t('modes.5-4-split') }}</div>
-          <p class="mode-title">{{ $t('home.mode_split_title') }}</p>
-          <p class="mode-body">{{ $t('home.mode_split_body') }}</p>
-          <router-link to="play" class="mode-cta">{{ $t('home.start_split') }}</router-link>
+        <article class="pixel-panel p-4 flex flex-col gap-2">
+          <div class="pixel-chip bg-retro-warning text-retro-ink w-max">{{ $t('modes.5-4-split') }}</div>
+          <p class="mode-title font-bold text-lg">{{ $t('home.mode_split_title') }}</p>
+          <p class="mode-body text-sm">{{ $t('home.mode_split_body') }}</p>
+          <router-link to="play" class="pixel-btn warning mt-auto text-center">{{ $t('home.start_split') }}</router-link>
         </article>
 
-        <article class="mode-card">
-          <div class="mode-badge purple">{{ $t('modes.coop') }}</div>
-          <p class="mode-title">{{ $t('home.mode_coop_title') }}</p>
-          <p class="mode-body">{{ $t('home.mode_coop_body') }}</p>
-          <router-link to="play" class="mode-cta">{{ $t('home.start_coop') }}</router-link>
+        <article class="pixel-panel p-4 flex flex-col gap-2">
+          <div class="pixel-chip bg-purple-400 text-white w-max">{{ $t('modes.coop') }}</div>
+          <p class="mode-title font-bold text-lg">{{ $t('home.mode_coop_title') }}</p>
+          <p class="mode-body text-sm">{{ $t('home.mode_coop_body') }}</p>
+          <router-link to="play" class="pixel-btn mt-auto text-center" style="background: #c084fc; color: white;">{{ $t('home.start_coop') }}</router-link>
         </article>
       </section>
     </main>
