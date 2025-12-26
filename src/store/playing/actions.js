@@ -69,6 +69,7 @@ export default {
 
         // Reset step to arrange-card
         commit('setPlayingStep', 'arrange-card');
+        commit('setDiscardCount', 0);
     },
 
     playCard({ commit, state }, card) {
@@ -86,8 +87,39 @@ export default {
     discardCard({ commit, state }, cardId) {
         const card = state.hand.find(c => c.id === cardId);
         if (card) {
-            commit('removeFromHand', cardId);
+            // commit('removeFromHand', cardId);
             commit('addToDiscardPile', card);
+            commit('incrementDiscardCount');
+
+            if (state.deck.length > 0) {
+                const deck = [...state.deck];
+                const newCard = deck.shift();
+                const hand = [...state.hand];
+                const cardIndex = state.hand.findIndex(c => c.id === cardId);
+                hand[cardIndex] = newCard;
+                commit('setHand', hand);
+                commit('setDeck', deck);
+            } else {
+                console.warn("Deck empty, cannot replace.");
+            }
+        }
+    },
+
+    replaceCard({ commit, state }, cardOb) {
+        // Logic: Swap old card with new one from deck
+        // 1. Remove old
+        commit('removeFromHand', cardOb.cardOb.id);
+
+        // 2. Draw new
+        if (state.deck.length > 0) {
+            const cardsSameType = state.deck.filter(c => c.type === cardOb.cardType)
+            const newCard = cardsSameType[0];
+            const hand = [...state.hand];
+            hand[cardOb.index] = newCard;
+            commit('setHand', hand);
+            commit('setDeck', state.deck.filter(c => c.id !== newCard.id));
+        } else {
+            console.warn("Deck empty, cannot replace.");
         }
     },
 

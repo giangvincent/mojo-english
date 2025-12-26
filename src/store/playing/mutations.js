@@ -5,6 +5,12 @@ export default {
   setPlayingStep: function (state, payload) {
     state.playingStep = payload
   },
+  setDiscardCount: function (state, payload) {
+    state.discardCount = payload
+  },
+  incrementDiscardCount: function (state) {
+    state.discardCount++
+  },
   setTense: function (state, payload) {
     if (payload !== state.curTense) {
       state.curTense = payload

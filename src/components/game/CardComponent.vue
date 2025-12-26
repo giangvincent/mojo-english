@@ -11,21 +11,6 @@
       <span class="text-xs text-red-500">Unknown Type: {{ card.type }}</span>
     </div>
 
-    <!-- Replace Button (Integrated here per user request for swapping logic) -->
-    <!-- Assuming ReplaceBtn logic needs to be aware of the context.
-         Legacy ReplaceBtn emits 'changeCard'. We forward this event. -->
-    <!-- Note: Legacy ReplaceBtn was used inside the draggable loop in PlayGround.
-         If user wants it inside the card component, we can place it here or keep it external.
-         The user said: "buttons generated is not correct... re-use components prepared in components/cards".
-         So we should rely on the legacy component's internal structure if possible, OR
-         if proper legacy usage requires external buttons, we should support that.
-
-         Looking at PlayGround, ReplaceBtn was a sibling to CardContainer.
-         But here CardComponent IS the container.
-         Let's assume the legacy specific components (Noun.vue, etc.) handle their own display.
-         But ReplaceBtn logic (swapping 0-point cards) is usually external or overlay.
-         Let's add it as an overlay if appropriate conditions met.
-    -->
     <div v-if="showReplaceBtn" class="absolute top-2 right-2 z-50">
       <ReplaceBtn :cardOb="card" @changeCard="handleChangeCard" />
     </div>

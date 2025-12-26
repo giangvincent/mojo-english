@@ -50,7 +50,7 @@ export default {
     language: 'Tiếng việt',
     setting: ['Cài đặt', 'Âm nhạc', 'Âm thanh', 'Ngôn ngữ'],
     buttons: {
-      discard: 'Thay đổi'
+      discard: 'Bỏ'
     },
     playing: {
       final_sentence: 'Câu được chọn',

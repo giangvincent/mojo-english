@@ -23,6 +23,7 @@ export default {
     hand: [],             // Player's hand
     communityCards: [],   // Shared cards for 5/4 split
     discardPile: [],      // Discarded cards
+    discardCount: 0,      // Track discards per round
 
     // Legacy / Existing State (keeping for safety)
     cards: [],

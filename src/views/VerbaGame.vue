@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen min-h-screen flex flex-col p-4 pb-64 relative pixel-bg transition-colors duration-700 ease-in-out"
+    <div class="w-screen h-full min-h-screen flex flex-col p-4 mb-64 relative pixel-bg transition-colors duration-700 ease-in-out"
         :style="backgroundStyle">
 
         <!-- Navigation / Header -->
@@ -38,7 +38,8 @@
         </div>
 
         <!-- Table Area (Sentence Builder) -->
-        <TableArea @play="handlePlaySentence" @update:sentence="updateBackgroundParams" />
+        <TableArea :playing-step="playingStep" @play="handlePlaySentence" @lock="handleLockSentence"
+            @update:sentence="updateBackgroundParams" />
 
         <!-- Hand Component -->
         <HandComponent />
@@ -220,6 +221,11 @@ export default defineComponent({
             };
         });
 
+        const handleLockSentence = () => {
+            store.commit('setPlayingStep', 'choose-word');
+            SoundManager.play('click');
+        };
+
         const handlePlaySentence = async (sentence) => {
             console.log("Playing Sentence:", sentence);
 
@@ -310,6 +316,7 @@ export default defineComponent({
             loading,
             handleNextRound,
             handlePlaySentence,
+            handleLockSentence,
             handleResetGame,
             openSettings,
             discardList,
