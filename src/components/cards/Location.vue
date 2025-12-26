@@ -62,7 +62,8 @@ export default {
       required: true
     }
   },
-  setup(props) {
+  emits: ['choose'],
+  setup(props, { emit }) {
     const store = useStore()
     const contentIndex = ref(0)
     const cardColors = computed(() => store.state.playing.cardColors)
@@ -81,6 +82,7 @@ export default {
           cardId: props.card.id
         }
         setObjectPhrase(contentOb)
+        emit('choose', contentOb)
       }
     }
 
@@ -95,12 +97,13 @@ export default {
 
     const chooseLocation = (content) => {
       const contentOb = {
-        text: content,
+        text: content, // content is string
         point: props.card.point,
         bonus: props.card.bonusPoint,
         cardId: props.card.id
       }
       setObjectPhrase(contentOb)
+      emit('choose', contentOb)
     }
 
     return {

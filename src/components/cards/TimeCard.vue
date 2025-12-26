@@ -64,7 +64,8 @@ export default {
       required: true
     }
   },
-  setup(props) {
+  emits: ['choose'],
+  setup(props, { emit }) {
     const store = useStore()
     const objectPhrase = computed(() => store.state.playing.objectPhrase)
     const playingStep = computed(() => store.state.playing.playingStep)
@@ -87,10 +88,20 @@ export default {
         curTense.value &&
         selectedContent.tense.indexOf(curTense.value) > -1 &&
         (!currentSymbol || !targetSymbol || currentSymbol === targetSymbol)) {
+
+        // Legacy Store
         setObjectPhrase({
           ...selectedContent,
           cardId: props.card.id,
           timeSymbol: targetSymbol
+        })
+
+        // New Emit
+        emit('choose', {
+          text: selectedContent.text,
+          point: selectedContent.point,
+          // include other fields if needed
+          ...selectedContent
         })
       }
     }

@@ -1,5 +1,7 @@
 <template>
-  <div class="w-full pixel-panel border-b-0 fixed bottom-0 left-0 right-0 z-50 p-2 pb-6">
+  <div
+    class="w-full pixel-panel border-b-0 fixed bottom-0 left-0 right-0 z-50 p-2 pb-6 transition-transform duration-500 ease-in-out"
+    :class="{ 'translate-y-full': playingStep !== 'arrange-card' }">
     <h3 class="text-pix-ink text-xs mb-1 text-center font-bold tracking-widest uppercase">Your Hand</h3>
     <draggable v-model="localHand" group="cards" item-key="id"
       class="flex flex-row flex-nowrap overflow-x-auto gap-4 py-4 px-4 items-center font-pixel"

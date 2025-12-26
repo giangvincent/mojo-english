@@ -42,9 +42,13 @@ export default {
     card: {
       type: Object,
       required: true
+    },
+    canChooseWord: {
+      type: Boolean,
+      default: false
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore()
     const cardColors = computed(() => store.state.playing.cardColors)
     const nounPhrase = computed(() => store.state.playing.nounPhrase)
@@ -60,14 +64,25 @@ export default {
     }
 
     const chooseNoun = (type) => {
-      if (playingStep.value === 'choose-word') {
-        setNounType(type)
+      // Allow if explicit prop is true OR fallback to legacy step check
+      if (props.canChooseWord || playingStep.value === 'choose-word') {
         const noun = {
           ...props.card[type],
           bonus: props.card.bonusPoint,
           cardId: props.card.id
         }
+
+        // Legacy Store Commit (keep for safety if used elsewhere)
+        setNounType(type)
         setNounPhrase(noun)
+
+        // New Event Emission for TableArea
+        emit('choose', {
+          text: props.card[type].text,
+          point: props.card[type].point,
+          type: 'Noun',
+          subType: type
+        })
       }
     }
 

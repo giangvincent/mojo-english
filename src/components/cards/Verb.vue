@@ -33,9 +33,13 @@ export default {
     card: {
       type: Object,
       required: true
+    },
+    canChooseWord: {
+      type: Boolean,
+      default: false
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore()
     const cardColors = computed(() => store.state.playing.cardColors)
     const verbPhrase = computed(() => store.state.playing.verbPhrase)
@@ -52,12 +56,24 @@ export default {
     }
 
     const chooseVerb = (index) => {
-      if (playingStep.value === 'choose-word') {
-        setTense(props.card.content[index].tense)
+      // Allow if explicit prop is true OR fallback to legacy step check
+      if (props.canChooseWord || playingStep.value === 'choose-word') {
+        const verbContent = props.card.content[index];
+        const tense = verbContent.tense;
+
+        // Legacy Store Commit
+        setTense(tense)
         setVerbPhrase({
-          ...props.card.content[index],
+          ...verbContent,
           cardId: props.card.id,
-          timeSymbol: getTimeSymbol(props.card.content[index].tense)
+          timeSymbol: getTimeSymbol(tense)
+        })
+
+        // New Event Emission for TableArea
+        emit('choose', {
+          ...verbContent,
+          type: 'Verb',
+          subType: tense
         })
       }
     }

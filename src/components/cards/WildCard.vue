@@ -21,7 +21,7 @@ const props = defineProps({
     required: true
   }
 })
-const emit = defineEmits(['assign'])
+const emit = defineEmits(['assign', 'choose'])
 
 const assignableTypes = [
   'Noun',
@@ -40,6 +40,14 @@ const selectedType = ref(props.card.assignedType || '')
 const assignType = () => {
   props.card.assignedType = selectedType.value
   emit('assign', selectedType.value)
+
+  // Also emit choose for TableArea preview
+  emit('choose', {
+    text: `[${selectedType.value}]`,
+    point: props.card.point || 0,
+    cardId: props.card.id,
+    type: selectedType.value
+  })
 }
 
 watch(() => props.card.assignedType, (val) => {
