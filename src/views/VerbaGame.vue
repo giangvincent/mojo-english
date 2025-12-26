@@ -1,33 +1,33 @@
 <template>
-    <div class="min-h-screen flex flex-col p-4 pb-64 relative pixel-bg transition-colors duration-700 ease-in-out"
+    <div class="w-screen min-h-screen flex flex-col p-4 pb-64 relative pixel-bg transition-colors duration-700 ease-in-out"
         :style="backgroundStyle">
 
         <!-- Navigation / Header -->
         <div
-            class="flex items-start justify-between mb-6 sticky top-0 z-[100] p-3 bg-pix-paper border-b-4 border-pix-ink shadow-lg">
-            <div class="flex flex-col gap-2">
-                <button @click="$router.push('/')" class="pixel-btn danger text-sm font-bold tracking-wider">
+            class="grid md:grid-cols-2 bg-pix-paper border-b-4 border-pix-ink items-center justify-center gap-2 md:justify-between mb-6 p-3 shadow-lg sticky top-0 z-[100]">
+            <div class="flex flex-1 flex-row justify-center md:justify-start items-center gap-2">
+                <button @click="$router.push('/')" class="pixel-btn font-pixel danger text-sm">
                     &lt; EXIT
                 </button>
-                <div class="pixel-chip bg-pix-paper text-pix-ink mt-2 font-pixel text-xs">
-                    <span class="font-bold">MODE:</span> {{ gameMode }}
+                <div class="flex gap-2">
+                    <button class="pixel-icon-btn danger text-xl" @click="handleResetGame" title="Reset Game">
+                        &#8635;
+                    </button>
+                    <button class="pixel-icon-btn text-xl" @click="openSettings" title="Settings">
+                        ⚙
+                    </button>
+                    <button class="pixel-icon-btn text-xl" @click="showTutorial = true" title="How to Play">
+                        ?
+                    </button>
                 </div>
             </div>
 
-            <div class="flex flex-col items-end gap-2">
-                <div class="pixel-chip bg-pix-warning text-pix-ink font-pixel text-lg mb-1">
-                    ROUND {{ round }}
+            <div class="flex flex-1 flex-row gap-2 items-center justify-end">
+                <div class="pixel-chip bg-pix-paper text-pix-ink font-pixel text-lg">
+                    <span class="font-bold">MODE:</span> {{ gameMode }}
                 </div>
-                <div class="flex gap-2">
-                    <button class="pixel-icon-btn danger sm" @click="handleResetGame" title="Reset Game">
-                        &#8635;
-                    </button>
-                    <button class="pixel-icon-btn sm" @click="openSettings" title="Settings">
-                        ⚙
-                    </button>
-                    <button class="pixel-icon-btn sm" @click="showTutorial = true" title="How to Play">
-                        ?
-                    </button>
+                <div class="pixel-chip bg-pix-warning text-pix-ink font-pixel text-lg">
+                    ROUND {{ round }}
                 </div>
             </div>
         </div>
@@ -39,12 +39,6 @@
 
         <!-- Table Area (Sentence Builder) -->
         <TableArea @play="handlePlaySentence" @update:sentence="updateBackgroundParams" />
-
-        <!-- Discard Area (Placeholder) -->
-        <div
-            class="mt-8 text-center text-pix-ink opacity-50 border-2 border-dashed border-pix-ink p-4 bg-white bg-opacity-20 pixel-border font-mono">
-            Discard Area (Drag here to discard)
-        </div>
 
         <!-- Hand Component -->
         <HandComponent />
@@ -133,6 +127,19 @@ export default defineComponent({
         const playingStep = computed(() => store.state.playing.playingStep);
         const finalPoint = ref(0);
 
+        // Discard Logic
+        const discardList = ref([]); // Temporary list for drag target
+        const handleDiscard = (evt) => {
+            if (evt.added) {
+                const card = evt.added.element;
+                console.log("Discarding:", card);
+                store.dispatch('discardCard', card.id);
+                SoundManager.play('click'); // Or a specific discard sound
+                // Clear the local list immediately so it looks like it was consumed
+                discardList.value = [];
+            }
+        };
+
         onMounted(async () => {
             // Initialize Game (Standard by default for now, or fetch from route params)
             const mode = route.query.mode || 'standard';
@@ -209,8 +216,7 @@ export default defineComponent({
                 backgroundSize: isImage ? 'cover' : '400% 400%',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
-                animation: isImage ? 'none' : 'gradientBG 15s ease infinite',
-                color: 'white'
+                animation: isImage ? 'none' : 'gradientBG 15s ease infinite'
             };
         });
 
@@ -306,6 +312,8 @@ export default defineComponent({
             handlePlaySentence,
             handleResetGame,
             openSettings,
+            discardList,
+            handleDiscard,
             backgroundStyle,
             updateBackgroundParams,
             showRoundSummary,

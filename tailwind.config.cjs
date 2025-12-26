@@ -287,10 +287,10 @@ module.exports = {
         '"Segoe UI Symbol"',
         '"Noto Color Emoji"'
       ],
-      pixel: ['"WebPlus_IBM_VGA_9x16"', 'monospace'],
-      card: ['"WebPlus_IBM_VGA_9x16"', 'monospace'],
+      pixel: ['"webplus_ibm_vga"', 'monospace'],
+      card: ['"webplus_ibm_vga"', 'monospace'],
       mplus: ['"M PLUS Code Latin"', 'monospace'],
-      webplus: ['"WebPlus_IBM_VGA_9x16"', 'monospace'],
+      webplus: ['"webplus_ibm_vga"', 'monospace'],
       serif: [
         'mpluscodelatin',
         'Georgia',
@@ -345,6 +345,15 @@ module.exports = {
     inset: {
       0: '0',
       auto: 'auto'
+    },
+    justify: {
+      start: 'start',
+      center: 'center',
+      end: 'end',
+      between: 'space-between',
+      around: 'space-around',
+      evenly: 'space-evenly',
+      stretch: 'stretch'
     },
     letterSpacing: {
       tighter: '-0.05em',

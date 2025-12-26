@@ -164,7 +164,7 @@
     letter-spacing: 0.08em;
     color: var(--pix-ink);
     background: var(--pix-paper);
-    box-shadow: 0 var(--px) 0 var(--pix-shadow);
+    box-shadow: var(--px) var(--px) 0 rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
     transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
     user-select: none;
@@ -173,7 +173,7 @@
   .pixel-btn:hover {
     filter: brightness(1.05);
     transform: translate3d(0, calc(var(--px) * -1), 0);
-    box-shadow: 0 calc(var(--px) * 2) 0 var(--pix-shadow);
+    box-shadow: var(--px) calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-btn:active {
@@ -242,7 +242,7 @@
     font-weight: 900;
     color: var(--pix-ink);
     background: var(--pix-paper);
-    box-shadow: 0 var(--px) 0 var(--pix-shadow);
+    box-shadow: var(--px) var(--px) 0 rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
     transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
     user-select: none;
@@ -251,7 +251,7 @@
   .pixel-icon-btn:hover {
     filter: brightness(1.05);
     transform: translate3d(0, calc(var(--px) * -1), 0);
-    box-shadow: 0 calc(var(--px) * 2) 0 var(--pix-shadow);
+    box-shadow: var(--px) calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-icon-btn:active {

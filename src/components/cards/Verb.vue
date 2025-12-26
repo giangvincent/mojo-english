@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex flex-col text-white relative">
+  <div class="w-full h-full flex flex-col text-white relative bg-green-900">
     <div class="h-1/3 flex flex-col items-center relative" v-for="(cardContent, index) in card.content"
       :key="'content-' + index">
       <!-- Background overlay for readability -->

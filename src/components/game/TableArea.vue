@@ -3,7 +3,7 @@
     <h3 class="text-gray-500 text-sm mb-2 text-center">Sentence Builder (Drag cards here)</h3>
 
     <draggable v-model="sentence" group="cards" item-key="id"
-      class="flex flex-wrap gap-2 justify-center items-center min-h-[160px]" @change="validate">
+      class="flex flex-wrap gap-3 justify-center items-center min-h-[160px] font-pixel" @change="validate">
       <template #item="{ element, index }">
         <div class="relative">
           <!-- Connector Line (Left) -->
@@ -21,10 +21,10 @@
     </draggable>
 
     <div class="mt-4 flex justify-between items-center">
-      <div class="text-sm">
+      <div class="pixel-card px-2">
         Points: <span class="font-bold text-green-600">{{ score.totalPoints }}</span>
       </div>
-      <button class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700" @click="$emit('play', sentence)">
+      <button class="pixel-btn pixel-chip primary" @click="$emit('play', sentence)">
         Play Sentence
       </button>
     </div>

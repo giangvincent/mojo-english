@@ -1,7 +1,8 @@
 <template>
    <div class="w-full bg-orange-50 p-2 rounded-lg border-2 border-orange-200 mb-2">
       <h3 class="text-orange-800 text-xs font-bold text-center mb-1">Community Pool</h3>
-      <draggable v-model="localCommunity" group="cards" item-key="id" class="flex flex-wrap gap-2 justify-center">
+      <draggable v-model="localCommunity" group="cards" item-key="id"
+         class="flex flex-wrap gap-2 justify-center font-pixel">
          <template #item="{ element }">
             <CardComponent :card="element" />
          </template>
