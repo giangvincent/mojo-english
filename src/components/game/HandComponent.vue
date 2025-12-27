@@ -12,7 +12,7 @@
 
           <!-- Discard Button -->
           <DiscardBtn v-if="playingStep === 'arrange-card' && discardCount < 3"
-            class="absolute -top-2 -left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+            class="absolute top-0 right-0 -mr-1 -mt-2 mx-auto z-10 opacity-0 group-hover:opacity-100 transition-opacity"
             @click="handleDiscard(element.id)" />
         </div>
       </template>

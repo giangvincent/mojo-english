@@ -21,7 +21,8 @@
         <div class="w-full mt-2 pt-2">
           <h3 class="text-xl font-bold mb-2">{{ $t('game_over.last_sentence') }}:</h3>
           <p class="font-bold text-2xl text-purple-700">{{ finalSentence }}</p>
-          <p class="text-lg mt-2">{{ $t('game_over.round_score') }}: <span class="font-bold">+{{ finalPoint }}</span></p>
+          <p class="text-lg mt-2">{{ $t('game_over.round_score') }}: <span class="font-bold">+{{ finalPoint }}</span>
+          </p>
         </div>
 
         <!-- Round Summary -->
@@ -81,9 +82,14 @@ export default {
   },
   methods: {
     ...mapMutations(['resetGame']),
-    playAgain() {
-      this.resetGame()
-      this.$router.push('/play')
+    async playAgain() {
+      // Dispatch initializeGame to reset state AND re-deal cards
+      const mode = this.$store.state.playing.gameMode || 'standard';
+      await this.$store.dispatch('initializeGame', mode);
+
+      if (this.$route.path !== '/play') {
+        this.$router.push('/play');
+      }
     }
   }
 }

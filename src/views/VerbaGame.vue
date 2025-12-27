@@ -38,7 +38,7 @@
         </div>
 
         <!-- Table Area (Sentence Builder) -->
-        <TableArea :playing-step="playingStep" @play="handlePlaySentence" @lock="handleLockSentence"
+        <TableArea :playing-step="playingStep" :round="round" @play="handlePlaySentence" @lock="handleLockSentence"
             @update:sentence="updateBackgroundParams" />
 
         <!-- Hand Component -->
