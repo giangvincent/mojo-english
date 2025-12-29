@@ -1,0 +1,237 @@
+
+> verbapix@1.0.1 dev
+> vite
+
+
+  VITE v5.4.21  ready in 427 ms
+
+  ➜  Local:   http://localhost:8000/
+  ➜  Network: use --host to expose
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import "nes.css/scss/nes.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    src/assets/css/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "nes-core.scss";
+  │         ^^^^^^^^^^^^^^^
+  ╵
+    node_modules/nes.css/scss/nes.scss 3:9  @import
+    src/assets/css/main.scss 5:9            root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "components/_index.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/nes.css/scss/nes.scss 4:9  @import
+    src/assets/css/main.scss 5:9            root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import "icons/_index.scss";
+  │         ^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/nes.css/scss/nes.scss 5:9  @import
+    src/assets/css/main.scss 5:9            root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+6 │ @import "pixel-arts/_index.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/nes.css/scss/nes.scss 6:9  @import
+    src/assets/css/main.scss 5:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use map.get instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+82 │     "primary" $background-color map-get($primary-colors, "normal"),
+   │                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/nes.css/scss/elements/badges.scss 82:33  @import
+    node_modules/nes.css/scss/elements/_index.scss 4:9    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9          @import
+    node_modules/nes.css/scss/nes.scss 3:9                @import
+    src/assets/css/main.scss 5:9                          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use map.get instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+83 │     "success" $background-color map-get($success-colors, "normal"),
+   │                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/nes.css/scss/elements/badges.scss 83:33  @import
+    node_modules/nes.css/scss/elements/_index.scss 4:9    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9          @import
+    node_modules/nes.css/scss/nes.scss 3:9                @import
+    src/assets/css/main.scss 5:9                          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use map.get instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+84 │     "warning" $base-color map-get($warning-colors, "normal"),
+   │                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/nes.css/scss/elements/badges.scss 84:27  @import
+    node_modules/nes.css/scss/elements/_index.scss 4:9    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9          @import
+    node_modules/nes.css/scss/nes.scss 3:9                @import
+    src/assets/css/main.scss 5:9                          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use map.get instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+85 │     "error" $background-color map-get($error-colors, "normal");
+   │                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/nes.css/scss/elements/badges.scss 85:31  @import
+    node_modules/nes.css/scss/elements/_index.scss 4:9    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9          @import
+    node_modules/nes.css/scss/nes.scss 3:9                @import
+    src/assets/css/main.scss 5:9                          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+89 │       & span.is-#{nth($type, 1)} {
+   │                   ^^^^^^^^^^^^^
+   ╵
+    node_modules/nes.css/scss/elements/badges.scss 89:19  @import
+    node_modules/nes.css/scss/elements/_index.scss 4:9    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9          @import
+    node_modules/nes.css/scss/nes.scss 3:9                @import
+    src/assets/css/main.scss 5:9                          root stylesheet
+
+DEPRECATION WARNING [color-functions]: red() is deprecated. Suggestion:
+
+color.channel($color, "red", $space: rgb)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ╷
+7 │   border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M3 1 h1 v1 h-1 z M4 1 h1 v1 h-1 z M2 2 h1 v1 h-1 z M5 2 h1 v1 h-1 z M1 3 h1 v1 h-1 z M6 3 h1 v1 h-1 z M1 4 h1 v1 h-1 z M6 4 h1 v1 h-1 z M2 5 h1 v1 h-1 z M5 5 h1 v1 h-1 z M3 6 h1 v1 h-1 z M4 6 h1 v1 h-1 z" fill="rgb(#{red($color)},#{green($color)},#{blue($color)})" /></svg>');
+  │                                                                                                                                                                                                                                                                                                                                                                                                         ^^^^^^^^^^^
+  ╵
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 7:393  border-image()
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 41:5   rounded-corners()
+    node_modules/nes.css/scss/elements/balloons.scss 2:3                  @import
+    node_modules/nes.css/scss/elements/_index.scss 5:9                    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9                          @import
+    node_modules/nes.css/scss/nes.scss 3:9                                @import
+    src/assets/css/main.scss 5:9                                          root stylesheet
+
+DEPRECATION WARNING [color-functions]: green() is deprecated. Suggestion:
+
+color.channel($color, "green", $space: rgb)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ╷
+7 │   border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M3 1 h1 v1 h-1 z M4 1 h1 v1 h-1 z M2 2 h1 v1 h-1 z M5 2 h1 v1 h-1 z M1 3 h1 v1 h-1 z M6 3 h1 v1 h-1 z M1 4 h1 v1 h-1 z M6 4 h1 v1 h-1 z M2 5 h1 v1 h-1 z M5 5 h1 v1 h-1 z M3 6 h1 v1 h-1 z M4 6 h1 v1 h-1 z" fill="rgb(#{red($color)},#{green($color)},#{blue($color)})" /></svg>');
+  │                                                                                                                                                                                                                                                                                                                                                                                                                        ^^^^^^^^^^^^^
+  ╵
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 7:408  border-image()
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 41:5   rounded-corners()
+    node_modules/nes.css/scss/elements/balloons.scss 2:3                  @import
+    node_modules/nes.css/scss/elements/_index.scss 5:9                    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9                          @import
+    node_modules/nes.css/scss/nes.scss 3:9                                @import
+    src/assets/css/main.scss 5:9                                          root stylesheet
+
+DEPRECATION WARNING [color-functions]: blue() is deprecated. Suggestion:
+
+color.channel($color, "blue", $space: rgb)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ╷
+7 │   border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M3 1 h1 v1 h-1 z M4 1 h1 v1 h-1 z M2 2 h1 v1 h-1 z M5 2 h1 v1 h-1 z M1 3 h1 v1 h-1 z M6 3 h1 v1 h-1 z M1 4 h1 v1 h-1 z M6 4 h1 v1 h-1 z M2 5 h1 v1 h-1 z M5 5 h1 v1 h-1 z M3 6 h1 v1 h-1 z M4 6 h1 v1 h-1 z" fill="rgb(#{red($color)},#{green($color)},#{blue($color)})" /></svg>');
+  │                                                                                                                                                                                                                                                                                                                                                                                                                                         ^^^^^^^^^^^^
+  ╵
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 7:425  border-image()
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 41:5   rounded-corners()
+    node_modules/nes.css/scss/elements/balloons.scss 2:3                  @import
+    node_modules/nes.css/scss/elements/_index.scss 5:9                    @import
+    node_modules/nes.css/scss/nes-core.scss 12:9                          @import
+    node_modules/nes.css/scss/nes.scss 3:9                                @import
+    src/assets/css/main.scss 5:9                                          root stylesheet
+
+DEPRECATION WARNING [color-functions]: red() is deprecated. Suggestion:
+
+color.channel($color, "red", $space: rgb)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+11 │   border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(#{red($color)},#{green($color)},#{blue($color)})" /></svg>');
+   │                                                                                                                                                                                                                                                                 ^^^^^^^^^^^
+   ╵
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 11:257  compact-border-image()
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 60:5    compact-rounded-corners()
+    node_modules/nes.css/scss/elements/buttons.scss 36:3                   @import
+    node_modules/nes.css/scss/elements/_index.scss 6:9                     @import
+    node_modules/nes.css/scss/nes-core.scss 12:9                           @import
+    node_modules/nes.css/scss/nes.scss 3:9                                 @import
+    src/assets/css/main.scss 5:9                                           root stylesheet
+
+DEPRECATION WARNING [color-functions]: green() is deprecated. Suggestion:
+
+color.channel($color, "green", $space: rgb)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+11 │   border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(#{red($color)},#{green($color)},#{blue($color)})" /></svg>');
+   │                                                                                                                                                                                                                                                                                ^^^^^^^^^^^^^
+   ╵
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 11:272  compact-border-image()
+    node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss 60:5    compact-rounded-corners()
+    node_modules/nes.css/scss/elements/buttons.scss 36:3                   @import
+    node_modules/nes.css/scss/elements/_index.scss 6:9                     @import
+    node_modules/nes.css/scss/nes-core.scss 12:9                           @import
+    node_modules/nes.css/scss/nes.scss 3:9                                 @import
+    src/assets/css/main.scss 5:9                                           root stylesheet
+
+WARNING: 196 repetitive deprecation warnings omitted.
