@@ -156,8 +156,7 @@
 
   .pixel-btn {
     appearance: none;
-    border: var(--px) solid #FFFFFF;
-    outline: var(--px) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
     padding: 0.65rem 1rem;
     font-weight: 700;
@@ -165,62 +164,56 @@
     letter-spacing: 0.08em;
     color: var(--pix-ink);
     background: var(--pix-paper);
-    box-shadow:
-      inset 0 0 0 var(--px) rgba(255,255,255,0.5), /* Inner highlight */
-      calc(var(--px) * 1.5) calc(var(--px) * 1.5) 0 rgba(0, 0, 0, 0.3);
+    box-shadow: var(--px) var(--px) 0 rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
     transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
     user-select: none;
-    margin: var(--px); /* Space for outline */
   }
 
   .pixel-btn:hover {
     filter: brightness(1.05);
     transform: translate3d(0, calc(var(--px) * -1), 0);
-    box-shadow:
-      inset 0 0 0 var(--px) rgba(255,255,255,0.5),
-      calc(var(--px) * 2) calc(var(--px) * 2.5) 0 var(--pix-shadow);
+    box-shadow: var(--px) calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-btn:active {
     transform: translate3d(0, var(--px), 0);
-    box-shadow: none;
-    outline-width: var(--px);
+    box-shadow: 0 0 0 var(--pix-shadow);
   }
 
-  /* ... variants ... */
+  .pixel-btn:disabled,
+  .pixel-btn[aria-disabled="true"] {
+    opacity: 0.55;
+    filter: grayscale(1);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
 
   .pixel-btn.primary {
     background: linear-gradient(180deg, var(--pix-primary-2), var(--pix-primary));
     color: #fff;
-    border-color: #feb21a; /* Inner border matches light color? Or keep white/transparent? */
-    border-color: rgba(255,255,255,0.2);
   }
 
   .pixel-btn.success {
     background: linear-gradient(180deg, #86efac, var(--pix-success));
     color: #052e16;
-    border-color: rgba(255,255,255,0.2);
   }
 
   .pixel-btn.danger {
     background: linear-gradient(180deg, #fca5a5, var(--pix-danger));
     color: #450a0a;
-    border-color: rgba(255,255,255,0.2);
   }
 
   .pixel-btn.warning {
     background: linear-gradient(180deg, #fde68a, var(--pix-warning));
     color: #451a03;
-    border-color: rgba(255,255,255,0.2);
   }
 
   .pixel-btn.ghost {
     background: transparent;
     border-color: transparent;
-    outline: none;
     box-shadow: none;
-    margin: 0;
   }
 
   .pixel-btn.ghost:hover {
@@ -230,16 +223,11 @@
   }
 
   .pixel-card {
-    background: #FFFFFF;
-    border: var(--px) solid #e5e7eb; /* Inner Light Grey Border */
+    background: var(--pix-paper);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
-    position: relative;
-    /* Outer Dark Border via Box Shadow Spread or Outline? Outline allows rounded corners if we wanted, but here 0 radius. */
-    /* Using box-shadow for outer border ensures layout stability if we have margin */
-    box-shadow:
-      0 0 0 var(--px) var(--pix-ink), /* Outer Chunk Border */
-      calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--pix-shadow); /* Drop Shadow */
-    margin: var(--px); /* Verify layout impact of this margin */
+    box-shadow: var(--px) var(--px) 0 rgba(0, 0, 0, 0.45);
+    /* Double border effect handled in component usually, but we can try pseudo-elements if needed */
   }
 
   .pixel-icon-btn {
@@ -249,28 +237,26 @@
     padding: 0;
     display: inline-grid;
     place-items: center;
-    border: var(--px) solid #FFFFFF;
-    outline: var(--px) solid var(--pix-ink);
+    border: var(--px) solid var(--pix-ink);
     border-radius: 0;
     font-weight: 900;
     color: var(--pix-ink);
     background: var(--pix-paper);
-    box-shadow: calc(var(--px) * 1.5) calc(var(--px) * 1.5) 0 rgba(0, 0, 0, 0.3);
+    box-shadow: var(--px) var(--px) 0 rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
     transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
     user-select: none;
-    margin: var(--px);
   }
 
   .pixel-icon-btn:hover {
     filter: brightness(1.05);
     transform: translate3d(0, calc(var(--px) * -1), 0);
-    box-shadow: calc(var(--px) * 2) calc(var(--px) * 2.5) 0 var(--pix-shadow);
+    box-shadow: var(--px) calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-icon-btn:active {
     transform: translate3d(0, var(--px), 0);
-    box-shadow: none;
+    box-shadow: 0 0 0 var(--pix-shadow);
   }
 
   .pixel-icon-btn.danger {
