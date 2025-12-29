@@ -50,7 +50,7 @@
         <div class="flex-1 space-y-4">
           <div class="pixel-chip bg-pix-primary text-white w-max font-bold">NEW UPDATE</div>
           <h2 class="text-4xl md:text-6xl font-display text-pix-ink mb-2">VerbaPix</h2>
-          <p class="text-lg md:text-xl text-pix-ink font-pixel leading-relaxed">
+          <p class="text-lg md:text-xl text-pix-ink leading-relaxed">
             {{ $t('home.hero_desc') }}
           </p>
 
@@ -97,7 +97,8 @@
             <span class="text-white font-display text-5xl">STD</span>
           </div>
           <h3 class="font-display text-2xl mt-2">Standard Match</h3>
-          <p class="text-base font-pixel leading-tight">Create your own room, set the rules, and invite friends to play. You are the host!</p>
+          <p class="text-base font-pixel leading-tight">Create your own room, set the rules, and invite friends to play.
+            You are the host!</p>
           <button @click="$router.push('/create-room')"
             class="pixel-btn primary mt-auto text-center w-full block text-lg py-3">PLAY (CREATE ROOM)</button>
         </article>
@@ -108,7 +109,8 @@
             <span class="text-pix-ink font-display text-5xl">QUICK</span>
           </div>
           <h3 class="font-display text-2xl mt-2">Quick Match</h3>
-          <p class="text-base font-pixel leading-tight">Jump into a game instantly! Choose a mode and wait for opponents.</p>
+          <p class="text-base font-pixel leading-tight">Jump into a game instantly! Choose a mode and wait for
+            opponents.</p>
           <button @click="$router.push('/quick-match')"
             class="pixel-btn warning mt-auto text-center w-full block text-lg py-3">QUICK MATCH</button>
         </article>
