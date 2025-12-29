@@ -1,21 +1,57 @@
-import fbInstant from '@/services/fbInstant'
-export default {
-  SetPlayerDataAsync: function (store, payload) {
-    const preparePayload = {
-      locale: store.state.playerData.locale,
-      level: store.state.playerData.level,
-      point: store.state.playerData.point
-    }
-    Object.keys(payload).forEach(key => {
-      store.state.playerData[key] = payload[key]
-      preparePayload[key] = payload[key]
-    })
-    store.commit('setPlayerData', store.state.playerData)
+import { login, register } from '@/services/auth'
 
-    if (fbInstant.player && typeof fbInstant.player.setDataAsync === 'function') {
-      fbInstant.player.setDataAsync(preparePayload).then(function () {
-        console.log('data is set', preparePayload)
-      })
+export default {
+  SetPlayerDataAsync: function ({ commit }, payload) {
+    commit('setPlayerData', payload)
+  },
+
+  async loginPlayer({ commit }, { email, password }) {
+    try {
+      const result = await login(email, password)
+      if (result.user) {
+        const userData = {
+            id: result.user.uid,
+            name: result.user.displayName || 'Player',
+            photo: { src: result.user.photoURL || '' },
+            level: 0
+        }
+        commit('setPlayerData', userData)
+        return true
+      }
+      return false
+    } catch (error) {
+      console.error('Login failed:', error)
+      throw error
     }
+  },
+
+  async registerPlayer({ commit }, { email, password, name }) {
+    try {
+        const result = await register(email, password, name)
+        if (result.user) {
+            const userData = {
+                id: result.user.uid,
+                name: result.user.displayName || name,
+                photo: { src: result.user.photoURL || '' },
+                level: 0
+            }
+            commit('setPlayerData', userData)
+            return true
+        }
+        return false
+    } catch (error) {
+        console.error('Registration failed:', error)
+        throw error
+    }
+  },
+
+  logoutPlayer({ commit }) {
+      const defaultData = {
+          id: 'guest',
+          name: 'Guest Player',
+          photo: null,
+          level: 0
+      }
+      commit('setPlayerData', defaultData)
   }
 }

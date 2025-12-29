@@ -125,5 +125,18 @@ export default {
   },
   addToDiscardPile: function (state, card) {
     state.discardPile.push(card)
+  },
+
+  // Multiplayer Mutations
+  setMultiplayerState: function (state, payload) {
+    if (payload.isMultiplayer !== undefined) state.isMultiplayer = payload.isMultiplayer
+    if (payload.playersReady !== undefined) state.playersReady = payload.playersReady
+    if (payload.roundPhase !== undefined) state.roundPhase = payload.roundPhase
+  },
+  setMultiplayerReady: function (state, isReady) {
+    state.playersReady = isReady
+  },
+  setRoundPhase: function (state, phase) {
+    state.roundPhase = phase
   }
 }

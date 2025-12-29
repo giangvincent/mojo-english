@@ -1,7 +1,14 @@
 <template>
   <div class="w-full bg-blue-50 p-4 rounded-xl min-h-[200px] border-2 border-dashed border-blue-200">
-    <h3 class="text-gray-500 text-sm mb-2 text-center" v-if="!isLocked">Sentence Builder (Drag cards here)</h3>
-    <div v-else class="text-center mb-4">
+    <h3 class="text-gray-500 text-sm mb-2 text-center" v-if="!isLocked && !waitingForOthers">Sentence Builder (Drag cards here)</h3>
+
+    <div v-if="waitingForOthers" class="flex flex-col items-center justify-center min-h-[160px]">
+        <div class="animate-pulse text-xl font-bold text-pix-primary mb-2">Submitted!</div>
+        <p class="text-gray-500">Waiting for other players...</p>
+        <!-- Optional: Show hidden/miniature version of their submitted sentence here -->
+    </div>
+
+    <div v-else-if="isLocked" class="text-center mb-4">
       <h3 class="text-gray-500 text-sm mb-1">Final Sentence Preview</h3>
       <div
         class="pixel-panel p-3 bg-white text-lg font-bold text-pix-primary min-h-[3rem] flex items-center justify-center">
@@ -9,7 +16,7 @@
       </div>
     </div>
 
-    <draggable v-model="sentence" group="cards" item-key="id" :disabled="isLocked"
+    <draggable v-if="!waitingForOthers" v-model="sentence" group="cards" item-key="id" :disabled="isLocked"
       class="flex flex-wrap gap-3 justify-center items-center min-h-[160px] font-pixel" @change="validate">
       <template #item="{ element, index }">
         <div class="relative">
@@ -23,7 +30,7 @@
       </template>
     </draggable>
 
-    <div class="mt-4 flex justify-between items-center">
+    <div v-if="!waitingForOthers" class="mt-4 flex justify-between items-center">
       <div class="pixel-card px-2">
         Points: <span class="font-bold text-green-600">{{ score.totalPoints }}</span>
       </div>
@@ -42,6 +49,7 @@
 
 <script>
 import { defineComponent, ref, watch, computed } from 'vue';
+import { useStore } from 'vuex';
 import draggable from 'vuedraggable';
 import CardComponent from './CardComponent.vue';
 import { validateConnection } from '@/utils/grammarEngine';
@@ -61,12 +69,17 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const store = useStore();
     const sentence = ref([]);
     const validationErrors = ref({});
     const score = ref({ totalPoints: 0 });
 
     const isLocked = computed(() => {
       return props.playingStep !== 'arrange-card';
+    });
+
+    const waitingForOthers = computed(() => {
+        return store.state.playing.roundPhase === 'waiting';
     });
 
     const sentenceText = computed(() => {

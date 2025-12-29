@@ -50,6 +50,21 @@ const routes = [
     path: '/lobby',
     name: 'lobby',
     component: () => import('../views/MultiplayerLobby.vue')
+  },
+  {
+    path: '/create-room',
+    name: 'create-room',
+    component: () => import('../views/CreateRoom.vue')
+  },
+  {
+    path: '/quick-match',
+    name: 'quick-match',
+    component: () => import('../views/QuickMatchSetup.vue')
+  },
+  {
+    path: '/waiting-room',
+    name: 'waiting-room',
+    component: () => import('../views/WaitingRoom.vue')
   }
 ]
 
