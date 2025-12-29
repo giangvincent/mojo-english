@@ -88,46 +88,31 @@
         </div>
       </section>
 
-      <!-- Game Modes -->
-      <section class="grid gap-8 md:grid-cols-3">
+      <!-- Multiplayer Game Modes -->
+      <section class="grid gap-8 md:grid-cols-2">
 
-        <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
-          <div class="h-32 bg-pix-primary flex items-center justify-center border-b-4 border-pix-ink">
-            <span class="text-white font-display text-4xl">STD</span>
+        <!-- Standard Match -->
+        <article class="p-6 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1 bg-white">
+          <div class="h-40 bg-pix-primary flex items-center justify-center border-b-4 border-pix-ink">
+            <span class="text-white font-display text-5xl">STD</span>
           </div>
-          <h3 class="font-display text-xl mt-2">{{ $t('modes.standard') }}</h3>
-          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_standard_body') }}</p>
-          <button @click="startGame('standard')"
-            class="pixel-btn primary mt-auto text-center w-full block">PLAY</button>
+          <h3 class="font-display text-2xl mt-2">Standard Match</h3>
+          <p class="text-base font-pixel leading-tight">Create your own room, set the rules, and invite friends to play. You are the host!</p>
+          <button @click="$router.push('/create-room')"
+            class="pixel-btn primary mt-auto text-center w-full block text-lg py-3">PLAY (CREATE ROOM)</button>
         </article>
 
-        <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
-          <div class="h-32 bg-pix-warning flex items-center justify-center border-b-4 border-pix-ink">
-            <span class="text-pix-ink font-display text-4xl">SPLIT</span>
+        <!-- Quick Match -->
+        <article class="p-6 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1 bg-white">
+          <div class="h-40 bg-pix-warning flex items-center justify-center border-b-4 border-pix-ink">
+            <span class="text-pix-ink font-display text-5xl">QUICK</span>
           </div>
-          <h3 class="font-display text-xl mt-2">{{ $t('modes.5-4-split') }}</h3>
-          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_split_body') }}</p>
-          <button @click="startGame('5-4-split')"
-            class="pixel-btn warning mt-auto text-center w-full block">PLAY</button>
+          <h3 class="font-display text-2xl mt-2">Quick Match</h3>
+          <p class="text-base font-pixel leading-tight">Jump into a game instantly! Choose a mode and wait for opponents.</p>
+          <button @click="$router.push('/quick-match')"
+            class="pixel-btn warning mt-auto text-center w-full block text-lg py-3">QUICK MATCH</button>
         </article>
 
-        <article class="p-4 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1">
-          <div class="h-32 bg-purple-500 flex items-center justify-center border-b-4 border-pix-ink">
-            <span class="text-white font-display text-4xl">CO-OP</span>
-          </div>
-          <h3 class="font-display text-xl mt-2">{{ $t('modes.coop') }}</h3>
-          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_coop_body') }}</p>
-          <button @click="startGame('coop')" class="pixel-btn mt-auto text-center w-full block"
-            style="background: #c084fc; color: white;">PLAY</button>
-        </article>
-
-        <article class="mode-card">
-          <div class="mode-badge" style="background: linear-gradient(180deg, #60a5fa, #2563eb);">Multiplayer</div>
-          <p class="mode-title">Online Lobby</p>
-          <p class="mode-body">Play with friends or find a match online.</p>
-          <router-link to="lobby" class="mode-cta" style="background: linear-gradient(180deg, #60a5fa, #2563eb);">Enter
-            Lobby</router-link>
-        </article>
       </section>
     </main>
 
@@ -157,7 +142,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
-import { auth, signInWithGoogle, signOutUser, onAuthStateChanged } from '@/services/firebase'
+import { login, logout, onAuthStateChanged } from '@/services/auth'
 import XpBar from '@/components/ui/XpBar.vue'
 import TutorialOverlay from '@/components/TutorialOverlay.vue'
 import { defineAsyncComponent } from 'vue'
@@ -191,8 +176,8 @@ export default {
     this.LoadCards(this.playerData.level)
   },
   mounted() {
-    // Listen for auth state changes
-    this.unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+    // Listen for auth state changes using mock auth service
+    onAuthStateChanged((user) => {
       this.currentUser = user
       if (user) {
         // Update player data when user logs in
@@ -209,20 +194,15 @@ export default {
     })
   },
   unmounted() {
-    if (typeof this.unsubscribeAuth === 'function') {
-      this.unsubscribeAuth()
-    }
+    // Mock unsubscribe if needed
   },
   methods: {
     ...mapActions(['LoadCards']),
     ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL', 'setPlayerData', 'setPlayingStep']),
     async handleGoogleSignIn() {
       try {
-        if (!auth) {
-          alert('Firebase is not configured. Please set the environment variables.')
-          return
-        }
-        const result = await signInWithGoogle()
+        // Use Mock Login
+        const result = await login('guest@verba.com', 'password')
         if (result?.user) {
           this.currentUser = result.user
           this.setPlayerData({
@@ -233,13 +213,12 @@ export default {
           })
         }
       } catch (error) {
-        console.error('Error signing in with Google:', error)
-        alert('Failed to sign in with Google. Please try again.')
+        console.error('Error signing in:', error)
       }
     },
     async handleSignOut() {
       try {
-        await signOutUser()
+        await logout()
         console.log('User signed out')
         // Reset to default player data
         const defaultData = {
@@ -249,6 +228,7 @@ export default {
           level: 0
         }
         this.setPlayerData(defaultData)
+        this.currentUser = null
       } catch (error) {
         console.error('Error signing out:', error)
       }

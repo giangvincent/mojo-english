@@ -48,7 +48,13 @@ export default {
     trackTurnOrder: false,
     turnHistory: [],
     lastPlayerWhoAddedCard: null,
-    winner: null
+    winner: null,
+
+    // Multiplayer State
+    isMultiplayer: false,
+    playersReady: false,      // All players ready to start round
+    roundPhase: 'playing',    // 'playing' | 'waiting' | 'revealing' | 'end'
+    opponentStatus: {},       // { playerId: { ready: bool, submitted: bool, score: int, sentence: string } }
   },
   mutations: mutations,
   actions: actions

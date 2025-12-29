@@ -61,6 +61,17 @@
         <div v-if="loading" class="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
             <div class="text-xl font-bold animate-pulse text-pix-primary font-pixel">Loading Deck...</div>
         </div>
+
+        <!-- Multiplayer Ready Check -->
+        <div v-if="isMultiplayer && !playersReady && !loading" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex flex-col items-center justify-center z-50">
+            <h2 class="text-3xl text-white font-display mb-4">Waiting for Players...</h2>
+            <div class="flex gap-4">
+                 <button v-if="!amIReady" @click="setReady" class="pixel-btn success text-xl py-4 px-8">I'M READY</button>
+                 <div v-else class="text-green-400 font-bold text-xl animate-pulse">YOU ARE READY</div>
+            </div>
+            <p class="text-gray-400 mt-4">Host will start when everyone is ready.</p>
+        </div>
+
     </div>
 </template>
 
@@ -109,6 +120,10 @@ export default defineComponent({
         const roundScores = computed(() => store.state.playing.roundScores);
         const winner = computed(() => store.state.playing.winner);
 
+        const isMultiplayer = computed(() => store.state.playing.isMultiplayer);
+        const playersReady = computed(() => store.state.playing.playersReady);
+        const amIReady = ref(false);
+
         const progressionLevel = computed(() => store.state.progression.level);
         const progressionXp = computed(() => store.state.progression.xp);
         const progressionXpToNext = computed(() => store.state.progression.xpToNext);
@@ -144,10 +159,26 @@ export default defineComponent({
         onMounted(async () => {
             // Initialize Game (Standard by default for now, or fetch from route params)
             const mode = route.query.mode || 'standard';
-            console.log('Initializing game with mode:', mode);
+            const isMp = route.query.multiplayer === 'true' || route.query.isHost === 'true'; // Basic check
+
+            console.log('Initializing game with mode:', mode, 'Multiplayer:', isMp);
+
+            if (isMp) {
+                store.commit('setMultiplayerState', { isMultiplayer: true });
+            }
+
             await store.dispatch('initializeGame', mode);
             loading.value = false;
         });
+
+        const setReady = () => {
+            amIReady.value = true;
+            // In a real app, send socket event here.
+            // For mock:
+            setTimeout(() => {
+                store.commit('setMultiplayerReady', true);
+            }, 1000);
+        };
 
         const handleNextRound = () => {
             showRoundSummary.value = false;
@@ -291,23 +322,37 @@ export default defineComponent({
             finalSentence.value = xpContext.sentenceText;
             finalPoint.value = roundScore;
 
-            // Check Win/End
-            if (totalScore.value >= 200 || currentRound.value >= maxRounds.value) {
-                store.commit('setPlayingStep', 'end'); // Trigger Game Over
-                SoundManager.play('win');
-                // Save Match Stats
-                await store.dispatch('onMatchComplete', {
-                    finishedMatch: true,
-                    wonMatch: totalScore.value >= 200,
-                    score: totalScore.value
-                });
+            if (isMultiplayer.value) {
+                // Wait for others
+                store.commit('setRoundPhase', 'waiting');
+                // Simulate others finishing after 2 seconds
+                setTimeout(() => {
+                    store.commit('setRoundPhase', 'revealing');
+                    showRoundSummary.value = true; // Show summary with everyone's results
+                }, 2000);
             } else {
-                showRoundSummary.value = true;
+                // Check Win/End
+                if (totalScore.value >= 200 || currentRound.value >= maxRounds.value) {
+                    store.commit('setPlayingStep', 'end'); // Trigger Game Over
+                    SoundManager.play('win');
+                    // Save Match Stats
+                    await store.dispatch('onMatchComplete', {
+                        finishedMatch: true,
+                        wonMatch: totalScore.value >= 200,
+                        score: totalScore.value
+                    });
+                } else {
+                    showRoundSummary.value = true;
+                }
             }
         };
 
         return {
             gameMode,
+            isMultiplayer,
+            playersReady,
+            amIReady,
+            setReady,
             round: currentRound,
             currentRound,
             maxRounds,

@@ -120,54 +120,74 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex';
+import { MatchmakingService } from '@/services/matchmaking';
 
 export default {
   name: 'MultiplayerLobby',
   data() {
     return {
-      activeTab: 'standard',
-      createRoomName: '',
-      joinRoomCode: '',
-      elapsedTime: 0,
-      timerInterval: null
+      activeTab: 'standard', // 'standard' or 'quick' (though Quick Match has its own view now)
+      // Local UI state for room details if we came here from CreateRoom
+      isQuickMatch: false,
+      timerInterval: null,
+      elapsedTime: 0
     }
   },
   computed: {
-    ...mapState('multiplayer', ['roomCode', 'players', 'isHost', 'gameStatus']),
-    ...mapState('player', ['playerData'])
+    // We assume the store has been updated with room info by the previous step (CreateRoom)
+    // or by loading this component with a roomId.
+    // For now, let's pull from the new multiplayer mock state if it existed,
+    // but since we are reusing this view, let's make it work with the new flow.
+    roomId() {
+      return this.$route.query.roomId;
+    },
+    isHost() {
+      return this.$route.query.isHost === 'true';
+    },
+    // Mock player list for display
+    players() {
+        const p = [
+            { id: 'me', name: 'You', isHost: this.isHost, photo: null }
+        ];
+        // Simulate a joined player if we are waiting
+        if (this.elapsedTime > 2) {
+            p.push({ id: 'p2', name: 'Guest_123', isHost: false, photo: null });
+        }
+        return p;
+    }
+  },
+  mounted() {
+    // If no roomId, redirect back to Home or Create Room
+    if (!this.roomId) {
+        this.$router.push('/create-room');
+        return;
+    }
+
+    // Start a "waiting" timer to simulate activity
+    this.timerInterval = setInterval(() => {
+        this.elapsedTime++;
+    }, 1000);
   },
   methods: {
-    ...mapActions('multiplayer', ['createRoom', 'joinRoom', 'leaveRoom', 'startGame', 'startQuickMatch', 'cancelQuickMatch']),
-
-    async handleCreateRoom() {
-      await this.createRoom(this.createRoomName)
-    },
-    async handleJoinRoom() {
-      if(!this.joinRoomCode) return alert('Please enter a room code')
-      await this.joinRoom(this.joinRoomCode)
-    },
     handleLeaveRoom() {
-      this.leaveRoom()
+      this.$router.push('/');
     },
     handleStartGame() {
-      this.startGame()
-      this.$router.push('/verba') // Or wherever the game view is
+      // Navigate to Game
+      this.$router.push({
+          name: 'play',
+          query: {
+              mode: 'standard',
+              roomId: this.roomId,
+              isHost: this.isHost,
+              multiplayer: true
+          }
+      });
     },
+    // Keep for compatibility if used elsewhere, but Home.vue links directly to QuickMatchSetup
     handleQuickMatch() {
-      this.startQuickMatch()
-      this.elapsedTime = 0
-      this.timerInterval = setInterval(() => {
-        this.elapsedTime++
-        // Simulation: timeout after 30s or find match
-        if(this.elapsedTime > 30 && this.players.length < 2) {
-            // Timeout logic
-        }
-      }, 1000)
-    },
-    cancelQuickMatch() {
-      clearInterval(this.timerInterval)
-      this.$store.dispatch('multiplayer/cancelQuickMatch')
+        this.$router.push('/quick-match');
     }
   },
   beforeUnmount() {

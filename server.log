@@ -3,10 +3,14 @@
 > vite
 
 
-  VITE v5.4.21  ready in 501 ms
+  VITE v5.4.21  ready in 424 ms
 
   ➜  Local:   http://localhost:8000/
   ➜  Network: use --host to expose
 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
 
 More info: https://sass-lang.com/d/legacy-js-api
+
+1:52:46 AM [vite] page reload src/services/fbInstant.js
+1:54:46 AM [vite] hmr update /src/assets/css/tailwind.css, /src/views/Home.vue
+1:55:29 AM [vite] hmr update /src/views/Home.vue, /src/assets/css/tailwind.css
