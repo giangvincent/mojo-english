@@ -150,7 +150,7 @@ import TutorialOverlay from '@/components/TutorialOverlay.vue'
 import { defineAsyncComponent } from 'vue'
 
 export default {
-  name: 'Home',
+  name: 'HomeView',
   components: {
     XpBar,
     TutorialOverlay,

@@ -77,13 +77,12 @@
 
 <script>
 import { defineComponent, computed, onMounted, ref, defineAsyncComponent, watch } from 'vue';
-import { useStore, mapMutations, mapActions } from 'vuex';
+import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import HandComponent from '@/components/game/HandComponent.vue';
 import TableArea from '@/components/game/TableArea.vue';
 import CommunityPool from '@/components/game/CommunityPool.vue';
 import SoundManager from '@/utils/soundManager';
-import { applyPvpEffect } from '@/utils/pvpEffects';
 import { calculateXpFromContext } from '@/utils/xp';
 
 export default defineComponent({
@@ -114,7 +113,6 @@ export default defineComponent({
         // PlayGround uses mapState: currentRound: state => state.playing.currentRound
         // Let's use robust computed getters
         const currentRound = computed(() => store.state.playing.currentRound);
-        const round = currentRound; // Alias for compatibility with template
         const maxRounds = computed(() => store.state.playing.maxRounds);
         const totalScore = computed(() => store.state.playing.totalScore);
         const roundScores = computed(() => store.state.playing.roundScores);
@@ -129,14 +127,7 @@ export default defineComponent({
         const progressionXpToNext = computed(() => store.state.progression.xpToNext);
         const playerData = computed(() => store.state.player.playerData);
 
-        const sharedCards = computed(() => store.state.playing.communityCards || []); // Fallback
-
-        // Validations state
-        const initialSharedCardIds = computed(() => store.state.playing.initialSharedCardIds || []);
-        const usedSharedCardIds = computed(() => store.state.playing.usedSharedCardIds || []);
-
         // Tracking
-        const matchCombos = ref([]);
         const lastXpEarned = ref(0);
         const lastXpContext = ref({});
         const finalSentence = ref('');

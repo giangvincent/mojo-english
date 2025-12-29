@@ -97,16 +97,31 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import XpBar from '@/components/ui/XpBar.vue'
 
-const store = useStore()
-const xp = computed(() => store.state.progression.xp)
-const xpToNext = computed(() => store.state.progression.xpToNext)
-const xpMultiplier = computed(() => store.state.progression.xpMultiplier || 1)
-const level = computed(() => store.state.progression.level)
-const unlocks = computed(() => store.state.progression.unlocks || { themes: [], sets: [], tenses: [] })
-const achievements = computed(() => store.state.progression.achievements || [])
+export default {
+    name: 'DashboardView',
+    components: { XpBar },
+    setup() {
+        const store = useStore()
+        const xp = computed(() => store.state.progression.xp)
+        const xpToNext = computed(() => store.state.progression.xpToNext)
+        const xpMultiplier = computed(() => store.state.progression.xpMultiplier || 1)
+        const level = computed(() => store.state.progression.level)
+        const unlocks = computed(() => store.state.progression.unlocks || { themes: [], sets: [], tenses: [] })
+        const achievements = computed(() => store.state.progression.achievements || [])
+
+        return {
+            xp,
+            xpToNext,
+            xpMultiplier,
+            level,
+            unlocks,
+            achievements
+        }
+    }
+}
 </script>

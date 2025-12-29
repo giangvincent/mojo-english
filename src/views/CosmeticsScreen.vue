@@ -1,73 +1,99 @@
 <template>
-    <div class="min-h-screen bg-gray-900 text-white p-4 pb-20">
-        <div class="flex items-center mb-6">
-            <button @click="$router.push('/')" class="mr-4 p-2 bg-gray-800 rounded-full hover:bg-gray-700">
-                ←
-            </button>
-            <h1 class="text-2xl font-bold">Cosmetics Shop</h1>
-        </div>
+  <div class="page-shell pixel-bg">
+    <div class="w-full max-w-5xl">
+      <!-- Header -->
+      <div class="flex items-center mb-8">
+        <back-button class="mr-4 static" />
+        <h1 class="text-3xl font-bold text-pix-ink card-font uppercase tracking-wide">Cosmetics Shop</h1>
+      </div>
+
+      <!-- Main Panel -->
+      <div class="pixel-panel p-6 md:p-8 bg-pix-paper min-h-[600px]">
 
         <!-- Tabs -->
-        <div class="flex gap-4 mb-6 border-b border-gray-700 pb-2">
-            <button @click="activeTab = 'avatars'" class="pb-2 px-2 font-bold transition-colors"
-                :class="activeTab === 'avatars' ? 'text-yellow-400 border-b-2 border-yellow-400' : 'text-gray-400'">
-                Avatars
-            </button>
-            <button @click="activeTab = 'cardBacks'" class="pb-2 px-2 font-bold transition-colors"
-                :class="activeTab === 'cardBacks' ? 'text-yellow-400 border-b-2 border-yellow-400' : 'text-gray-400'">
-                Card Backs
-            </button>
-            <button @click="activeTab = 'borders'" class="pb-2 px-2 font-bold transition-colors"
-                :class="activeTab === 'borders' ? 'text-yellow-400 border-b-2 border-yellow-400' : 'text-gray-400'">
-                Borders
-            </button>
+        <div class="flex flex-wrap gap-2 md:gap-4 mb-8 border-b-4 border-pix-ink pb-4">
+          <button
+            @click="activeTab = 'avatars'"
+            class="pixel-btn transition-transform"
+            :class="activeTab === 'avatars' ? 'primary' : 'ghost border-2 border-pix-ink'"
+          >
+            Avatars
+          </button>
+          <button
+            @click="activeTab = 'cardBacks'"
+            class="pixel-btn transition-transform"
+            :class="activeTab === 'cardBacks' ? 'primary' : 'ghost border-2 border-pix-ink'"
+          >
+            Card Backs
+          </button>
+          <button
+            @click="activeTab = 'borders'"
+            class="pixel-btn transition-transform"
+            :class="activeTab === 'borders' ? 'primary' : 'ghost border-2 border-pix-ink'"
+          >
+            Borders
+          </button>
         </div>
 
         <!-- Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div v-for="item in currentItems" :key="item.id"
-                class="bg-gray-800 rounded-xl p-4 flex flex-col items-center border border-gray-700 relative"
-                :class="{ 'border-yellow-500 bg-gray-750': isEquipped(item.id) }">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div
+            v-for="item in currentItems"
+            :key="item.id"
+            class="pixel-card p-4 flex flex-col items-center relative transition-transform hover:-translate-y-1"
+            :class="{ 'bg-yellow-50': isEquipped(item.id) }"
+          >
 
-                <div v-if="isEquipped(item.id)" class="absolute top-2 right-2 text-yellow-500 text-xs font-bold">
-                    EQUIPPED
-                </div>
-
-                <!-- Preview Placeholder -->
-                <div
-                    class="w-20 h-20 bg-gray-700 rounded-lg mb-4 flex items-center justify-center text-3xl shadow-inner">
-                    {{ item.icon }}
-                </div>
-
-                <h3 class="font-bold text-center mb-1">{{ item.name }}</h3>
-
-                <div v-if="isUnlocked(item.id)" class="w-full mt-2">
-                    <button v-if="!isEquipped(item.id)" @click="equip(item.id)"
-                        class="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-2 rounded transition-colors">
-                        Equip
-                    </button>
-                    <button v-else disabled
-                        class="w-full bg-gray-600 text-gray-300 text-sm font-bold py-2 rounded cursor-default">
-                        Equipped
-                    </button>
-                </div>
-
-                <div v-else class="w-full mt-2 text-center">
-                    <div class="text-xs text-gray-500 mb-2">Locked</div>
-                    <div class="text-xs text-yellow-600 bg-yellow-900 bg-opacity-20 px-2 py-1 rounded">
-                        {{ item.requirement }}
-                    </div>
-                </div>
+            <div v-if="isEquipped(item.id)" class="absolute -top-3 right-2 pixel-chip bg-pix-warning text-pix-ink font-bold z-10">
+              EQUIPPED
             </div>
+
+            <!-- Preview Placeholder -->
+            <div class="w-24 h-24 pixel-inset bg-white mb-4 flex items-center justify-center text-4xl">
+              {{ item.icon }}
+            </div>
+
+            <h3 class="font-bold text-center text-pix-ink mb-2">{{ item.name }}</h3>
+
+            <div v-if="isUnlocked(item.id)" class="w-full mt-auto pt-2">
+              <button
+                v-if="!isEquipped(item.id)"
+                @click="equip(item.id)"
+                class="pixel-btn success w-full text-sm py-2"
+              >
+                EQUIP
+              </button>
+              <button
+                v-else
+                disabled
+                class="pixel-btn ghost w-full text-sm py-2 opacity-50 cursor-default"
+              >
+                EQUIPPED
+              </button>
+            </div>
+
+            <div v-else class="w-full mt-auto pt-2 text-center">
+              <div class="text-xs text-pix-ink font-bold uppercase mb-2 opacity-70">Locked</div>
+              <div class="pixel-chip bg-pix-ink text-white text-[10px] w-full block">
+                {{ item.requirement }}
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import BackButton from '@/components/navigation/BackButton.vue'
 
 export default {
     name: 'CosmeticsScreen',
+    components: {
+      BackButton
+    },
     data() {
         return {
             activeTab: 'avatars',
@@ -105,7 +131,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['equipCosmetic']), // Need to add this mutation
+        ...mapMutations(['equipCosmetic']),
         isUnlocked(id) {
             if (id.startsWith('default-')) return true
             return this.unlockedItems.includes(id)

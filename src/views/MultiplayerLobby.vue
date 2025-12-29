@@ -1,128 +1,125 @@
 <template>
-  <div class="relative min-h-screen overflow-hidden lobby-shell pixel-bg text-slate-900">
-    <!-- Shared Background Elements -->
-    <div class="bg-grid"></div>
-    <div class="bg-glow bg-glow-1"></div>
-    <div class="bg-glow bg-glow-2"></div>
-
-    <header class="relative sticky top-0 z-10 flex items-center justify-between px-4 py-4 md:px-12 md:py-6">
-      <div class="flex items-center gap-4 cursor-pointer" @click="$router.push('/')">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        <div>
-          <h1 class="inline-flex text-xl font-bold leading-tight md:text-2xl card-font">Multiplayer Lobby</h1>
+  <div class="page-shell pixel-bg">
+    <div class="w-full max-w-5xl">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6 px-4">
+        <div class="flex items-center gap-4 cursor-pointer" @click="$router.push('/')">
+          <button class="pixel-icon-btn">
+             <span class="text-2xl">&lt;</span>
+          </button>
+          <div>
+            <h1 class="inline-flex text-xl font-bold leading-tight md:text-2xl card-font text-pix-ink">Multiplayer Lobby</h1>
+          </div>
         </div>
       </div>
-    </header>
 
-    <main class="relative z-10 w-full max-w-4xl px-4 pb-20 mx-auto md:px-12">
+      <div class="pixel-panel p-6 md:p-8 bg-pix-paper min-h-[500px]">
 
-      <!-- Tab Navigation -->
-      <div class="flex gap-4 mb-8">
-        <button
-          @click="activeTab = 'standard'"
-          :class="['tab-btn', activeTab === 'standard' ? 'active' : '']">
-          Standard Room
-        </button>
-        <button
-          @click="activeTab = 'quick'"
-          :class="['tab-btn', activeTab === 'quick' ? 'active' : '']">
-          Quick Match
-        </button>
+        <!-- Tab Navigation -->
+        <div class="flex gap-4 mb-8 border-b-4 border-pix-ink pb-4">
+          <button
+            @click="activeTab = 'standard'"
+            class="pixel-btn"
+            :class="activeTab === 'standard' ? 'primary' : 'ghost border-2 border-pix-ink'">
+            Standard Room
+          </button>
+          <button
+            @click="activeTab = 'quick'"
+            class="pixel-btn"
+            :class="activeTab === 'quick' ? 'primary' : 'ghost border-2 border-pix-ink'">
+            Quick Match
+          </button>
+        </div>
+
+        <!-- STANDARD MODE -->
+        <section v-if="activeTab === 'standard'">
+          <div v-if="!roomCode" class="grid gap-8 md:grid-cols-2">
+            <!-- Create Room -->
+            <div class="pixel-inset bg-white p-6 flex flex-col items-center text-center">
+              <h3 class="text-xl font-display mb-4 text-pix-ink">Create Room</h3>
+              <p class="mb-6 text-sm text-pix-ink">Start a new game and invite your friends.</p>
+              <div class="w-full mb-4 text-left">
+                <label class="block font-bold text-pix-ink mb-2 uppercase text-xs">Room Name</label>
+                <input v-model="createRoomName" type="text" class="w-full p-2 border-2 border-pix-ink font-pixel rounded-none focus:outline-none focus:border-pix-primary" placeholder="My Game Room" />
+              </div>
+              <button @click="handleCreateRoom" class="pixel-btn primary w-full">Create Room</button>
+            </div>
+
+            <!-- Join Room -->
+            <div class="pixel-inset bg-white p-6 flex flex-col items-center text-center">
+              <h3 class="text-xl font-display mb-4 text-pix-ink">Join Room</h3>
+              <p class="mb-6 text-sm text-pix-ink">Enter a code to join an existing game.</p>
+              <div class="w-full mb-4 text-left">
+                <label class="block font-bold text-pix-ink mb-2 uppercase text-xs">Room Code</label>
+                <input v-model="joinRoomCode" type="text" class="w-full p-2 border-2 border-pix-ink font-pixel rounded-none focus:outline-none focus:border-pix-primary" placeholder="ABC-123" />
+              </div>
+              <button @click="handleJoinRoom" class="pixel-btn ghost border-2 border-pix-ink w-full">Join Room</button>
+            </div>
+          </div>
+
+          <!-- Lobby View (Inside Room) -->
+          <div v-else class="flex flex-col gap-6">
+            <div class="flex justify-between items-center border-b-2 border-pix-ink pb-4">
+              <div>
+                <p class="text-xs uppercase font-bold text-pix-ink opacity-70">Room Code</p>
+                <h2 class="text-4xl font-display text-pix-primary">{{ roomCode }}</h2>
+              </div>
+              <button @click="handleLeaveRoom" class="pixel-btn danger">LEAVE</button>
+            </div>
+
+            <div class="grid gap-4 md:grid-cols-2">
+              <div v-for="player in players" :key="player.id" class="pixel-card p-4 flex items-center gap-4 bg-white relative">
+                <img :src="player.photo?.src || 'https://placehold.co/64x64?text=Player'" class="w-12 h-12 border-2 border-pix-ink" />
+                <div class="flex-1">
+                  <p class="font-bold text-pix-ink">{{ player.name }}</p>
+                  <p class="text-xs text-pix-ink opacity-70">{{ player.isHost ? 'Host' : 'Ready' }}</p>
+                </div>
+                <div v-if="player.isHost" class="pixel-chip bg-purple-500 text-white absolute top-2 right-2">HOST</div>
+              </div>
+
+              <!-- Empty Slots placeholders -->
+              <div v-for="n in (4 - players.length)" :key="`empty-${n}`" class="border-2 border-dashed border-pix-ink/30 p-4 flex items-center gap-4 opacity-50">
+                <div class="w-12 h-12 border-2 border-dashed border-pix-ink/30 bg-gray-50"></div>
+                <div class="flex-1">
+                  <p class="text-sm italic">Waiting for player...</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-center mt-8">
+               <button v-if="isHost" @click="handleStartGame" :disabled="players.length < 2" class="pixel-btn primary text-xl py-4 px-12">
+                 START GAME
+               </button>
+               <div v-else class="text-pix-ink animate-pulse font-bold text-lg">
+                 Waiting for host to start...
+               </div>
+            </div>
+            <p v-if="isHost && players.length < 2" class="text-center mt-2 text-pix-danger text-sm font-bold">Need at least 2 players</p>
+          </div>
+        </section>
+
+        <!-- QUICK MATCH MODE -->
+        <section v-if="activeTab === 'quick'" class="text-center py-12">
+          <div v-if="gameStatus === 'waiting_match'">
+             <div class="spinner mb-6 mx-auto"></div> <!-- Keep or replace with pixel spinner -->
+             <h3 class="text-2xl font-display mb-2 text-pix-ink">Searching for Opponents...</h3>
+             <p class="text-pix-ink mb-8">Time elapsed: {{ elapsedTime }}s</p>
+
+             <button @click="cancelQuickMatch" class="pixel-btn danger">CANCEL</button>
+          </div>
+          <div v-else>
+             <h3 class="text-2xl font-display mb-4 text-pix-ink">Quick Match</h3>
+             <p class="text-pix-ink mb-8 max-w-md mx-auto">Find a game automatically. We will match you with other players looking for a game.</p>
+             <button @click="handleQuickMatch" class="pixel-btn warning text-xl py-4 px-12">FIND MATCH</button>
+          </div>
+        </section>
+
       </div>
-
-      <!-- STANDARD MODE -->
-      <section v-if="activeTab === 'standard'" class="mode-panel">
-        <div v-if="!roomCode" class="grid gap-8 md:grid-cols-2">
-          <!-- Create Room -->
-          <div class="action-card">
-            <h3 class="text-xl font-display mb-4">Create Room</h3>
-            <p class="mb-6 text-slate-600">Start a new game and invite your friends.</p>
-            <div class="form-group mb-4">
-              <label class="label">Room Name (Optional)</label>
-              <input v-model="createRoomName" type="text" class="input" placeholder="My Game Room" />
-            </div>
-            <button @click="handleCreateRoom" class="cta primary w-full justify-center">Create Room</button>
-          </div>
-
-          <!-- Join Room -->
-          <div class="action-card">
-            <h3 class="text-xl font-display mb-4">Join Room</h3>
-            <p class="mb-6 text-slate-600">Enter a code to join an existing game.</p>
-            <div class="form-group mb-4">
-              <label class="label">Room Code</label>
-              <input v-model="joinRoomCode" type="text" class="input" placeholder="ABC-123" />
-            </div>
-            <button @click="handleJoinRoom" class="cta ghost w-full justify-center">Join Room</button>
-          </div>
-        </div>
-
-        <!-- Lobby View (Inside Room) -->
-        <div v-else class="lobby-room">
-          <div class="flex justify-between items-center mb-6">
-            <div>
-              <p class="text-sm uppercase tracking-wide text-slate-500">Room Code</p>
-              <h2 class="text-4xl font-display text-blue-600">{{ roomCode }}</h2>
-            </div>
-            <button @click="handleLeaveRoom" class="cta auth danger">Leave</button>
-          </div>
-
-          <div class="player-list grid gap-4 md:grid-cols-2 mb-8">
-            <div v-for="player in players" :key="player.id" class="player-card glass">
-              <img :src="player.photo?.src || 'https://placehold.co/64x64?text=Player'" class="w-12 h-12 border border-black" />
-              <div class="flex-1">
-                <p class="font-bold">{{ player.name }}</p>
-                <p class="text-xs text-slate-500">{{ player.isHost ? 'Host' : 'Ready' }}</p>
-              </div>
-              <div v-if="player.isHost" class="badge badge-purple">HOST</div>
-            </div>
-
-            <!-- Empty Slots placeholders -->
-            <div v-for="n in (4 - players.length)" :key="`empty-${n}`" class="player-card empty">
-              <div class="w-12 h-12 border border-dashed border-slate-400 bg-slate-100"></div>
-              <div class="flex-1">
-                <p class="text-slate-400 italic">Waiting for player...</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex justify-center">
-             <button v-if="isHost" @click="handleStartGame" :disabled="players.length < 2" class="cta primary text-xl py-4 px-12">
-               Start Game
-             </button>
-             <div v-else class="text-slate-500 animate-pulse">
-               Waiting for host to start...
-             </div>
-          </div>
-          <p v-if="isHost && players.length < 2" class="text-center mt-2 text-red-500 text-sm">Need at least 2 players</p>
-        </div>
-      </section>
-
-      <!-- QUICK MATCH MODE -->
-      <section v-if="activeTab === 'quick'" class="mode-panel text-center py-12">
-        <div v-if="gameStatus === 'waiting_match'">
-           <div class="spinner mb-6 mx-auto"></div>
-           <h3 class="text-2xl font-display mb-2">Searching for Opponents...</h3>
-           <p class="text-slate-600 mb-8">Time elapsed: {{ elapsedTime }}s</p>
-
-           <button @click="cancelQuickMatch" class="cta auth danger">Cancel</button>
-        </div>
-        <div v-else>
-           <h3 class="text-2xl font-display mb-4">Quick Match</h3>
-           <p class="text-slate-600 mb-8 max-w-md mx-auto">Find a game automatically. We will match you with other players looking for a game.</p>
-           <button @click="handleQuickMatch" class="cta primary text-xl py-4 px-12">Find Match</button>
-        </div>
-      </section>
-
-    </main>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { MatchmakingService } from '@/services/matchmaking';
-
 export default {
   name: 'MultiplayerLobby',
   data() {
@@ -131,7 +128,9 @@ export default {
       // Local UI state for room details if we came here from CreateRoom
       isQuickMatch: false,
       timerInterval: null,
-      elapsedTime: 0
+      elapsedTime: 0,
+      createRoomName: '',
+      joinRoomCode: ''
     }
   },
   computed: {
@@ -141,6 +140,9 @@ export default {
     // but since we are reusing this view, let's make it work with the new flow.
     roomId() {
       return this.$route.query.roomId;
+    },
+    roomCode() {
+        return this.roomId; // Simple alias for now
     },
     isHost() {
       return this.$route.query.isHost === 'true';
@@ -155,21 +157,41 @@ export default {
             p.push({ id: 'p2', name: 'Guest_123', isHost: false, photo: null });
         }
         return p;
+    },
+    gameStatus() {
+        // Mock status
+        return 'idle';
     }
   },
   mounted() {
     // If no roomId, redirect back to Home or Create Room
-    if (!this.roomId) {
-        this.$router.push('/create-room');
-        return;
-    }
+    // EDIT: Actually, this component handles both the "Choice" (tab) AND the "Lobby" (inside room).
+    // The previous logic redirected if no roomId. I should relax that if we are in "Choice" mode.
+    // However, the previous logic seemed to imply this view was ONLY the lobby.
+    // But the template has "Create Room" / "Join Room" sections.
+    // I will respect the structure I just wrote: if roomId is present, show Lobby, else show panels.
 
-    // Start a "waiting" timer to simulate activity
-    this.timerInterval = setInterval(() => {
-        this.elapsedTime++;
-    }, 1000);
+    if (this.roomId) {
+        // We are in a room
+        this.timerInterval = setInterval(() => {
+            this.elapsedTime++;
+        }, 1000);
+    }
   },
   methods: {
+    handleCreateRoom() {
+        // Logic to create room
+        this.$router.push('/create-room');
+    },
+    handleJoinRoom() {
+        // Logic to join
+        if(this.joinRoomCode) {
+             this.$router.push({
+                name: 'lobby',
+                query: { roomId: this.joinRoomCode, isHost: 'false' }
+            });
+        }
+    },
     handleLeaveRoom() {
       this.$router.push('/');
     },
@@ -188,6 +210,9 @@ export default {
     // Keep for compatibility if used elsewhere, but Home.vue links directly to QuickMatchSetup
     handleQuickMatch() {
         this.$router.push('/quick-match');
+    },
+    cancelQuickMatch() {
+        // reset
     }
   },
   beforeUnmount() {
@@ -197,129 +222,18 @@ export default {
 </script>
 
 <style scoped>
-.lobby-shell {
-  background: transparent;
-  font-family: var(--ui-font);
-}
-
-.tab-btn {
-  padding: 1rem 2rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  border-bottom: 4px solid transparent;
-  color: #64748b;
-  transition: all 0.2s;
-}
-
-.tab-btn:hover {
-  color: #334155;
-}
-
-.tab-btn.active {
-  color: #000;
-  border-bottom-color: #000;
-}
-
-.mode-panel {
-  background: var(--pix-paper);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  box-shadow: var(--px) var(--px) 0 var(--pix-shadow);
-  padding: 2rem;
-  min-height: 400px;
-}
-
-.action-card {
-  padding: 1.5rem;
-  border: 2px dashed #cbd5e1;
-  text-align: center;
-}
-
-.label {
-  display: block;
-  text-align: left;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #cbd5e1;
-  font-family: inherit;
-  margin-bottom: 1rem;
-}
-
-.input:focus {
-  outline: none;
-  border-color: var(--pix-primary);
-}
-
-.player-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  border: 2px solid #000;
-}
-
-.player-card.empty {
-  border: 2px dashed #cbd5e1;
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Spinner */
+/* Scoped styles removed in favor of global pixel classes */
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  border: 4px solid #fff; /* lighter */
+  border-top: 4px solid var(--pix-primary);
+  border-radius: 0; /* Square spinner */
+  animation: spin 1s steps(8) infinite; /* Pixelated spin */
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-/* Reuse existing button styles */
-.cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  box-shadow: 0 var(--px) 0 var(--pix-shadow);
-  border: calc(var(--px) / 2) solid var(--pix-ink);
-  padding: 0.75rem 1rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.cta.primary {
-  background: linear-gradient(180deg, #fca5a5, var(--pix-danger));
-  color: #fff;
-}
-
-.cta.ghost {
-  background: var(--pix-paper);
-  color: var(--pix-ink);
-}
-
-.cta.auth.danger {
-  background: linear-gradient(180deg, #fca5a5, var(--pix-danger));
-  color: #450a0a;
-}
-
-.cta:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: grayscale(1);
-}
-
-.glass {
-  background: #fff;
 }
 </style>
