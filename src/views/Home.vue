@@ -50,7 +50,7 @@
         <div class="flex-1 space-y-4">
           <div class="pixel-chip bg-pix-primary text-white w-max font-bold">NEW UPDATE</div>
           <h2 class="text-4xl md:text-6xl font-display text-pix-ink mb-2">VerbaPix</h2>
-          <p class="text-lg md:text-xl text-pix-ink font-pixel leading-relaxed">
+          <p class="text-lg md:text-xl text-pix-ink leading-relaxed">
             {{ $t('home.hero_desc') }}
           </p>
 
@@ -96,7 +96,7 @@
             <span class="text-white font-display text-4xl">STD</span>
           </div>
           <h3 class="font-display text-xl mt-2">{{ $t('modes.standard') }}</h3>
-          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_standard_body') }}</p>
+          <p class="text-sm leading-tight">{{ $t('home.mode_standard_body') }}</p>
           <button @click="startGame('standard')"
             class="pixel-btn primary mt-auto text-center w-full block">PLAY</button>
         </article>
@@ -106,7 +106,7 @@
             <span class="text-pix-ink font-display text-4xl">SPLIT</span>
           </div>
           <h3 class="font-display text-xl mt-2">{{ $t('modes.5-4-split') }}</h3>
-          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_split_body') }}</p>
+          <p class="text-sm leading-tight">{{ $t('home.mode_split_body') }}</p>
           <button @click="startGame('5-4-split')"
             class="pixel-btn warning mt-auto text-center w-full block">PLAY</button>
         </article>
@@ -116,7 +116,7 @@
             <span class="text-white font-display text-4xl">CO-OP</span>
           </div>
           <h3 class="font-display text-xl mt-2">{{ $t('modes.coop') }}</h3>
-          <p class="text-sm font-pixel leading-tight">{{ $t('home.mode_coop_body') }}</p>
+          <p class="text-sm leading-tight">{{ $t('home.mode_coop_body') }}</p>
           <button @click="startGame('coop')" class="pixel-btn mt-auto text-center w-full block"
             style="background: #c084fc; color: white;">PLAY</button>
         </article>
