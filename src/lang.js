@@ -48,7 +48,11 @@ export default {
       start_coop: 'Chơi Hợp tác'
     },
     language: 'Tiếng việt',
-    setting: ['Cài đặt', 'Âm nhạc', 'Âm thanh', 'Ngôn ngữ'],
+    setting: {
+      music: 'Âm nhạc',
+      sound: 'Âm thanh',
+      lang: 'Ngôn ngữ'
+    },
     buttons: {
       discard: 'Bỏ'
     },
@@ -172,7 +176,11 @@ export default {
       start_coop: 'Start Co-op'
     },
     language: 'English',
-    setting: ['Settings', 'Music', 'Sound', 'Language'],
+    setting: {
+      music: 'Music',
+      sound: 'Sound',
+      lang: 'Language'
+    },
     buttons: {
       discard: 'Change'
     },

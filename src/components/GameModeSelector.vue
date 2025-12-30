@@ -1,6 +1,7 @@
 <template>
     <div class="fixed inset-0 pixel-bg z-50 flex flex-col items-center justify-center text-slate-900 p-4">
-        <h1 class="pixel-panel px-6 py-3 text-2xl md:text-3xl font-bold mb-8">{{ $t('common.select_mode') }}</h1>
+        <h1 class="pixel-panel px-6 py-3 text-2xl md:text-3xl font-bold mb-8 text-white">{{ $t('common.select_mode') }}
+        </h1>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
             <!-- Standard Mode -->
@@ -37,8 +38,7 @@
             </div>
         </div>
 
-        <button class="mt-12 pixel-btn ghost"
-            @click="$router.push('/')">
+        <button class="mt-12 pixel-btn ghost" @click="$router.push('/')">
             {{ $t('game_over.home') }}
         </button>
     </div>

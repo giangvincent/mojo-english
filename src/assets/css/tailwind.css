@@ -60,6 +60,9 @@
     --pix-bg-a: var(--pix-ink);
     --pix-bg-b: #0d305c;
 
+    --border-radius-btn: 6px;
+    --border-radius-card: 8px;
+
     --ui-font: "mpluscodelatin", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --card-font: "webplus_ibm_vga", "mpluscodelatin", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -124,14 +127,14 @@
     background: var(--pix-paper);
     color: var(--pix-ink);
     border: var(--px) solid var(--pix-ink);
-    border-radius: 0;
+    border-radius: var(--border-radius-card);
     box-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--pix-shadow);
   }
 
   .pixel-inset {
     background: var(--pix-paper-2);
     border: var(--px) solid var(--pix-ink);
-    border-radius: 0;
+    border-radius: var(--border-radius-card);
     box-shadow:
       inset var(--px) var(--px) 0 rgba(0, 0, 0, 0.28),
       inset calc(var(--px) * -1) calc(var(--px) * -1) 0 rgba(255, 255, 255, 0.7);
@@ -156,9 +159,8 @@
 
   .pixel-btn {
     appearance: none;
-    border: var(--px) solid #FFFFFF;
     outline: var(--px) solid var(--pix-ink);
-    border-radius: 0;
+    border-radius: var(--border-radius-btn);
     padding: 0.65rem 1rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -232,7 +234,7 @@
   .pixel-card {
     background: #FFFFFF;
     border: var(--px) solid #e5e7eb; /* Inner Light Grey Border */
-    border-radius: 0;
+    border-radius: var(--border-radius-card);
     position: relative;
     /* Outer Dark Border via Box Shadow Spread or Outline? Outline allows rounded corners if we wanted, but here 0 radius. */
     /* Using box-shadow for outer border ensures layout stability if we have margin */
@@ -249,9 +251,8 @@
     padding: 0;
     display: inline-grid;
     place-items: center;
-    border: var(--px) solid #FFFFFF;
     outline: var(--px) solid var(--pix-ink);
-    border-radius: 0;
+    border-radius: var(--border-radius-btn);
     font-weight: 900;
     color: var(--pix-ink);
     background: var(--pix-paper);

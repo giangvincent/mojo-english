@@ -4,7 +4,7 @@
       <!-- Header -->
       <div class="flex items-center mb-8">
         <back-btn class="mr-4 static" />
-        <h1 class="text-3xl font-bold text-pix-ink card-font uppercase tracking-wide">Market</h1>
+        <h1 class="text-3xl font-bold text-white card-font uppercase tracking-wide">Market</h1>
       </div>
 
       <!-- Main Panel -->
@@ -14,11 +14,9 @@
           <!-- Card 1 -->
           <div class="pixel-card bg-orange-100 p-4 w-72 flex flex-col items-center">
             <div class="pixel-inset bg-white w-full h-48 mb-4 flex items-center justify-center overflow-hidden">
-               <img
-                class="w-32 pixelated"
+              <img class="w-32 pixelated"
                 src="https://user-images.githubusercontent.com/2805249/64069899-8bdaa180-cc97-11e9-9b19-1a9e1a254c18.png"
-                alt="Peace Lily"
-              />
+                alt="Peace Lily" />
             </div>
             <div class="w-full text-pix-ink">
               <span class="text-xs font-bold uppercase opacity-70">Indoor</span>
@@ -32,13 +30,11 @@
 
           <!-- Card 2 -->
           <div class="pixel-card bg-teal-100 p-4 w-72 flex flex-col items-center">
-             <div class="pixel-inset bg-white w-full h-48 mb-4 flex items-center justify-center overflow-hidden">
-               <img
-                class="w-32 pixelated"
+            <div class="pixel-inset bg-white w-full h-48 mb-4 flex items-center justify-center overflow-hidden">
+              <img class="w-32 pixelated"
                 src="https://user-images.githubusercontent.com/2805249/64069998-305de300-cc9a-11e9-8ae7-5a0fe00299f2.png"
-                alt="Monstera"
-              />
-             </div>
+                alt="Monstera" />
+            </div>
             <div class="w-full text-pix-ink">
               <span class="text-xs font-bold uppercase opacity-70">Outdoor</span>
               <div class="flex justify-between items-center mt-1">
@@ -51,13 +47,11 @@
 
           <!-- Card 3 -->
           <div class="pixel-card bg-purple-100 p-4 w-72 flex flex-col items-center">
-             <div class="pixel-inset bg-white w-full h-48 mb-4 flex items-center justify-center overflow-hidden">
-              <img
-                class="w-32 pixelated"
+            <div class="pixel-inset bg-white w-full h-48 mb-4 flex items-center justify-center overflow-hidden">
+              <img class="w-32 pixelated"
                 src="https://user-images.githubusercontent.com/2805249/64069899-8bdaa180-cc97-11e9-9b19-1a9e1a254c18.png"
-                alt="Oak Tree"
-              />
-             </div>
+                alt="Oak Tree" />
+            </div>
             <div class="w-full text-pix-ink">
               <span class="text-xs font-bold uppercase opacity-70">Outdoor</span>
               <div class="flex justify-between items-center mt-1">

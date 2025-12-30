@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="w-screen h-screen overflow-y-auto pixel-bg">
+  <div class="w-screen h-screen overflow-y-auto pixel-bg">
     <div class="flex items-center justify-center w-full game_screen">
       <router-view />
     </div>
@@ -26,10 +26,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-#app {
-  color: var(--pix-ink);
-  text-align: center;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-pix-paper flex flex-col items-center justify-center p-4">
-    <div class="pixel-panel p-10 bg-white max-w-md w-full flex flex-col items-center gap-6 text-center">
+  <div class="min-h-screen w-full flex flex-col items-center justify-center p-4">
+    <div class="pixel-panel p-10 bg-white w-full max-w-lg flex flex-col items-center gap-6 text-center">
 
       <div class="animate-bounce">
         <span class="text-6xl">🔍</span>

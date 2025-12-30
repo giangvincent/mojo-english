@@ -1,13 +1,14 @@
 <template>
-  <div class="page-shell pixel-bg text-slate-900">
-    <div class="page-panel w-full max-w-5xl p-6 md:p-8 space-y-8">
-      <!-- Header -->
-      <div class="flex items-center">
-        <button @click="$router.push('/')" class="pixel-btn ghost mr-4 px-3 py-2 text-sm">
-          ←
-        </button>
-        <h1 class="text-2xl font-bold">{{ $t('progress.title') }}</h1>
-      </div>
+  <div class="page-shell flex-col pixel-bg text-slate-900">
+    <!-- Header -->
+    <div class="flex items-center mb-8">
+      <back-btn class="mr-4 static" />
+      <h1 class="text-3xl font-bold text-white card-font uppercase tracking-wide">{{ $t('progress.title') }}</h1>
+    </div>
+
+    <!-- Content -->
+    <div class="page-panel w-full p-6 md:p-8 space-y-8">
+
 
       <!-- Level & XP Card -->
       <div class="pixel-panel p-6">
@@ -43,11 +44,9 @@
         <!-- Daily -->
         <div class="space-y-3">
           <h3 class="text-sm text-slate-600 uppercase font-bold">{{ $t('progress.daily_missions') }}</h3>
-          <div v-for="mission in missions.daily" :key="mission.id"
-            class="pixel-panel p-4 relative overflow-hidden"
+          <div v-for="mission in missions.daily" :key="mission.id" class="pixel-panel p-4 relative overflow-hidden"
             :class="{ 'border-green-500': mission.completed }">
-            <div v-if="mission.completed"
-              class="absolute top-0 right-0 pixel-chip">
+            <div v-if="mission.completed" class="absolute top-0 right-0 pixel-chip">
               {{ $t('progress.completed') }}
             </div>
             <div class="flex justify-between items-start mb-2">
@@ -70,11 +69,9 @@
         <!-- Weekly -->
         <div class="space-y-3">
           <h3 class="text-sm text-slate-600 uppercase font-bold">{{ $t('progress.weekly_missions') }}</h3>
-          <div v-for="mission in missions.weekly" :key="mission.id"
-            class="pixel-panel p-4 relative overflow-hidden"
+          <div v-for="mission in missions.weekly" :key="mission.id" class="pixel-panel p-4 relative overflow-hidden"
             :class="{ 'border-purple-500': mission.completed }">
-            <div v-if="mission.completed"
-              class="absolute top-0 right-0 pixel-chip">
+            <div v-if="mission.completed" class="absolute top-0 right-0 pixel-chip">
               {{ $t('progress.completed') }}
             </div>
             <div class="flex justify-between items-start mb-2">
@@ -102,8 +99,7 @@
         </h2>
         <div class="grid grid-cols-1 gap-4">
           <div v-for="achievement in allAchievements" :key="achievement.id"
-            class="pixel-panel p-4 flex items-center gap-4"
-            :class="{ 'opacity-60': !isUnlocked(achievement.id) }">
+            class="pixel-panel p-4 flex items-center gap-4" :class="{ 'opacity-60': !isUnlocked(achievement.id) }">
             <div class="w-12 h-12 pixel-inset flex items-center justify-center text-2xl"
               :class="isUnlocked(achievement.id) ? 'bg-amber-400 text-white' : 'bg-slate-200 text-slate-500'">
               {{ isUnlocked(achievement.id) ? '✓' : '🔒' }}
@@ -136,44 +132,46 @@
 <script>
 import { mapState } from 'vuex'
 import { achievements } from '@/data/achievements'
+import BackBtn from '@/components/navigation/BackButton.vue'
 
 export default {
-    name: 'ProgressScreen',
-    data() {
-        return {
-            allAchievements: achievements
-        }
-    },
-    computed: {
-        ...mapState({
-            level: state => state.progression.level,
-            xp: state => state.progression.xp,
-            xpToNext: state => state.progression.xpToNext,
-            missions: state => state.progression.missions,
-            unlockedAchievements: state => state.progression.achievements,
-            achievementProgress: state => state.progression.achievementProgress
-        }),
-        xpPercentage() {
-            // Calculate progress into current level
-            // This is simplified; ideally we'd know XP at start of level to show 0-100% for just this level
-            // But xpToNext is total cumulative XP required.
-            // Let's approximate:
-            // We need a helper to get XP for *current* level start.
-            // For now, just show raw percentage of total required (which will be high)
-            // Better: use a utility to get range.
-            // Let's just use raw ratio for now, or assume linear progress from previous level cap.
-            return (this.xp / this.xpToNext) * 100
-        }
-    },
-    methods: {
-        isUnlocked(id) {
-            return this.unlockedAchievements.some(a => a.id === id)
-        },
-        getProgress(id) {
-            const progress = this.achievementProgress[id]
-            if (Array.isArray(progress)) return progress.length
-            return progress || 0
-        }
+  name: 'ProgressScreen',
+  components: { BackBtn },
+  data() {
+    return {
+      allAchievements: achievements
     }
+  },
+  computed: {
+    ...mapState({
+      level: state => state.progression.level,
+      xp: state => state.progression.xp,
+      xpToNext: state => state.progression.xpToNext,
+      missions: state => state.progression.missions,
+      unlockedAchievements: state => state.progression.achievements,
+      achievementProgress: state => state.progression.achievementProgress
+    }),
+    xpPercentage() {
+      // Calculate progress into current level
+      // This is simplified; ideally we'd know XP at start of level to show 0-100% for just this level
+      // But xpToNext is total cumulative XP required.
+      // Let's approximate:
+      // We need a helper to get XP for *current* level start.
+      // For now, just show raw percentage of total required (which will be high)
+      // Better: use a utility to get range.
+      // Let's just use raw ratio for now, or assume linear progress from previous level cap.
+      return (this.xp / this.xpToNext) * 100
+    }
+  },
+  methods: {
+    isUnlocked(id) {
+      return this.unlockedAchievements.some(a => a.id === id)
+    },
+    getProgress(id) {
+      const progress = this.achievementProgress[id]
+      if (Array.isArray(progress)) return progress.length
+      return progress || 0
+    }
+  }
 }
 </script>

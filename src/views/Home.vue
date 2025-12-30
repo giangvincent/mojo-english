@@ -6,11 +6,11 @@
 
     <game-mode-selector v-if="showModeSelector" @select-mode="onModeSelected" />
 
-    <header class="relative sticky top-0 z-10 flex items-center justify-between px-4 py-4 md:px-12 md:py-6">
+    <header class="relative sticky top-0 z-10 flex items-center justify-between px-4 py-4 md:px-12 md:py-6 text-white">
       <div class="flex items-center gap-4">
         <img class="w-auto h-10 md:h-12 pixelated" src="@/assets/images/logo.png" alt="VerbaPix logo" />
         <div>
-          <h1 class="inline-flex text-2xl font-bold leading-tight md:text-3xl card-font">VerbaPix</h1>
+          <h1 class="flex text-2xl font-bold leading-tight md:text-3xl card-font text-white">VerbaPix</h1>
           <sup class="leading-tight font-display card-font">Cards, Grammar, Fun</sup>
         </div>
       </div>
@@ -53,15 +53,6 @@
           <p class="text-lg md:text-xl text-pix-ink leading-relaxed">
             {{ $t('home.hero_desc') }}
           </p>
-
-          <div class="flex flex-wrap gap-4 pt-4">
-            <button @click="showModeSelector = true" class="pixel-btn primary text-lg min-w-[160px] text-center">
-              {{ $t('home.play_now') }}
-            </button>
-            <router-link to="tutorial" class="pixel-btn ghost border-2 border-pix-ink bg-white">
-              {{ $t('home.guides') }}
-            </router-link>
-          </div>
         </div>
 
         <!-- Decorative / Stats Block -->
@@ -93,9 +84,6 @@
 
         <!-- Standard Match -->
         <article class="p-6 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1 bg-white">
-          <div class="h-40 bg-pix-primary flex items-center justify-center border-b-4 border-pix-ink">
-            <span class="text-white font-display text-5xl">STD</span>
-          </div>
           <h3 class="font-display text-2xl mt-2">Standard Match</h3>
           <p class="text-base font-pixel leading-tight">Create your own room, set the rules, and invite friends to play.
             You are the host!</p>
@@ -105,9 +93,6 @@
 
         <!-- Quick Match -->
         <article class="p-6 pixel-panel flex flex-col gap-3 transition-transform hover:-translate-y-1 bg-white">
-          <div class="h-40 bg-pix-warning flex items-center justify-center border-b-4 border-pix-ink">
-            <span class="text-pix-ink font-display text-5xl">QUICK</span>
-          </div>
           <h3 class="font-display text-2xl mt-2">Quick Match</h3>
           <p class="text-base font-pixel leading-tight">Jump into a game instantly! Choose a mode and wait for
             opponents.</p>
@@ -115,6 +100,54 @@
             class="pixel-btn warning mt-auto text-center w-full block text-lg py-3">QUICK MATCH</button>
         </article>
 
+      </section>
+
+      <!-- Explore & Personal -->
+      <section class="mt-8">
+        <h2 class="text-2xl font-display text-pix-dark mb-4 pl-1">Explore & Personal</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <!-- Market -->
+          <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
+            <h3 class="font-display text-xl">Market</h3>
+            <p class="text-sm font-pixel text-slate-600 flex-1">Buy cards and items.</p>
+            <button @click="$router.push('/market')" class="pixel-btn w-full text-center py-2 text-sm font-bold">OPEN
+              MARKET</button>
+          </article>
+
+          <!-- Cosmetics -->
+          <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
+            <h3 class="font-display text-xl">Cosmetics</h3>
+            <p class="text-sm font-pixel text-slate-600 flex-1">Customize your look.</p>
+            <button @click="$router.push('/cosmetics')"
+              class="pixel-btn w-full text-center py-2 text-sm font-bold">CUSTOMIZE</button>
+          </article>
+
+          <!-- Dashboard -->
+          <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
+            <h3 class="font-display text-xl">Dashboard</h3>
+            <p class="text-sm font-pixel text-slate-600 flex-1">View stats and more.</p>
+            <button @click="$router.push('/dashboard')" class="pixel-btn w-full text-center py-2 text-sm font-bold">VIEW
+              DASHBOARD</button>
+          </article>
+
+          <!-- Progress -->
+          <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
+            <h3 class="font-display text-xl">Progress</h3>
+            <p class="text-sm font-pixel text-slate-600 flex-1">Track your journey.</p>
+            <button @click="$router.push('/progress')" class="pixel-btn w-full text-center py-2 text-sm font-bold">CHECK
+              PROGRESS</button>
+          </article>
+
+          <!-- Tutorial -->
+          <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
+            <h3 class="font-display text-xl">Tutorial</h3>
+            <p class="text-sm font-pixel text-slate-600 flex-1">Learn how to play.</p>
+            <button @click="$router.push('/tutorial')"
+              class="pixel-btn w-full text-center py-2 text-sm font-bold">LEARN</button>
+          </article>
+
+        </div>
       </section>
     </main>
 
