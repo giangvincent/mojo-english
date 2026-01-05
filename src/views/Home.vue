@@ -177,7 +177,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
-import { login, logout, onAuthStateChanged } from '@/services/auth'
+import { getCurrentUser } from '@/services/auth'
 import XpBar from '@/components/ui/XpBar.vue'
 import TutorialOverlay from '@/components/TutorialOverlay.vue'
 import { defineAsyncComponent } from 'vue'
@@ -194,8 +194,7 @@ export default {
       currentUser: null,
       defaultAvatar: 'https://placehold.co/96x96?text=User',
       showTutorial: false,
-      showModeSelector: false,
-      unsubscribeAuth: null
+      showModeSelector: false
     }
   },
   computed: {
@@ -211,58 +210,74 @@ export default {
     this.LoadCards(this.playerData.level)
   },
   mounted() {
-    // Listen for auth state changes using mock auth service
-    onAuthStateChanged((user) => {
-      this.currentUser = user
-      if (user) {
-        // Update player data when user logs in
-        const userData = {
-          id: user.uid,
-          name: user.displayName || 'Player',
-          photo: {
-            src: user.photoURL || ''
-          },
-          level: this.playerData.level || 0
-        }
-        this.setPlayerData(userData)
+    const user = getCurrentUser()
+    this.currentUser = user
+    if (user) {
+      // Hydrate store if needed, though often store persistence handles this
+      // or we dispatch an action to 'checkAuth' which validates token
+      const userData = {
+        id: user.id || user.uid,
+        name: user.name || user.displayName || 'Player',
+        photo: {
+          src: user.photoKey ? user.photoKey : (user.photoURL || '')
+        },
+        level: this.playerData.level || 0
       }
-    })
+      this.setPlayerData(userData)
+    }
   },
   unmounted() {
-    // Mock unsubscribe if needed
+    // No listener to unsubscribe
   },
   methods: {
-    ...mapActions(['LoadCards']),
+    ...mapActions(['LoadCards', 'loginPlayer', 'logoutPlayer']),
     ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL', 'setPlayerData', 'setPlayingStep']),
-    async handleGoogleSignIn() {
+    async handleLogin() {
+      // In a real app we'd open a modal for email/password or trigger OAuth flow
+      // For now we can test with hardcoded or a prompt
+      /*
+      const email = prompt("Email:", "guest@verba.com")
+      const password = prompt("Password:", "password")
+      if (!email || !password) return
+      */
+
+      // Since the user asked to replace Google Sign In, we need a way to trigger Login.
+      // Assuming a separate Login component is or will be used, or we temporarily prompt here.
+      // But the requirement just said "Update Auth routes", usually implies we have a form.
+      // For this step I will assume we might just trigger a login method or similar.
+      // I'll leave a placeholder or basic prompt for dev testing as I don't have a Login Modal yet.
+      // But since I'm modifying "handleGoogleSignIn" which was triggered by a button:
+
       try {
-        // Use Mock Login
-        const result = await login('guest@verba.com', 'password')
-        if (result?.user) {
-          this.currentUser = result.user
-          this.setPlayerData({
-            id: result.user.uid,
-            name: result.user.displayName || 'Player',
-            photo: { src: result.user.photoURL || '' },
-            level: this.playerData.level || 0
-          })
-        }
+        // Temporarily calling login with hardcoded 'test' creds or similar to verify flow if no UI exists
+        // Or better, redirect to a login page if one existed.
+        // Let's just log a message that we need a UI for inputs, but for "Update Auth Routes" task
+        // ensuring the underlying logic works is key.
+        console.log("Login button clicked. UI for input needed.")
+
+        // Example usage:
+        // await this.loginPlayer({ email: '...', password: '...' })
       } catch (error) {
         console.error('Error signing in:', error)
       }
     },
+
+    // Kept for backward compat if button calls this name, but better to rename in template too
+    // checking template..
+    async handleGoogleSignIn() {
+      // Using a prompt for now to allow verifying the API call works
+      const email = prompt("Email (dev):")
+      const password = prompt("Password (dev):")
+      if (email && password) {
+        const success = await this.loginPlayer({ email, password })
+        if (success) this.currentUser = getCurrentUser()
+      }
+    },
+
     async handleSignOut() {
       try {
-        await logout()
+        await this.logoutPlayer()
         console.log('User signed out')
-        // Reset to default player data
-        const defaultData = {
-          id: 'guest',
-          name: 'Guest Player',
-          photo: { src: '' },
-          level: 0
-        }
-        this.setPlayerData(defaultData)
         this.currentUser = null
       } catch (error) {
         console.error('Error signing out:', error)

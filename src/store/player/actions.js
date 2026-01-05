@@ -7,13 +7,13 @@ export default {
 
   async loginPlayer({ commit }, { email, password }) {
     try {
-      const result = await login(email, password)
+      const result = await login({ email, password })
       if (result.user) {
         const userData = {
-            id: result.user.uid,
-            name: result.user.displayName || 'Player',
-            photo: { src: result.user.photoURL || '' },
-            level: 0
+          id: result.user.id || result.user.uid, // Handle potential differences in API (ID vs UID)
+          name: result.user.name || result.user.displayName || 'Player',
+          photo: { src: result.user.photoURL || result.user.avatar || '' },
+          level: result.user.level || 0
         }
         commit('setPlayerData', userData)
         return true
@@ -27,31 +27,33 @@ export default {
 
   async registerPlayer({ commit }, { email, password, name }) {
     try {
-        const result = await register(email, password, name)
-        if (result.user) {
-            const userData = {
-                id: result.user.uid,
-                name: result.user.displayName || name,
-                photo: { src: result.user.photoURL || '' },
-                level: 0
-            }
-            commit('setPlayerData', userData)
-            return true
+      const result = await register({ email, password, name })
+      // Register usually returns the user same as login, or we might need to auto-login
+      if (result.user) {
+        const userData = {
+          id: result.user.id || result.user.uid,
+          name: result.user.name || result.user.displayName || name,
+          photo: { src: result.user.photoURL || result.user.avatar || '' },
+          level: result.user.level || 0
         }
-        return false
+        commit('setPlayerData', userData)
+        return true
+      }
+      return false
     } catch (error) {
-        console.error('Registration failed:', error)
-        throw error
+      console.error('Registration failed:', error)
+      throw error
     }
   },
 
-  logoutPlayer({ commit }) {
-      const defaultData = {
-          id: 'guest',
-          name: 'Guest Player',
-          photo: null,
-          level: 0
-      }
-      commit('setPlayerData', defaultData)
+  async logoutPlayer({ commit }) {
+    await logout()
+    const defaultData = {
+      id: 'guest',
+      name: 'Guest Player',
+      photo: null,
+      level: 0
+    }
+    commit('setPlayerData', defaultData)
   }
 }
