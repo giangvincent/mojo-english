@@ -107,20 +107,13 @@
         <h2 class="text-2xl font-display text-pix-dark mb-4 pl-1">Explore & Personal</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          <!-- Market -->
+          <!-- Shop -->
           <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
-            <h3 class="font-display text-xl">Market</h3>
-            <p class="text-sm font-pixel text-slate-600 flex-1">Buy cards and items.</p>
-            <button @click="$router.push('/market')" class="pixel-btn w-full text-center py-2 text-sm font-bold">OPEN
-              MARKET</button>
-          </article>
-
-          <!-- Cosmetics -->
-          <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
-            <h3 class="font-display text-xl">Cosmetics</h3>
-            <p class="text-sm font-pixel text-slate-600 flex-1">Customize your look.</p>
-            <button @click="$router.push('/cosmetics')"
-              class="pixel-btn w-full text-center py-2 text-sm font-bold">CUSTOMIZE</button>
+            <h3 class="font-display text-xl">Shop</h3>
+            <p class="text-sm font-pixel text-slate-600 flex-1">Buy cards, items, and cosmetics.</p>
+            <button @click="$router.push('/shopping')" class="pixel-btn w-full text-center py-2 text-sm font-bold">
+              OPEN SHOP
+            </button>
           </article>
 
           <!-- Dashboard -->

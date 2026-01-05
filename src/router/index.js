@@ -12,9 +12,13 @@ const routes = [
     component: () => import('../views/VerbaGame.vue')
   },
   {
+    path: '/shopping',
+    name: 'shopping',
+    component: () => import('../views/Shopping.vue')
+  },
+  {
     path: '/market',
-    name: 'market',
-    component: () => import('../views/Market.vue')
+    redirect: '/shopping'
   },
   {
     path: '/tutorial',
@@ -33,8 +37,7 @@ const routes = [
   },
   {
     path: '/cosmetics',
-    name: 'cosmetics',
-    component: () => import('../views/CosmeticsScreen.vue')
+    redirect: '/shopping'
   },
   {
     path: '/dashboard',
