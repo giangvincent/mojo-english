@@ -1,7 +1,8 @@
 <template>
     <div class="fixed inset-0 bg-gray-900 bg-opacity-90 z-50 flex flex-col items-center justify-center text-white p-4">
         <div class="bg-gray-800 border-2 border-blue-500 rounded-xl p-8 max-w-md w-full text-center shadow-2xl">
-            <h2 class="text-3xl font-bold mb-6 text-blue-400">{{ $t('playing.round') }} {{ round }} {{ $t('round_summary.complete') }}</h2>
+            <h2 class="text-3xl font-bold mb-6 text-blue-400">{{ $t('playing.round') }} {{ round }} {{
+                $t('round_summary.complete') }}</h2>
 
             <div class="mb-8">
                 <p class="text-gray-400 mb-2">{{ $t('round_summary.round_score') }}</p>
@@ -20,7 +21,8 @@
                         <span>{{ $t('round_summary.correct_tense') }}</span><span>+3</span>
                     </div>
                     <div v-if="xpContext.bonusCombos" class="flex justify-between text-purple-300">
-                        <span>{{ $t('round_summary.combos') }} ({{ xpContext.bonusCombos }})</span><span>+{{ xpContext.bonusCombos * 5 }}</span>
+                        <span>{{ $t('round_summary.combos') }} ({{ xpContext.bonusCombos }})</span><span>+{{
+                            xpContext.bonusCombos * 5 }}</span>
                     </div>
                     <div v-if="xpContext.penalties" class="flex justify-between text-red-400">
                         <span>{{ $t('round_summary.penalties') }}</span><span>-{{ xpContext.penalties }}</span>
@@ -52,6 +54,17 @@
                 <p class="text-lg italic">"{{ sentence }}"</p>
             </div>
 
+            <!-- Save To Vault Action -->
+            <div class="mb-4 w-full">
+                <button @click="handleSave" :disabled="isSaving || isSaved"
+                    class="w-full py-2 mb-2 font-bold rounded-lg transition-colors flex justify-center items-center gap-2"
+                    :class="isSaved ? 'bg-green-600 text-white cursor-default' : 'bg-gray-600 hover:bg-gray-500 text-gray-200'">
+                    <span v-if="isSaving">Saving...</span>
+                    <span v-else-if="isSaved">Saved to Vault ✓</span>
+                    <span v-else>Save to Vault 💾</span>
+                </button>
+            </div>
+
             <button
                 class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition-colors transform hover:scale-105"
                 @click="$emit('next-round')">
@@ -63,6 +76,8 @@
 
 <script>
 import XpBar from '@/components/ui/XpBar.vue'
+import { mapActions } from 'vuex'
+
 export default {
     name: 'round-summary',
     components: { XpBar },
@@ -108,6 +123,34 @@ export default {
             default: 1
         }
     },
-    emits: ['next-round']
+    emits: ['next-round'],
+    data() {
+        return {
+            isSaving: false,
+            isSaved: false
+        };
+    },
+    methods: {
+        ...mapActions(['saveSentenceToVault']),
+
+        async handleSave() {
+            if (!this.sentence) return;
+
+            this.isSaving = true;
+            try {
+                const success = await this.saveSentenceToVault(this.sentence);
+                if (success) {
+                    this.isSaved = true;
+                } else {
+                    // Start simplified error handling without toast if not available
+                    alert('Failed to save to Vault. Please try again.');
+                }
+            } catch (e) {
+                console.error(e);
+            } finally {
+                this.isSaving = false;
+            }
+        }
+    }
 }
 </script>

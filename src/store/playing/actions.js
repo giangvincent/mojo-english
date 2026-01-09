@@ -130,5 +130,27 @@ export default {
             commit('addToHand', card);
             commit('setDeck', deck);
         }
+    },
+
+    async saveSentenceToVault({ state }, sentenceData) {
+        try {
+            // Lazy load the service to avoid circular dependencies if any
+            const gvPixelService = (await import('@/services/gvPixel')).default;
+
+            const sentenceText = typeof sentenceData === 'string'
+                ? sentenceData
+                : (Array.isArray(sentenceData) ? sentenceData.map(c => c.word).join(' ') : String(sentenceData));
+
+            const result = await gvPixelService.saveToVault(sentenceText, {
+                gameMode: state.gameMode,
+                round: state.currentRound
+            });
+
+            console.log('Sentence saved to Vault:', result);
+            return true;
+        } catch (error) {
+            console.error('Failed to save sentence:', error);
+            return false;
+        }
     }
 }
