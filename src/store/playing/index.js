@@ -17,13 +17,44 @@ export default {
     },
     tense: ['present simple', 'past simple', 'future simple'],
     typeSentence: ['positive', 'negative', 'question'],
+
+    // Verba / Mojo Specific State
+    deck: [],             // Full deck of VerbaCards
+    hand: [],             // Player's hand
+    communityCards: [],   // Shared cards for 5/4 split
+    discardPile: [],      // Discarded cards
+    discardCount: 0,      // Track discards per round
+
+    // Legacy / Existing State (keeping for safety)
     cards: [],
     playingStep: 'arrange-card',
     nounType: null,
     curTense: null,
     nounPhrase: [],
     verbPhrase: [],
-    objectPhrase: []
+    objectPhrase: [],
+
+    // Game Mode & Round System
+    gameMode: 'standard', // 'standard' | '5-4-split' | 'coop'
+    currentRound: 1,
+    maxRounds: 3,
+    roundScores: [],
+    totalScore: 0,
+    sharedCards: [], // Legacy alias for communityCards?
+    usedOriginalCards: true,
+    originalCardsHash: null,
+
+    // Turn / winner tracking (Co-op & PvP)
+    trackTurnOrder: false,
+    turnHistory: [],
+    lastPlayerWhoAddedCard: null,
+    winner: null,
+
+    // Multiplayer State
+    isMultiplayer: false,
+    playersReady: false,      // All players ready to start round
+    roundPhase: 'playing',    // 'playing' | 'waiting' | 'revealing' | 'end'
+    opponentStatus: {},       // { playerId: { ready: bool, submitted: bool, score: int, sentence: string } }
   },
   mutations: mutations,
   actions: actions

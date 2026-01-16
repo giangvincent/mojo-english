@@ -110,7 +110,7 @@
                 "texts": [
                     {
                         "type": "positive",
-                        "text": "is (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
+                        "text": "is going to"
                     }
                 ],
                 "point": 5
@@ -120,7 +120,7 @@
                 "texts": [
                     {
                         "type": "positive",
-                        "text": "are (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
+                        "text": "are going to"
                     }
                 ],
                 "point": 3
@@ -145,7 +145,7 @@
                 "texts": [
                     {
                         "type": "negative",
-                        "text": "isn't (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span>going to</span>"
+                        "text": "isn't going to"
                     }
                 ],
                 "point": 4
@@ -155,7 +155,7 @@
                 "texts": [
                     {
                         "type": "negative",
-                        "text": "aren't (<span class='w-4 h-4 border-1 border-black bg-pink-700 text-sxs'>F</span>) <span> going to</span>"
+                        "text": "aren't going to"
                     }
                 ],
                 "point": 6

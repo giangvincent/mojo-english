@@ -9,19 +9,6 @@ export const shuffleArray = function (a, b, c, d) {
   c = a.length
   while (c) { (b = (Math.random() * c--) | 0), (d = a[c]), (a[c] = a[b]), (a[b] = d) }
 }
-// Fisher–Yates Shuffle
-export const shuffleArray1 = function (array) {
-  let m = array.length
-  let t
-  let i
-  while (m) {
-    i = Math.floor(Math.random() * m--)
-    t = array[m]
-    array[m] = array[i]
-    array[i] = t
-  }
-  return array
-}
 
 export const capitalizeFirstLetter = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)

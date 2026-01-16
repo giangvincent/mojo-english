@@ -4,13 +4,16 @@
   >
     <div class="absolute top-0 right-0 m-2">{{ card.point }}</div>
     <div class="pt-3 h-full flex flex-col">
-      <div class="text-lg">
+      <div class="text-lg cursor-pointer" :class="{ 'opacity-70': !isActive('main') }" @click="chooseAdj('main', card.content.main, card.point)">
         <span class="border-b-1 border-white">{{ card.content.main }}</span>
       </div>
       <div class="text-xs flex flex-col my-1">
         <span
           v-for="(synonym, index) in card.content.additional.synonym"
           :key="'synonym-' + index"
+          class="cursor-pointer"
+          :class="{ 'opacity-70': !isActive('syn-' + index) }"
+          @click="chooseAdj('syn-' + index, synonym, card.point)"
           >{{ synonym }}</span
         >
       </div>
@@ -18,6 +21,9 @@
         <span
           v-for="(antonym, index) in card.content.additional.antonym"
           :key="'antonym-' + index"
+          class="cursor-pointer"
+          :class="{ 'opacity-70': !isActive('ant-' + index) }"
+          @click="chooseAdj('ant-' + index, antonym, card.point)"
           >{{ antonym }}</span
         >
       </div>
@@ -82,18 +88,31 @@
 </template>
 
 <script>
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'adjective-card',
   props: {
     card: {}
   },
-  data () {
+  emits: ['choose'],
+  setup(props, { emit }) {
+    const store = useStore()
+    const playingStep = computed(() => store.state.playing.playingStep)
+    const selectedKey = ref('')
+
+    const chooseAdj = (key, text, point) => {
+      if (playingStep.value !== 'choose-word') return
+      selectedKey.value = key
+      emit('choose', { text, point, cardId: props.card.id })
+    }
+
+    const isActive = (key) => selectedKey.value === '' || selectedKey.value === key
+
     return {
-      id: '',
-      texts: [],
-      point: 0,
-      useFor: [],
-      extraPoint: []
+      chooseAdj,
+      isActive
     }
   }
 }

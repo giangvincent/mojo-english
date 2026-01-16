@@ -1,21 +1,23 @@
 <template>
-  <div @click="$router.go(-1)" class="fixed top-0 left-0">
-    <button class="w-16 h-16 rounded-full p-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-        />
-      </svg>
-    </button>
-  </div>
+  <button
+    @click="$router.go(-1)"
+    class="pixel-icon-btn z-50 flex items-center justify-center bg-pix-paper"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-6 h-6 stroke-pix-ink"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="3"
+        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+      />
+    </svg>
+  </button>
 </template>
 
 <script>

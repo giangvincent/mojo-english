@@ -1,0 +1,225 @@
+[
+    {
+        "id": "A2a",
+        "type": "adjective",
+        "image": "Set2-RoundEdge-42.png",
+        "point": 5,
+        "content": {
+            "main": "wise",
+            "synonyms": [
+                "knowledgeable",
+                "prudent"
+            ],
+            "antonyms": [
+                "foolish",
+                "brainless"
+            ]
+        },
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "fairy",
+                    "type": "noun"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "king",
+                    "type": "noun"
+                },
+                "point": 5
+            }
+        ],
+        "condition": {
+            "allows": []
+        }
+    },
+    {
+        "id": "A2b",
+        "type": "adjective",
+        "image": "Set2-RoundEdge-43.png",
+        "point": 5,
+        "content": {
+            "main": "handsome",
+            "synonyms": [
+                "good-looking",
+                "attractive"
+            ],
+            "antonyms": [
+                "ugly",
+                "plain-looking"
+            ]
+        },
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "prince",
+                    "type": "noun"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "wizard",
+                    "type": "noun"
+                },
+                "point": 5
+            }
+        ],
+        "condition": {
+            "allows": []
+        }
+    },
+    {
+        "id": "A2c",
+        "type": "adjective",
+        "image": "Set2-RoundEdge-44.png",
+        "point": 4,
+        "content": {
+            "main": "beautiful",
+            "synonyms": [
+                "attractive",
+                "pretty"
+            ],
+            "antonyms": [
+                "ugly",
+                "unattractive"
+            ]
+        },
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "queen",
+                    "type": "noun"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "princess",
+                    "type": "noun"
+                },
+                "point": 5
+            }
+        ],
+        "condition": {
+            "allows": []
+        }
+    },
+    {
+        "id": "A2d",
+        "type": "adjective",
+        "image": "Set2-RoundEdge-45.png",
+        "point": 4,
+        "content": {
+            "main": "ugly",
+            "synonyms": [
+                "foul",
+                "nasty"
+            ],
+            "antonyms": [
+                "nice-looking"
+            ]
+        },
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "witch",
+                    "type": "noun"
+                },
+                "point": 5
+            }
+        ],
+        "condition": {
+            "allows": []
+        }
+    },
+    {
+        "id": "A2e",
+        "type": "adjective",
+        "image": "Set2-RoundEdge-46.png",
+        "point": 5,
+        "content": {
+            "main": "kind",
+            "synonyms": [
+                "caring",
+                "warm-hearted",
+                "considerate",
+                "benevolent"
+            ],
+            "antonyms": [
+                "cruel",
+                "inconsiderate"
+            ]
+        },
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "dragon",
+                    "type": "noun"
+                },
+                "point": 5
+            }
+        ],
+        "condition": {
+            "allows": []
+        }
+    },
+    {
+        "id": "A2f",
+        "type": "adjective",
+        "image": "Set2-RoundEdge-47.png",
+        "point": 5,
+        "content": {
+            "main": "sneaky",
+            "synonyms": [
+                "sly",
+                "cunning"
+            ],
+            "antonyms": [
+                "honest",
+                "upstanding"
+            ]
+        },
+        "bonusPoint": [
+            {
+                "content": {
+                    "text": "knight",
+                    "type": "noun"
+                },
+                "point": 5
+            },
+            {
+                "content": {
+                    "text": "goblin",
+                    "type": "noun"
+                },
+                "point": 5
+            }
+        ],
+        "condition": {
+            "allows": []
+        }
+    },
+    {
+        "id": "A2g",
+        "type": "adjective",
+        "image": "Set2-RoundEdge-48.png",
+        "point": 6,
+        "content": {
+            "main": "bald",
+            "synonyms": [
+                "toothless",
+                "blind",
+                "deaf",
+                "mute"
+            ],
+            "antonyms": []
+        },
+        "bonusPoint": [],
+        "condition": {
+            "allows": []
+        }
+    }
+]

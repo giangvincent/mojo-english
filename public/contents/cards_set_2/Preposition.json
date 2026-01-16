@@ -1,0 +1,56 @@
+[
+    {
+        "id": "P2a",
+        "type": "preposition",
+        "image": "Set2-RoundEdge-27.png",
+        "point": 7,
+        "content": [
+            {
+                "text": "with",
+                "point": 7
+            },
+            {
+                "text": "away",
+                "point": 7
+            }
+        ],
+        "previousCards": [],
+        "nextCards": []
+    },
+    {
+        "id": "P2b",
+        "type": "preposition",
+        "image": "Set2-RoundEdge-28.png",
+        "point": 8,
+        "content": [
+            {
+                "text": "with",
+                "point": 8
+            },
+            {
+                "text": "away",
+                "point": 8
+            }
+        ],
+        "previousCards": [],
+        "nextCards": []
+    },
+    {
+        "id": "P2c",
+        "type": "preposition",
+        "image": "Set2-RoundEdge-29.png",
+        "point": 9,
+        "content": [
+            {
+                "text": "with",
+                "point": 9
+            },
+            {
+                "text": "away",
+                "point": 9
+            }
+        ],
+        "previousCards": [],
+        "nextCards": []
+    }
+]

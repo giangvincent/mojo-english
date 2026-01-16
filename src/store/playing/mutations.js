@@ -5,6 +5,12 @@ export default {
   setPlayingStep: function (state, payload) {
     state.playingStep = payload
   },
+  setDiscardCount: function (state, payload) {
+    state.discardCount = payload
+  },
+  incrementDiscardCount: function (state) {
+    state.discardCount++
+  },
   setTense: function (state, payload) {
     if (payload !== state.curTense) {
       state.curTense = payload
@@ -35,5 +41,102 @@ export default {
     state.objectPhrase = []
     state.nounType = null
     state.curTense = null
+  },
+  // Game Mode & Round Management
+  setGameMode: function (state, payload) {
+    state.gameMode = payload
+  },
+  setCurrentRound: function (state, payload) {
+    state.currentRound = payload
+  },
+  addRoundScore: function (state, payload) {
+    state.roundScores.push(payload)
+    state.totalScore = state.roundScores.reduce((sum, score) => sum + score, 0)
+  },
+  nextRound: function (state) {
+    state.currentRound += 1
+    // Reset for next round
+    state.nounPhrase = []
+    state.verbPhrase = []
+    state.objectPhrase = []
+    state.nounType = null
+    state.curTense = null
+    state.playingStep = 'arrange-card'
+    state.turnHistory = []
+    state.lastPlayerWhoAddedCard = null
+  },
+  resetGame: function (state) {
+    state.currentRound = 1
+    state.roundScores = []
+    state.totalScore = 0
+    state.nounPhrase = []
+    state.verbPhrase = []
+    state.objectPhrase = []
+    state.nounType = null
+    state.curTense = null
+    state.playingStep = 'arrange-card'
+    state.usedOriginalCards = true
+    state.turnHistory = []
+    state.lastPlayerWhoAddedCard = null
+    state.winner = null
+  },
+  setUsedOriginalCards: function (state, payload) {
+    state.usedOriginalCards = payload
+  },
+  setOriginalCardsHash: function (state, payload) {
+    state.originalCardsHash = payload
+  },
+  setSharedCards: function (state, payload) {
+    state.sharedCards = payload
+  },
+  // Turn / winner tracking (Co-op & PvP)
+  setTrackTurnOrder: function (state, payload) {
+    state.trackTurnOrder = payload
+  },
+  recordTurn: function (state, payload) {
+    state.turnHistory.push(payload)
+    state.lastPlayerWhoAddedCard = payload.playerId
+  },
+  resetTurns: function (state) {
+    state.turnHistory = []
+    state.lastPlayerWhoAddedCard = null
+  },
+  setWinner: function (state, payload) {
+    state.winner = payload
+  },
+  // Verba Specific Mutations
+  setDeck: function (state, payload) {
+    state.deck = payload
+  },
+  setHand: function (state, payload) {
+    state.hand = payload
+  },
+  setCommunityCards: function (state, payload) {
+    state.communityCards = payload
+  },
+  addToCommunityCards: function (state, card) {
+    state.communityCards.push(card)
+  },
+  addToHand: function (state, card) {
+    state.hand.push(card)
+  },
+  removeFromHand: function (state, cardId) {
+    state.hand = state.hand.filter(c => c.id !== cardId)
+  },
+  addToDiscardPile: function (state, card) {
+    state.discardPile.push(card)
+  },
+
+  // Multiplayer Mutations
+  setMultiplayerState: function (state, payload) {
+    if (payload.isMultiplayer !== undefined) state.isMultiplayer = payload.isMultiplayer
+    if (payload.playersReady !== undefined) state.playersReady = payload.playersReady
+    if (payload.roundPhase !== undefined) state.roundPhase = payload.roundPhase
+  },
+  setMultiplayerReady: function (state, isReady) {
+    state.playersReady = isReady
+  },
+  setRoundPhase: function (state, phase) {
+    state.roundPhase = phase
   }
 }

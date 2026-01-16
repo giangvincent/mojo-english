@@ -1,0 +1,47 @@
+[
+    {
+        "id": "AV2a",
+        "type": "adverb",
+        "symbol": "F",
+        "image": "Set2-RoundEdge-39.png",
+        "point": 6,
+        "content": [
+            "always",
+            "usually",
+            "often"
+        ],
+        "previousCards": [],
+        "nextCards": [],
+        "tense": "simple"
+    },
+    {
+        "id": "AV2b",
+        "type": "adverb",
+        "symbol": "F",
+        "image": "Set2-RoundEdge-40.png",
+        "point": 6,
+        "content": [
+            "sometimes",
+            "hardly ever",
+            "seldom",
+            "rarely"
+        ],
+        "previousCards": [],
+        "nextCards": [],
+        "tense": "simple"
+    },
+    {
+        "id": "AV2c",
+        "type": "adverb",
+        "symbol": "F",
+        "image": "Set2-RoundEdge-41.png",
+        "point": 6,
+        "content": [
+            "never",
+            "ever"
+        ],
+        "previousCards": [],
+        "nextCards": [],
+        "tense": "simple"
+    }
+]

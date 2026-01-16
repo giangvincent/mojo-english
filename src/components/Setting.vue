@@ -1,85 +1,81 @@
 <template>
   <div
-    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-transparent p-4 overflow-auto"
-  >
-    <div class="bg-white rounded-lg w-full shadow">
-      <div class="flex flex-col items-start p-4">
-        <div class="flex items-center w-full">
-          <div class="text-gray-900 font-medium text-lg">
-            {{ $t("setting")[0] }}
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black/60 p-4 overflow-auto z-[999]">
+    <div class="pixel-panel w-full max-w-xl">
+      <div class="flex flex-col items-start p-6">
+        <div class="flex items-center w-full mb-4">
+          <div class="text-pix-ink font-bold text-xl uppercase tracking-wider">
+            {{ $t("common.settings") }}
           </div>
-          <svg
-            class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 18 18"
-            @click="TOGGLE_MODAL"
-          >
-            <title>Close</title>
-            <path
-              d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"
-            />
-          </svg>
+          <button class="pixel-icon-btn danger ml-auto w-10 h-10 min-h-[2.5rem]" @click="close">
+            <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+              <title>Close</title>
+              <path
+                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+            </svg>
+          </button>
         </div>
-        <div class="w-full mt-2 pt-2 border-t-2 border-gray-200">
-          <ul class="">
-            <li class="flex py-2">
-              <div class="w-1/2 text-left">{{ $t("setting")[1] }}</div>
-              <!------- off ----->
-              <div class="w-1/2">
-                <span
-                  class="float-right border rounded-full border-gray-600 flex items-center cursor-pointer w-12 justify-start"
-                >
-                  <span
-                    class="rounded-full border w-6 h-6 border-gray-600 shadow-inner bg-white shadow"
-                  >
-                  </span>
-                </span>
+
+        <div class="w-full border-t-4 border-pix-ink pt-4">
+          <ul class="space-y-4">
+            <!-- Music Toggle -->
+            <li class="flex items-center justify-between py-2">
+              <div class="font-bold text-pix-ink">{{ $t("setting.music") }}</div>
+              <div class="cursor-pointer" @click="toggleMusic">
+                <!-- Pixel Toggle OFF -->
+                <div v-if="!musicEnabled"
+                  class="w-16 h-8 bg-pix-paper-2 border-2 border-pix-ink shadow-inner flex items-center px-1">
+                  <div class="w-6 h-6 bg-gray-400 border-2 border-pix-ink"></div>
+                </div>
+                <!-- Pixel Toggle ON -->
+                <div v-else
+                  class="w-16 h-8 bg-green-200 border-2 border-pix-ink shadow-inner flex items-center justify-end px-1">
+                  <div class="w-6 h-6 bg-pix-success border-2 border-pix-ink"></div>
+                </div>
               </div>
             </li>
-            <li class="flex py-2">
-              <div class="w-1/2 text-left">{{ $t("setting")[2] }}</div>
-              <!------- on ----->
-              <div class="w-1/2">
-                <span
-                  class="float-right border rounded-full border-gray-600 flex items-center cursor-pointer w-12 bg-green-600 justify-end"
-                >
-                  <span
-                    class="rounded-full border w-6 h-6 border-gray-600 shadow-inner bg-white shadow"
-                  >
-                  </span>
-                </span>
+
+            <!-- Sound Toggle -->
+            <li class="flex items-center justify-between py-2">
+              <div class="font-bold text-pix-ink">{{ $t("setting.sound") }}</div>
+              <div class="cursor-pointer" @click="toggleSound">
+                <!-- Pixel Toggle OFF -->
+                <div v-if="!soundEnabled"
+                  class="w-16 h-8 bg-pix-paper-2 border-2 border-pix-ink shadow-inner flex items-center px-1">
+                  <div class="w-6 h-6 bg-gray-400 border-2 border-pix-ink"></div>
+                </div>
+                <!-- Pixel Toggle ON -->
+                <div v-else
+                  class="w-16 h-8 bg-green-200 border-2 border-pix-ink shadow-inner flex items-center justify-end px-1">
+                  <div class="w-6 h-6 bg-pix-success border-2 border-pix-ink"></div>
+                </div>
               </div>
             </li>
-            <li class="flex py-2">
-              <div class="w-1/2 text-left">{{ $t("setting")[3] }}</div>
-              <div
-                class="w-1/2 text-right relative"
-                @click="popupLanglist = true"
-              >
-                {{ $t("language") }}
-                <div
-                  v-if="popupLanglist"
-                  class="w-full absolute bg-white overflow-auto border-2 border-gray-600 rounded-lg p-1"
-                >
-                  <ul class="flex flex-wrap">
+
+            <!-- Language Selector -->
+            <li class="flex items-center justify-between py-2 relative z-20">
+              <div class="font-bold text-pix-ink">{{ $t("setting.lang") }}</div>
+              <div class="relative w-1/2">
+                <button @click="popupLanglist = !popupLanglist"
+                  class="pixel-btn w-full flex justify-between items-center text-sm py-2">
+                  <span>{{ $t("language") }}</span>
+                  <span class="text-xs">▼</span>
+                </button>
+
+                <div v-if="popupLanglist"
+                  class="absolute top-full right-0 w-full mt-2 pixel-panel bg-white p-0 z-30 max-h-48 overflow-y-auto">
+                  <ul class="flex flex-col">
                     <li
-                      class="w-1/2 p-1 text-center border-b-2"
-                      v-for="(lang, index) in langList"
-                      :key="'langlist-' + index"
-                      @click="changeLanguage(index)"
-                    >
+                      class="p-3 text-center hover:bg-pix-paper-2 cursor-pointer border-b border-pix-ink/20 last:border-0 font-bold text-sm"
+                      v-for="(lang, index) in langList" :key="'langlist-' + index" @click="changeLanguage(index)">
                       {{ lang }}
                     </li>
                   </ul>
                 </div>
               </div>
             </li>
-            <li></li>
-            <li></li>
           </ul>
         </div>
-        <!-- Setting body -->
-        <hr />
       </div>
     </div>
   </div>
@@ -91,10 +87,12 @@ import langList from './langList'
 export default {
   name: 'setting-modal',
   props: {},
-  data () {
+  data() {
     return {
       popupLanglist: false,
-      langList: langList
+      langList: langList,
+      musicEnabled: true,
+      soundEnabled: true
     }
   },
   computed: {
@@ -102,15 +100,25 @@ export default {
       playerData: state => state.player.playerData
     })
   },
-  mounted () {},
+  mounted() { },
   methods: {
-    ...mapMutations(['TOGGLE_MODAL']),
+    ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL']),
     ...mapActions(['SetPlayerDataAsync']),
-    changeLanguage (index) {
+    close() {
+      this.SET_MODAL(false)
+    },
+    changeLanguage(index) {
       console.log(index)
       this.popupLanglist = false
       this.$i18n.locale = index
       this.SetPlayerDataAsync({ locale: index })
+    },
+    toggleMusic() {
+      this.musicEnabled = !this.musicEnabled
+      // In a real app, you'd save this preference or trigger audio manager
+    },
+    toggleSound() {
+      this.soundEnabled = !this.soundEnabled
     }
   }
 }
