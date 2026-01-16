@@ -4,7 +4,7 @@ import { mockShopItems } from './mockShopData';
 // Toggle this to switch between Real API and Mock Data
 const USE_MOCK_DATA = true;
 
-const API_URL = import.meta.env.STORE_URL ? 'https://gvpixel_app.ddev.site/api/v1/verbapix' : 'https://gvpixel.app/api/v1/verbapix';
+const API_URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}/${import.meta.env.STORE_URL}`;
 
 /**
  * Fetch shop items
@@ -64,12 +64,10 @@ export const buyItem = async (itemId) => {
     // Safest bet: Use the same origin/host logic as API_URL but point to /checkout/session
     // Let's assume API_URL base is good, but we need to step up if it includes 'verbapix'
 
-    let baseUrl = API_URL;
-    if (baseUrl.endsWith('/verbapix')) {
-        baseUrl = baseUrl.replace('/verbapix', '');
-    }
+    // Use the base URL directly for checkout session
+    const apiBase = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}`;
 
-    const response = await fetch(`${baseUrl}/checkout/session`, {
+    const response = await fetch(`${apiBase}/checkout/session`, {
         method: 'POST',
         headers,
         body: JSON.stringify({

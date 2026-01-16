@@ -145,20 +145,11 @@
     </main>
 
     <div class="auth-stack">
-      <button v-if="!currentUser" @click="handleGoogleSignIn" class="cta auth">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-            fill="#4285F4" />
-          <path
-            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-            fill="#34A853" />
-          <path
-            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-            fill="#FBBC05" />
-          <path
-            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-            fill="#EA4335" />
+      <button v-if="!currentUser" @click="handleLogin" class="cta auth">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+            clip-rule="evenodd" />
         </svg>
         <span>{{ $t('home.sign_in') }}</span>
       </button>
@@ -226,45 +217,11 @@ export default {
     ...mapActions(['LoadCards', 'loginPlayer', 'logoutPlayer']),
     ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL', 'setPlayerData', 'setPlayingStep']),
     async handleLogin() {
-      // In a real app we'd open a modal for email/password or trigger OAuth flow
-      // For now we can test with hardcoded or a prompt
-      /*
-      const email = prompt("Email:", "guest@verba.com")
-      const password = prompt("Password:", "password")
-      if (!email || !password) return
-      */
+      // User request: redirect to base_url + /login?app=verbapix
+      // We use VITE_BASE_URL which is exposed in .env
+      const baseUrl = import.meta.env.VITE_BASE_URL;
 
-      // Since the user asked to replace Google Sign In, we need a way to trigger Login.
-      // Assuming a separate Login component is or will be used, or we temporarily prompt here.
-      // But the requirement just said "Update Auth routes", usually implies we have a form.
-      // For this step I will assume we might just trigger a login method or similar.
-      // I'll leave a placeholder or basic prompt for dev testing as I don't have a Login Modal yet.
-      // But since I'm modifying "handleGoogleSignIn" which was triggered by a button:
-
-      try {
-        // Temporarily calling login with hardcoded 'test' creds or similar to verify flow if no UI exists
-        // Or better, redirect to a login page if one existed.
-        // Let's just log a message that we need a UI for inputs, but for "Update Auth Routes" task
-        // ensuring the underlying logic works is key.
-        console.log("Login button clicked. UI for input needed.")
-
-        // Example usage:
-        // await this.loginPlayer({ email: '...', password: '...' })
-      } catch (error) {
-        console.error('Error signing in:', error)
-      }
-    },
-
-    // Kept for backward compat if button calls this name, but better to rename in template too
-    // checking template..
-    async handleGoogleSignIn() {
-      // Using a prompt for now to allow verifying the API call works
-      const email = prompt("Email (dev):")
-      const password = prompt("Password (dev):")
-      if (email && password) {
-        const success = await this.loginPlayer({ email, password })
-        if (success) this.currentUser = getCurrentUser()
-      }
+      window.location.href = `${baseUrl}/login?app=verbapix`;
     },
 
     async handleSignOut() {

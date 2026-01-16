@@ -53,7 +53,7 @@ The source code is organized in the `src` directory:
     *   `index.js`: Store entry point.
     *   `modules/`: Separated state logic (`player`, `playing`, `progression`).
 *   **`src/views/`**: Main page components acting as route targets.
-    *   `Home.vue`, `PlayGround.vue`, `Market.vue`, `Tutorial.vue`, etc.
+    *   `Home.vue`, `PlayGround.vue`, `Shopping.vue`, `Tutorial.vue`, etc.
 *   **`src/utils/`**: Helper functions for math, sound, time rules, and XP calculations.
 *   **`src/main.js`**: Application entry point. Initializes Vue, Router, Store, i18n, and handles FB Instant Games initialization.
 
@@ -72,8 +72,7 @@ The source code is organized in the `src` directory:
     *   Level-up system with unlocks (`LevelUpModal`).
     *   Persistent player stats via FB Instant / Firebase.
 *   **In-Game Economy**:
-    *   `Market.vue`: Storefront for purchasing items.
-    *   `CosmeticsScreen.vue`: Customization options for the player.
+    *   `Shopping.vue`: Unified storefront/customization hub for purchasing items and equipping cosmetics.
 *   **Social Integration**:
     *   Leaderboards.
     *   Connected players fetching.

@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_GVPIXEL_API_URL || 'https://gvpixel.app/api/v1';
+const API_URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}`;
 
 // Basic token retrieval - modify if you use a different storage key
 const getAuthHeader = () => {

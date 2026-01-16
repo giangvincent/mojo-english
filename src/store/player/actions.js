@@ -55,5 +55,30 @@ export default {
       level: 0
     }
     commit('setPlayerData', defaultData)
+  },
+
+  async checkAuth({ commit }) {
+    try {
+      // we need to dynamic import checkAuth because I didn't verify if I can import it in the top of file yet
+      // (actually I can just add it to the import list)
+      const { checkAuth } = await import('@/services/auth');
+      const result = await checkAuth();
+      if (result && (result.user || result.id)) {
+        // Adapting to probable response structure based on login return
+        const user = result.user || result;
+        const userData = {
+          id: user.id || user.uid,
+          name: user.name || user.displayName || 'Player',
+          photo: { src: user.photoURL || user.avatar || '' },
+          level: user.level || 0
+        }
+        commit('setPlayerData', userData)
+        return true
+      }
+      return false;
+    } catch (error) {
+      // console.debug('Check auth failed or not logged in', error);
+      return false;
+    }
   }
 }

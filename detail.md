@@ -11,12 +11,7 @@ This document provides a detailed overview of the Views and Components in the Ve
 - **Description**: Displays information about the VerbaPix game, its purpose, and features (Learn, Play, Collect).
 - **Components Used**: `BackBtn`
 
-### `CosmeticsScreen.vue`
-- **Description**: A shop interface for customizing player appearance.
-- **Features**:
-  - Tabs for Avatars, Card Backs, and Borders.
-  - Integration with Vuex store (`progression.cosmetics`).
-  - Logic to check unlocked and equipped items.
+
 
 ### `CreateRoom.vue`
 - **Description**: Form to create a new multiplayer room.
@@ -42,11 +37,7 @@ This document provides a detailed overview of the Views and Components in the Ve
   - **Auth**: Google Sign-In/Out logic.
   - **State**: Connects to `auth` service and Vuex `player`/`progression` modules.
 
-### `Market.vue`
-- **Description**: A marketplace view for buying in-game items (mockup data currently).
-- **Features**:
-  - Displays cards/items with prices.
-  - "Buy" buttons.
+
 
 ### `MultiplayerLobby.vue`
 - **Description**: Handles both the lobby selection (Standard/Quick) and the active room state.
@@ -71,6 +62,13 @@ This document provides a detailed overview of the Views and Components in the Ve
 - **Features**:
   - Displays Daily/Weekly missions with progress bars.
   - Lists achievements and unlock status.
+
+### `Shopping.vue`
+- **Description**: A unified marketplace and customization hub, combining the functionality of the former Market and Cosmetics screens.
+- **Features**:
+  - **Dynamic Item Loading**: Fetches shop items (Plants, Avatars, Card Backs, Borders) from `api/v1/verbapix/shop` or mock data.
+  - **Unified Interface**: Tab-based navigation to filter item types.
+  - **Purchase & Equip**: Check-out redirection for purchases and immediate equipment of cosmetic items.
 
 ### `QuickMatchSetup.vue`
 - **Description**: Simple selection screen for Quick Match game modes.
@@ -103,7 +101,7 @@ This document provides a detailed overview of the Views and Components in the Ve
 - **`GameOver.vue`**: Modal displayed at the end of a match showing final stats and "Play Again" option.
 - **`LeaderBoard.vue`**: (Empty placeholder) Intended for ranking display.
 - **`LevelUpModal.vue`**: Celebratory modal shown when a player levels up, listing new unlocks.
-- **`RoundSummary.vue`**: Break-down of points earned after each round (XP, combos, correct sentence bonus).
+- **`RoundSummary.vue`**: Break-down of points earned after each round (XP, combos, correct sentence bonus). Includes "Save to Vault" feature.
 - **`Setting.vue`**: Global settings modal (Music, Sound, Language).
 - **`TutorialOverlay.vue`**: Detailed in-game tutorial popup explaining rules.
 

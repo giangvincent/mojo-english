@@ -16,7 +16,9 @@ export default {
   components: {
     Setting: defineAsyncComponent(() => import('@/components/Setting.vue'))
   },
-  created() { },
+  created() {
+     this.$store.dispatch('checkAuth');
+  },
   computed: {
     ...mapState({
       scr_width: state => state.scr_width,
