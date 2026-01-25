@@ -19,10 +19,11 @@ export default {
                 headers: {
                     ...getAuthHeader(),
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'X-App-Context': 'verbapix'
                 },
                 body: JSON.stringify({
-                    content: sentence,
+                    text: sentence,
                     type: 'sentence', // Explicit type for your GVPixel backend
                     metadata: metadata
                 })
