@@ -16,15 +16,26 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-3 glass chip">
-          <img class="object-cover w-12 h-12 border border-black rounded-xl"
-            :src="currentUser?.photoURL || playerData?.photo?.src || defaultAvatar"
-            :alt="currentUser?.displayName || 'avatar'" />
-          <div>
-            <p class="text-sm font-semibold">{{ currentUser?.displayName || playerData.name || 'Guest' }}</p>
-            <p class="text-xs text-slate-700">{{ $t('home.level') }} {{ progressionLevel || playerData.level }}</p>
+        <div class="flex flex-col items-center gap-1">
+          <div class="flex items-center gap-3 glass chip">
+            <img class="object-cover w-12 h-12 border border-black rounded-xl"
+              :src="currentUser?.photoURL || playerData?.photo?.src || defaultAvatar"
+              :alt="currentUser?.displayName || 'avatar'" />
+            <div>
+              <p class="text-sm font-semibold">{{ currentUser?.displayName || playerData.name || 'Guest' }}</p>
+              <p class="text-xs text-slate-700">{{ $t('home.level') }} {{ progressionLevel || playerData.level }}</p>
+            </div>
+            <div class="level-pill">{{ progressionLevel || playerData.level }}</div>
           </div>
-          <div class="level-pill">{{ progressionLevel || playerData.level }}</div>
+          <button v-if="pendingSync > 0" @click="handleSync"
+            class="text-[10px] uppercase font-bold text-white bg-pix-primary px-2 py-0.5 rounded shadow-sm hover:scale-105 active:scale-95 transition-transform flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                clip-rule="evenodd" />
+            </svg>
+            Sync ({{ pendingSync }})
+          </button>
         </div>
         <button class="pixel-icon-btn" @click="openSettings">
           <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -140,6 +151,14 @@
               class="pixel-btn w-full text-center py-2 text-sm font-bold">LEARN</button>
           </article>
 
+          <!-- Vault -->
+          <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
+            <h3 class="font-display text-xl">Vault</h3>
+            <p class="text-sm font-pixel text-slate-600 flex-1">View your saved sentences.</p>
+            <button @click="$router.push('/vault')" class="pixel-btn w-full text-center py-2 text-sm font-bold">OPEN
+              VAULT</button>
+          </article>
+
         </div>
       </section>
     </main>
@@ -162,6 +181,7 @@
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { getCurrentUser } from '@/services/auth'
+import gvPixelService from '@/services/gvPixel'
 import XpBar from '@/components/ui/XpBar.vue'
 import TutorialOverlay from '@/components/TutorialOverlay.vue'
 import { defineAsyncComponent } from 'vue'
@@ -178,7 +198,8 @@ export default {
       currentUser: null,
       defaultAvatar: 'https://placehold.co/96x96?text=User',
       showTutorial: false,
-      showModeSelector: false
+      showModeSelector: false,
+      pendingSync: 0
     }
   },
   computed: {
@@ -209,9 +230,17 @@ export default {
       }
       this.setPlayerData(userData)
     }
+
+    // Check pending sync periodically
+    this.updatePendingSync()
+    this.syncInterval = setInterval(() => {
+      this.updatePendingSync()
+    }, 5000)
   },
   unmounted() {
-    // No listener to unsubscribe
+    if (this.syncInterval) {
+      clearInterval(this.syncInterval)
+    }
   },
   methods: {
     ...mapActions(['LoadCards', 'loginPlayer', 'logoutPlayer']),
@@ -242,6 +271,23 @@ export default {
     },
     startGame(mode) {
       this.$router.push({ name: 'play', query: { mode: mode } })
+    },
+    updatePendingSync() {
+      this.pendingSync = gvPixelService.getPendingSyncCount()
+    },
+    async handleSync() {
+      try {
+        const success = await gvPixelService.syncVaultQueue()
+        if (success) {
+          console.log('Successfully synced all items to vault')
+        } else {
+          console.warn('Some items failed to sync to vault')
+        }
+      } catch (e) {
+        console.error('Sync failed', e)
+      } finally {
+        this.updatePendingSync()
+      }
     }
   }
 }

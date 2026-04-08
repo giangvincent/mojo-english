@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-sequences */
+ 
+ 
 export const onlyUnique = function (value, index, self) {
   return self.indexOf(value) === index
 }
