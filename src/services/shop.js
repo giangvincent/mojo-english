@@ -4,7 +4,8 @@ import { mockShopItems } from './mockShopData';
 // Toggle this to switch between Real API and Mock Data
 const USE_MOCK_DATA = true;
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}/${import.meta.env.STORE_URL}`;
+const BASE_URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}`;
+const APP_SLUG = 'verbapix'; // Hardcoded for now based on context, or use env if available
 
 /**
  * Fetch shop items
@@ -27,7 +28,8 @@ export const getShopItems = async () => {
     }
 
     try {
-        const response = await fetch(`${API_URL}/store`, {
+        // Updated endpoint to match gvpixel-app: /api/v1/games/{appSlug}/store
+        const response = await fetch(`${BASE_URL}/games/${APP_SLUG}/store`, {
             method: 'GET',
             headers
         });
@@ -37,7 +39,7 @@ export const getShopItems = async () => {
         }
 
         const data = await response.json();
-        return data; // Assuming data is the array of items or object containing items
+        return data;
     } catch (error) {
         console.error('Failed to fetch shop items:', error);
         throw error;
@@ -53,16 +55,6 @@ export const buyItem = async (itemId) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
     };
-
-    // Construct the endpoint URL appropriately
-    // Since API_URL ends in /verbapix (usually), we might need to adjust logic if the backend structure is strict.
-    // However, looking at the user's request, the endpoint is /api/v1/checkout/session.
-    // The current API_URL logic is:
-    // const API_URL = import.meta.env.STORE_URL ? '.../api/v1/verbapix' : '.../api/v1/verbapix';
-    // We can try to derive the base URL from API_URL or just use the same host.
-
-    // Safest bet: Use the same origin/host logic as API_URL but point to /checkout/session
-    // Let's assume API_URL base is good, but we need to step up if it includes 'verbapix'
 
     // Use the base URL directly for checkout session
     const apiBase = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}`;

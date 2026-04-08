@@ -1,34 +1,35 @@
-// Matchmaking Service Interface (Mock)
-// This file defines the API interactions for Quick Match and Room creation.
+import { getAuthToken } from './auth';
 
-import store from '@/store'; // Direct access to store for mocking state
+const BASE_URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}`;
+const GAME_PREFIX = 'verbapix';
+
+const getHeaders = () => {
+  const token = getAuthToken();
+  return {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+};
 
 export const MatchmakingService = {
   /**
    * Starts searching for a Quick Match.
    * @param {string} gameMode - e.g., 'standard', 'topic-x'
-   * @returns {Promise<{roomId: string}>} - Resolves when a match is found (simulated)
+   * @returns {Promise<{roomId: string}>}
    */
-  joinQuickMatch(gameMode) {
+  async joinQuickMatch(gameMode) {
     console.log(`[Matchmaking] Searching for ${gameMode} match...`);
-
-    // Simulate API delay and waiting for players
-    return new Promise((resolve, reject) => {
-      // 10% chance of failure/timeout simulated
-      if (Math.random() > 0.95) {
-        setTimeout(() => {
-          reject(new Error("Matchmaking timed out"));
-        }, 5000);
-        return;
-      }
-
-      // Simulate finding a match after 3 seconds
-      setTimeout(() => {
-        const roomId = `quick-${Date.now()}`;
-        console.log(`[Matchmaking] Match found! Room: ${roomId}`);
-        resolve({ roomId });
-      }, 3000);
+    const response = await fetch(`${BASE_URL}/game/${GAME_PREFIX}/quick-match`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ mode: gameMode })
     });
+
+    if (!response.ok) {
+      throw new Error(`Quick match failed: ${response.statusText}`);
+    }
+    return await response.json();
   },
 
   /**
@@ -36,28 +37,38 @@ export const MatchmakingService = {
    * @param {Object} options - { name, password, maxPlayers, rounds }
    * @returns {Promise<{roomId: string}>}
    */
-  createRoom(options) {
+  async createRoom(options) {
     console.log(`[Matchmaking] Creating room with options:`, options);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const roomId = `room-${Date.now()}`;
-        // In a real app, this would return the room ID from the server.
-        // For now, we update the local store to act as the Host.
-        resolve({ roomId });
-      }, 500);
+    const response = await fetch(`${BASE_URL}/game/${GAME_PREFIX}/rooms`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({
+        mode: 'standard', // Default or derived from options
+        is_private: !!options.password,
+        ...options
+      })
     });
+
+    if (!response.ok) {
+      throw new Error(`Create room failed: ${response.statusText}`);
+    }
+    return await response.json();
   },
 
   /**
    * Joins an existing room by ID.
    * @param {string} roomId
    */
-  joinRoom(roomId) {
+  async joinRoom(roomId) {
     console.log(`[Matchmaking] Joining room ${roomId}`);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ roomId });
-      }, 500);
+    const response = await fetch(`${BASE_URL}/game/${GAME_PREFIX}/rooms/${roomId}/join`, {
+      method: 'POST',
+      headers: getHeaders()
     });
+
+    if (!response.ok) {
+      throw new Error(`Join room failed: ${response.statusText}`);
+    }
+    return await response.json();
   }
 };
