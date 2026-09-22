@@ -21,6 +21,7 @@ export default {
     // Verba / Mojo Specific State
     deck: [],             // Full deck of VerbaCards
     hand: [],             // Player's hand
+    roundHandSize: 7,     // Starting hand size retained after drag/drop
     communityCards: [],   // Shared cards for 5/4 split
     discardPile: [],      // Discarded cards
     discardCount: 0,      // Track discards per round
@@ -38,6 +39,7 @@ export default {
     gameMode: 'standard', // 'standard' | '5-4-split' | 'coop'
     currentRound: 1,
     maxRounds: 3,
+    maxDiscards: 3,
     roundScores: [],
     totalScore: 0,
     sharedCards: [], // Legacy alias for communityCards?
@@ -49,6 +51,7 @@ export default {
     turnHistory: [],
     lastPlayerWhoAddedCard: null,
     winner: null,
+    coopSentence: [],
 
     // Multiplayer State
     isMultiplayer: false,

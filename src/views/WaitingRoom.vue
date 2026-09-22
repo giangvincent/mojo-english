@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import { MatchmakingService } from '@/services/matchmaking';
-
 export default {
   name: 'WaitingRoom',
   data() {
@@ -41,7 +39,8 @@ export default {
       mode: '',
       timeLeft: 15,
       error: null,
-      timer: null
+      timer: null,
+      cancelled: false
     }
   },
   created() {
@@ -62,22 +61,21 @@ export default {
     },
     async startSearch() {
       try {
-        const { roomId } = await MatchmakingService.joinQuickMatch(this.mode);
-        // Simulate "Players Found" delay
-        setTimeout(() => {
-          // Navigate to Game with roomId
-          this.$router.push({
-            name: 'play',
-            query: { mode: this.mode, roomId: roomId, multiplayer: true }
-          });
-        }, 1000);
+        const room = await this.$store.dispatch('multiplayer/quickMatch', { mode: this.mode });
+        if (this.cancelled) {
+          await this.$store.dispatch('multiplayer/leaveRoom');
+          return;
+        }
+        await this.$store.dispatch('multiplayer/subscribeRoom');
+        this.$router.push({ name: 'lobby', query: { roomId: room.id } });
       } catch (err) {
         this.error = "Failed to find a match. Please try again.";
         console.error(err);
       }
     },
     cancelSearch() {
-      // Logic to cancel request would go here
+      this.cancelled = true;
+      this.$store.dispatch('multiplayer/cancelQuickMatch');
       this.$router.push('/quick-match');
     }
   }

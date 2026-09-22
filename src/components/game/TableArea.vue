@@ -16,6 +16,11 @@
       </div>
     </div>
 
+    <div v-if="sentencePrefix.length" class="flex flex-wrap gap-2 justify-center mb-3">
+      <CardComponent v-for="card in sentencePrefix" :key="`prefix-${card.id}`" :card="card"
+        :is-interactive="false" class="opacity-75" />
+    </div>
+
     <draggable v-if="!waitingForOthers" v-model="sentence" group="cards" item-key="id" :disabled="isLocked"
       class="flex flex-wrap gap-3 justify-center items-center min-h-[160px] font-pixel" @change="validate">
       <template #item="{ element, index }">
@@ -36,12 +41,16 @@
       </div>
 
       <!-- Button Logic -->
-      <button v-if="!isLocked" class="pixel-btn pixel-chip primary" @click="$emit('lock')">
+      <button v-if="!isLocked" class="pixel-btn pixel-chip primary" :disabled="!sentenceValid"
+        :title="sentenceValid ? '' : 'Fix invalid cards before locking'" @click="$emit('lock')">
         Confirm Position
       </button>
-      <button v-else class="pixel-btn pixel-chip success" @click="$emit('play', sentence)">
+      <button v-else class="pixel-btn pixel-chip success" @click="$emit('play', combinedSentence)">
         Submit Sentence
       </button>
+      <span v-if="!sentenceValid" class="text-xs text-red-500 ml-2">
+        {{ invalidReason }}
+      </span>
 
     </div>
   </div>
@@ -49,10 +58,9 @@
 
 <script>
 import { defineComponent, ref, watch, computed } from 'vue';
-import { useStore } from 'vuex';
 import draggable from 'vuedraggable';
 import CardComponent from './CardComponent.vue';
-import { validateConnection } from '@/utils/grammarEngine';
+import { validateSentence } from '@/utils/grammarEngine';
 import { calculateScore } from '@/utils/scoringEngine';
 
 export default defineComponent({
@@ -66,10 +74,21 @@ export default defineComponent({
     round: {
       type: Number,
       default: 1
+    },
+    gameMode: {
+      type: String,
+      default: 'standard'
+    },
+    handSizeAtStart: {
+      type: Number,
+      default: 7
+    },
+    sentencePrefix: {
+      type: Array,
+      default: () => []
     }
   },
   setup(props, { emit }) {
-    const store = useStore();
     const sentence = ref([]);
     const validationErrors = ref({});
     const score = ref({ totalPoints: 0 });
@@ -78,12 +97,11 @@ export default defineComponent({
       return props.playingStep !== 'arrange-card';
     });
 
-    const waitingForOthers = computed(() => {
-        return store.state.playing.roundPhase === 'waiting';
-    });
+    const waitingForOthers = computed(() => props.playingStep === 'waiting');
+    const combinedSentence = computed(() => [...props.sentencePrefix, ...sentence.value]);
 
     const sentenceText = computed(() => {
-      return sentence.value.map(c => {
+      return combinedSentence.value.map(c => {
         // Prefer selected text, then content text, then fallback
         if (c.selectedText) return c.selectedText;
         if (c.word) return c.word; // Simple cards
@@ -94,8 +112,7 @@ export default defineComponent({
     });
 
     const handleSelectionChange = (payload) => {
-      // Only allow selection changes if locked (or if logic permits interactions during arrange, but usually choose-word is for this)
-      // PlayGround allows toggling synonyms etc during choose-word step.
+      // Only allow selection changes while locked.
       if (!isLocked.value) return;
 
       console.log(payload)
@@ -103,31 +120,47 @@ export default defineComponent({
       const cardIndex = sentence.value.findIndex(c => c.id === payload.id);
       if (cardIndex !== -1) {
         // Update the specific card instance in the sentence array
-        sentence.value[cardIndex].selectedPoint = payload.point;
-        sentence.value[cardIndex].selectedText = payload.text;
+        const card = sentence.value[cardIndex];
+        card.selectedPoint = payload.point;
+        card.selectedText = payload.text;
+        // Engine contract (T5): number from noun faces, tense from verb/time faces
+        if (payload.subType === 'singular' || payload.subType === 'plural') {
+          card.selectedNumber = payload.subType;
+        }
+        if (typeof payload.tense === 'string') {
+          card.selectedTense = payload.tense;
+        }
+        if (Array.isArray(payload.condition)) {
+          card.selectedConditions = [...payload.condition];
+        }
 
         // Re-validate and score
         validate();
       }
     };
 
+    const sentenceValid = computed(() => {
+      if (props.gameMode === 'coop' && sentence.value.length !== 1) return false;
+      return validateSentence(combinedSentence.value, props.gameMode).valid;
+    });
+    const invalidReason = computed(() => {
+      if (props.gameMode === 'coop' && sentence.value.length !== 1) return 'Add exactly one card this turn';
+      const result = validateSentence(combinedSentence.value, props.gameMode);
+      const count = Object.keys(result.errors).length;
+      return count ? `${count} invalid card(s)` : '';
+    });
+
     const validate = () => {
+      const result = validateSentence(combinedSentence.value, props.gameMode);
       const errors = {};
-      let isValidSequence = true;
-
-      sentence.value.forEach((card, index) => {
-        if (index === 0) return;
-
-        const prev = sentence.value[index - 1];
-        if (!validateConnection(prev, card)) {
-          errors[index] = true;
-          isValidSequence = false;
-        }
+      Object.entries(result.errors).forEach(([idx, msgs]) => {
+        const localIndex = Number(idx) - props.sentencePrefix.length;
+        if (localIndex >= 0) errors[localIndex] = msgs;
       });
 
       validationErrors.value = errors;
-      score.value = calculateScore(sentence.value);
-      emit('update:sentence', sentence.value);
+      score.value = calculateScore(combinedSentence.value, props.handSizeAtStart);
+      emit('update:sentence', combinedSentence.value);
     };
 
     watch(sentence, validate, { deep: true });
@@ -141,12 +174,16 @@ export default defineComponent({
 
     return {
       sentence,
+      combinedSentence,
       validationErrors,
       score,
       validate,
       handleSelectionChange,
       isLocked,
-      sentenceText
+      sentenceText,
+      sentenceValid,
+      invalidReason,
+      waitingForOthers
     };
   }
 });

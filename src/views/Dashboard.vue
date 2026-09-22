@@ -23,32 +23,6 @@
         <p class="text-xs text-slate-700 mt-2">{{ $t('dashboard.multiplier') }}: x{{ xpMultiplier }}</p>
       </div>
 
-      <div class="pixel-panel p-4">
-        <p class="text-xs uppercase text-slate-600 mb-2">{{ $t('dashboard.billing') }}</p>
-        <div class="space-y-2">
-          <div class="flex items-center justify-between pixel-inset p-3">
-            <div>
-              <p class="font-semibold">{{ $t('dashboard.seasonal') }}</p>
-              <p class="text-xs text-slate-700">$4.99/month · XP boosts & themes</p>
-            </div>
-            <button class="pixel-btn success text-sm">{{ $t('dashboard.subscribe') }}</button>
-          </div>
-          <div class="flex items-center justify-between pixel-inset p-3">
-            <div>
-              <p class="font-semibold">{{ $t('dashboard.teacher') }}</p>
-              <p class="text-xs text-slate-700">$5–$12 per teacher · Classroom mode</p>
-            </div>
-            <button class="pixel-btn primary text-sm">{{ $t('dashboard.upgrade') }}</button>
-          </div>
-          <div class="flex items-center justify-between pixel-inset p-3">
-            <div>
-              <p class="font-semibold">{{ $t('dashboard.booster') }}</p>
-              <p class="text-xs text-slate-700">$0.99 · x2 XP for 48h</p>
-            </div>
-            <button class="pixel-btn danger text-sm">{{ $t('dashboard.boost') }}</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="grid md:grid-cols-3 gap-4">

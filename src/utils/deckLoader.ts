@@ -1,38 +1,40 @@
 import { VerbaCard } from "@/types/verba";
 
-// Mapping filenames to card types if needed, or just loading all
-const CARD_FILES = [
-  "Noun.json",
-  "Verb.json",
-  "Adjective.json",
-  "Adverb.json",
-  "Conjuntion.json", // Note: file name in public/contents/cards_set_1/ is "Conjuntion.json" (typo in source likely)
-  "ExtraInformation.json",
-  "HelpingVerb.json",
-  "Location.json",
-  "Preposition.json",
-  "Time.json"
-];
+// Q4 approval: deck = 10 type files + WildCard.json; Time-full.json is a
+// non-deck variant (excluded). Set 1 = 73 runtime cards, Set 2 = 60.
+const CARD_FILES_BY_SET = {
+  1: [
+    "Noun.json", "Verb.json", "Adjective.json", "Adverb.json", "Conjuntion.json",
+    "ExtraInformation.json", "HelpingVerb.json", "Location.json", "Preposition.json",
+    "Time.json", "WildCard.json"
+  ],
+  2: [
+    "Noun.json", "Verb.json", "Adjective.json", "Adverb.json", "Conjuntion.json",
+    "ExtraInformation.json", "HelpingVerb.json", "Location.json", "Preposition.json",
+    "Time.json", "WildCard.json"
+  ]
+};
 
-const BASE_PATH = "/contents/cards_set_1/";
+const BASE_PATH_BY_SET = { 1: "/contents/cards_set_1/", 2: "/contents/cards_set_2/" };
 
-export async function loadDeck(): Promise<VerbaCard[]> {
+export async function loadDeck(set: 1 | 2 = 1): Promise<VerbaCard[]> {
+  const files = CARD_FILES_BY_SET[set];
+  if (!files) throw new Error(`Unknown deck set: ${set}`);
+  const base = BASE_PATH_BY_SET[set];
   let deck: VerbaCard[] = [];
 
-  for (const file of CARD_FILES) {
+  for (const file of files) {
     try {
-      const response = await fetch(`${BASE_PATH}${file}`);
+      const response = await fetch(`${base}${file}`);
       if (!response.ok) {
         console.error(`Failed to load ${file}: ${response.statusText}`);
         continue;
       }
       const cards: VerbaCard[] = await response.json();
 
-      // Post-processing if needed (e.g. assigning unique IDs if missing, though JSON seems to have them)
-      // Fix specific data issues if found (like "type" casing)
+      // Post-processing: fix Conjuntion file which omits the "type" field
       cards.forEach(card => {
-          // Ensure type consistency if needed
-          if (file === "Conjuntion.json" && !card.type) card.type = "Conj";
+        if (file === "Conjuntion.json" && !card.type) card.type = "Conj";
       });
 
       deck = deck.concat(cards);

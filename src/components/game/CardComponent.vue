@@ -70,7 +70,8 @@ export default defineComponent({
         case 'ExtraInformation': return 'ExtraInformation';
         case 'TimeCard': return 'TimeCard';
         case 'Location': return 'Location';
-        case 'WildCard': return 'WildCard';
+        case 'WildCard':
+        case 'wild_card': return 'WildCard';
         default: return null;
       }
     });

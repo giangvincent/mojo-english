@@ -1,30 +1,50 @@
 import { loadDeck, shuffleDeck } from '@/utils/deckLoader';
 
+// Rulebook section 5: maximum discards per round, by mode and round.
+// Standard: 3. 5/4 Split: 1 for rounds 1-3, up to 2 in round 4. Co-op: 1.
+function maxDiscardsFor(mode, round) {
+    if (mode === '5-4-split') return round >= 4 ? 2 : 1;
+    if (mode === 'coop') return 1;
+    return 3;
+}
+
 export default {
-    async initializeGame({ commit }, mode = 'standard') {
+    async initializeGame({ commit }, mode = 'standard', set = 1) {
+        let playerCount = 1;
         // If receiving an object as mode (e.g. from dispatch), extract the string
         if (typeof mode === 'object' && mode.mode) {
+            set = mode.set ?? set;
+            playerCount = mode.playerCount ?? playerCount;
             mode = mode.mode;
         }
         commit('setGameMode', mode);
         commit('resetGame');
 
-        // 1. Load Deck
-        const rawDeck = await loadDeck();
+        // 1. Load Deck (set 2 gated by unlock — chosen by the caller)
+        const rawDeck = await loadDeck(set);
         const shuffledDeck = shuffleDeck(rawDeck);
 
-        // 2. Deal based on mode
+        // 2. Deal based on mode (rulebook section 5)
         let handSize = 7;
         let communityCount = 0;
+        let maxRounds;
 
         if (mode === '5-4-split') {
-            handSize = 5;
-            communityCount = 4;
+            // Mode B: hand 2→5, pool 1→4, 4 rounds
+            handSize = 2;
+            communityCount = 1;
+            maxRounds = 4;
         } else if (mode === 'coop') {
-            handSize = 7;
+            // Mode C: 3 per player, or 4 each in a two-player game.
+            handSize = playerCount === 2 ? 4 : 3;
+            maxRounds = 1;
+        } else {
+            maxRounds = 3;
         }
 
-        // Deal to Community (if applicable) - These are persistent for the match in Split mode
+        commit('setMaxRounds', maxRounds);
+
+        // Deal to Community (if applicable) - These persist and grow in Split mode
         let currentDeck = [...shuffledDeck];
         if (communityCount > 0) {
             const communityCards = currentDeck.slice(0, communityCount);
@@ -39,35 +59,38 @@ export default {
         currentDeck = currentDeck.slice(handSize);
 
         commit('setHand', playerHand);
+        commit('setRoundHandSize', handSize);
         commit('setDeck', currentDeck);
+        commit('setMaxDiscards', maxDiscardsFor(mode, 1));
         commit('setCurrentRound', 1);
     },
 
     advanceRound({ commit, state }) {
-        // Prepare for next round: Deal new hand
-        let handSize = 7;
+        // Prepare for next round
         if (state.gameMode === '5-4-split') {
-            handSize = 5;
-            // Community cards persist, so we don't change them
-        }
-
-        const deck = [...state.deck];
-
-        // Check if enough cards
-        if (deck.length < handSize) {
-            console.warn("Not enough cards in deck for next round!");
-            // Optionally reshape discard pile into deck here
+            // Mode B progressive: each round deals +1 to hand (max 5) and +1 to pool (max 4)
+            let deck = [...state.deck];
+            if (state.hand.length < 5 && deck.length > 0) {
+                commit('addToHand', deck.shift());
+            }
+            if (state.communityCards.length < 4 && deck.length > 0) {
+                commit('addToCommunityCards', deck.shift());
+            }
+            commit('setDeck', deck);
+            // Track the hand size at start of each round for scoring
+            const newHandSize = Math.min(5, 2 + state.currentRound);
+            commit('setRoundHandSize', newHandSize);
+            commit('setMaxDiscards', maxDiscardsFor('5-4-split', state.currentRound + 1));
+            commit('nextRound');
+            commit('setPlayingStep', 'arrange-card');
+            commit('setDiscardCount', 0);
             return;
         }
 
-        const newHand = deck.slice(0, handSize);
-        const remainingDeck = deck.slice(handSize);
-
-        commit('setHand', newHand);
-        commit('setDeck', remainingDeck);
+        // Standard rounds are discard/draw opportunities over the same hand.
+        // The player lays down one sentence after the third round.
+        commit('setMaxDiscards', maxDiscardsFor('standard', state.currentRound + 1));
         commit('nextRound');
-
-        // Reset step to arrange-card
         commit('setPlayingStep', 'arrange-card');
         commit('setDiscardCount', 0);
     },
@@ -76,7 +99,7 @@ export default {
         // Remove from hand or community
         // If card is in hand, remove it.
         // If card is in community, do NOT remove it (shared cards are reusable or persistent?
-        // PlayGround logic: "immutable" shared cards list. They stay in the pool.
+        // Shared cards stay in the pool for Split mode.
         // So only remove from HAND.
         const inHand = state.hand.find(c => c.id === card.id);
         if (inHand) {
@@ -86,8 +109,7 @@ export default {
 
     discardCard({ commit, state }, cardId) {
         const card = state.hand.find(c => c.id === cardId);
-        if (card) {
-            // commit('removeFromHand', cardId);
+        if (card && state.discardCount < state.maxDiscards) {
             commit('addToDiscardPile', card);
             commit('incrementDiscardCount');
 
@@ -128,6 +150,25 @@ export default {
             const deck = [...state.deck];
             const card = deck.shift();
             commit('addToHand', card);
+            commit('setDeck', deck);
+        }
+    },
+
+    submitCoopTurn({ commit, state }, { sentence, playerId = 'local' }) {
+        const previous = state.coopSentence;
+        const preservesPrefix = previous.every((card, index) => sentence[index]?.id === card.id);
+        if (!preservesPrefix || sentence.length !== previous.length + 1) {
+            throw new Error('Co-op turns must append exactly one card');
+        }
+
+        const appended = sentence[sentence.length - 1];
+        commit('setCoopSentence', [...sentence]);
+        commit('recordTurn', { playerId, cardId: appended.id });
+        commit('setWinner', playerId);
+
+        if (!state.hand.some(card => card.id === appended.id) && state.deck.length > 0) {
+            const deck = [...state.deck];
+            commit('addToHand', deck.shift());
             commit('setDeck', deck);
         }
     },

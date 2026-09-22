@@ -41,6 +41,7 @@ export enum GameMode {
 export interface BonusCondition {
     type: string; // "Verb", "Adj", etc.
     word?: string[]; // Specific words
+    content?: string[]; // Specific words (Adjective/ExtraInfo JSON uses this key)
     point: number;
     categories?: string[]; // e.g., ["person", "animal"]
 }
@@ -103,7 +104,17 @@ export interface VerbaCard {
     condition?: CardCondition[];
 
     // Bonus
-    bonusPoint?: BonusCondition[] | ExtraInfoBonus[]; // Extra Info has array of bonus points
+    bonusPoint?: BonusCondition[]; // Extra Info bonus uses the same {type, content/word, point} shape
+
+    // Simple cards (Prep, WildCard, etc.) carry a top-level point value
+    point?: number;
+
+    // Runtime selection state (attached by the UI when the player picks a face)
+    selectedPoint?: number;
+    selectedText?: string;
+    selectedNumber?: 'singular' | 'plural';
+    selectedTense?: string;
+    selectedConditions?: string[];
 }
 
 export interface Player {

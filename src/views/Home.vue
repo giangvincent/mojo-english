@@ -121,7 +121,7 @@
           <!-- Shop -->
           <article class="p-4 pixel-panel flex flex-col gap-2 transition-transform hover:-translate-y-1 bg-white">
             <h3 class="font-display text-xl">Shop</h3>
-            <p class="text-sm font-pixel text-slate-600 flex-1">Buy cards, items, and cosmetics.</p>
+            <p class="text-sm font-pixel text-slate-600 flex-1">Unlock and equip progression rewards.</p>
             <button @click="$router.push('/shopping')" class="pixel-btn w-full text-center py-2 text-sm font-bold">
               OPEN SHOP
             </button>
@@ -180,7 +180,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
-import { getCurrentUser } from '@/services/auth'
+import { getCurrentUser, initiateSSO } from '@/services/auth'
 import gvPixelService from '@/services/gvPixel'
 import XpBar from '@/components/ui/XpBar.vue'
 import TutorialOverlay from '@/components/TutorialOverlay.vue'
@@ -214,7 +214,7 @@ export default {
     this.setPlayingStep('arrange-card')
     this.LoadCards(this.playerData.level)
   },
-  mounted() {
+  async mounted() {
     const user = getCurrentUser()
     this.currentUser = user
     if (user) {
@@ -246,11 +246,7 @@ export default {
     ...mapActions(['LoadCards', 'loginPlayer', 'logoutPlayer']),
     ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL', 'setPlayerData', 'setPlayingStep']),
     async handleLogin() {
-      // User request: redirect to base_url + /login?app=verbapix
-      // We use VITE_BASE_URL which is exposed in .env
-      const baseUrl = import.meta.env.VITE_BASE_URL;
-
-      window.location.href = `${baseUrl}/login?app=verbapix`;
+      await initiateSSO(this.$route.query.returnTo || '/');
     },
 
     async handleSignOut() {

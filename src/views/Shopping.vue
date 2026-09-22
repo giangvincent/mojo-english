@@ -15,12 +15,22 @@
                     <div class="text-2xl font-bold text-pix-ink animate-pulse">Loading Shop...</div>
                 </div>
 
+                <!-- Offline State -->
+                <div v-else-if="offline" class="flex flex-col justify-center items-center h-64 text-center">
+                    <div class="text-xl font-bold text-pix-ink mb-4">Shop unavailable offline</div>
+                    <p class="text-sm text-slate-600 mb-4">
+                        {{ pendingSync }} item(s) saved locally and waiting to sync.
+                    </p>
+                    <button @click="fetchItems" class="pixel-btn primary">Retry</button>
+                </div>
+
                 <!-- Error State -->
                 <div v-else-if="error" class="flex flex-col justify-center items-center h-64 text-center">
                     <div class="text-xl font-bold text-red-600 mb-4">{{ error }}</div>
                     <button @click="fetchItems" class="pixel-btn primary">Retry</button>
                 </div>
 
+                <!-- Success / Empty -->
                 <div v-else>
                     <!-- Tabs -->
                     <div class="flex flex-wrap gap-2 md:gap-4 mb-8 border-b-4 border-pix-ink pb-4">
@@ -47,16 +57,10 @@
                             <div
                                 class="w-24 h-24 pixel-inset bg-white mb-4 flex items-center justify-center overflow-hidden">
                                 <img v-if="item.image" :src="item.image" class="w-20 pixelated" :alt="item.name" />
-                                <span v-else class="text-4xl">{{ item.icon || '📦' }}</span>
+                                <span v-else class="text-4xl">{{ item.icon || item.requirement || '📦' }}</span>
                             </div>
 
                             <h3 class="font-bold text-center text-pix-ink mb-2">{{ item.name }}</h3>
-
-                            <!-- Price / Requirement -->
-                            <div v-if="item.price" class="mb-2">
-                                <span class="pixel-chip bg-orange-500 text-white font-bold">{{ formatPrice(item.price)
-                                }}</span>
-                            </div>
 
                             <!-- Actions -->
                             <div class="w-full mt-auto pt-2">
@@ -73,26 +77,22 @@
                                     <div v-else class="text-center text-sm font-bold text-green-600">OWNED</div>
                                 </template>
 
-                                <!-- Case: Not Owned -->
-                                <template v-else>
-                                    <button v-if="item.price" @click="buy(item)"
-                                        class="pixel-btn primary w-full text-sm py-2">
-                                        BUY
-                                    </button>
-                                    <div v-else class="text-center">
-                                        <div class="text-xs text-pix-ink font-bold uppercase mb-2 opacity-70">Locked
-                                        </div>
-                                        <div class="pixel-chip bg-pix-ink text-white text-[10px] w-full block">
-                                            {{ item.requirement || 'Locked' }}
-                                        </div>
+                                <!-- Case: Not Owned (billing removed, Q6) -->
+                                <div v-else class="text-center">
+                                    <div class="text-xs text-pix-ink font-bold uppercase mb-2 opacity-70">Locked
                                     </div>
-                                </template>
+                                    <div
+                                        class="pixel-chip bg-pix-ink text-white text-[10px] w-full block">
+                                        {{ item.requirement || 'Unlock through progression' }}
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
 
                         <!-- Empty State -->
-                        <div v-if="currentItems.length === 0" class="col-span-full text-center py-12 text-gray-500">
+                        <div v-if="currentItems.length === 0"
+                            class="col-span-full text-center py-12 text-gray-500">
                             No items found in this category.
                         </div>
 
@@ -106,7 +106,8 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import BackBtn from '@/components/navigation/BackButton.vue'
-import { getShopItems, buyItem } from '@/services/shop'
+import { getShopItems } from '@/services/shop'
+import gvPixelService from '@/services/gvPixel'
 
 export default {
     name: 'ShoppingView',
@@ -118,6 +119,8 @@ export default {
             items: [],
             loading: true,
             error: null,
+            offline: false,
+            pendingSync: 0,
             activeTab: 'all',
             tabs: [
                 { id: 'all', label: 'All Items' },
@@ -130,37 +133,51 @@ export default {
     },
     computed: {
         ...mapState({
-            unlockedItems: state => state.progression.unlocks.cosmetics || [], // Adjust based on actual store structure
-            equipped: state => state.progression.cosmetics.equipped,
-            userBalance: state => state.user.balance // Assuming balance exists
-        }),
-        currentItems() {
-            if (this.activeTab === 'all') return this.items;
-            return this.items.filter(item => item.type === this.activeTab);
-        }
+            unlockedItems: state => state.progression?.unlocks?.cosmetics || [],
+            equipped: state => state.progression?.cosmetics?.equipped,
+            userBalance: state => state.user?.balance
+        })
     },
     async mounted() {
         await this.fetchItems();
     },
     methods: {
-        ...mapMutations(['equipCosmetic', 'unlockCosmetic']), // Adjust as needed
+        ...mapMutations(['equipCosmetic', 'unlockCosmetic']),
+
+        isOfflineError(error) {
+            if (typeof navigator !== 'undefined' && !navigator.onLine) return true;
+            if (!error) return false;
+            const message = error.message || '';
+            return error.name === 'TypeError' ||
+                /Failed to fetch|NetworkError|Load failed|Network request failed|network|offline/i.test(message);
+        },
 
         async fetchItems() {
             this.loading = true;
             this.error = null;
+            this.offline = false;
+
+            if (typeof navigator !== 'undefined' && !navigator.onLine) {
+                this.offline = true;
+                this.loading = false;
+                this.pendingSync = gvPixelService.getPendingSyncCount();
+                return;
+            }
+
             try {
                 const data = await getShopItems();
                 // Expected data structure: { items: [...] } or [...]
                 // Adjusting based on standard response assumption
                 this.items = Array.isArray(data) ? data : (data.items || []);
-
-                // Normalize items if necessary to ensure they have 'type'
-                // For now assuming API returns valid objects.
             } catch (err) {
-                this.error = "Failed to load shop items. Please try again.";
-                console.error(err);
+                this.items = [];
+                this.offline = this.isOfflineError(err);
+                this.error = this.offline
+                    ? 'Shop is unavailable while offline.'
+                    : 'Failed to load shop items. Please try again.';
             } finally {
                 this.loading = false;
+                this.pendingSync = gvPixelService.getPendingSyncCount();
             }
         },
 
@@ -170,14 +187,6 @@ export default {
             if (item.id.startsWith('default-')) return true;
 
             // Check if ID is in unlocked list
-            // Note: You might need to adjust checking against 'unlockedItems' depending on how plants are stored
-            if (item.type === 'plant') {
-                // Placeholder: Check inventory for plants?
-                // For now, let's assume if it has a price, you don't own it unless purchased in this session or stored somewhere.
-                // If the API returns 'owned' field, use that.
-                return item.owned || false;
-            }
-
             return this.unlockedItems.includes(item.id);
         },
 
@@ -187,6 +196,7 @@ export default {
 
         isEquipped(item) {
             if (!this.isEquippable(item)) return false;
+            if (!this.equipped) return false;
 
             if (item.type === 'avatar') return this.equipped.avatar === item.id || (item.id === 'default-avatar' && !this.equipped.avatar);
             if (item.type === 'cardBack') return this.equipped.cardBack === item.id || (item.id === 'default-back' && !this.equipped.cardBack);
@@ -195,37 +205,8 @@ export default {
             return false;
         },
 
-        async buy(item) {
-            if (!confirm(`Buy ${item.name} for ${this.formatPrice(item.price)}?`)) return;
-
-            try {
-                // Optimistic update or wait for result
-                const result = await buyItem(item.id);
-
-                if (result.redirect_url) {
-                    window.location.href = result.redirect_url;
-                    return;
-                }
-
-                // If no redirect, assume direct success (mock or free item)
-                alert('Purchase successful!');
-
-                // Refetch or update local state
-                item.owned = true;
-                if (this.isEquippable(item)) {
-                    this.unlockCosmetic(item.id); // Update Vuex
-                }
-            } catch (err) {
-                alert(err.message);
-            }
-        },
-
         equip(item) {
             this.equipCosmetic({ type: item.type, id: item.id });
-        },
-
-        formatPrice(price) {
-            return '$' + parseFloat(price).toFixed(2);
         }
     }
 }

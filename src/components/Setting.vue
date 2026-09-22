@@ -18,40 +18,6 @@
 
         <div class="w-full border-t-4 border-pix-ink pt-4">
           <ul class="space-y-4">
-            <!-- Music Toggle -->
-            <li class="flex items-center justify-between py-2">
-              <div class="font-bold text-pix-ink">{{ $t("setting.music") }}</div>
-              <div class="cursor-pointer" @click="toggleMusic">
-                <!-- Pixel Toggle OFF -->
-                <div v-if="!musicEnabled"
-                  class="w-16 h-8 bg-pix-paper-2 border-2 border-pix-ink shadow-inner flex items-center px-1">
-                  <div class="w-6 h-6 bg-gray-400 border-2 border-pix-ink"></div>
-                </div>
-                <!-- Pixel Toggle ON -->
-                <div v-else
-                  class="w-16 h-8 bg-green-200 border-2 border-pix-ink shadow-inner flex items-center justify-end px-1">
-                  <div class="w-6 h-6 bg-pix-success border-2 border-pix-ink"></div>
-                </div>
-              </div>
-            </li>
-
-            <!-- Sound Toggle -->
-            <li class="flex items-center justify-between py-2">
-              <div class="font-bold text-pix-ink">{{ $t("setting.sound") }}</div>
-              <div class="cursor-pointer" @click="toggleSound">
-                <!-- Pixel Toggle OFF -->
-                <div v-if="!soundEnabled"
-                  class="w-16 h-8 bg-pix-paper-2 border-2 border-pix-ink shadow-inner flex items-center px-1">
-                  <div class="w-6 h-6 bg-gray-400 border-2 border-pix-ink"></div>
-                </div>
-                <!-- Pixel Toggle ON -->
-                <div v-else
-                  class="w-16 h-8 bg-green-200 border-2 border-pix-ink shadow-inner flex items-center justify-end px-1">
-                  <div class="w-6 h-6 bg-pix-success border-2 border-pix-ink"></div>
-                </div>
-              </div>
-            </li>
-
             <!-- Language Selector -->
             <li class="flex items-center justify-between py-2 relative z-20">
               <div class="font-bold text-pix-ink">{{ $t("setting.lang") }}</div>
@@ -82,7 +48,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import langList from './langList'
 export default {
   name: 'setting-modal',
@@ -90,17 +56,13 @@ export default {
   data() {
     return {
       popupLanglist: false,
-      langList: langList,
-      musicEnabled: true,
-      soundEnabled: true
+      langList: langList
     }
   },
-  computed: {
-    ...mapState({
-      playerData: state => state.player.playerData
-    })
+  mounted() {
+    // T16: mirror persisted language preference into local state
+    this.popupLanglist = false
   },
-  mounted() { },
   methods: {
     ...mapMutations(['TOGGLE_MODAL', 'SET_MODAL']),
     ...mapActions(['SetPlayerDataAsync']),
@@ -111,14 +73,8 @@ export default {
       console.log(index)
       this.popupLanglist = false
       this.$i18n.locale = index
+      this.$store.dispatch('prefs/setLanguage', index)
       this.SetPlayerDataAsync({ locale: index })
-    },
-    toggleMusic() {
-      this.musicEnabled = !this.musicEnabled
-      // In a real app, you'd save this preference or trigger audio manager
-    },
-    toggleSound() {
-      this.soundEnabled = !this.soundEnabled
     }
   }
 }

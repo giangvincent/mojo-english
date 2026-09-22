@@ -2,7 +2,7 @@ import { calculateXpFromContext, getRequiredXp } from '@/utils/xp'
 import { getUnlocksForLevel } from '@/utils/unlocks'
 import { generateDailyMissions, generateWeeklyMissions } from '@/data/missions'
 import { achievements } from '@/data/achievements'
-import { checkAchievement, getAchievementProgress } from '@/utils/achievementTracker'
+import { checkAchievement } from '@/utils/achievementTracker'
 
 function getWeekIdentifier() {
   const d = new Date()
@@ -88,6 +88,7 @@ export default {
 
       let shouldIncrement = false
       let incrementAmount = 1
+      let target = mission.condition.count
 
       if (mission.condition.tense && context.tense === mission.condition.tense && context.sentenceBuilt) {
         shouldIncrement = true
@@ -95,22 +96,29 @@ export default {
 
       if (mission.condition.cardType && context.cardsUsed?.some(c => c.type === mission.condition.cardType)) {
         shouldIncrement = true
+        incrementAmount = context.cardsUsed.filter(c => c.type === mission.condition.cardType).length
       }
 
-      if (mission.condition.bonusPoints && context.bonusPoints >= mission.condition.bonusPoints) {
+      if (mission.condition.bonusPoints && context.bonusPoints > 0) {
         shouldIncrement = true
+        incrementAmount = context.bonusPoints
+        target = mission.condition.bonusPoints
       }
 
       if (mission.condition.perfectRounds && context.perfectRound) {
         shouldIncrement = true
+        target = mission.condition.perfectRounds
       }
 
       if (mission.condition.matchesWon && context.matchesWon) {
         shouldIncrement = true
+        incrementAmount = context.matchesWon
+        target = mission.condition.matchesWon
       }
 
       if (mission.condition.sentencesBuilt && context.sentenceBuilt) {
         shouldIncrement = true
+        target = mission.condition.sentencesBuilt
       }
 
       if (mission.condition.specificWords && context.sentenceText) {
@@ -127,7 +135,7 @@ export default {
         if (type === 'weekly') commit('updateWeeklyMissionProgress', { missionId: mission.id, progress: newProgress })
         if (type === 'seasonal') commit('updateSeasonalMissionProgress', { missionId: mission.id, progress: newProgress })
 
-        if (newProgress >= mission.condition.count) {
+        if (newProgress >= (target ?? 1)) {
           commit('completeMission', { id: mission.id, type })
           // Grant rewards
           if (mission.rewards.xp) dispatch('gainXp', mission.rewards.xp)
@@ -213,7 +221,6 @@ export default {
 
       if (shouldCheck && progressUpdate > 0) {
         commit('incrementAchievementProgress', { achievementId: achievement.id, progress: progressUpdate })
-        const currentProgress = getAchievementProgress(achievement.id, state) + progressUpdate // State update might not be immediate in same tick if we read back, but here we just calculated it
 
         // Actually, mutation updates state immediately in Vuex
         const updatedProgress = state.achievementProgress[achievement.id]

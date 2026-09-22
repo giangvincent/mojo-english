@@ -1,5 +1,3 @@
-import { shuffleArray } from '@/helper'
-
 export const dailyMissionTemplates = [
     { id: 'd1', description: 'Build 2 past simple sentences', condition: { tense: 'past simple', count: 2 }, rewards: { xp: 30, coins: 5 } },
     { id: 'd2', description: 'Use 3 adjectives in sentences', condition: { cardType: 'Adj', count: 3 }, rewards: { xp: 40, coins: 10 } },

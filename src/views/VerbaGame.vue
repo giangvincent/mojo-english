@@ -37,9 +37,20 @@
             <CommunityPool />
         </div>
 
-        <!-- Table Area (Sentence Builder) -->
-        <TableArea :playing-step="playingStep" :round="round" @play="handlePlaySentence" @lock="handleLockSentence"
+        <div v-if="!canBuildSentence" class="pixel-panel bg-pix-paper p-6 mb-4 text-center">
+            <h2 class="font-display text-2xl mb-2">{{ $t('playing.exchange_round', { round, max: maxRounds }) }}</h2>
+            <p class="font-pixel mb-4">{{ $t('playing.discard_then_continue', { count: maxDiscards }) }}</p>
+            <button class="pixel-btn primary" @click="handleAdvancePreparation">{{ $t('playing.finish_exchange') }}</button>
+        </div>
+
+        <!-- Table Area (Sentence Builder is available after preparation rounds) -->
+        <TableArea v-else :key="tableKey" :playing-step="playingStep" :round="round" :game-mode="gameMode"
+            :sentence-prefix="gameMode === 'coop' ? coopSentence : []"
+            :hand-size-at-start="roundHandSize" @play="handlePlaySentence" @lock="handleLockSentence"
             @update:sentence="updateBackgroundParams" />
+
+        <button v-if="gameMode === 'coop' && coopSentence.length" class="pixel-btn danger mx-auto mb-4"
+            @click="finishCoopGame">{{ $t('playing.end_coop') }}</button>
 
         <!-- Hand Component -->
         <HandComponent />
@@ -62,16 +73,6 @@
             <div class="text-xl font-bold animate-pulse text-pix-primary font-pixel">Loading Deck...</div>
         </div>
 
-        <!-- Multiplayer Ready Check -->
-        <div v-if="isMultiplayer && !playersReady && !loading" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex flex-col items-center justify-center z-50">
-            <h2 class="text-3xl text-white font-display mb-4">Waiting for Players...</h2>
-            <div class="flex gap-4">
-                 <button v-if="!amIReady" @click="setReady" class="pixel-btn success text-xl py-4 px-8">I'M READY</button>
-                 <div v-else class="text-green-400 font-bold text-xl animate-pulse">YOU ARE READY</div>
-            </div>
-            <p class="text-gray-400 mt-4">Host will start when everyone is ready.</p>
-        </div>
-
     </div>
 </template>
 
@@ -82,8 +83,9 @@ import { useRouter, useRoute } from 'vue-router';
 import HandComponent from '@/components/game/HandComponent.vue';
 import TableArea from '@/components/game/TableArea.vue';
 import CommunityPool from '@/components/game/CommunityPool.vue';
-import SoundManager from '@/utils/soundManager';
 import { calculateXpFromContext } from '@/utils/xp';
+import { calculateScore } from '@/utils/scoringEngine';
+import { validateSentence } from '@/utils/grammarEngine';
 
 export default defineComponent({
     name: 'VerbaGame',
@@ -110,17 +112,19 @@ export default defineComponent({
 
         // Mapped State
         const gameMode = computed(() => store.state.playing.gameMode);
-        // PlayGround uses mapState: currentRound: state => state.playing.currentRound
-        // Let's use robust computed getters
+        // Use robust computed getters for the active game view.
         const currentRound = computed(() => store.state.playing.currentRound);
         const maxRounds = computed(() => store.state.playing.maxRounds);
+        const maxDiscards = computed(() => store.state.playing.maxDiscards);
+        const canBuildSentence = computed(() => gameMode.value === 'coop' || currentRound.value > maxRounds.value);
         const totalScore = computed(() => store.state.playing.totalScore);
         const roundScores = computed(() => store.state.playing.roundScores);
+        const roundHandSize = computed(() => store.state.playing.roundHandSize);
+        const coopSentence = computed(() => store.state.playing.coopSentence);
+        const tableKey = ref(0);
         const winner = computed(() => store.state.playing.winner);
 
         const isMultiplayer = computed(() => store.state.playing.isMultiplayer);
-        const playersReady = computed(() => store.state.playing.playersReady);
-        const amIReady = ref(false);
 
         const progressionLevel = computed(() => store.state.progression.level);
         const progressionXp = computed(() => store.state.progression.xp);
@@ -141,7 +145,6 @@ export default defineComponent({
                 const card = evt.added.element;
                 console.log("Discarding:", card);
                 store.dispatch('discardCard', card.id);
-                SoundManager.play('click'); // Or a specific discard sound
                 // Clear the local list immediately so it looks like it was consumed
                 discardList.value = [];
             }
@@ -152,33 +155,50 @@ export default defineComponent({
             const mode = route.query.mode || 'standard';
             const isMp = route.query.multiplayer === 'true' || route.query.isHost === 'true'; // Basic check
 
+            // T13: deck set gated by progression unlock (Set 2 triggered by the 'Set 2 Starter' unlock / level 10+)
+            const unlockedSets = store.state.progression?.unlocks?.sets ?? ['Set 1 Starter'];
+            const hasSet2 = unlockedSets.some(s => String(s).includes('Set 2') || String(s).includes('Bonus Characters'));
+            const set = (route.query.set === '2' || hasSet2) ? 2 : 1;
+
             console.log('Initializing game with mode:', mode, 'Multiplayer:', isMp);
 
             if (isMp) {
-                store.commit('setMultiplayerState', { isMultiplayer: true });
+                const mpState = store.state.multiplayer || {};
+                const playersReady = mpState.gameStatus === 'playing' &&
+                    Array.isArray(mpState.players) &&
+                    mpState.players.length > 0 &&
+                    mpState.players.every(p => p.ready);
+                store.commit('setMultiplayerState', {
+                    isMultiplayer: true,
+                    playersReady: playersReady
+                });
             }
 
-            await store.dispatch('initializeGame', mode);
+            const playerCount = isMp ? Math.max((store.state.multiplayer.players?.length || 1), 1) : 1;
+            await store.dispatch('initializeGame', { mode, set, playerCount });
             loading.value = false;
         });
 
-        const setReady = () => {
-            amIReady.value = true;
-            // In a real app, send socket event here.
-            // For mock:
-            setTimeout(() => {
-                store.commit('setMultiplayerReady', true);
-            }, 1000);
-        };
-
         const handleNextRound = () => {
             showRoundSummary.value = false;
+            if (currentRound.value >= maxRounds.value) {
+                store.commit('setPlayingStep', 'end');
+                return;
+            }
             store.dispatch('advanceRound');
-            console.log(`Starting Round ${currentRound.value}`);
+        };
+
+        const handleAdvancePreparation = () => {
+            store.dispatch('advanceRound');
         };
 
         const handleResetGame = () => {
             store.commit('resetGame');
+            store.dispatch('onMatchComplete', {
+                finishedMatch: true,
+                wonMatch: false,
+                score: store.state.playing.totalScore
+            });
             router.push('/');
         };
 
@@ -193,7 +213,6 @@ export default defineComponent({
                 import('@/utils/unlocks').then(({ getUnlocksForLevel }) => {
                     newUnlocks.value = getUnlocksForLevel(newVal);
                     showLevelUpModal.value = true;
-                    SoundManager.play('win');
                 });
             }
         });
@@ -245,56 +264,39 @@ export default defineComponent({
 
         const handleLockSentence = () => {
             store.commit('setPlayingStep', 'choose-word');
-            SoundManager.play('click');
         };
 
         const handlePlaySentence = async (sentence) => {
             console.log("Playing Sentence:", sentence);
 
-            // 1. Validation for Split Mode
-            if (gameMode.value === '5-4-split') {
-                // Check if ANY shared card is used
-                // Assuming community pool cards are in store.state.playing.communityCards
-                // and we need to verify usage.
-                if (store.state.playing.communityCards && store.state.playing.communityCards.length > 0) { // Simple check if pool exists
-                    const usedIds = sentence.map(c => c.id);
-                    const communityIds = store.state.playing.communityCards.map(c => c.id);
-                    const hasShared = usedIds.some(id => communityIds.includes(id));
+            // 0. Rulebook validation backstop (engine is the single source)
+            const validation = validateSentence(sentence, gameMode.value, { requireSelections: true });
+            if (!validation.valid) {
+                alert('Sentence is not valid: ' + Object.values(validation.errors).flat().join(', '));
+                return;
+            }
 
-                    if (!hasShared) {
-                        alert("You must use at least one card from the Community Pool!");
-                        SoundManager.play('error');
-                        return;
-                    }
+            if (gameMode.value === 'coop') {
+                const playerId = store.state.player.playerData.id || 'local';
+                await store.dispatch('submitCoopTurn', { sentence, playerId });
+                if (isMultiplayer.value) {
+                    await store.dispatch('multiplayer/submitTurn', [sentence[sentence.length - 1].id]);
                 }
+                finalSentence.value = sentence.map(c => c.selectedText || c.word || 'card').join(' ');
+                finalPoint.value = calculateScore(sentence, roundHandSize.value).totalPoints;
+                store.commit('setPlayingStep', 'arrange-card');
+                tableKey.value += 1;
+                return;
             }
 
-            SoundManager.play('success');
+            // 1. Score Calculation — single source: scoringEngine (rulebook §4)
+            const handSizeAtStart = roundHandSize.value;
+            const { totalPoints: roundScore, breakdown } = calculateScore(sentence, handSizeAtStart);
 
-            // 2. Score Calculation
-            let roundScore = 0;
-            // Base points from cards
-            sentence.forEach(card => {
-                // If CardComponent logic worked, card.selectedPoint should be set?
-                // Or fallback to default logic.
-                // TableArea sets card.selectedPoint on selection-change.
-                roundScore += (card.selectedPoint !== undefined ? card.selectedPoint : (card.point || 0));
-            });
-
-            // Sentence Length Bonus (+5 for 7 cards)
-            // Assuming standard deck size 7.
-            // In PlayGround: cards.length === 7. Here 'sentence' is the array of used cards.
-            // If they used 7 cards, they filled the slot? Or is it based on hand?
-            // "use all 7 original cards without discarding" -> Harder to track here without hand state.
-            // Let's rely on sentence length for now.
-            if (sentence.length >= 7) {
-                roundScore += 5;
-            }
-
-            // 3. Commit Score
+            // 2. Commit Score
             store.commit('addRoundScore', roundScore);
 
-            // 4. XP Calculation
+            // 3. XP Calculation
             const xpContext = {
                 correctSentence: true,
                 score: roundScore,
@@ -306,30 +308,40 @@ export default defineComponent({
 
             lastXpEarned.value = calculateXpFromContext(xpContext);
             lastXpContext.value = xpContext;
+            // XP exactly once: awardFromContext already dispatches gainXp internally (T8)
             await store.dispatch('awardFromContext', xpContext);
-            await store.dispatch('gainXp', lastXpEarned.value);
 
-            // 5. Finalize Round
+            // T15: advance mission/achievement hooks from normal play
+            const wonThisRound = totalScore.value >= 200;
+            await store.dispatch('onSentenceSubmit', {
+                sentenceBuilt: true,
+                tense: sentence.find(c => c.selectedTense)?.selectedTense || null,
+                cardsUsed: sentence,
+                bonusPoints: breakdown.bonusPoints,
+                perfectRound: breakdown.handBonus > 0,
+                matchesWon: wonThisRound ? 1 : 0,
+                sentenceText: xpContext.sentenceText,
+                score: roundScore
+            });
+
+            // 4. Finalize Round
             finalSentence.value = xpContext.sentenceText;
             finalPoint.value = roundScore;
 
             if (isMultiplayer.value) {
-                // Wait for others
                 store.commit('setRoundPhase', 'waiting');
-                // Simulate others finishing after 2 seconds
-                setTimeout(() => {
-                    store.commit('setRoundPhase', 'revealing');
-                    showRoundSummary.value = true; // Show summary with everyone's results
-                }, 2000);
+                await store.dispatch('multiplayer/submitTurn', sentence.map(card => card.id));
+                store.commit('setRoundPhase', 'revealing');
+                showRoundSummary.value = true;
             } else {
                 // Check Win/End
                 if (totalScore.value >= 200 || currentRound.value >= maxRounds.value) {
                     store.commit('setPlayingStep', 'end'); // Trigger Game Over
-                    SoundManager.play('win');
                     // Save Match Stats
                     await store.dispatch('onMatchComplete', {
                         finishedMatch: true,
                         wonMatch: totalScore.value >= 200,
+                        matchesWon: totalScore.value >= 200 ? 1 : 0,
                         score: totalScore.value
                     });
                 } else {
@@ -338,20 +350,42 @@ export default defineComponent({
             }
         };
 
+        const finishCoopGame = async () => {
+            const sentence = coopSentence.value;
+            const { totalPoints, breakdown } = calculateScore(sentence, roundHandSize.value);
+            finalSentence.value = sentence.map(c => c.selectedText || c.word || 'card').join(' ');
+            finalPoint.value = totalPoints;
+            store.commit('addRoundScore', totalPoints);
+            await store.dispatch('awardFromContext', {
+                correctSentence: true,
+                score: totalPoints,
+                cardsUsed: sentence,
+                sentenceText: finalSentence.value,
+                bonusCombos: breakdown.bonusPoints > 0 ? 1 : 0,
+                finishedMatch: true,
+                multiplier: store.state.progression.xpMultiplier || 1
+            });
+            store.commit('setPlayingStep', 'end');
+        };
+
         return {
             gameMode,
             isMultiplayer,
-            playersReady,
-            amIReady,
-            setReady,
             round: currentRound,
             currentRound,
             maxRounds,
+            maxDiscards,
+            canBuildSentence,
             totalScore,
             roundScores,
+            roundHandSize,
+            coopSentence,
+            tableKey,
             loading,
             handleNextRound,
+            handleAdvancePreparation,
             handlePlaySentence,
+            finishCoopGame,
             handleLockSentence,
             handleResetGame,
             openSettings,

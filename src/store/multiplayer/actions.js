@@ -1,82 +1,163 @@
-// Placeholder for now, real implementation will connect to Echo
+import { MatchmakingService } from '@/services/matchmaking';
+
 export default {
-  // Standard Mode
-  createRoom({ commit, rootState }, roomName) {
-    // Generate a random room code for now
-    const code = Math.random().toString(36).substring(2, 8).toUpperCase()
-    commit('setRoomCode', code)
-    commit('setIsHost', true)
-    commit('setGameStatus', 'lobby')
-
-    // Use roomName if needed, for now just log it
-    console.log(`Creating room: ${roomName || 'Unnamed Room'}`)
-
-    // Add self to players
-    const self = {
-      id: rootState.player.playerData.id || 'host',
-      name: rootState.player.playerData.name || 'Host',
-      isHost: true,
-      ready: true
+  async createRoom({ commit }, { name, maxPlayers, isPublic } = {}) {
+    commit('setConnectionStatus', 'connecting');
+    try {
+      const room = await MatchmakingService.createRoom({ name, maxPlayers, isPublic });
+      commit('setRoomId', room.room.id);
+      commit('setRoomCode', room.room.code);
+      commit('setIsHost', true);
+      commit('setGameStatus', 'lobby');
+      commit('setPlayers', room.room.participants.map(p => ({
+        id: p.user_id,
+        name: p.name,
+        ready: p.status === 'ready',
+        isHost: p.user_id === room.room.host_id,
+        photo: p.photo || null,
+      })));
+      commit('setConnectionStatus', 'connected');
+      return room.room.code;
+    } catch (error) {
+      commit('setConnectionStatus', 'disconnected');
+      throw error;
     }
-    commit('setPlayers', [self])
-
-    // Subscribe to channel (stub)
-    console.log(`Subscribing to channel room.${code}`)
-    commit('setConnectionStatus', 'connected')
-
-    return code
   },
 
-  joinRoom({ commit, rootState }, roomCode) {
-    commit('setRoomCode', roomCode)
-    commit('setIsHost', false)
-    commit('setGameStatus', 'lobby')
-
-    // Add self (in real app, this would happen after connection confirms join)
-    const self = {
-      id: rootState.player.playerData.id || 'guest',
-      name: rootState.player.playerData.name || 'Guest',
-      isHost: false,
-      ready: true
+  async joinRoom({ commit }, roomId) {
+    commit('setConnectionStatus', 'connecting');
+    try {
+      const room = await MatchmakingService.joinRoom(roomId);
+      commit('setRoomId', room.room.id);
+      commit('setRoomCode', room.room.code);
+      commit('setIsHost', false);
+      commit('setGameStatus', 'lobby');
+      commit('setPlayers', room.room.participants.map(p => ({
+        id: p.user_id,
+        name: p.name,
+        ready: p.status === 'ready',
+        isHost: p.user_id === room.room.host_id,
+        photo: p.photo || null,
+      })));
+      commit('setConnectionStatus', 'connected');
+    } catch (error) {
+      commit('setConnectionStatus', 'disconnected');
+      throw error;
     }
-    commit('setPlayers', [self]) // In real app, we'd get existing players first
-
-    console.log(`Joining channel room.${roomCode}`)
-    commit('setConnectionStatus', 'connected')
   },
 
-  // Quick Match
-  startQuickMatch({ commit }) {
-    commit('setGameStatus', 'waiting_match')
-    commit('setMatchStartTime', Date.now())
-
-    // Simulation of finding a match
-    console.log('Searching for match...')
-
-    // In real app, we would join a 'matchmaking' presence channel
+  async joinByCode({ commit }, code) {
+    commit('setConnectionStatus', 'connecting');
+    try {
+      const room = await MatchmakingService.joinByCode(code);
+      commit('setRoomId', room.room.id);
+      commit('setRoomCode', room.room.code);
+      commit('setIsHost', false);
+      commit('setGameStatus', 'lobby');
+      commit('setPlayers', room.room.participants.map(p => ({
+        id: p.user_id,
+        name: p.name,
+        ready: p.status === 'ready',
+        isHost: p.user_id === room.room.host_id,
+        photo: p.photo || null,
+      })));
+      commit('setConnectionStatus', 'connected');
+    } catch (error) {
+      commit('setConnectionStatus', 'disconnected');
+      throw error;
+    }
   },
 
-  cancelQuickMatch({ commit }) {
-    commit('setGameStatus', 'lobby')
-    commit('setMatchStartTime', null)
+  async quickMatch({ commit, rootState }) {
+    commit('setGameStatus', 'waiting_match');
+    try {
+      const room = await MatchmakingService.quickMatch();
+      commit('setRoomId', room.room.id);
+      commit('setRoomCode', room.room.code);
+      commit('setIsHost', room.room.host_id === rootState.player.playerData.id);
+      commit('setPlayers', room.room.participants.map(p => ({
+        id: p.user_id,
+        name: p.name,
+        ready: p.status === 'ready',
+      })));
+      commit('setConnectionStatus', 'connected');
+      commit('setGameStatus', 'lobby');
+      return room.room;
+    } catch (error) {
+      commit('setGameStatus', 'lobby');
+      throw error;
+    }
   },
 
-  // Game Control
-  startGame({ commit, state, dispatch }) {
-    if (!state.isHost) return
+  async cancelQuickMatch({ commit, dispatch, state }) {
+    if (state.roomCode) {
+      await dispatch('leaveRoom');
+      return;
+    }
+    commit('setGameStatus', 'lobby');
+    commit('setConnectionStatus', 'disconnected');
+  },
 
-    // Broadcast start event
-    console.log('Broadcasting Start Game')
-    commit('setGameStatus', 'playing')
+  async startGame({ commit, state }) {
+    if (!state.isHost) return;
+    try {
+      await MatchmakingService.startGame(state.roomId);
+      commit('setGameStatus', 'playing');
+    } catch (error) {
+      console.error('Failed to start game:', error);
+      throw error;
+    }
+  },
 
-    // Trigger game init in main playing store
-    dispatch('playing/initializeGame', 'standard', { root: true })
+  async submitTurn({ state }, cardIds) {
+    try {
+      const result = await MatchmakingService.submitTurn(state.roomId, cardIds);
+      return result;
+    } catch (error) {
+      console.error('Failed to submit turn:', error);
+      throw error;
+    }
   },
 
   leaveRoom({ commit }) {
-    commit('setRoomCode', null)
-    commit('setPlayers', [])
-    commit('setGameStatus', 'lobby')
-    commit('setConnectionStatus', 'disconnected')
-  }
-}
+    commit('setRoomId', null);
+    commit('setRoomCode', null);
+    commit('setPlayers', []);
+    commit('setGameStatus', 'lobby');
+    commit('setConnectionStatus', 'disconnected');
+  },
+
+  async refreshRoom({ commit, state, rootState }) {
+    if (!state.roomId) return null;
+    const response = await MatchmakingService.getRoom(state.roomId);
+    const room = response.room;
+    commit('setRoomCode', room.code);
+    commit('setIsHost', room.host_id === rootState.player.playerData.id);
+    commit('setGameStatus', room.status === 'active' ? 'playing' : 'lobby');
+    commit('setPlayers', room.participants.map(p => ({
+      id: p.user_id,
+      name: p.name,
+      ready: p.status === 'ready',
+      isHost: p.user_id === room.host_id,
+      photo: p.photo || null,
+    })));
+    return room;
+  },
+
+  // Echo/Pusher realtime subscription
+  async subscribeRoom({ commit, state }) {
+    if (!state.roomId) return;
+    try {
+      const echo = (await import('@/services/echo')).default;
+
+      echo.private(`game.${state.roomId}`)
+        .listen('GameStarted', (_e) => {
+          commit('setGameStatus', 'playing');
+        });
+
+      commit('setConnectionStatus', 'connected');
+    } catch (error) {
+      console.error('Echo subscription failed:', error);
+    }
+  },
+};

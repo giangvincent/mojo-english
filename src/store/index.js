@@ -7,8 +7,10 @@ import playing from './playing'
 import player from './player'
 import progression from './progression'
 import multiplayer from './multiplayer'
+import prefs from './prefs'
+import { createLocalPersist } from './persist'
 
-export default createStore({
+const store = createStore({
   state: states,
   mutations: mutations,
   actions: actions,
@@ -16,6 +18,14 @@ export default createStore({
     playing,
     player,
     progression,
-    multiplayer
+    multiplayer,
+    prefs
   }
 })
+
+// T16: local-first persistence — restore before first render, persist on change.
+const { persist, restore } = createLocalPersist(store)
+restore()
+store.subscribe(() => persist())
+
+export default store

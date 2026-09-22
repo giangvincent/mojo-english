@@ -1,0 +1,45 @@
+name: Quality
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Test (clean install)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js (18.x)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Clean install (no stale node_modules)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Content audit
+        run: npm run audit:content
+
+      - name: i18n audit
+        run: npm run audit:i18n
+
+      - name: Build
+        run: npm run build
+
+      - name: E2E tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e

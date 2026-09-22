@@ -2,9 +2,9 @@
 
 ## 1. High-Level Overview
 
-**VerbaPix** is a web-based language learning game designed to be played as a **Facebook Instant Game**. It gamifies the process of learning English grammar by combining card game mechanics with sentence construction challenges.
+**VerbaPix** is a web-based language learning game designed to be played as a **GVPixel Instant Game**. It gamifies the process of learning English grammar by combining card game mechanics with sentence construction challenges.
 
-Players collect and arrange "word cards" to form grammatically correct sentences. The game features multiple modes, a progression system, and an in-game economy, all while integrating seamlessly with the Facebook Instant Games platform for social features and persistence.
+Players collect and arrange "word cards" to form grammatically correct sentences. The game features multiple modes and a progression-based customization system while integrating with the GVPixel platform for authentication and persistence.
 
 **Core Concept:** "Cards, Grammar, Fun".
 
@@ -24,58 +24,54 @@ The application is a **Single Page Application (SPA)** built with modern web tec
     *   Pixel-art themed UI components.
 *   **Language:** JavaScript, with [TypeScript](https://www.typescriptlang.org/) used for core game logic (`src/core`).
 *   **Platform Integration:**
-    *   **Facebook Instant Games SDK (`fbInstant`)**: Handles authentication, player data, context (social), and ads.
-    *   **Firebase**: Used for backend services (likely analytics, secondary storage).
+    *   **GVPixel OAuth/API**: Handles authentication, player data, and persistence via vault.
 *   **Internationalization:** `vue-i18n`.
 *   **Key Libraries:**
     *   `vuedraggable`: For the core drag-and-drop card interface.
-    *   `howler`: For audio management.
     *   `vue3-touch-events`: For mobile touch interaction.
 
 ## 3. Folder Structure
 
 The source code is organized in the `src` directory:
 
-*   **`src/assets/`**: Static resources like images, CSS files (`tailwind.css`, `animate.css`), and audio.
+*   **`src/assets/`**: Static resources like images and CSS files (`tailwind.css`, `animate.css`).
 *   **`src/components/`**: Reusable Vue components.
     *   `cards/`: Components related to the playing cards.
     *   `ui/`: Generic UI elements.
-    *   Specific feature components like `GameModeSelector`, `LevelUpModal`, `LeaderBoard`.
+    *   Specific feature components like `GameModeSelector`, `LevelUpModal`.
 *   **`src/core/`**: Pure logic and type definitions, written in TypeScript.
     *   `cards.ts`: Definitions of card data and properties.
     *   `types.ts`: TypeScript interfaces for game entities.
 *   **`src/router/`**: Vue Router configuration.
-    *   `index.js`: Defines the routes (`/`, `/play`, `/market`, etc.) and guards.
+    *   `index.js`: Defines the routes (`/`, `/play`, `/shopping`, etc.) and guards.
 *   **`src/services/`**: Abstractions for external APIs.
-    *   `fbInstant.js`: Wrapper for Facebook Instant Games interactions.
-    *   `firebase.js`: Firebase configuration and service methods.
+    *   `auth.js`: OAuth/PKCE authentication flow.
+    *   `gvPixel.js`: GVPixel vault CRUD operations.
 *   **`src/store/`**: Vuex store configuration.
     *   `index.js`: Store entry point.
-    *   `modules/`: Separated state logic (`player`, `playing`, `progression`).
+    *   `progression/`, `playing/`, `player/`, `prefs/`, `multiplayer/`: State modules.
 *   **`src/views/`**: Main page components acting as route targets.
-    *   `Home.vue`, `PlayGround.vue`, `Shopping.vue`, `Tutorial.vue`, etc.
-*   **`src/utils/`**: Helper functions for math, sound, time rules, and XP calculations.
-*   **`src/main.js`**: Application entry point. Initializes Vue, Router, Store, i18n, and handles FB Instant Games initialization.
+    *   `Home.vue`, `VerbaGame.vue`, `Shopping.vue`, `Tutorial.vue`, etc.
+*   **`src/utils/`**: Helper functions for grammar, scoring, XP, unlocks, and card helpers.
+*   **`src/main.js`**: Application entry point. Initializes Vue, Router, Store, i18n, and handles GVPixel initialization.
 
 ## 4. Key Features
 
-*   **Card-Based Gameplay (`PlayGround.vue`)**:
+*   **Card-Based Gameplay (`VerbaGame.vue`)**:
     *   Players receive a hand of cards (Nouns, Verbs, Adjectives, etc.).
     *   Drag-and-drop interface to arrange cards into valid sentences (Noun Phrase + Verb Phrase + Object Phrase).
     *   Real-time validation of grammar rules.
 *   **Game Modes**:
     *   **Standard**: Classic 7-card hand.
-    *   **5-4 Split**: A strategic mode with shared community cards.
+    *   **5/4 Split**: A strategic mode with shared community cards.
     *   **Co-op**: Cooperative play mode.
 *   **Progression System**:
     *   Experience (XP) tracking.
     *   Level-up system with unlocks (`LevelUpModal`).
-    *   Persistent player stats via FB Instant / Firebase.
-*   **In-Game Economy**:
-    *   `Shopping.vue`: Unified storefront/customization hub for purchasing items and equipping cosmetics.
+    *   Persistent player stats via GVPixel vault.
+*   **Progression Rewards**:
+    *   `Shopping.vue`: Customization hub for viewing unlocked items and equipping cosmetics; billing is not part of this release.
 *   **Social Integration**:
-    *   Leaderboards.
-    *   Connected players fetching.
-    *   Social contexts via FB Instant Games.
+    *   Simulated multiplayer lobby; real GVPixel HTTP matchmaking is wired but not exercised against a live backend.
 *   **Tutorials**: Interactive tutorial system (`Tutorial.vue`, `TutorialOverlay.vue`) to guide new players.
 *   **Localization**: Multi-language support to make the game accessible to a global audience.

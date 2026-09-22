@@ -73,7 +73,7 @@ export default {
     const backgroundStyle = computed(() => {
       try {
         return getCardBackgroundStyle(props.card.id)
-      } catch (e) {
+      } catch (_e) {
         return {}
       }
     })

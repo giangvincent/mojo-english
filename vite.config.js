@@ -25,6 +25,7 @@ export default defineConfig({
     }
   },
   test: {
-    environment: 'jsdom'
+    environment: 'jsdom',
+    exclude: ['node_modules', 'tests/e2e/**', 'gvpixel_app/**']
   }
 })

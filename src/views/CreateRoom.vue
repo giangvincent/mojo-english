@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import { MatchmakingService } from '@/services/matchmaking';
-
 export default {
   name: 'CreateRoom',
   data() {
@@ -69,13 +67,15 @@ export default {
       if (!this.form.name) return;
 
       try {
-        const { roomId } = await MatchmakingService.createRoom(this.form);
-        // Navigate to Lobby (reusing existing Lobby component or new one if specified)
-        // User mentioned "Host will have responsibility to start".
-        // Existing Lobby likely handles this.
+        await this.$store.dispatch('multiplayer/createRoom', {
+          name: this.form.name,
+          maxPlayers: 4,
+          isPublic: !this.form.password
+        });
+        await this.$store.dispatch('multiplayer/subscribeRoom');
         this.$router.push({
           name: 'lobby',
-          query: { roomId: roomId, isHost: 'true' }
+          query: { roomId: this.$store.state.multiplayer.roomId }
         });
       } catch (err) {
         console.error("Failed to create room:", err);

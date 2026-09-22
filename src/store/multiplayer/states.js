@@ -1,4 +1,5 @@
 export default {
+  roomId: null,
   roomCode: null,
   isHost: false,
   players: [], // Array of player objects { id, name, ready }

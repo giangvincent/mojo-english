@@ -1,7 +1,7 @@
 import 'whatwg-fetch'
 
 export default {
-  LoadCards: function (store, level) {
+  LoadCards: function (store, _level) {
     const listCard = [
       'Noun',
       'Verb',

@@ -18,6 +18,8 @@ export default {
   },
   created() {
      this.$store.dispatch('checkAuth');
+     // T15: initialize daily/weekly missions (idempotent; restores existing progress).
+     this.$store.dispatch('initializeMissions').catch((err) => console.error('Mission init failed:', err));
   },
   computed: {
     ...mapState({

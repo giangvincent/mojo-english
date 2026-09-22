@@ -26,13 +26,9 @@ export function calculateScore(sentence: VerbaCard[], handSizeAtStart: number = 
     // If not, we take the max point as a fallback or 0.
 
     sentence.forEach(card => {
-        // @ts-ignore: Assuming runtime extension of the object
-        const p = typeof card.selectedPoint === 'number' ? card.selectedPoint : 0;
-
-        // If 0, try to guess from structure
-        if (p === 0) {
-           // Fallback logic could go here
-        }
+        const p = typeof card.selectedPoint === 'number' && card.selectedPoint > 0
+            ? card.selectedPoint
+            : (typeof card.point === 'number' ? card.point : 0);
 
         cardPoints += p;
     });
@@ -40,32 +36,33 @@ export function calculateScore(sentence: VerbaCard[], handSizeAtStart: number = 
     // 2. Bonus Points
     // "Bottom of the card lists specific combinations that award extra points"
     sentence.forEach(card => {
-        if (card.bonusPoint) {
-            const requiredType = card.bonusPoint.type; // e.g., "Verb"
-            const specificWords = card.bonusPoint.word; // e.g., ["run", "walk"]
+        // Data shape: Noun.json stores a single object; other files store arrays
+        const bonuses = Array.isArray(card.bonusPoint) ? card.bonusPoint
+            : (card.bonusPoint ? [card.bonusPoint] : []);
+        bonuses.forEach(bonus => {
+            const specificWords = bonus.word ?? bonus.content ?? [];
 
             // Check if any OTHER card in the sentence matches
             const match = sentence.some(other => {
                 if (other === card) return false; // Don't match self
 
-                const typeMatch = other.type === requiredType;
+                const typeMatch = other.type === bonus.type;
 
                 let wordMatch = true;
-                if (specificWords && specificWords.length > 0) {
-                     // Check if selected text matches
-                     // Again, relies on knowing the selected text.
-                     // @ts-ignore
+                if (specificWords.length > 0) {
                      const text = other.selectedText || "";
-                     wordMatch = specificWords.includes(text);
+                     // ponytail: word-boundary substring; exact-face equality would need the UI to expose the raw face word
+                     wordMatch = specificWords.some(w =>
+                         new RegExp(`\\b${String(w).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(text));
                 }
 
                 return typeMatch && wordMatch;
             });
 
             if (match) {
-                bonusPoints += card.bonusPoint.point;
+                bonusPoints += bonus.point;
             }
-        }
+        });
     });
 
     // 3. Hand Bonus

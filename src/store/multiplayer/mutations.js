@@ -1,4 +1,7 @@
 export default {
+  setRoomId(state, id) {
+    state.roomId = id
+  },
   setRoomCode(state, code) {
     state.roomCode = code
   },

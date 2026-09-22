@@ -1,3 +1,5 @@
+import { authedFetch } from './auth.js';
+
 const API_URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_BASE_URL}`;
 
 // Basic token retrieval - modify if you use a different storage key
@@ -59,7 +61,7 @@ export default {
 
         for (const item of queue) {
             try {
-                const response = await fetch(`${API_URL}/vault`, {
+                const response = await authedFetch(`${API_URL}/vault`, {
                     method: 'POST',
                     headers: {
                         ...getAuthHeader(),
@@ -105,7 +107,7 @@ export default {
      */
     async getVaultItems(page = 1) {
         try {
-            const response = await fetch(`${API_URL}/vault?page=${page}`, {
+            const response = await authedFetch(`${API_URL}/vault?page=${page}`, {
                 method: 'GET',
                 headers: {
                     ...getAuthHeader(),
@@ -127,7 +129,7 @@ export default {
      */
     async updateVaultItem(id, data) {
         try {
-            const response = await fetch(`${API_URL}/vault/${id}`, {
+            const response = await authedFetch(`${API_URL}/vault/${id}`, {
                 method: 'PATCH',
                 headers: {
                     ...getAuthHeader(),
@@ -151,7 +153,7 @@ export default {
      */
     async deleteVaultItem(id) {
         try {
-            const response = await fetch(`${API_URL}/vault/${id}`, {
+            const response = await authedFetch(`${API_URL}/vault/${id}`, {
                 method: 'DELETE',
                 headers: {
                     ...getAuthHeader(),
@@ -173,7 +175,7 @@ export default {
      */
     async getVaultStats() {
         try {
-            const response = await fetch(`${API_URL}/vault/stats`, {
+            const response = await authedFetch(`${API_URL}/vault/stats`, {
                 method: 'GET',
                 headers: {
                     ...getAuthHeader(),
@@ -183,21 +185,21 @@ export default {
             });
 
             if (!response.ok) {
-                // Return empty stats block if it fails, maybe user has no stats yet or 404
-                return {
-                    totalItems: 0,
-                    typeBreakdown: { word: 0, sentence: 0 },
-                    streak: 0
-                };
+                // 404 means the user simply has no stats yet — treat as empty, not an error.
+                // Any other non-2xx is a real failure and should propagate so the UI can show an error.
+                if (response.status === 404) {
+                    return {
+                        totalItems: 0,
+                        typeBreakdown: { word: 0, sentence: 0 },
+                        streak: 0
+                    };
+                }
+                throw new Error(`GVPixel Vault Stats Error: HTTP ${response.status}`);
             }
             return await response.json();
         } catch (error) {
             console.error('GVPixel Vault Stats Error:', error);
-            return {
-                totalItems: 0,
-                typeBreakdown: { word: 0, sentence: 0 },
-                streak: 0
-            };
+            throw error;
         }
     }
 };

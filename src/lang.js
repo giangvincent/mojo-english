@@ -49,14 +49,16 @@ export default {
     },
     language: 'Tiếng việt',
     setting: {
-      music: 'Âm nhạc',
-      sound: 'Âm thanh',
       lang: 'Ngôn ngữ'
     },
     buttons: {
       discard: 'Bỏ'
     },
     playing: {
+      exchange_round: 'Vòng đổi thẻ {round}/{max}',
+      discard_then_continue: 'Bỏ tối đa {count} thẻ, sau đó tiếp tục.',
+      finish_exchange: 'HOÀN TẤT VÒNG ĐỔI THẺ',
+      end_coop: 'KHÔNG CÒN NƯỚC HỢP LỆ — KẾT THÚC HỢP TÁC',
       final_sentence: 'Câu được chọn',
       total_point: 'Tổng điểm',
       confirm_position: 'Xác nhận vị trí',
@@ -122,9 +124,15 @@ export default {
     dashboard: {
       kicker: 'Bảng người chơi',
       title: 'Tiến trình & Nâng cấp',
-      subtitle: 'Theo dõi XP, giao diện, bộ thẻ và tùy chọn nâng cấp.',
-      back_home: 'Về trang chủ',
-      multiplier: 'Hệ số'
+      achievement: 'Thành tựu',
+      achievements: 'Các thành tựu',
+      card_sets: 'Bộ thẻ',
+      keep_climbing: 'Tiếp tục leo cấp',
+      live: 'Trực tiếp',
+      none: 'Chưa có thành tựu',
+      tenses: 'Thì',
+      themes: 'Chủ đề',
+      unlocked: 'Đã mở khóa'
     }
   },
   en: {
@@ -177,14 +185,16 @@ export default {
     },
     language: 'English',
     setting: {
-      music: 'Music',
-      sound: 'Sound',
       lang: 'Language'
     },
     buttons: {
       discard: 'Change'
     },
     playing: {
+      exchange_round: 'Exchange Round {round} of {max}',
+      discard_then_continue: 'Discard up to {count} card(s), then continue.',
+      finish_exchange: 'FINISH EXCHANGE ROUND',
+      end_coop: 'NO VALID PLAY — END CO-OP',
       final_sentence: 'Sentence is made',
       total_point: 'Total point',
       confirm_position: 'Confirm card position',
@@ -248,11 +258,20 @@ export default {
       completed: 'COMPLETED'
     },
     dashboard: {
+      achievement: 'Achievement',
+      achievements: 'Achievements',
+      card_sets: 'Card Sets',
+      keep_climbing: 'Keep climbing',
       kicker: 'Player Dashboard',
+      live: 'Live',
+      none: 'No achievements yet',
+      tenses: 'Tenses',
+      themes: 'Themes',
       title: 'Progress & Upgrades',
-      subtitle: 'Track XP, themes, sets, and billing options.',
+      subtitle: 'Track XP, themes, sets, and unlocks.',
       back_home: 'Back Home',
-      multiplier: 'Multiplier'
+      multiplier: 'Multiplier',
+      unlocked: 'Unlocked'
     }
   }
 }

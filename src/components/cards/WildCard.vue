@@ -38,6 +38,8 @@ const assignableTypes = [
 const selectedType = ref(props.card.assignedType || '')
 
 const assignType = () => {
+  // ponytail: mutating prop so parent's card copy sees assignedType; emit-only refactor is a T7 rules-engine change
+  // eslint-disable-next-line vue/no-mutating-props
   props.card.assignedType = selectedType.value
   emit('assign', selectedType.value)
 

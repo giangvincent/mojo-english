@@ -34,7 +34,7 @@ export default {
   setObjectPhrase: function (state, payload) {
     state.objectPhrase = payload
   },
-  resetSentence: function (state, payload) {
+  resetSentence: function (state, _payload) {
     state.playingStep = 'arrange-card'
     state.nounPhrase = []
     state.verbPhrase = []
@@ -48,6 +48,12 @@ export default {
   },
   setCurrentRound: function (state, payload) {
     state.currentRound = payload
+  },
+  setMaxRounds: function (state, payload) {
+    state.maxRounds = payload
+  },
+  setMaxDiscards: function (state, payload) {
+    state.maxDiscards = payload
   },
   addRoundScore: function (state, payload) {
     state.roundScores.push(payload)
@@ -79,6 +85,7 @@ export default {
     state.turnHistory = []
     state.lastPlayerWhoAddedCard = null
     state.winner = null
+    state.coopSentence = []
   },
   setUsedOriginalCards: function (state, payload) {
     state.usedOriginalCards = payload
@@ -104,12 +111,18 @@ export default {
   setWinner: function (state, payload) {
     state.winner = payload
   },
+  setCoopSentence: function (state, payload) {
+    state.coopSentence = payload
+  },
   // Verba Specific Mutations
   setDeck: function (state, payload) {
     state.deck = payload
   },
   setHand: function (state, payload) {
     state.hand = payload
+  },
+  setRoundHandSize: function (state, payload) {
+    state.roundHandSize = payload
   },
   setCommunityCards: function (state, payload) {
     state.communityCards = payload

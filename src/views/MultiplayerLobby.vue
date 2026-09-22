@@ -141,75 +141,64 @@ export default {
     }
   },
   computed: {
-    // We assume the store has been updated with room info by the previous step (CreateRoom)
-    // or by loading this component with a roomId.
-    // For now, let's pull from the new multiplayer mock state if it existed,
-    // but since we are reusing this view, let's make it work with the new flow.
     roomId() {
-      return this.$route.query.roomId;
+      return this.$route.query.roomId || this.$store.state.multiplayer.roomId;
     },
     roomCode() {
-      return this.roomId; // Simple alias for now
+      return this.$store.state.multiplayer.roomCode;
     },
     isHost() {
-      return this.$route.query.isHost === 'true';
+      return this.$store.state.multiplayer.isHost;
     },
-    // Mock player list for display
     players() {
-      const p = [
-        { id: 'me', name: 'You', isHost: this.isHost, photo: null }
-      ];
-      // Simulate a joined player if we are waiting
-      if (this.elapsedTime > 2) {
-        p.push({ id: 'p2', name: 'Guest_123', isHost: false, photo: null });
-      }
-      return p;
+      return this.$store.state.multiplayer.players;
     },
     gameStatus() {
-      // Mock status
-      return 'idle';
+      return this.$store.state.multiplayer.gameStatus;
     }
   },
-  mounted() {
-    // If no roomId, redirect back to Home or Create Room
-    // EDIT: Actually, this component handles both the "Choice" (tab) AND the "Lobby" (inside room).
-    // The previous logic redirected if no roomId. I should relax that if we are in "Choice" mode.
-    // However, the previous logic seemed to imply this view was ONLY the lobby.
-    // But the template has "Create Room" / "Join Room" sections.
-    // I will respect the structure I just wrote: if roomId is present, show Lobby, else show panels.
-
-    if (this.roomId) {
-      // We are in a room
-      this.timerInterval = setInterval(() => {
-        this.elapsedTime++;
-      }, 1000);
+  async mounted() {
+    if (this.roomId && !this.roomCode) {
+      try {
+        await this.$store.dispatch('multiplayer/joinRoom', this.roomId);
+        await this.$store.dispatch('multiplayer/subscribeRoom');
+      } catch (error) {
+        console.error('Failed to join room:', error);
+      }
     }
+    if (this.roomCode) this.startPolling();
   },
   methods: {
     handleCreateRoom() {
       // Logic to create room
       this.$router.push('/create-room');
     },
-    handleJoinRoom() {
-      // Logic to join
+    async handleJoinRoom() {
       if (this.joinRoomCode) {
-        this.$router.push({
-          name: 'lobby',
-          query: { roomId: this.joinRoomCode, isHost: 'false' }
-        });
+        await this.$store.dispatch('multiplayer/joinByCode', this.joinRoomCode);
+        await this.$store.dispatch('multiplayer/subscribeRoom');
+        this.startPolling();
+        this.$router.replace({ name: 'lobby', query: { roomId: this.$store.state.multiplayer.roomId } });
       }
     },
-    handleLeaveRoom() {
+    startPolling() {
+      if (this.timerInterval) return;
+      this.timerInterval = setInterval(() => {
+        this.elapsedTime++;
+        if (this.elapsedTime % 5 === 0) this.$store.dispatch('multiplayer/refreshRoom');
+      }, 1000);
+    },
+    async handleLeaveRoom() {
+      await this.$store.dispatch('multiplayer/leaveRoom');
       this.$router.push('/');
     },
-    handleStartGame() {
-      // Navigate to Game
+    async handleStartGame() {
+      await this.$store.dispatch('multiplayer/startGame');
       this.$router.push({
         name: 'play',
         query: {
           mode: 'standard',
-          roomId: this.roomId,
-          isHost: this.isHost,
+          roomId: this.$store.state.multiplayer.roomId,
           multiplayer: true
         }
       });
@@ -219,7 +208,7 @@ export default {
       this.$router.push('/quick-match');
     },
     cancelQuickMatch() {
-      // reset
+      this.$store.dispatch('multiplayer/cancelQuickMatch')
     }
   },
   beforeUnmount() {

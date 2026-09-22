@@ -237,8 +237,8 @@
         "symbol": "A/E",
         "point": 6,
         "image": [
-            "snow1.jpg",
-            "rain1.jpg"
+            "pixel_snow.jpg",
+            "pixel_rain.png"
         ],
         "content": [
             "in the deep, fluffy snow",

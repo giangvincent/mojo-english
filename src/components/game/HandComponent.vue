@@ -6,12 +6,12 @@
     <draggable v-model="localHand" group="cards" item-key="id"
       class="flex flex-row flex-nowrap overflow-x-auto gap-4 py-4 px-4 items-center font-pixel"
       style="min-height: 240px; justify-content: flex-start;">
-      <template #item="{ element, index }">
+      <template #item="{ element }">
         <div class="flex-shrink-0 relative group">
           <CardComponent :card="element" :is-interactive="true" />
 
           <!-- Discard Button -->
-          <DiscardBtn v-if="playingStep === 'arrange-card' && discardCount < 3"
+          <DiscardBtn v-if="playingStep === 'arrange-card' && discardCount < maxDiscards"
             class="absolute top-0 right-0 -mr-1 -mt-2 mx-auto z-10 opacity-0 group-hover:opacity-100 transition-opacity"
             @click="handleDiscard(element.id)" />
         </div>
@@ -25,12 +25,11 @@ import { defineComponent, computed } from 'vue';
 import draggable from 'vuedraggable';
 import CardComponent from './CardComponent.vue';
 import DiscardBtn from '@/components/cards/Buttons/DiscardBtn.vue';
-import ReplaceBtn from '@/components/cards/Buttons/ReplaceBtn.vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'HandComponent',
-  components: { draggable, CardComponent, DiscardBtn, ReplaceBtn },
+  components: { draggable, CardComponent, DiscardBtn },
   setup() {
     const store = useStore();
 
@@ -42,6 +41,7 @@ export default defineComponent({
 
     const playingStep = computed(() => store.state.playing.playingStep);
     const discardCount = computed(() => store.state.playing.discardCount || 0);
+    const maxDiscards = computed(() => store.state.playing.maxDiscards || 3);
 
     const handleDiscard = (cardId) => {
       store.dispatch('discardCard', cardId);
@@ -55,6 +55,7 @@ export default defineComponent({
       localHand,
       playingStep,
       discardCount,
+      maxDiscards,
       handleDiscard,
       handleReplace
     };
